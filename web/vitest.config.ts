@@ -23,7 +23,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     // Anything ending in .test.ts(x) or .spec.ts(x). Excluding node_modules
     // and build output keeps a cold run fast.
-    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}', 'scripts/**/*.test.mjs'],
     exclude: ['node_modules', 'dist', '.git'],
     css: false,
     // Stated rather than inherited so a future async component test doesn't

@@ -26,8 +26,13 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -trimpath \
 # Runtime. Needs CA certificates to reach api.curseforge.com; the time zone database is compiled in.
 FROM alpine:3.22
 RUN apk add --no-cache ca-certificates \
- && adduser -D -H -u 65532 modwatch
+ && adduser -D -H -u 65532 modwatch \
+ && mkdir /data && chown 65532:65532 /data
 COPY --from=build /out/modwatch /usr/local/bin/modwatch
 USER 65532:65532
+# With no DATABASE_URL set, Modwatch keeps a SQLite file in /data. Mount a volume there to keep it.
+# Set DATABASE_URL to a postgres:// URL to use Postgres instead.
+ENV DATABASE_URL=sqlite:///data/modwatch.db
+VOLUME /data
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/modwatch"]

@@ -385,7 +385,7 @@ function build(m) {
         platform: plat, id: `${plat === 'curseforge' ? 'cf' : 'mr'}-${m.slug}-${r.v}-${r.mc[0]}`,
         modSlug: m.slug, modName: m.name,
         name: plat === 'curseforge' ? `${c.slug}-${r.v}+${r.mc[0]}.jar` : `${m.name} ${r.v} for ${r.mc[0]}`,
-        version: r.v, releaseType: r.t, minecraftVersions: sortMcDesc(r.mc), loaders: r.l,
+        version: r.v, release: r.v, prerelease: /-(rc|beta|alpha|pre)/i.test(r.v), releaseType: r.t, minecraftVersions: sortMcDesc(r.mc), loaders: r.l,
         publishedAt: published, downloads: Math.max(0, dl),
         delta24h: pinfo.delta24h === null ? null : Math.round(pinfo.delta24h * share),
         delta7d: pinfo.delta7d === null ? null : Math.round(pinfo.delta7d * share),
@@ -407,14 +407,14 @@ function build(m) {
     delta7d: (dCF && dCF.delta7d !== null) || (dMR && dMR.delta7d !== null) ? down7 : null,
   }
   const latest = [...m.releases].sort((a, b) => a.ago - b.ago)[0]
-  const latestPlat = m.mr && m.cf ? 'modrinth' : m.mr ? 'modrinth' : 'curseforge'
+  const latestPlats = [m.cf ? 'curseforge' : null, m.mr ? 'modrinth' : null].filter(Boolean)
   const mcAll = sortMcDesc(m.releases.flatMap((r) => r.mc))
   const loaders = [...new Set(m.releases.flatMap((r) => r.l))].sort()
 
   return {
     m, owned, cf, mr, files, sCF, sMR, downloads, mcAll, loaders,
     latestRelease: {
-      platform: latestPlat, version: latest.v, releaseType: latest.t,
+      platforms: latestPlats, version: latest.v, releaseType: latest.t,
       publishedAt: daysAgo(latest.ago, 9, 12), minecraftVersions: sortMcDesc(latest.mc),
     },
   }
@@ -696,9 +696,23 @@ const entries = built.map((b) => ({
   curseforgeId: b.m.cf ? b.m.cf.id : null, modrinthId: b.m.mr ? b.m.mr.id : null,
   githubLabel: b.m.manualLabel || b.m.manual ? b.m.label : null,
   githubRepo: b.m.slug === OWN_REPO.slug ? OWN_REPO.repo : null,
+  versionRegex: null,
   hidden: false, legacy: LEGACY.includes(b.m.slug), auto: !(b.m.manual || b.m.manualLabel),
 }))
-entries.push({ slug: 'devworld-sandbox', name: 'DevWorld Sandbox', curseforgeId: 1240021, modrinthId: null, githubLabel: null, githubRepo: null, hidden: true, legacy: false, auto: true })
+entries.push({ slug: 'devworld-sandbox', name: 'DevWorld Sandbox', curseforgeId: 1240021, modrinthId: null, githubLabel: null, githubRepo: null, versionRegex: null, hidden: true, legacy: false, auto: true })
+// ---- Revenue -----------------------------------------------------------------------------------
+
+const revenueMonths = Array.from({ length: 12 }, (_, i) => {
+  const d = new Date(Date.UTC(2026, 10 - 11 + i, 1))
+  return { month: `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`, amount: [0.0092, 0.0111, 0.0114, 0.0114, 0.0044, 0, 0.0045, 0.0121, 0.0187, 0.0302, 0.0456, 0.0796][i] }
+})
+const revenue = {
+  enabled: true,
+  items: [
+    { platform: 'modrinth', currency: 'USD', available: 0.2972, pending: 0.0884, withdrawnLifetime: 0, withdrawnYtd: 0, months: revenueMonths, fetchedAt: LAST_POLL },
+  ],
+}
+
 const catalog = {
   entries,
   unlinked: {
@@ -730,4 +744,5 @@ write('releases.json', releaseItems(50))
 write('issues.json', issuesFx)
 write('catalog.json', catalog)
 write('summary.json', summaryFx)
+write('revenue.json', revenue)
 console.log('fixtures written; mods:', summaries.length, 'newest mc:', NEWEST_MC)

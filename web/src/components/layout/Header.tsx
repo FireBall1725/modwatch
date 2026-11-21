@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Icon from '../ui/Icon'
 import Brand from './Brand'
 import LegacyToggle from './LegacyToggle'
+import PrivacyToggle from './PrivacyToggle'
 import PollStatus, { SourceHealth } from './PollStatus'
 import { useOverview } from '../../hooks/overviewContext'
 
@@ -30,6 +31,7 @@ export default function Header({ onMenu }: { onMenu: () => void }) {
         <div className="hidden items-center gap-5 md:flex">
           <SourceHealth />
           <LegacyToggle />
+          <PrivacyToggle />
           {problems.length > 0 && (
             <span className="flex items-center gap-1.5 text-xs text-review">
               <Icon name="warning" size={14} />

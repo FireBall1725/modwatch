@@ -29,7 +29,7 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-const ROUTES = ['/', '/mods', '/mods/create-turbolifts', '/downloads', '/versions', '/issues', '/releases', '/settings']
+const ROUTES = ['/', '/mods', '/mods/create-turbolifts', '/downloads', '/versions', '/issues', '/releases', '/settings', '/settings/connections', '/settings/registry', '/settings/versions', '/settings/appearance']
 
 describe('every route renders in mock mode', () => {
   it.each(ROUTES)('%s shows a main heading and logs no errors', async (path) => {
@@ -41,6 +41,16 @@ describe('every route renders in mock mode', () => {
     const heading = await screen.findByRole('heading', { level: 1 }, { timeout: 4000 })
     expect(heading.textContent?.trim()).not.toBe('')
     expect(errors).not.toHaveBeenCalled()
+  })
+
+  it('sends an old registry link to the registry tab', async () => {
+    await import('../i18n')
+    const { default: App } = await import('../App')
+    window.history.pushState({}, '', '/settings?mod=create-turbolifts')
+    render(<App />)
+    await screen.findByRole('heading', { level: 1 })
+    await vi.waitFor(() => expect(window.location.pathname).toBe('/settings/registry'))
+    expect(window.location.search).toBe('?mod=create-turbolifts')
   })
 
   it('reaches every nav route from the side nav', async () => {

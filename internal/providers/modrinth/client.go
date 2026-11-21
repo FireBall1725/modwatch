@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/models"
@@ -141,6 +142,41 @@ func (c *Client) ListVersions(ctx context.Context, projectID string) ([]Version,
 		return nil, err
 	}
 	return out, nil
+}
+
+// Balance is what Modrinth owes the author, in US dollars.
+type Balance struct {
+	Available, Pending, WithdrawnLifetime, WithdrawnYTD float64
+	// Months is the earnings Modrinth dates to each month, keyed 2026-11.
+	Months map[string]float64
+}
+
+// Balance reads the author's payout balance. It needs a token with the payouts scope.
+func (c *Client) Balance(ctx context.Context) (*Balance, error) {
+	var raw struct {
+		Available         string            `json:"available"`
+		Pending           string            `json:"pending"`
+		WithdrawnLifetime string            `json:"withdrawn_lifetime"`
+		WithdrawnYTD      string            `json:"withdrawn_ytd"`
+		Dates             map[string]string `json:"dates"`
+	}
+	if err := c.get(ctx, "/v3/payout/balance", &raw); err != nil {
+		return nil, err
+	}
+	num := func(s string) float64 {
+		f, _ := strconv.ParseFloat(s, 64)
+		return f
+	}
+	b := &Balance{
+		Available: num(raw.Available), Pending: num(raw.Pending),
+		WithdrawnLifetime: num(raw.WithdrawnLifetime), WithdrawnYTD: num(raw.WithdrawnYTD), Months: map[string]float64{},
+	}
+	for date, amount := range raw.Dates {
+		if len(date) >= 7 {
+			b.Months[date[:7]] += num(amount)
+		}
+	}
+	return b, nil
 }
 
 func (c *Client) get(ctx context.Context, path string, out any) error {

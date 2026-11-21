@@ -69,3 +69,26 @@ func TestErrorsNameTheProblemWithoutTheToken(t *testing.T) {
 		}
 	}
 }
+
+func TestBalanceReadsTheDecimalStringsAndGroupsByMonth(t *testing.T) {
+	var gotPath, gotAuth string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotPath, gotAuth = r.URL.Path, r.Header.Get("Authorization")
+		_, _ = w.Write([]byte(`{"available":"0.2971","pending":"0.0884","withdrawn_lifetime":"3.5","withdrawn_ytd":"1.25",
+			"dates":{"2026-10-01T00:00:00Z":"0.01","2026-10-15T00:00:00Z":"0.02","2026-11-01T00:00:00Z":"0.05"}}`))
+	}))
+	defer srv.Close()
+	b, err := New(srv.URL, "tok", "modwatch/test").Balance(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if gotPath != "/v3/payout/balance" || gotAuth != "tok" {
+		t.Errorf("path %q auth %q", gotPath, gotAuth)
+	}
+	if b.Available != 0.2971 || b.Pending != 0.0884 || b.WithdrawnLifetime != 3.5 || b.WithdrawnYTD != 1.25 {
+		t.Errorf("balance = %+v", b)
+	}
+	if len(b.Months) != 2 || b.Months["2026-10"] < 0.0299 || b.Months["2026-10"] > 0.0301 || b.Months["2026-11"] != 0.05 {
+		t.Errorf("months = %v", b.Months)
+	}
+}

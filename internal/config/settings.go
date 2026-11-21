@@ -5,6 +5,7 @@ package config
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -19,6 +20,10 @@ const (
 	KeyGitHubToken        = "githubToken"
 	KeyGitHubIssuesRepo   = "githubIssuesRepo"
 	KeyMetricsEnabled     = "metricsEnabled" // "true" or "false"; unset means on
+	// KeyRevenueEnabled turns the Modrinth balance on or off: "true" or "false"; unset means on.
+	KeyRevenueEnabled = "revenueEnabled"
+	// KeyDisabledMinecraftVersions is a comma list of Minecraft versions the author stopped tracking.
+	KeyDisabledMinecraftVersions = "disabledMinecraftVersions"
 )
 
 // Setting describes one UI-editable value.
@@ -37,6 +42,8 @@ var Settings = []Setting{
 	{KeyGitHubToken, "GITHUB_TOKEN", true},
 	{KeyGitHubIssuesRepo, "GITHUB_ISSUES_REPO", false},
 	{KeyMetricsEnabled, "MODWATCH_METRICS_ENABLED", false},
+	{KeyRevenueEnabled, "MODWATCH_REVENUE_ENABLED", false},
+	{KeyDisabledMinecraftVersions, "", false},
 }
 
 // SettingFor returns the description of a key.
@@ -70,6 +77,12 @@ func (c *Config) Value(key string) string {
 		if c.MetricsEnabled != nil {
 			return strconv.FormatBool(*c.MetricsEnabled)
 		}
+	case KeyRevenueEnabled:
+		if c.RevenueEnabled != nil {
+			return strconv.FormatBool(*c.RevenueEnabled)
+		}
+	case KeyDisabledMinecraftVersions:
+		return strings.Join(c.DisabledMinecraftVersions, ",")
 	}
 	return ""
 }
@@ -99,10 +112,29 @@ func (c *Config) With(values map[string]string) *Config {
 		case KeyMetricsEnabled:
 			on := v == "true"
 			out.MetricsEnabled = &on
+		case KeyRevenueEnabled:
+			on := v == "true"
+			out.RevenueEnabled = &on
+		case KeyDisabledMinecraftVersions:
+			out.DisabledMinecraftVersions = SplitVersions(v)
 		}
 	}
 	return &out
 }
+
+// SplitVersions reads the comma list kept in settings. Blanks are dropped.
+func SplitVersions(v string) []string {
+	var out []string
+	for _, part := range strings.Split(v, ",") {
+		if part = strings.TrimSpace(part); part != "" {
+			out = append(out, part)
+		}
+	}
+	return out
+}
+
+// mcVersion is a Minecraft version such as "1.7.10", "1.21.1" or "26.3".
+var mcVersion = regexp.MustCompile(`^\d+(\.\d+)+$`)
 
 // MaxSettingLen bounds a setting's length; real keys are under a hundred characters.
 const MaxSettingLen = 512
@@ -111,6 +143,14 @@ const MaxSettingLen = 512
 func ValidateSetting(key, v string) error {
 	if _, ok := SettingFor(key); !ok {
 		return fmt.Errorf("unknown setting %q", key)
+	}
+	if key == KeyDisabledMinecraftVersions {
+		for _, ver := range SplitVersions(v) {
+			if !mcVersion.MatchString(ver) {
+				return fmt.Errorf("%q is not a Minecraft version", ver)
+			}
+		}
+		return nil
 	}
 	if len(v) > MaxSettingLen {
 		return fmt.Errorf("%s can't be longer than %d characters", key, MaxSettingLen)
@@ -129,7 +169,7 @@ func ValidateSetting(key, v string) error {
 		if !ValidRepo(v) {
 			return fmt.Errorf("%s must look like owner/name", key)
 		}
-	case KeyMetricsEnabled:
+	case KeyMetricsEnabled, KeyRevenueEnabled:
 		if v != "true" && v != "false" {
 			return fmt.Errorf("%s must be true or false", key)
 		}

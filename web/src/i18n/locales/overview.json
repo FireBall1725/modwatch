@@ -123,5 +123,18 @@
     "none": "No Minecraft versions yet",
     "error": "Couldn't load versions",
     "row": "{{name}}, {{downloads}} downloads"
+  },
+  "revenue": {
+    "title": "Modrinth revenue",
+    "description": "What Modrinth owes you, in US dollars.",
+    "available": "Available",
+    "pending": "Pending",
+    "withdrawnYtd": "Withdrawn this year",
+    "withdrawnLifetime": "Withdrawn in total",
+    "months_one": "Earned in the last month",
+    "months_other": "Earned in the last {{count}} months",
+    "chart": "Earnings by month",
+    "updated": "Read",
+    "curseforge": "CurseForge doesn't share its balance through its API."
   }
 }

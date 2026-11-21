@@ -215,9 +215,12 @@ type CatalogEntry struct {
 	GitHubLabel  *string `json:"githubLabel"`
 	// GitHubRepo is the mod's own issues repository, owner/name; every issue in it belongs to this mod.
 	GitHubRepo *string `json:"githubRepo"`
-	Hidden     bool    `json:"hidden"`
-	Legacy     bool    `json:"legacy"`
-	Auto       bool    `json:"auto"`
+	// VersionRegex is the mod's own pattern for reading its file versions, with named groups version, pre and minecraft.
+	// Nil means the default reading.
+	VersionRegex *string `json:"versionRegex"`
+	Hidden       bool    `json:"hidden"`
+	Legacy       bool    `json:"legacy"`
+	Auto         bool    `json:"auto"`
 }
 
 // UnlinkedProject is a platform project no catalog entry points at.
@@ -244,8 +247,27 @@ type CatalogUpdate struct {
 	ModrinthID   Patch[string]
 	GitHubLabel  Patch[string]
 	GitHubRepo   Patch[string]
+	VersionRegex Patch[string]
 	Hidden       *bool
 	Legacy       *bool
+}
+
+// Revenue is what a platform owes the author: the balance and the earnings by month, in one currency.
+type Revenue struct {
+	Platform          string         `json:"platform"`
+	Currency          string         `json:"currency"`
+	Available         float64        `json:"available"`
+	Pending           float64        `json:"pending"`
+	WithdrawnLifetime float64        `json:"withdrawnLifetime"`
+	WithdrawnYTD      float64        `json:"withdrawnYtd"`
+	Months            []RevenueMonth `json:"months"`
+	FetchedAt         time.Time      `json:"fetchedAt"`
+}
+
+// RevenueMonth is the earnings the platform dates to one month, such as 2026-11.
+type RevenueMonth struct {
+	Month  string  `json:"month"`
+	Amount float64 `json:"amount"`
 }
 
 // Dismissal is a needs-attention item the author dismissed, per kind and mod.

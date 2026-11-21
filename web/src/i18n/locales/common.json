@@ -8,7 +8,9 @@
     "showLegacy": "Show legacy mods ({{count}})",
     "showLegacyHint": "Mods marked legacy stay out of the lists and charts unless this is on.",
     "setupProblems_one": "{{count}} setup problem",
-    "setupProblems_other": "{{count}} setup problems"
+    "setupProblems_other": "{{count}} setup problems",
+    "hideAmounts": "Hide amounts",
+    "hideAmountsHint": "Replaces money with dots and flattens the earnings bars, for sharing your screen. Kept in this browser."
   },
   "nav": {
     "label": "Main",

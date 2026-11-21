@@ -138,7 +138,7 @@ export function sinceLastRelease(mods: readonly ModSummary[], releases: readonly
   for (const mod of mods) {
     if (!mod.owned) continue
     const times: { at: string; platform: Platform }[] = []
-    if (mod.latestRelease) times.push({ at: mod.latestRelease.publishedAt, platform: mod.latestRelease.platform })
+    if (mod.latestRelease) for (const platform of mod.latestRelease.platforms) times.push({ at: mod.latestRelease.publishedAt, platform })
     for (const r of releases) if (r.modSlug === mod.slug) times.push({ at: r.publishedAt, platform: r.platform })
     times.sort((a, b) => Date.parse(b.at) - Date.parse(a.at))
     const newest = times[0]

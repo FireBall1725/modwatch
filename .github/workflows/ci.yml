@@ -22,6 +22,10 @@ jobs:
       test-env: |
         MODWATCH_TEST_DATABASE_URL=postgres://modwatch:modwatch@localhost:5432/modwatch?sslmode=disable
 
+  # The same tests again on SQLite, the other database Modwatch runs on. No test URL, so each test gets a SQLite file.
+  go-sqlite:
+    uses: FireBall1725/workflows/.github/workflows/ci-go.yml@v1
+
   web:
     uses: FireBall1725/workflows/.github/workflows/ci-node.yml@v1
     with:

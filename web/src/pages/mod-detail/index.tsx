@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import DismissButton from '../../components/attention/DismissButton'
@@ -34,6 +34,7 @@ import { daysBetween, formatCount } from '../../lib/format'
 import type { ModDetail } from '../../lib/types'
 import DownloadsCard from './DownloadsCard'
 import FilesCard from './FilesCard'
+import EditLinks from './EditLinks'
 import IssuesCard from './IssuesCard'
 import PlatformPanel from './PlatformPanel'
 import VersionsCard from './VersionsCard'
@@ -162,6 +163,7 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
   const { t } = useTranslation('modDetail')
   const { t: tc } = useTranslation('common')
   const dismissals = useDismissals(onChanged)
+  const [editing, setEditing] = useState(false)
   const { data: overview } = useOverview()
   const dismissed = useMemo(() => (overview?.dismissed ?? []).filter((i) => i.modSlug === mod.slug), [overview, mod.slug])
   const gh = mod.github
@@ -172,6 +174,8 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
 
   return (
     <>
+      <div className="relative isolate">
+      <ModBackdrop src={mod.iconUrl} />
       <PageHeader
         eyebrow={back}
         leading={<ModIcon src={mod.iconUrl} name={mod.name} size={56} />}
@@ -195,11 +199,12 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
           </>
         }
         actions={
-          <Button icon="edit" href={`/settings?mod=${encodeURIComponent(mod.slug)}`}>
+          <Button icon="edit" onClick={() => setEditing(true)}>
             {t('editLinks')}
           </Button>
         }
       />
+      </div>
 
       {linkItems.length > 0 && (
         <nav aria-label={t('links.label')} className="-mt-3 flex flex-wrap gap-2">
@@ -327,7 +332,9 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
           footer={
             rel ? (
               <span className="flex flex-wrap items-center gap-x-2">
-                <PlatformBadge platform={rel.platform} size="sm" />
+                {rel.platforms.map((p) => (
+                  <PlatformBadge key={p} platform={p} size="sm" iconOnly />
+                ))}
                 <span className="num">{rel.minecraftVersions.join(', ')}</span>
                 <RelativeTime iso={rel.publishedAt} />
               </span>
@@ -339,8 +346,8 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <PlatformPanel platform="curseforge" info={mod.curseforge} slug={mod.slug} />
-        <PlatformPanel platform="modrinth" info={mod.modrinth} slug={mod.slug} />
+        <PlatformPanel platform="curseforge" info={mod.curseforge} onEdit={() => setEditing(true)} />
+        <PlatformPanel platform="modrinth" info={mod.modrinth} onEdit={() => setEditing(true)} />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
@@ -363,10 +370,31 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
         issues={mod.issues}
         linked={Boolean(gh)}
         allUrl={mod.links.issues}
-        slug={mod.slug}
+        onEdit={() => setEditing(true)}
         showClosed={showClosed}
         onShowClosed={(v) => setParam({ closed: v ? '1' : null })}
       />
+
+      {editing && <EditLinks slug={mod.slug} onClose={() => setEditing(false)} onSaved={onChanged} />}
     </>
+  )
+}
+
+/**
+ * The mod's logo blown up and blurred behind its header, for the colours: the top of the page takes on the mod's own.
+ * It fades out sideways and downwards, so there is no edge to see. Decorative, and absent when the mod has no logo.
+ */
+function ModBackdrop({ src }: { src: string }) {
+  if (!src) return null
+  const fade = {
+    maskImage: 'linear-gradient(to bottom, black 35%, transparent), linear-gradient(to right, transparent, black 18%, black 82%, transparent)',
+    WebkitMaskImage: 'linear-gradient(to bottom, black 35%, transparent), linear-gradient(to right, transparent, black 18%, black 82%, transparent)',
+    maskComposite: 'intersect',
+    WebkitMaskComposite: 'source-in',
+  } as const
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute -inset-x-[var(--gutter)] -top-8 -bottom-28 -z-10 overflow-hidden" style={fade}>
+      <img src={src} alt="" className="size-full scale-[2.4] object-cover opacity-50 blur-3xl saturate-[1.8]" />
+    </div>
   )
 }

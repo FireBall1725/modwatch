@@ -43,6 +43,7 @@ type Mod struct {
 	Logo *struct {
 		ThumbnailURL string `json:"thumbnailUrl"`
 	} `json:"logo"`
+	Authors []Author `json:"authors"`
 }
 
 // statusNames maps CurseForge's numeric project status to its raw word and the shared vocabulary.

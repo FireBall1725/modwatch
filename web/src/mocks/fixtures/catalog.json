@@ -7,6 +7,7 @@
    "modrinthId": "Kx9bQ2aE",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -18,6 +19,7 @@
    "modrinthId": "q3Zr7wLm",
    "githubLabel": "auto-gui-scale",
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": false
@@ -29,6 +31,7 @@
    "modrinthId": null,
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -40,6 +43,7 @@
    "modrinthId": null,
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -51,6 +55,7 @@
    "modrinthId": "T8vYc1nA",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -62,6 +67,7 @@
    "modrinthId": "rF4dN6pS",
    "githubLabel": "firecore",
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": false
@@ -73,6 +79,7 @@
    "modrinthId": "mN2xK8vT",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -84,6 +91,7 @@
    "modrinthId": "bV5hJ3cD",
    "githubLabel": null,
    "githubRepo": "FireBall1725/create-turbolifts",
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -95,6 +103,7 @@
    "modrinthId": "wP7sL0eR",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -106,6 +115,7 @@
    "modrinthId": "hC3uY9tB",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -117,6 +127,7 @@
    "modrinthId": "dE6gM2zQ",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -128,6 +139,7 @@
    "modrinthId": "jS1nA4kW",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -139,6 +151,7 @@
    "modrinthId": null,
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": true,
    "auto": true
@@ -150,6 +163,7 @@
    "modrinthId": "uZ8cH5fG",
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -161,6 +175,7 @@
    "modrinthId": null,
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": false,
    "legacy": false,
    "auto": true
@@ -172,6 +187,7 @@
    "modrinthId": null,
    "githubLabel": null,
    "githubRepo": null,
+   "versionRegex": null,
    "hidden": true,
    "legacy": false,
    "auto": true

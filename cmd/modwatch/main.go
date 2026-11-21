@@ -38,15 +38,12 @@ func main() {
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
 
-	if cfg.DatabaseURL == "" {
-		slog.Error("database", "error", "DATABASE_URL is not set")
-		os.Exit(1)
-	}
 	conn, err := db.Open(ctx, cfg.DatabaseURL)
 	if err != nil {
 		slog.Error("database", "error", err)
 		os.Exit(1)
 	}
+	slog.Info("database", "engine", db.Of(conn).String())
 	defer func() { _ = conn.Close() }()
 	repo := repository.New(conn)
 

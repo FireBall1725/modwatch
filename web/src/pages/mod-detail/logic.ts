@@ -137,3 +137,88 @@ export function countClosed(issues: IssueItem[]): number {
 export function share(part: number, total: number): number {
   return total > 0 ? part / total : 0
 }
+
+/** One release with every file that belongs to it, across platforms and Minecraft versions. */
+export interface ReleaseGroup {
+  /** The release, such as 26.11.0 or 26.11.0-rc.1. */
+  name: string
+  prerelease: boolean
+  files: FileItem[]
+  /** When the newest file in it was published. */
+  publishedAt: string | null
+  downloads: number
+  platforms: Platform[]
+}
+
+/** Groups files by release, the most recently published release first. */
+export function groupReleases(files: FileItem[]): ReleaseGroup[] {
+  const byName = new Map<string, ReleaseGroup>()
+  for (const f of files) {
+    let g = byName.get(f.release)
+    if (!g) {
+      g = { name: f.release, prerelease: f.prerelease, files: [], publishedAt: null, downloads: 0, platforms: [] }
+      byName.set(f.release, g)
+    }
+    g.files.push(f)
+    g.downloads += f.downloads
+    if (f.publishedAt && (!g.publishedAt || f.publishedAt > g.publishedAt)) g.publishedAt = f.publishedAt
+    if (!g.platforms.includes(f.platform)) g.platforms.push(f.platform)
+  }
+  const out = [...byName.values()]
+  for (const g of out) g.platforms.sort()
+  return out.sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
+}
+
+/**
+ * The releases to show by default: the latest one, and when that is a pre-release the latest final release too, so a
+ * release candidate never hides the version people should be on. Everything when showAll is set.
+ */
+export function visibleReleases(groups: ReleaseGroup[], showAll: boolean): ReleaseGroup[] {
+  if (showAll || groups.length === 0) return groups
+  const first = groups[0]
+  if (!first.prerelease) return [first]
+  const final = groups.find((g) => !g.prerelease)
+  return final ? [first, final] : [first]
+}
+
+/** One Minecraft version of a release with its CurseForge and Modrinth files put together. */
+export interface MergedFile {
+  key: string
+  minecraftVersions: string[]
+  loaders: string[]
+  curseforge: number
+  modrinth: number
+  total: number
+  /** Null when no platform reported a movement. */
+  delta7d: number | null
+  /** The files, one link per platform, so each can still be opened. */
+  files: { platform: Platform; loaders: string[]; name: string; url: string | null }[]
+}
+
+/**
+ * Puts the files of one release that target the same Minecraft versions in one row, whatever the platform or loader,
+ * so CurseForge and Modrinth, and Fabric and NeoForge, read side by side instead of as separate rows. Downloads stay
+ * apart per platform and add up across loaders.
+ */
+export function mergeByVersion(files: FileItem[]): MergedFile[] {
+  const rows = new Map<string, MergedFile>()
+  for (const f of files) {
+    const mc = sortMinecraftDesc(f.minecraftVersions)
+    const key = mc.join(',')
+    let r = rows.get(key)
+    if (!r) {
+      r = { key, minecraftVersions: mc, loaders: [], curseforge: 0, modrinth: 0, total: 0, delta7d: null, files: [] }
+      rows.set(key, r)
+    }
+    for (const loader of f.loaders) if (!r.loaders.includes(loader)) r.loaders.push(loader)
+    r[f.platform] += f.downloads
+    r.total += f.downloads
+    if (f.delta7d !== null) r.delta7d = (r.delta7d ?? 0) + f.delta7d
+    r.files.push({ platform: f.platform, loaders: [...f.loaders].sort(), name: f.name, url: f.url })
+  }
+  for (const r of rows.values()) {
+    r.loaders.sort()
+    r.files.sort((a, b) => a.loaders.join().localeCompare(b.loaders.join()) || a.platform.localeCompare(b.platform))
+  }
+  return [...rows.values()]
+}

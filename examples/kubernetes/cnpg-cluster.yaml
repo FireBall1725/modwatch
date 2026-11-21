@@ -1,0 +1,17 @@
+# A one-instance Postgres cluster from the CloudNativePG operator, which must already be installed.
+# The operator creates the secret "modwatch-db-app" with the connection URL under the key "uri".
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: modwatch-db
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+    # storageClass: your-class
+  bootstrap:
+    initdb:
+      database: modwatch
+      owner: modwatch
+  monitoring:
+    enablePodMonitor: false

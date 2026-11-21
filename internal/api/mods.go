@@ -35,6 +35,7 @@ func (h *handlers) load(ctx context.Context, showLegacy bool) (*view, error) {
 	if ds.files, err = h.repo.ListFileStats(ctx, now); err != nil {
 		return nil, err
 	}
+	ds.files = trackedFiles(ds.files, cfg.DisabledMinecraftVersions)
 	if ds.entries, err = h.repo.ListCatalog(ctx); err != nil {
 		return nil, err
 	}
@@ -202,6 +203,34 @@ func (h *handlers) downloadsHistory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, v.history(snaps, days))
+}
+
+// trackedFiles drops the Minecraft versions the author switched off in Settings. A file keeps only its tracked
+// versions, and a file with none left is dropped. Nothing is deleted from the database, so switching a version
+// back on brings its history back.
+func trackedFiles(files []models.FileStat, disabled []string) []models.FileStat {
+	if len(disabled) == 0 {
+		return files
+	}
+	off := make(map[string]bool, len(disabled))
+	for _, v := range disabled {
+		off[v] = true
+	}
+	out := files[:0:0]
+	for _, f := range files {
+		var keep []string
+		for _, v := range f.GameVersions {
+			if !off[v] {
+				keep = append(keep, v)
+			}
+		}
+		if len(keep) == 0 && len(f.GameVersions) > 0 {
+			continue
+		}
+		f.GameVersions = keep
+		out = append(out, f)
+	}
+	return out
 }
 
 // versions answers "which Minecraft versions and loaders are people downloading for".

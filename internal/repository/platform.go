@@ -86,11 +86,7 @@ func (r *Repo) ListPlatformStats(ctx context.Context, now time.Time) ([]models.P
 
 // PlatformHistory returns the last snapshot of each UTC day since the given time, oldest first, for every project.
 func (r *Repo) PlatformHistory(ctx context.Context, since time.Time) (map[models.PlatformKey][]models.Snapshot, error) {
-	rows, err := r.db.QueryContext(ctx, `
-		SELECT DISTINCT ON (platform, project_id, (taken_at AT TIME ZONE 'UTC')::date) platform, project_id, taken_at, download_count
-		FROM platform_snapshots
-		WHERE taken_at >= $1
-		ORDER BY platform, project_id, (taken_at AT TIME ZONE 'UTC')::date, taken_at DESC`, tz(since))
+	rows, err := r.db.QueryContext(ctx, r.dailyLast("platform, project_id", "platform_snapshots"), tz(since))
 	if err != nil {
 		return nil, err
 	}

@@ -27,13 +27,13 @@ interface Props {
   issues: IssueItem[]
   linked: boolean
   allUrl: string | null
-  slug: string
+  onEdit: () => void
   showClosed: boolean
   onShowClosed: (v: boolean) => void
 }
 
 /** This mod's issues: open ones with crashes and bugs first, closed ones on request. */
-export default function IssuesCard({ issues, linked, allUrl, slug, showClosed, onShowClosed }: Props) {
+export default function IssuesCard({ issues, linked, allUrl, onEdit, showClosed, onShowClosed }: Props) {
   const { t } = useTranslation('modDetail')
   const { t: tc } = useTranslation('common')
   const rows = useMemo(() => orderIssues(issues, showClosed), [issues, showClosed])
@@ -62,7 +62,7 @@ export default function IssuesCard({ issues, linked, allUrl, slug, showClosed, o
       }
     >
       {!linked ? (
-        <EmptyState compact icon="link" title={t('issues.noLabel')} description={t('issues.noLabelDetail')} action={<Button size="sm" href={`/settings?mod=${encodeURIComponent(slug)}`}>{t('editLinks')}</Button>} />
+        <EmptyState compact icon="link" title={t('issues.noLabel')} description={t('issues.noLabelDetail')} action={<Button size="sm" onClick={onEdit}>{t('editLinks')}</Button>} />
       ) : rows.length === 0 ? (
         <EmptyState compact icon="check" title={t('issues.none')} description={t('issues.noneDetail')} />
       ) : (

@@ -22,11 +22,16 @@ import (
 type Config struct {
 	Addr     string
 	LogLevel slog.Level
-	// DatabaseURL is the Postgres connection URL. On Kubernetes it comes from the CloudNativePG secret (key "uri").
+	// DatabaseURL picks the database: postgres://... for Postgres (on Kubernetes the CloudNativePG secret's "uri" key)
+	// or sqlite:... for a SQLite file. Unset, it is a SQLite file named modwatch.db in the working directory.
 	DatabaseURL string
 
+	// DisabledMinecraftVersions are the versions the author stopped tracking; set in Settings.
+	DisabledMinecraftVersions []string
 	// MetricsEnabled turns the Prometheus endpoint on or off. nil means not chosen, which is on.
 	MetricsEnabled *bool
+	// RevenueEnabled shows the Modrinth balance on the dashboard and in /metrics. nil means not chosen, which is on.
+	RevenueEnabled *bool
 
 	// Schedule is a five-field cron expression in the process time zone (TZ).
 	Schedule string
@@ -57,8 +62,9 @@ func Load() *Config {
 	return &Config{
 		Addr:               getEnv("MODWATCH_ADDR", ":8080"),
 		LogLevel:           parseLogLevel(getEnv("LOG_LEVEL", "info")),
-		DatabaseURL:        getEnv("DATABASE_URL", ""),
+		DatabaseURL:        getEnv("DATABASE_URL", "sqlite:modwatch.db"),
 		MetricsEnabled:     getEnvBool("MODWATCH_METRICS_ENABLED"),
+		RevenueEnabled:     getEnvBool("MODWATCH_REVENUE_ENABLED"),
 		Schedule:           getEnv("MODWATCH_SCHEDULE", "0 * * * *"),
 		CurseForgeKey:      getEnv("CURSEFORGE_API_KEY", ""),
 		CurseForgeAuthorID: getEnvInt("CURSEFORGE_AUTHOR_ID", 0),
@@ -138,6 +144,10 @@ func getEnvBool(key string) *bool {
 
 // MetricsOn reports whether /metrics should answer. It is on unless someone turned it off.
 func (c *Config) MetricsOn() bool { return c.MetricsEnabled == nil || *c.MetricsEnabled }
+
+// RevenueOn reports whether the Modrinth balance is read and shown. It is on unless someone turned it off, and it
+// only does anything with a Modrinth token.
+func (c *Config) RevenueOn() bool { return c.RevenueEnabled == nil || *c.RevenueEnabled }
 
 func getEnvInt(key string, fallback int) int {
 	v := strings.TrimSpace(os.Getenv(key))

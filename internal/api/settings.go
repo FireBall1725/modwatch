@@ -11,11 +11,14 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/fireball1725/modwatch/internal/mcver"
 	"github.com/fireball1725/modwatch/internal/settings"
 )
 
 type settingsResponse struct {
 	Items []settings.Item `json:"items"`
+	// MinecraftVersions is every Minecraft version any tracked file has, switched off or not, newest first.
+	MinecraftVersions []string `json:"minecraftVersions"`
 }
 
 func (h *handlers) getSettings(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +28,24 @@ func (h *handlers) getSettings(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, "couldn't read the settings")
 		return
 	}
-	writeJSON(w, http.StatusOK, settingsResponse{Items: items})
+	files, err := h.repo.ListFileStats(r.Context(), h.now())
+	if err != nil {
+		slog.Error("reading files", "error", err)
+		writeError(w, http.StatusInternalServerError, "couldn't read the files")
+		return
+	}
+	seen := map[string]bool{}
+	versions := []string{}
+	for _, f := range files {
+		for _, v := range f.GameVersions {
+			if !seen[v] {
+				seen[v] = true
+				versions = append(versions, v)
+			}
+		}
+	}
+	mcver.Sort(versions)
+	writeJSON(w, http.StatusOK, settingsResponse{Items: items, MinecraftVersions: versions})
 }
 
 // putSettings applies a partial change: a string sets a value, null or "" clears the one set here.

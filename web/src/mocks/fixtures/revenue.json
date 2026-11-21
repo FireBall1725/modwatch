@@ -1,0 +1,64 @@
+{
+ "enabled": true,
+ "items": [
+  {
+   "platform": "modrinth",
+   "currency": "USD",
+   "available": 0.2972,
+   "pending": 0.0884,
+   "withdrawnLifetime": 0,
+   "withdrawnYtd": 0,
+   "months": [
+    {
+     "month": "2025-12",
+     "amount": 0.0092
+    },
+    {
+     "month": "2026-01",
+     "amount": 0.0111
+    },
+    {
+     "month": "2026-02",
+     "amount": 0.0114
+    },
+    {
+     "month": "2026-03",
+     "amount": 0.0114
+    },
+    {
+     "month": "2026-04",
+     "amount": 0.0044
+    },
+    {
+     "month": "2026-05",
+     "amount": 0
+    },
+    {
+     "month": "2026-06",
+     "amount": 0.0045
+    },
+    {
+     "month": "2026-07",
+     "amount": 0.0121
+    },
+    {
+     "month": "2026-08",
+     "amount": 0.0187
+    },
+    {
+     "month": "2026-09",
+     "amount": 0.0302
+    },
+    {
+     "month": "2026-10",
+     "amount": 0.0456
+    },
+    {
+     "month": "2026-11",
+     "amount": 0.0796
+    }
+   ],
+   "fetchedAt": "2026-11-21T13:30:00.000Z"
+  }
+ ]
+}

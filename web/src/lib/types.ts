@@ -65,8 +65,9 @@ export interface ModDownloads {
   delta7d: number | null
 }
 
+/** The release that came out most recently, as one thing: every platform it is on, every Minecraft version it covers, and the day it first came out. */
 export interface LatestRelease {
-  platform: Platform
+  platforms: Platform[]
   version: string
   releaseType: 'release' | 'beta' | 'alpha' | 'unknown'
   publishedAt: string
@@ -191,6 +192,10 @@ export interface FileItem {
   modName: string
   name: string
   version: string
+  /** The release the version text names, such as 26.11.0 or 26.11.0-rc.1. The same release on both platforms and for each Minecraft version has the same value. */
+  release: string
+  /** True when the release has a tag such as rc.1. */
+  prerelease: boolean
   releaseType: 'release' | 'beta' | 'alpha' | 'unknown'
   minecraftVersions: string[]
   loaders: string[]
@@ -334,6 +339,8 @@ export interface CatalogEntry {
   githubLabel: string | null
   /** This mod's own issues repository, owner/name. Every issue in it belongs to this mod. null when the mod uses the shared repository's `mod: <label>` labels, or has no issues. */
   githubRepo: string | null
+  /** This mod's own pattern for reading its file versions, with named groups version, pre and minecraft, such as `^(?P<version>\d+\.\d+\.\d+)(?:-(?P<pre>rc\.\d+))?-(?:mc)?(?P<minecraft>\d+(?:\.\d+)+)$`. null means the default reading, which already understands `26.11.0 for Minecraft 1.21.1` and `26.11.0-mc1.21.1`. */
+  versionRegex: string | null
   hidden: boolean
   legacy: boolean
   /** True when the poller linked it by matching names or slugs; false when it was set by hand. */
@@ -366,6 +373,8 @@ export interface CatalogUpdate {
   modrinthId?: string | null
   githubLabel?: string | null
   githubRepo?: string | null
+  /** 400 {error} when it isn't a valid regular expression or has no group named version. null clears it. */
+  versionRegex?: string | null
   hidden?: boolean
   legacy?: boolean
 }
@@ -381,7 +390,9 @@ export type SettingKey =
   | 'modrinthToken'
   | 'githubToken'
   | 'githubIssuesRepo'
-  | 'metricsEnabled'
+  | "metricsEnabled"
+  | "disabledMinecraftVersions"
+  | "revenueEnabled"
 
 export type SettingSource = 'ui' | 'env' | 'none'
 
@@ -400,6 +411,43 @@ export interface SettingItem {
 
 export interface Settings {
   items: SettingItem[]
+  /** Every Minecraft version any tracked file has, switched off or not, newest first. */
+  minecraftVersions: string[]
+}
+
+// ---- GET /api/v1/revenue ----------------------------------------------------------------------
+// What a platform owes the author. Only Modrinth has an API for it; CurseForge's balance isn't available. With the
+// switch off in Settings the response is 200 {enabled: false, items: []}, so the card hides without an error.
+
+export interface RevenueMonth {
+  /** 2026-11 */
+  month: string
+  amount: number
+}
+
+export interface RevenueItem {
+  platform: Platform
+  /** ISO currency code, USD for Modrinth. */
+  currency: string
+  available: number
+  pending: number
+  withdrawnLifetime: number
+  withdrawnYtd: number
+  /** The last twelve months, oldest first. */
+  months: RevenueMonth[]
+  fetchedAt: string
+}
+
+export interface Revenue {
+  enabled: boolean
+  items: RevenueItem[]
+}
+
+/** POST /api/v1/curseforge/author {link} -> 200 {id, name, url}; 400 {error} for a link that isn't a profile or no key; 404 {error} when no mod lists the name. Saves nothing. */
+export interface CurseForgeAuthor {
+  id: number
+  name: string
+  url: string
 }
 
 /** PUT body: only the keys sent change. A string sets the value; null or "" clears the value set here, so the environment variable applies again. 400 with {error} for a bad value (author id not a positive number, repo not owner/name). */

@@ -124,7 +124,7 @@ function Content({ data, mods, state, patch }: { data: Versions; mods: ModSummar
   const chartSeries = daily.series.map((s, i) => ({
     key: s.key,
     label: s.key === 'other' ? t('chart.other') : s.key,
-    color: s.key === 'other' ? '#958ea2' : `var(--color-s${(i % 8) + 1})`,
+    color: s.key === 'other' ? 'var(--color-faint)' : `var(--color-s${(i % 8) + 1})`,
     values: s.values,
   }))
 
@@ -193,7 +193,7 @@ function Content({ data, mods, state, patch }: { data: Versions; mods: ModSummar
           {legacyLeftOut > 0 && (
             <p className="mt-3 text-xs text-muted">
               {t('gaps.legacyLeftOut', { count: legacyLeftOut })}{' '}
-              <Link to="/settings" className="text-accent hover:underline">{t('gaps.legacyLink')}</Link>
+              <Link to="/settings/registry" className="text-accent hover:underline">{t('gaps.legacyLink')}</Link>
             </p>
           )}
           {gaps.length > 8 && (

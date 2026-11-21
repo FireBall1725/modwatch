@@ -218,6 +218,7 @@ func TestAPIMatchesMockFixtures(t *testing.T) {
 		{name: "issues", fixture: "issues.json", paths: []string{"/api/v1/issues?state=all"}},
 		{name: "catalog", fixture: "catalog.json", paths: []string{"/api/v1/catalog"}},
 		{name: "summary", fixture: "summary.json", paths: []string{"/api/v1/summary"}},
+		{name: "revenue", fixture: "revenue.json", paths: []string{"/api/v1/revenue"}},
 	}
 	seeded := fullServer(t)
 	empty := newServer(t)

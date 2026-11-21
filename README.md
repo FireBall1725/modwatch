@@ -6,16 +6,24 @@ CurseForge's API returns lifetime totals only. Modwatch builds the history itsel
 
 ## Run it
 
-You need a Core API key from [console.curseforge.com](https://console.curseforge.com), your numeric author ID, and a Postgres database. Modwatch creates its own tables on start.
+You need a Core API key from [console.curseforge.com](https://console.curseforge.com), your numeric author ID, and a database. Modwatch runs on SQLite with nothing to set up, or on Postgres. It creates its own tables on start.
 
 ```sh
 export CURSEFORGE_API_KEY=...
 export CURSEFORGE_AUTHOR_ID=...
-export DATABASE_URL='postgres://user:password@localhost:5432/modwatch?sslmode=disable'
 go run ./cmd/modwatch
 ```
 
-The database tests need a Postgres they can create schemas in. Set `MODWATCH_TEST_DATABASE_URL` to its URL and run `go test ./...`; each test gets a schema of its own and drops it. Without the variable those tests skip.
+That keeps its data in a SQLite file, `modwatch.db`, in the working directory. To use Postgres, or to put the file somewhere else, set `DATABASE_URL`:
+
+```sh
+export DATABASE_URL='postgres://user:password@localhost:5432/modwatch?sslmode=disable'   # Postgres
+export DATABASE_URL='sqlite:///var/lib/modwatch/modwatch.db'                            # SQLite, absolute path
+```
+
+SQLite is plenty for one author's mods: a poll an hour adds a few hundred rows. Use Postgres when you already run it and want its backups and monitoring, as on Kubernetes with CloudNativePG. The two are not converted into each other, so pick one before the history builds up.
+
+`go test ./...` runs the database tests on SQLite, each in a file of its own. To run them on Postgres, set `MODWATCH_TEST_DATABASE_URL` to a database they can create schemas in; each test gets a schema and drops it. CI runs both.
 
 The UI is at `http://localhost:8080`. To build the web client into the binary first, run `npm ci && npm run build` in `web/`.
 
@@ -31,7 +39,7 @@ The UI is at `http://localhost:8080`. To build the web client into the binary fi
 | `MODWATCH_METRICS_ENABLED` | on | `false` turns `/metrics` off (it answers 404) |
 | `MODWATCH_SCHEDULE` | `0 * * * *` | Cron, in the `TZ` time zone |
 | `MODWATCH_ADDR` | `:8080` | |
-| `DATABASE_URL` | | Postgres connection URL. Required. On Kubernetes it is the `uri` key of the CloudNativePG `<cluster>-app` secret |
+| `DATABASE_URL` | `sqlite:modwatch.db` | `postgres://...` for Postgres, or `sqlite:` and a file for SQLite (`sqlite:///data/modwatch.db` is absolute). The container image sets `sqlite:///data/modwatch.db` and a `/data` volume. On Kubernetes with CloudNativePG it is the `uri` key of the `<cluster>-app` secret |
 | `LOG_LEVEL` | `info` | |
 
 Every key and repository above can also be set in the Settings page, which wins over the environment variable and takes effect on the next poll. Values set there are stored in the database in plain text.

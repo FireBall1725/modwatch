@@ -26,10 +26,13 @@ import type {
   Settings,
   SettingsUpdate,
   Versions,
+  CurseForgeAuthor,
+  Revenue,
 } from '../lib/types'
 import catalogJson from './fixtures/catalog.json'
 import historyJson from './fixtures/downloads-history.json'
 import issuesJson from './fixtures/issues.json'
+import revenueJson from './fixtures/revenue.json'
 import modDetailJson from './fixtures/mod-detail.json'
 import modsJson from './fixtures/mods.json'
 import overviewJson from './fixtures/overview.json'
@@ -163,6 +166,16 @@ export const catalogPut = (slug: string, update: CatalogUpdate): Promise<Catalog
     if (update.githubRepo != null && !REPO_PATTERN.test(update.githubRepo.trim()))
       throw new ApiError('githubRepo must look like owner/name', 400)
     if (update.githubRepo != null) update = { ...update, githubRepo: update.githubRepo.trim() }
+    if (update.versionRegex != null) {
+      const pattern = update.versionRegex.trim()
+      try {
+        new RegExp(pattern.replace(/\(\?P</g, '(?<'))
+      } catch {
+        throw new ApiError("the version pattern isn't a valid regular expression", 400)
+      }
+      if (!pattern.includes('(?P<version>')) throw new ApiError('the version pattern needs a group named version, such as (?P<version>\\d+\\.\\d+\\.\\d+)', 400)
+      update = { ...update, versionRegex: pattern }
+    }
     Object.assign(entry, update, { auto: false })
     // Pointing at a project another entry holds moves it, and an entry left with no links goes away.
     for (const other of catalogState.entries) {
@@ -180,7 +193,8 @@ export const catalogPut = (slug: string, update: CatalogUpdate): Promise<Catalog
 
 const REPO_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/
 const SECRET_KEYS: SettingKey[] = ['curseforgeApiKey', 'modrinthToken', 'githubToken']
-const KEYS: SettingKey[] = ['curseforgeApiKey', 'curseforgeAuthorId', 'modrinthUser', 'modrinthToken', 'githubToken', 'githubIssuesRepo', 'metricsEnabled']
+const KEYS: SettingKey[] = ['curseforgeApiKey', 'curseforgeAuthorId', 'modrinthUser', 'modrinthToken', 'githubToken', 'githubIssuesRepo', 'metricsEnabled', 'disabledMinecraftVersions', 'revenueEnabled']
+const MOCK_MC_VERSIONS = ['26.3', '26.2', '26.1.2', '1.21.1', '1.21.11', '1.12.2', '1.7.10']
 // What the mock server pretends its environment holds.
 const ENV: Partial<Record<SettingKey, string>> = {
   curseforgeApiKey: 'env-key',
@@ -192,6 +206,7 @@ const uiValues: Partial<Record<SettingKey, string>> = {}
 
 function settingsNow(): Settings {
   return {
+    minecraftVersions: MOCK_MC_VERSIONS,
     items: KEYS.map((key): SettingItem => {
       const secret = SECRET_KEYS.includes(key)
       const ui = uiValues[key]
@@ -222,7 +237,8 @@ export const settingsPut = (update: SettingsUpdate): Promise<Settings> =>
         continue
       }
       if (k === 'curseforgeAuthorId' && !/^[1-9]\d*$/.test(v)) throw new ApiError('curseforgeAuthorId must be a positive number', 400)
-      if (k === 'metricsEnabled' && v !== 'true' && v !== 'false') throw new ApiError('metricsEnabled must be true or false', 400)
+      if ((k === 'metricsEnabled' || k === 'revenueEnabled') && v !== 'true' && v !== 'false') throw new ApiError('metricsEnabled must be true or false', 400)
+      if (k === 'disabledMinecraftVersions' && !v.split(',').every((x) => /^\d+(\.\d+)+$/.test(x.trim()))) throw new ApiError('disabledMinecraftVersions must be a list of Minecraft versions', 400)
       if (k === 'githubIssuesRepo' && !REPO_PATTERN.test(v)) throw new ApiError('githubIssuesRepo must look like owner/name', 400)
       next[k] = v
     }
@@ -232,6 +248,14 @@ export const settingsPut = (update: SettingsUpdate): Promise<Settings> =>
     }
     return settingsNow()
   })
+
+export const curseforgeAuthor = (link: string): Promise<CurseForgeAuthor> =>
+  later(() => {
+    if (!/curseforge\.com\/members\/fireball1725/i.test(link)) throw new ApiError('no mod on CurseForge lists that name as an author. Check the link, or enter the author id yourself.', 404)
+    return { id: 8109937, name: 'FireBall1725', url: 'https://www.curseforge.com/members/fireball1725' }
+  })
+
+export const revenue = (): Promise<Revenue> => later(() => structuredClone(revenueJson as Revenue))
 
 export const catalogRelink = (): Promise<void> => later(() => undefined)
 

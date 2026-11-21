@@ -1,0 +1,6 @@
+-- SPDX-License-Identifier: AGPL-3.0-only
+-- Copyright (C) 2026 FireBall1725
+
+DROP TABLE download_snapshots;
+DROP TABLE mods;
+DROP TABLE polls;

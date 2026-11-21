@@ -1,0 +1,41 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* Copyright (C) 2026 FireBall1725 */
+
+@import 'tailwindcss';
+
+/* Dark only. Hot pink is the accent; up and down use green and red so a drop reads at a glance. */
+@theme {
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-ground: #0f0d12;
+  --color-surface: #17141c;
+  --color-sunk: #1e1a25;
+  --color-ink: #ece8f1;
+  --color-muted: #9a93a6;
+  --color-line: #2c2735;
+  --color-accent: #ff69b4;
+  --color-accent-ink: #1a0711;
+  --color-accent-soft: #3a1b2e;
+  --color-up: #6fcb8c;
+  --color-down: #f0806f;
+  --color-warn: #e6b35a;
+  --color-warn-bg: #33280f;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,39 @@
+# Read by the shared release workflow when it posts to Discord.
+#
+# Nothing posts until a webhook secret exists for this repo, so stable and rc
+# stay off until there is a channel for them.
+#
+# Available placeholders in getting_started and link urls:
+#   {{version}}  26.11.1           {{tag}}      v26.11.1
+#   {{channel}}  stable | rc       {{repo}}     FireBall1725/modwatch
+#   {{image}}    ghcr.io/fireball1725/modwatch:26.11.1
+#   {{compare_url}}  the GitHub compare link against the previous release
+
+project:
+  name: Modwatch
+  footer: "Modwatch · mod stats dashboard"
+
+channels:
+  stable:
+    announce: false
+    colour: "0xFF69B4"
+    prefix: ""
+  rc:
+    announce: false
+    colour: "0xF1C40F"
+    prefix: "Release candidate: "
+  nightly:
+    announce: false
+
+getting_started: |
+  ```
+  docker pull {{image}}
+  ```
+
+links:
+  - name: Source
+    url: https://github.com/{{repo}}
+  - name: Image
+    url: https://github.com/{{repo}}/pkgs/container/modwatch
+  - name: Changes
+    url: "{{compare_url}}"

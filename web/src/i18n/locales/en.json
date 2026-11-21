@@ -1,0 +1,36 @@
+{
+  "app": { "name": "Modwatch" },
+  "topbar": {
+    "pollNow": "Poll now",
+    "polling": "Polling...",
+    "lastUpdated": "Updated {{when}}",
+    "neverUpdated": "No data yet",
+    "pollFailed": "Last poll failed: {{error}}"
+  },
+  "summary": {
+    "downloads": "Downloads",
+    "day": "Last 24 hours",
+    "week": "Last 7 days",
+    "mods": "Mods",
+    "noDelta": "Needs a day of history"
+  },
+  "table": {
+    "includeMember": "Include mods I'm a member of",
+    "mod": "Mod",
+    "downloads": "Downloads",
+    "day": "24h",
+    "week": "7d",
+    "trend": "30 days",
+    "updated": "Updated",
+    "empty": "No mods yet. The first poll runs at startup; if this stays empty, check the setup notes above.",
+    "member": "member"
+  },
+  "problems": { "title": "Setup needs attention" },
+  "error": { "load": "Couldn't load the dashboard: {{error}}" },
+  "time": {
+    "justNow": "just now",
+    "minutes": "{{count}} min ago",
+    "hours": "{{count}} h ago",
+    "days": "{{count}} d ago"
+  }
+}

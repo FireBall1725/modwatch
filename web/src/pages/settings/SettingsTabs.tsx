@@ -11,7 +11,7 @@ const TABS = ["connections", "registry", "versions", "appearance"] as const;
 export default function SettingsTabs() {
   const { t } = useTranslation("settings");
   return (
-    <nav aria-label={t("tabs.label")} className="mb-4 flex gap-1 overflow-x-auto border-b border-line">
+    <nav aria-label={t("tabs.label")} className="mb-4 flex flex-wrap gap-x-1 border-b border-line">
       {TABS.map((tab) => (
         <NavLink
           key={tab}

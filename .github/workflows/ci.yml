@@ -15,6 +15,12 @@ concurrency:
 jobs:
   go:
     uses: FireBall1725/workflows/.github/workflows/ci-go.yml@v1
+    with:
+      # The shared job starts Postgres with this name as database, user and password.
+      # The tests create and drop a schema of their own per test, so they never touch each other.
+      postgres-db: modwatch
+      test-env: |
+        MODWATCH_TEST_DATABASE_URL=postgres://modwatch:modwatch@localhost:5432/modwatch?sslmode=disable
 
   web:
     uses: FireBall1725/workflows/.github/workflows/ci-node.yml@v1

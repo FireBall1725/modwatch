@@ -150,6 +150,8 @@ export interface OverviewTotals {
   needAttention: number
   /** Projects not yet approved on either platform. */
   inReview: number
+  /** Owned mods marked legacy. The list endpoints leave them out unless asked with ?legacy=1, so this says how many are out. */
+  legacyMods: number
 }
 
 export interface Overview {

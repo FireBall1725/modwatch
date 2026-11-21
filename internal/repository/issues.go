@@ -5,6 +5,7 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 
 	"github.com/fireball1725/modwatch/internal/models"
@@ -23,24 +24,20 @@ func (r *Repo) SaveIssues(ctx context.Context, pollID int64, issues []models.Iss
 		if err != nil {
 			return err
 		}
-		closed := ""
-		if !is.ClosedAt.IsZero() {
-			closed = format(is.ClosedAt)
-		}
 		if _, err := tx.ExecContext(ctx, `
 			INSERT INTO issues (number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at, last_poll_id)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 			ON CONFLICT (number) DO UPDATE SET
 				title = excluded.title, state = excluded.state, url = excluded.url, labels = excluded.labels,
 				mod_label = excluded.mod_label, kind = excluded.kind, author = excluded.author, comments = excluded.comments,
 				created_at = excluded.created_at, updated_at = excluded.updated_at, closed_at = excluded.closed_at,
 				last_poll_id = excluded.last_poll_id`,
 			is.Number, is.Title, is.State, is.URL, string(labels), is.ModLabel, is.Kind, is.Author, is.Comments,
-			format(is.CreatedAt), format(is.UpdatedAt), closed, pollID); err != nil {
+			tz(is.CreatedAt), tz(is.UpdatedAt), tz(is.ClosedAt), pollID); err != nil {
 			return err
 		}
 	}
-	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE last_poll_id <> ?`, pollID); err != nil {
+	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE last_poll_id <> $1`, pollID); err != nil {
 		return err
 	}
 	return tx.Commit()
@@ -52,10 +49,10 @@ func (r *Repo) ListIssues(ctx context.Context, state string) ([]models.Issue, er
 	q := `SELECT number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at FROM issues`
 	var args []any
 	if state == "open" || state == "closed" {
-		q += ` WHERE state = ?`
+		q += ` WHERE state = $1`
 		args = append(args, state)
 	}
-	q += ` ORDER BY updated_at DESC, number DESC`
+	q += ` ORDER BY updated_at DESC NULLS LAST, number DESC`
 	rows, err := r.db.QueryContext(ctx, q, args...)
 	if err != nil {
 		return nil, err
@@ -64,15 +61,16 @@ func (r *Repo) ListIssues(ctx context.Context, state string) ([]models.Issue, er
 	out := []models.Issue{}
 	for rows.Next() {
 		var is models.Issue
-		var labels, created, updated, closed string
+		var labels []byte
+		var created, updated, closed sql.NullTime
 		if err := rows.Scan(&is.Number, &is.Title, &is.State, &is.URL, &labels, &is.ModLabel, &is.Kind, &is.Author,
 			&is.Comments, &created, &updated, &closed); err != nil {
 			return nil, err
 		}
-		if err := json.Unmarshal([]byte(labels), &is.Labels); err != nil || is.Labels == nil {
+		if err := json.Unmarshal(labels, &is.Labels); err != nil || is.Labels == nil {
 			is.Labels = []string{}
 		}
-		is.CreatedAt, is.UpdatedAt, is.ClosedAt = parseTime(created), parseTime(updated), parseTime(closed)
+		is.CreatedAt, is.UpdatedAt, is.ClosedAt = fromNull(created), fromNull(updated), fromNull(closed)
 		out = append(out, is)
 	}
 	return out, rows.Err()

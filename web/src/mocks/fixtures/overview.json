@@ -15,7 +15,8 @@
   "openBugs": 2,
   "openCrashes": 1,
   "needAttention": 7,
-  "inReview": 4
+  "inReview": 4,
+  "legacyMods": 0
  },
  "attention": [
   {

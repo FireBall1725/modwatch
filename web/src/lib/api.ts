@@ -14,6 +14,7 @@ import type {
   ReleaseItem,
   Versions,
 } from './types'
+import { withLegacy } from './legacyPref'
 
 /** VITE_MOCK=1 serves web/src/mocks/fixtures/*.json through these same functions. Vite folds the check at build time. */
 const MOCK = import.meta.env.VITE_MOCK === '1'
@@ -67,21 +68,21 @@ async function mock() {
 }
 
 export const api = {
-  overview: (): Promise<Overview> => (MOCK ? mock().then((m) => m.overview()) : request('/api/v1/overview')),
+  overview: (): Promise<Overview> => (MOCK ? mock().then((m) => m.overview()) : request(withLegacy('/api/v1/overview'))),
 
   /** Owned and member mods, biggest first. */
-  mods: (): Promise<ModSummary[]> => (MOCK ? mock().then((m) => m.mods()) : request('/api/v1/mods')),
+  mods: (): Promise<ModSummary[]> => (MOCK ? mock().then((m) => m.mods()) : request(withLegacy('/api/v1/mods'))),
 
   mod: (slug: string): Promise<ModDetail> =>
     MOCK ? mock().then((m) => m.mod(slug)) : request(`/api/v1/mods/${encodeURIComponent(slug)}`),
 
   downloadsHistory: (days: number = 90): Promise<DownloadsHistory> =>
-    MOCK ? mock().then((m) => m.downloadsHistory(days)) : request(`/api/v1/downloads/history?days=${days}`),
+    MOCK ? mock().then((m) => m.downloadsHistory(days)) : request(withLegacy(`/api/v1/downloads/history?days=${days}`)),
 
-  versions: (): Promise<Versions> => (MOCK ? mock().then((m) => m.versions()) : request('/api/v1/versions')),
+  versions: (): Promise<Versions> => (MOCK ? mock().then((m) => m.versions()) : request(withLegacy('/api/v1/versions'))),
 
   releases: (limit: number = 50): Promise<ReleaseItem[]> =>
-    MOCK ? mock().then((m) => m.releases(limit)) : request(`/api/v1/releases?limit=${limit}`),
+    MOCK ? mock().then((m) => m.releases(limit)) : request(withLegacy(`/api/v1/releases?limit=${limit}`)),
 
   /** state defaults to open on the server. The summary always describes open issues. */
   issues: (state: IssueState = 'open'): Promise<Issues> =>

@@ -61,14 +61,17 @@ func (g *group) projects() []*models.PlatformStat {
 
 // view is a dataset joined up: groups, each group's files and issues, and the newest Minecraft version.
 type view struct {
-	ds       *dataset
-	groups   []*group // not hidden, biggest combined downloads first
-	all      []*group // including hidden
-	bySlug   map[string]*group
-	byKey    map[models.PlatformKey]*group
-	filesOf  map[string][]models.FileStat
-	issuesOf map[string][]models.Issue
-	latestMC string
+	ds     *dataset
+	groups []*group // the mods the lists show, biggest combined downloads first
+	all    []*group // including hidden and legacy ones, so a mod page still opens for them
+	// showLegacy says whether mods marked legacy are in groups and the roll-ups. They stay out unless asked for,
+	// because a 1.7.10 mod with a million downloads flattens every chart it shares with the current mods.
+	showLegacy bool
+	bySlug     map[string]*group
+	byKey      map[models.PlatformKey]*group
+	filesOf    map[string][]models.FileStat
+	issuesOf   map[string][]models.Issue
+	latestMC   string
 }
 
 func keyOf(p *models.PlatformStat) models.PlatformKey {
@@ -79,13 +82,14 @@ func fileKey(f models.FileStat) models.PlatformKey {
 	return models.PlatformKey{Platform: f.Source, ID: f.ProjectID}
 }
 
-func newView(ds *dataset) *view {
+func newView(ds *dataset, showLegacy bool) *view {
 	v := &view{
-		ds:       ds,
-		bySlug:   map[string]*group{},
-		byKey:    map[models.PlatformKey]*group{},
-		filesOf:  map[string][]models.FileStat{},
-		issuesOf: map[string][]models.Issue{},
+		ds:         ds,
+		showLegacy: showLegacy,
+		bySlug:     map[string]*group{},
+		byKey:      map[models.PlatformKey]*group{},
+		filesOf:    map[string][]models.FileStat{},
+		issuesOf:   map[string][]models.Issue{},
 	}
 	if ds.ix == nil {
 		ds.ix = repository.NewCatalogIndex(ds.entries)
@@ -162,7 +166,7 @@ func newView(ds *dataset) *view {
 	}
 
 	for _, g := range v.all {
-		if !g.hidden() {
+		if v.listed(g) {
 			v.groups = append(v.groups, g)
 		}
 	}
@@ -194,6 +198,11 @@ func totalDownloads(g *group) int64 {
 	return n
 }
 
+// listed reports whether a mod shows in the lists and roll-ups.
+func (v *view) listed(g *group) bool {
+	return !g.hidden() && (v.showLegacy || !g.legacy())
+}
+
 // inScope reports whether a file counts toward version, loader and release views: its project is a visible owned
 // mod, or unknown to the platform tables (files stored without a project row).
 func (v *view) inScope(f models.FileStat) bool {
@@ -201,7 +210,7 @@ func (v *view) inScope(f models.FileStat) bool {
 	if g == nil {
 		return true
 	}
-	return g.owned && !g.hidden()
+	return g.owned && v.listed(g)
 }
 
 func (v *view) scopedFiles() []models.FileStat {

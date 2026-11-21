@@ -22,7 +22,8 @@ import (
 type Config struct {
 	Addr     string
 	LogLevel slog.Level
-	DataDir  string
+	// DatabaseURL is the Postgres connection URL. On Kubernetes it comes from the CloudNativePG secret (key "uri").
+	DatabaseURL string
 
 	// Schedule is a five-field cron expression in the process time zone (TZ).
 	Schedule string
@@ -53,7 +54,7 @@ func Load() *Config {
 	return &Config{
 		Addr:               getEnv("MODWATCH_ADDR", ":8080"),
 		LogLevel:           parseLogLevel(getEnv("LOG_LEVEL", "info")),
-		DataDir:            getEnv("MODWATCH_DATA_DIR", "./data"),
+		DatabaseURL:        getEnv("DATABASE_URL", ""),
 		Schedule:           getEnv("MODWATCH_SCHEDULE", "0 * * * *"),
 		CurseForgeKey:      getEnv("CURSEFORGE_API_KEY", ""),
 		CurseForgeAuthorID: getEnvInt("CURSEFORGE_AUTHOR_ID", 0),

@@ -6,13 +6,16 @@ CurseForge's API returns lifetime totals only. Modwatch builds the history itsel
 
 ## Run it
 
-You need a Core API key from [console.curseforge.com](https://console.curseforge.com) and your numeric author ID.
+You need a Core API key from [console.curseforge.com](https://console.curseforge.com), your numeric author ID, and a Postgres database. Modwatch creates its own tables on start.
 
 ```sh
 export CURSEFORGE_API_KEY=...
 export CURSEFORGE_AUTHOR_ID=...
+export DATABASE_URL='postgres://user:password@localhost:5432/modwatch?sslmode=disable'
 go run ./cmd/modwatch
 ```
+
+The database tests need a Postgres they can create schemas in. Set `MODWATCH_TEST_DATABASE_URL` to its URL and run `go test ./...`; each test gets a schema of its own and drops it. Without the variable those tests skip.
 
 The UI is at `http://localhost:8080`. To build the web client into the binary first, run `npm ci && npm run build` in `web/`.
 
@@ -25,7 +28,7 @@ The UI is at `http://localhost:8080`. To build the web client into the binary fi
 | `MODRINTH_TOKEN` | | Optional. Public projects need none; it matters for drafts and private projects |
 | `MODWATCH_SCHEDULE` | `0 * * * *` | Cron, in the `TZ` time zone |
 | `MODWATCH_ADDR` | `:8080` | |
-| `MODWATCH_DATA_DIR` | `./data` | SQLite database |
+| `DATABASE_URL` | | Postgres connection URL. Required. On Kubernetes it is the `uri` key of the CloudNativePG `<cluster>-app` secret |
 | `LOG_LEVEL` | `info` | |
 
 The older "API Tokens" page on CurseForge issues upload tokens. Those get a 403 from this API.

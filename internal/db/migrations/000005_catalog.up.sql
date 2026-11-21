@@ -6,11 +6,11 @@
 CREATE TABLE catalog (
     slug          TEXT    PRIMARY KEY,
     name          TEXT    NOT NULL,
-    curseforge_id INTEGER,
+    curseforge_id BIGINT,
     modrinth_id   TEXT,
     github_label  TEXT,
-    hidden        INTEGER NOT NULL DEFAULT 0,
-    auto          INTEGER NOT NULL DEFAULT 1
+    hidden        BOOLEAN NOT NULL DEFAULT FALSE,
+    auto          BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- A project belongs to at most one entry, and a label to at most one entry. NULLs don't collide.

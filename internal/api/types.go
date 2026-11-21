@@ -197,6 +197,8 @@ type overviewTotals struct {
 	OpenCrashes   int          `json:"openCrashes"`
 	NeedAttention int          `json:"needAttention"`
 	InReview      int          `json:"inReview"`
+	// LegacyMods counts the owned mods marked legacy, whether or not this response lists them.
+	LegacyMods int `json:"legacyMods"`
 }
 
 type overviewResponse struct {

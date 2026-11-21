@@ -8,17 +8,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 )
 
 func newRepo(t *testing.T) *Repo {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	return New(conn)
 }
 

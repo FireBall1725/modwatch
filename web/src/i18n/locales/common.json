@@ -5,6 +5,8 @@
     "tagline": "Mod dashboard",
     "skipToContent": "Skip to content",
     "menu": "Open menu",
+    "showLegacy": "Show legacy mods ({{count}})",
+    "showLegacyHint": "Mods marked legacy stay out of the lists and charts unless this is on.",
     "setupProblems_one": "{{count}} setup problem",
     "setupProblems_other": "{{count}} setup problems"
   },

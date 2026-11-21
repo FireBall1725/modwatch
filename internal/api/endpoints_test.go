@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/config"
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/repository"
@@ -22,11 +22,7 @@ import (
 // an open crash, an unlinked label and a failed Modrinth source.
 func fullServer(t *testing.T) http.Handler {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	ctx := context.Background()
 	now := time.Now().UTC().Truncate(time.Second)
@@ -132,7 +128,7 @@ func TestOverviewEmptyDatabase(t *testing.T) {
 	for _, want := range []string{
 		`"attention":[]`, `"mods":[]`, `"recentReleases":[]`, `"sources":[]`, `"problems":[`,
 		`"lastPoll":null`, `"lastOkPoll":null`,
-		`"totals":{"mods":0,"downloads":{"total":0,"curseforge":0,"modrinth":0,"delta24h":null,"delta7d":null},"openIssues":0,"openBugs":0,"openCrashes":0,"needAttention":0,"inReview":0}`,
+		`"totals":{"mods":0,"downloads":{"total":0,"curseforge":0,"modrinth":0,"delta24h":null,"delta7d":null},"openIssues":0,"openBugs":0,"openCrashes":0,"needAttention":0,"inReview":0,"legacyMods":0}`,
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("missing %s\n%s", want, body)

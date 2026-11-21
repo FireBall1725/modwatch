@@ -24,7 +24,7 @@ const (
 )
 
 // load reads everything the composed endpoints need.
-func (h *handlers) load(ctx context.Context) (*view, error) {
+func (h *handlers) load(ctx context.Context, showLegacy bool) (*view, error) {
 	now := h.now()
 	ds := &dataset{now: now, ghRepo: h.cfg.GitHubIssuesRepo}
 	var err error
@@ -49,11 +49,14 @@ func (h *handlers) load(ctx context.Context) (*view, error) {
 	for _, p := range h.cfg.Problems() {
 		ds.problems = append(ds.problems, p.Error())
 	}
-	return newView(ds), nil
+	return newView(ds, showLegacy), nil
 }
 
+// wantsLegacy reports whether the request asked for mods marked legacy (?legacy=1). The UI's switch sets it.
+func wantsLegacy(r *http.Request) bool { return r.URL.Query().Get("legacy") == "1" }
+
 func (h *handlers) loadOr500(w http.ResponseWriter, r *http.Request) *view {
-	v, err := h.load(r.Context())
+	v, err := h.load(r.Context(), wantsLegacy(r))
 	if err != nil {
 		slog.Error("reading dashboard data", "path", r.URL.Path, "error", err)
 		writeError(w, http.StatusInternalServerError, "couldn't read the dashboard data")
@@ -101,11 +104,18 @@ func (h *handlers) overview(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	issues := summarize(v.ds.ix, v.ds.issues)
+	legacyMods := 0
+	for _, g := range v.all {
+		if g.owned && g.legacy() && !g.hidden() {
+			legacyMods++
+		}
+	}
 	out := overviewResponse{
 		Version: version.String(), Schedule: h.cfg.Schedule, Polling: h.polls.Running(),
 		Totals: overviewTotals{
 			Mods: len(owned), Downloads: ownedTotals(owned),
 			OpenIssues: issues.Open, OpenBugs: issues.OpenBugs, OpenCrashes: issues.OpenCrashes,
+			LegacyMods: legacyMods,
 		},
 		Attention: v.attention(owned), Mods: owned, RecentReleases: v.releases(overviewReleases),
 		Sources: toSourceStatuses(v.ds.sources), LastPoll: last, LastOKPoll: lastOK, Problems: nonNilStrings(v.ds.problems),

@@ -17,13 +17,14 @@ func trackReviews(ctx context.Context, tx *sql.Tx, at time.Time, projects []mode
 	for _, pr := range projects {
 		if pr.Status == models.StatusInReview {
 			if _, err := tx.ExecContext(ctx, `
-				INSERT OR IGNORE INTO review_seen (platform, project_id, first_seen_at) VALUES (?, ?, ?)`,
-				pr.Platform, pr.ID, format(at)); err != nil {
+				INSERT INTO review_seen (platform, project_id, first_seen_at) VALUES ($1, $2, $3)
+				ON CONFLICT DO NOTHING`,
+				pr.Platform, pr.ID, tz(at)); err != nil {
 				return err
 			}
 			continue
 		}
-		if _, err := tx.ExecContext(ctx, `DELETE FROM review_seen WHERE platform = ? AND project_id = ?`, pr.Platform, pr.ID); err != nil {
+		if _, err := tx.ExecContext(ctx, `DELETE FROM review_seen WHERE platform = $1 AND project_id = $2`, pr.Platform, pr.ID); err != nil {
 			return err
 		}
 	}
@@ -40,11 +41,11 @@ func (r *Repo) ReviewSeen(ctx context.Context) (map[models.PlatformKey]time.Time
 	out := map[models.PlatformKey]time.Time{}
 	for rows.Next() {
 		var k models.PlatformKey
-		var at string
+		var at time.Time
 		if err := rows.Scan(&k.Platform, &k.ID, &at); err != nil {
 			return nil, err
 		}
-		out[k] = parseTime(at)
+		out[k] = at.UTC()
 	}
 	return out, rows.Err()
 }
@@ -52,12 +53,10 @@ func (r *Repo) ReviewSeen(ctx context.Context) (map[models.PlatformKey]time.Time
 // FileHistory returns the last snapshot of each UTC day since the given time, oldest first, for every file.
 func (r *Repo) FileHistory(ctx context.Context, since time.Time) (map[models.PlatformKey][]models.Snapshot, error) {
 	rows, err := r.db.QueryContext(ctx, `
-		SELECT s.source, s.file_id, s.taken_at, s.download_count
-		FROM file_snapshots s
-		JOIN (SELECT source, file_id, MAX(taken_at) AS last FROM file_snapshots
-		      WHERE taken_at >= ? GROUP BY source, file_id, substr(taken_at, 1, 10)) d
-		  ON d.source = s.source AND d.file_id = s.file_id AND d.last = s.taken_at
-		ORDER BY s.source, s.file_id, s.taken_at`, format(since))
+		SELECT DISTINCT ON (source, file_id, (taken_at AT TIME ZONE 'UTC')::date) source, file_id, taken_at, download_count
+		FROM file_snapshots
+		WHERE taken_at >= $1
+		ORDER BY source, file_id, (taken_at AT TIME ZONE 'UTC')::date, taken_at DESC`, tz(since))
 	if err != nil {
 		return nil, err
 	}
@@ -66,12 +65,12 @@ func (r *Repo) FileHistory(ctx context.Context, since time.Time) (map[models.Pla
 	out := map[models.PlatformKey][]models.Snapshot{}
 	for rows.Next() {
 		var k models.PlatformKey
-		var at string
+		var at time.Time
 		var n int64
 		if err := rows.Scan(&k.Platform, &k.ID, &at, &n); err != nil {
 			return nil, err
 		}
-		out[k] = append(out[k], models.Snapshot{At: parseTime(at), Downloads: n})
+		out[k] = append(out[k], models.Snapshot{At: at.UTC(), Downloads: n})
 	}
 	return out, rows.Err()
 }

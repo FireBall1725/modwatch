@@ -59,7 +59,7 @@ func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	v, err := h.load(r.Context())
+	v, err := h.load(r.Context(), true)
 	if err != nil {
 		http.Error(w, "couldn't read the dashboard data", http.StatusInternalServerError)
 		return

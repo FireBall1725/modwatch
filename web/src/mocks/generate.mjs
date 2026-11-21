@@ -514,6 +514,7 @@ const totals = {
   openCrashes: openIssues.filter((i) => i.kind === 'crash').length,
   needAttention: ownedSums.filter((s) => s.health !== 'ok').length,
   inReview: sum(ownedSums, (s) => [s.curseforge, s.modrinth].filter((p) => p && ['in_review', 'draft', 'changes_required', 'rejected'].includes(p.status)).length),
+  legacyMods: ownedSums.filter((s) => s.legacy).length,
 }
 
 const polls = {

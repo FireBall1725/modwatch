@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/config"
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/providers/curseforge"
@@ -27,11 +27,7 @@ func (noSource) ListFiles(context.Context, int) ([]curseforge.File, error)      
 
 func newServer(t *testing.T, readings ...models.Reading) http.Handler {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	if len(readings) > 0 {
 		now := time.Now()
@@ -133,11 +129,7 @@ func TestUnknownAPIPathIs404NotTheUI(t *testing.T) {
 
 func serverWithFiles(t *testing.T, files []models.FileReading, statuses []models.SourceStatus) http.Handler {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	now := time.Now()
 	p := models.Poll{StartedAt: now.Add(-time.Second), FinishedAt: now}
@@ -231,11 +223,7 @@ func TestSummaryListsSources(t *testing.T) {
 
 // Two Modrinth versions sharing a version number must stay two series, and every series of a mod uses its registry slug.
 func TestMetricsFileSeriesAreUniqueAndUseRegistrySlug(t *testing.T) {
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	now := time.Now()
 	p := models.Poll{StartedAt: now.Add(-time.Second), FinishedAt: now}
@@ -304,11 +292,7 @@ func TestEmptyQueryValueActsAbsent(t *testing.T) {
 
 func TestSummaryAndOverviewReportMissingModrinthToken(t *testing.T) {
 	cfg := &config.Config{Schedule: "0 * * * *", ModrinthUser: "someone"}
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	h := NewRouter(cfg, repo, poll.New(context.Background(), cfg, repo, noSource{}, nil))
 	for _, path := range []string{"/api/v1/summary", "/api/v1/overview"} {

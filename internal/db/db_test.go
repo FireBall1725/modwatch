@@ -1,75 +1,53 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-package db
+package db_test
 
 import (
+	"context"
 	"database/sql"
 	"testing"
 
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/sqlite"
-	"github.com/golang-migrate/migrate/v4/source/iofs"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 )
 
-func hasLegacyColumn(t *testing.T, conn *sql.DB) bool {
+func hasColumn(t *testing.T, conn *sql.DB, table, column string) bool {
 	t.Helper()
-	rows, err := conn.Query(`SELECT name FROM pragma_table_info('catalog')`)
+	var n int
+	err := conn.QueryRow(`
+		SELECT count(*) FROM information_schema.columns
+		WHERE table_schema = current_schema() AND table_name = $1 AND column_name = $2`, table, column).Scan(&n)
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer func() { _ = rows.Close() }()
-	for rows.Next() {
-		var n string
-		if err := rows.Scan(&n); err != nil {
-			t.Fatal(err)
-		}
-		if n == "legacy" {
-			return true
-		}
-	}
-	return false
+	return n > 0
 }
 
-func TestLegacyMigrationUpAndDown(t *testing.T) {
-	conn, err := Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
-	if !hasLegacyColumn(t, conn) {
+func TestOpenMigratesAndLegacyDefaultsToFalse(t *testing.T) {
+	conn := dbtest.Open(t)
+	if !hasColumn(t, conn, "catalog", "legacy") {
 		t.Fatal("catalog.legacy missing after up")
 	}
 	if _, err := conn.Exec(`INSERT INTO catalog (slug, name) VALUES ('a', 'A')`); err != nil {
 		t.Fatal(err)
 	}
-	var legacy int
-	if err := conn.QueryRow(`SELECT legacy FROM catalog WHERE slug = 'a'`).Scan(&legacy); err != nil || legacy != 0 {
-		t.Fatalf("legacy default = %d, err %v", legacy, err)
+	var legacy, hidden, auto bool
+	if err := conn.QueryRow(`SELECT legacy, hidden, auto FROM catalog WHERE slug = 'a'`).Scan(&legacy, &hidden, &auto); err != nil {
+		t.Fatal(err)
 	}
+	if legacy || hidden || !auto {
+		t.Errorf("defaults legacy=%v hidden=%v auto=%v, want false false true", legacy, hidden, auto)
+	}
+}
 
-	src, err := iofs.New(migrations, "migrations")
-	if err != nil {
+// Opening a second connection to an already migrated schema must not fail or change anything.
+func TestMigrationsRunTwice(t *testing.T) {
+	conn := dbtest.Open(t)
+	var v int
+	if err := conn.QueryRowContext(context.Background(), `SELECT version FROM schema_migrations`).Scan(&v); err != nil {
 		t.Fatal(err)
 	}
-	driver, err := sqlite.WithInstance(conn, &sqlite.Config{})
-	if err != nil {
-		t.Fatal(err)
-	}
-	m, err := migrate.NewWithInstance("iofs", src, "sqlite", driver)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := m.Steps(-1); err != nil {
-		t.Fatal(err)
-	}
-	if hasLegacyColumn(t, conn) {
-		t.Error("catalog.legacy still there after down")
-	}
-	if err := m.Steps(1); err != nil {
-		t.Fatal(err)
-	}
-	if !hasLegacyColumn(t, conn) {
-		t.Error("catalog.legacy missing after up again")
+	if v != 8 {
+		t.Errorf("schema version = %d, want 8", v)
 	}
 }

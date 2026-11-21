@@ -1,39 +1,41 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-// Package db opens the SQLite database and applies migrations.
+// Package db opens the Postgres database and applies migrations.
 package db
 
 import (
+	"context"
 	"database/sql"
 	"embed"
 	"errors"
 	"fmt"
-	"os"
-	"path/filepath"
+	"time"
 
 	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/sqlite"
+	migratepgx "github.com/golang-migrate/migrate/v4/database/pgx/v5"
 	"github.com/golang-migrate/migrate/v4/source/iofs"
-	_ "modernc.org/sqlite"
+	_ "github.com/jackc/pgx/v5/stdlib" // registers the "pgx" database/sql driver
 )
 
 //go:embed migrations/*.sql
 var migrations embed.FS
 
-// Open opens (or creates) modwatch.db in dir and migrates it.
-func Open(dir string) (*sql.DB, error) {
-	if err := os.MkdirAll(dir, 0o755); err != nil {
-		return nil, err
-	}
-	// WAL lets the UI read while a scan writes; busy_timeout covers the rest.
-	dsn := "file:" + filepath.Join(dir, "modwatch.db") + "?_pragma=journal_mode(WAL)&_pragma=busy_timeout(5000)&_pragma=foreign_keys(1)"
-	conn, err := sql.Open("sqlite", dsn)
+// Open connects to Postgres at url, waits until it answers, and applies any pending migrations.
+// The CloudNativePG operator hands the app a URL in the <cluster>-app secret, key "uri".
+func Open(ctx context.Context, url string) (*sql.DB, error) {
+	conn, err := sql.Open("pgx", url)
 	if err != nil {
+		return nil, fmt.Errorf("opening database: %w", err)
+	}
+	conn.SetMaxOpenConns(10)
+	conn.SetConnMaxLifetime(30 * time.Minute)
+
+	// The database can start a few seconds after the pod, so retry before giving up.
+	if err := ping(ctx, conn); err != nil {
+		_ = conn.Close()
 		return nil, err
 	}
-	// One writer at a time is all SQLite allows anyway, and this keeps the pragmas on every connection.
-	conn.SetMaxOpenConns(1)
 	if err := migrateUp(conn); err != nil {
 		_ = conn.Close()
 		return nil, err
@@ -41,16 +43,38 @@ func Open(dir string) (*sql.DB, error) {
 	return conn, nil
 }
 
-func migrateUp(conn *sql.DB) error {
+func ping(ctx context.Context, conn *sql.DB) error {
+	var err error
+	for attempt := 0; attempt < 15; attempt++ {
+		pingCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+		err = conn.PingContext(pingCtx)
+		cancel()
+		if err == nil {
+			return nil
+		}
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("pinging database: %w", ctx.Err())
+		case <-time.After(2 * time.Second):
+		}
+	}
+	return fmt.Errorf("pinging database: %w", err)
+}
+
+func newMigrator(conn *sql.DB) (*migrate.Migrate, error) {
 	src, err := iofs.New(migrations, "migrations")
 	if err != nil {
-		return err
+		return nil, err
 	}
-	driver, err := sqlite.WithInstance(conn, &sqlite.Config{})
+	driver, err := migratepgx.WithInstance(conn, &migratepgx.Config{})
 	if err != nil {
-		return err
+		return nil, err
 	}
-	m, err := migrate.NewWithInstance("iofs", src, "sqlite", driver)
+	return migrate.NewWithInstance("iofs", src, "pgx5", driver)
+}
+
+func migrateUp(conn *sql.DB) error {
+	m, err := newMigrator(conn)
 	if err != nil {
 		return err
 	}

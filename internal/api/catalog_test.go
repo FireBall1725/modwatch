@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/config"
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/repository"
@@ -21,11 +21,7 @@ import (
 
 func catalogServer(t *testing.T) http.Handler {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	now := time.Now()
 	p := models.Poll{StartedAt: now.Add(-time.Second), FinishedAt: now}
@@ -77,8 +73,7 @@ func TestCatalogShape(t *testing.T) {
 }
 
 func TestCatalogEmptyListsAreNotNull(t *testing.T) {
-	conn, _ := db.Open(t.TempDir())
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	cfg := &config.Config{}
 	h := NewRouter(cfg, repository.New(conn), poll.New(context.Background(), cfg, repository.New(conn), noSource{}, nil))
 	body := get(t, h, "/api/v1/catalog").Body.String()
@@ -190,5 +185,31 @@ func TestCatalogPutLegacy(t *testing.T) {
 		if rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", body); rec.Code != http.StatusBadRequest {
 			t.Errorf("%s: status = %d", body, rec.Code)
 		}
+	}
+}
+
+func TestLegacyModsHideUnlessAskedAndStayInMetrics(t *testing.T) {
+	h := catalogServer(t)
+	if rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", `{"legacy":true}`); rec.Code != http.StatusOK {
+		t.Fatalf("put = %d %s", rec.Code, rec.Body)
+	}
+	slugs := func(path string) string {
+		var mods []modSummary
+		if err := json.Unmarshal(get(t, h, path).Body.Bytes(), &mods); err != nil {
+			t.Fatal(err)
+		}
+		return names(mods)
+	}
+	if got := slugs("/api/v1/mods"); strings.Contains(got, "firecorelib") {
+		t.Errorf("default list = %q, must leave the legacy mod out", got)
+	}
+	if got := slugs("/api/v1/mods?legacy=1"); !strings.Contains(got, "firecorelib") {
+		t.Errorf("?legacy=1 list = %q, must include it", got)
+	}
+	if rec := get(t, h, "/api/v1/mods/firecorelib"); rec.Code != http.StatusOK {
+		t.Errorf("a legacy mod's own page = %d, want 200", rec.Code)
+	}
+	if !strings.Contains(get(t, h, "/metrics").Body.String(), `slug="firecorelib"`) {
+		t.Error("metrics must keep legacy mods; Prometheus wants every series")
 	}
 }

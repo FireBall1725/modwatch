@@ -40,7 +40,11 @@ func main() {
 	ctx, stop := context.WithCancel(context.Background())
 	defer stop()
 
-	conn, err := db.Open(cfg.DataDir)
+	if cfg.DatabaseURL == "" {
+		slog.Error("database", "error", "DATABASE_URL is not set")
+		os.Exit(1)
+	}
+	conn, err := db.Open(ctx, cfg.DatabaseURL)
 	if err != nil {
 		slog.Error("database", "error", err)
 		os.Exit(1)

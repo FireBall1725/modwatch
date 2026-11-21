@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/config"
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/providers/curseforge"
 	"github.com/fireball1725/modwatch/internal/providers/modrinth"
@@ -65,11 +65,7 @@ func newService(t *testing.T, src CurseForge) (*Service, *repository.Repo) {
 
 func newServiceWith(t *testing.T, src CurseForge, mr Modrinth) (*Service, *repository.Repo) {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	cfg := &config.Config{CurseForgeKey: "k", CurseForgeAuthorID: 1, ModrinthUser: "me"}
 	return New(context.Background(), cfg, repo, src, mr), repo
@@ -116,8 +112,7 @@ func TestRunRecordsAFailure(t *testing.T) {
 }
 
 func TestStartRefusesWithoutAKey(t *testing.T) {
-	conn, _ := db.Open(t.TempDir())
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	svc := New(context.Background(), &config.Config{}, repository.New(conn), fakeSource{}, nil)
 	if err := svc.Start(); !errors.Is(err, ErrNotConfigured) {
 		t.Errorf("err = %v", err)

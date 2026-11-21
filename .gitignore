@@ -11,7 +11,7 @@
 /web/node_modules/
 /web/*.tsbuildinfo
 
-# Local state: SQLite database, repo clone, bump worktrees
+# Local state: repo clone, bump worktrees
 /data/
 
 # Local env overrides

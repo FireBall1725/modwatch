@@ -6,6 +6,7 @@ package api
 import (
 	"reflect"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -52,7 +53,7 @@ func build(ds dataset) *view {
 	if ds.now.IsZero() {
 		ds.now = testNow
 	}
-	return newView(&ds)
+	return newView(&ds, true)
 }
 
 func itemKinds(items []attentionItem) []string {
@@ -663,4 +664,58 @@ func TestNoLoaderTotalCountsEachUntaggedFileOnce(t *testing.T) {
 	if empty := noLoaderTotal(nil); empty.Downloads != 0 || empty.Files != 0 {
 		t.Errorf("no files must give zeros, got %+v", empty)
 	}
+}
+
+// legacyData is one current mod and one legacy mod with a file each, in different Minecraft versions.
+func legacyData() dataset {
+	old := entry("old", "1", "")
+	old.Legacy = true
+	return dataset{
+		stats: []models.PlatformStat{
+			proj("curseforge", "1", "old", models.StatusApproved, 900),
+			proj("curseforge", "2", "new", models.StatusApproved, 10),
+		},
+		entries: []models.CatalogEntry{old, entry("new", "2", "")},
+		files: []models.FileStat{
+			file("curseforge", "1", "f1", testNow.AddDate(-5, 0, 0), 900, "1.7.10"),
+			file("curseforge", "2", "f2", testNow.AddDate(0, 0, -1), 10, "26.1"),
+		},
+	}
+}
+
+func TestLegacyModsStayOutOfRollUpsUnlessAsked(t *testing.T) {
+	ds := legacyData()
+	hidden := newView(&ds, false)
+	if got := names(hidden.summaries()); got != "new" {
+		t.Errorf("mods = %q, want only the current mod", got)
+	}
+	vs := hidden.versions(nil, nil)
+	if len(vs.GameVersions) != 1 || vs.GameVersions[0].Name != "26.1" {
+		t.Errorf("versions = %+v, want only 26.1", vs.GameVersions)
+	}
+	if len(vs.Matrix.Rows) != 1 || vs.Matrix.Rows[0].Slug != "new" {
+		t.Errorf("matrix rows = %+v", vs.Matrix.Rows)
+	}
+	if got := hidden.releases(10); len(got) != 1 || got[0].ModSlug == nil || *got[0].ModSlug != "new" {
+		t.Errorf("releases = %+v, want only the current mod's", got)
+	}
+	if hidden.bySlug["old"] == nil {
+		t.Error("a legacy mod must still resolve by slug so its page opens")
+	}
+
+	shown := newView(&ds, true)
+	if got := names(shown.summaries()); got != "old,new" {
+		t.Errorf("mods = %q, want both, biggest first", got)
+	}
+	if n := len(shown.versions(nil, nil).GameVersions); n != 2 {
+		t.Errorf("versions = %d, want 2", n)
+	}
+}
+
+func names(ms []modSummary) string {
+	var out []string
+	for _, m := range ms {
+		out = append(out, m.Slug)
+	}
+	return strings.Join(out, ",")
 }

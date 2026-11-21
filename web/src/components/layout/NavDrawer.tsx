@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import Brand from './Brand'
+import LegacyToggle from './LegacyToggle'
 import { NavList } from './SideNav'
 
 /** Phone navigation: a native dialog that slides from the left, so focus is trapped and Escape closes it. Props: open, onClose. Closes itself when the route changes. */
@@ -44,6 +45,7 @@ export default function NavDrawer({ open, onClose }: { open: boolean; onClose: (
       <nav aria-label={t('nav.label')} className="px-3 py-3">
         <NavList showLabels onNavigate={onClose} />
       </nav>
+      <LegacyToggle className="block px-6 py-3" />
     </dialog>
   )
 }

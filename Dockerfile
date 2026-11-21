@@ -26,10 +26,8 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -trimpath \
 # Runtime. Needs CA certificates to reach api.curseforge.com; the time zone database is compiled in.
 FROM alpine:3.22
 RUN apk add --no-cache ca-certificates \
- && adduser -D -u 65532 -h /data modwatch
+ && adduser -D -H -u 65532 modwatch
 COPY --from=build /out/modwatch /usr/local/bin/modwatch
-ENV MODWATCH_DATA_DIR=/data
 USER 65532:65532
-WORKDIR /data
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/modwatch"]

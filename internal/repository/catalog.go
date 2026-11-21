@@ -71,7 +71,7 @@ func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 }
 
 func listEntries(ctx context.Context, q queryer) ([]models.CatalogEntry, error) {
-	rows, err := q.QueryContext(ctx, `SELECT `+entryColumns+` FROM catalog ORDER BY name COLLATE NOCASE, slug`)
+	rows, err := q.QueryContext(ctx, `SELECT `+entryColumns+` FROM catalog ORDER BY lower(name), slug`)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (r *Repo) ListCatalog(ctx context.Context) ([]models.CatalogEntry, error) {
 
 // GetCatalogEntry returns one entry or ErrNotFound.
 func (r *Repo) GetCatalogEntry(ctx context.Context, slug string) (models.CatalogEntry, error) {
-	e, err := scanEntry(r.db.QueryRowContext(ctx, `SELECT `+entryColumns+` FROM catalog WHERE slug = ?`, slug))
+	e, err := scanEntry(r.db.QueryRowContext(ctx, `SELECT `+entryColumns+` FROM catalog WHERE slug = $1`, slug))
 	if errors.Is(err, sql.ErrNoRows) {
 		return e, ErrNotFound
 	}
@@ -110,7 +110,7 @@ func (r *Repo) ListUnlinkedProjects(ctx context.Context) ([]models.UnlinkedProje
 		  AND NOT EXISTS (SELECT 1 FROM catalog c
 		       WHERE (p.platform = 'curseforge' AND CAST(c.curseforge_id AS TEXT) = p.id)
 		          OR (p.platform = 'modrinth' AND c.modrinth_id = p.id))
-		ORDER BY p.name COLLATE NOCASE, p.platform, p.id`)
+		ORDER BY lower(p.name), p.platform, p.id`)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +133,7 @@ func currentOwned(ctx context.Context, q queryer) ([]models.UnlinkedProject, err
 	rows, err := q.QueryContext(ctx, `
 		SELECT p.platform, p.id, p.slug, p.name, p.icon_url, p.url, p.owned
 		FROM platform_projects p
-		WHERE p.owned = 1
+		WHERE p.owned
 		  AND p.last_poll_id = (SELECT MAX(x.last_poll_id) FROM platform_projects x WHERE x.platform = p.platform)
 		ORDER BY p.platform, p.id`)
 	if err != nil {
@@ -153,7 +153,7 @@ func currentOwned(ctx context.Context, q queryer) ([]models.UnlinkedProject, err
 
 func lookupProject(ctx context.Context, q queryer, platform, id string) (projectRef, bool, error) {
 	var p projectRef
-	err := q.QueryRowContext(ctx, `SELECT slug, name FROM platform_projects WHERE platform = ? AND id = ?`, platform, id).Scan(&p.slug, &p.name)
+	err := q.QueryRowContext(ctx, `SELECT slug, name FROM platform_projects WHERE platform = $1 AND id = $2`, platform, id).Scan(&p.slug, &p.name)
 	if errors.Is(err, sql.ErrNoRows) {
 		return p, false, nil
 	}
@@ -214,11 +214,11 @@ func autoLink(ctx context.Context, q queryer) error {
 			e := &entries[target]
 			if p.Platform == PlatformCurseForge {
 				e.CurseForgeID = &cfID
-				_, err = q.ExecContext(ctx, `UPDATE catalog SET curseforge_id = ? WHERE slug = ?`, cfID, e.Slug)
+				_, err = q.ExecContext(ctx, `UPDATE catalog SET curseforge_id = $1 WHERE slug = $2`, cfID, e.Slug)
 			} else {
 				id := p.ID
 				e.ModrinthID = &id
-				_, err = q.ExecContext(ctx, `UPDATE catalog SET modrinth_id = ? WHERE slug = ?`, id, e.Slug)
+				_, err = q.ExecContext(ctx, `UPDATE catalog SET modrinth_id = $1 WHERE slug = $2`, id, e.Slug)
 			}
 			if err != nil {
 				return err
@@ -235,7 +235,7 @@ func autoLink(ctx context.Context, q queryer) error {
 			e.ModrinthID = &id
 		}
 		if _, err := q.ExecContext(ctx, `
-			INSERT INTO catalog (slug, name, curseforge_id, modrinth_id, github_label, hidden, legacy, auto) VALUES (?, ?, ?, ?, NULL, 0, 0, 1)`,
+			INSERT INTO catalog (slug, name, curseforge_id, modrinth_id, github_label, hidden, legacy, auto) VALUES ($1, $2, $3, $4, NULL, FALSE, FALSE, TRUE)`,
 			e.Slug, e.Name, e.CurseForgeID, e.ModrinthID); err != nil {
 			return err
 		}
@@ -331,7 +331,7 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	e, err := scanEntry(tx.QueryRowContext(ctx, `SELECT `+entryColumns+` FROM catalog WHERE slug = ?`, slug))
+	e, err := scanEntry(tx.QueryRowContext(ctx, `SELECT `+entryColumns+` FROM catalog WHERE slug = $1`, slug))
 	if errors.Is(err, sql.ErrNoRows) {
 		return e, ErrNotFound
 	}
@@ -371,9 +371,9 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 				return e, invalid("no CurseForge project with id %s", id)
 			}
 			var holder string
-			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE curseforge_id = ? AND slug <> ?`, *e.CurseForgeID, slug).Scan(&holder)
+			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE curseforge_id = $1 AND slug <> $2`, *e.CurseForgeID, slug).Scan(&holder)
 			if err == nil {
-				if _, err := tx.ExecContext(ctx, `UPDATE catalog SET curseforge_id = NULL WHERE slug = ?`, holder); err != nil {
+				if _, err := tx.ExecContext(ctx, `UPDATE catalog SET curseforge_id = NULL WHERE slug = $1`, holder); err != nil {
 					return e, err
 				}
 				donors = append(donors, holder)
@@ -391,9 +391,9 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 				return e, invalid("no Modrinth project with id %s", *e.ModrinthID)
 			}
 			var holder string
-			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE modrinth_id = ? AND slug <> ?`, *e.ModrinthID, slug).Scan(&holder)
+			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE modrinth_id = $1 AND slug <> $2`, *e.ModrinthID, slug).Scan(&holder)
 			if err == nil {
-				if _, err := tx.ExecContext(ctx, `UPDATE catalog SET modrinth_id = NULL WHERE slug = ?`, holder); err != nil {
+				if _, err := tx.ExecContext(ctx, `UPDATE catalog SET modrinth_id = NULL WHERE slug = $1`, holder); err != nil {
 					return e, err
 				}
 				donors = append(donors, holder)
@@ -420,7 +420,7 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 			}
 			e.GitHubLabel = &label
 			var holder string
-			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE lower(github_label) = lower(?) AND slug <> ?`, label, slug).Scan(&holder)
+			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE lower(github_label) = lower($1) AND slug <> $2`, label, slug).Scan(&holder)
 			if err == nil {
 				return e, invalid("label %q is already linked to %s", label, holder)
 			} else if !errors.Is(err, sql.ErrNoRows) {
@@ -433,12 +433,12 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 	// An edit that clears every link leaves nothing to show; drop the entry so a relink can reuse its slug.
 	if e.CurseForgeID == nil && e.ModrinthID == nil && e.GitHubLabel == nil &&
 		(u.CurseForgeID.Set || u.ModrinthID.Set || u.GitHubLabel.Set) {
-		if _, err := tx.ExecContext(ctx, `DELETE FROM catalog WHERE slug = ?`, slug); err != nil {
+		if _, err := tx.ExecContext(ctx, `DELETE FROM catalog WHERE slug = $1`, slug); err != nil {
 			return e, err
 		}
 		for _, d := range donors {
 			if _, err := tx.ExecContext(ctx, `
-				DELETE FROM catalog WHERE slug = ? AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
+				DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
 				return e, err
 			}
 		}
@@ -448,13 +448,13 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		return e, nil
 	}
 	if _, err := tx.ExecContext(ctx, `
-		UPDATE catalog SET name = ?, curseforge_id = ?, modrinth_id = ?, github_label = ?, hidden = ?, legacy = ?, auto = 0 WHERE slug = ?`,
+		UPDATE catalog SET name = $1, curseforge_id = $2, modrinth_id = $3, github_label = $4, hidden = $5, legacy = $6, auto = FALSE WHERE slug = $7`,
 		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.Hidden, e.Legacy, slug); err != nil {
 		return e, err
 	}
 	for _, d := range donors {
 		if _, err := tx.ExecContext(ctx, `
-			DELETE FROM catalog WHERE slug = ? AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
+			DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
 			return e, err
 		}
 	}

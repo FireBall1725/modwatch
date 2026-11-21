@@ -20,14 +20,20 @@ type Repo struct {
 
 func New(db *sql.DB) *Repo { return &Repo{db: db} }
 
-// ts is fixed width and always UTC. RFC3339Nano trims trailing zeros, which breaks sorting times as text.
-const ts = "2006-01-02T15:04:05.000Z"
+// tz is a time as a query argument: UTC, trimmed to the millisecond the dashboard shows, and NULL when unset.
+func tz(t time.Time) any {
+	if t.IsZero() {
+		return nil
+	}
+	return t.UTC().Truncate(time.Millisecond)
+}
 
-func format(t time.Time) string { return t.UTC().Format(ts) }
-
-func parseTime(s string) time.Time {
-	t, _ := time.Parse(ts, s)
-	return t
+// fromNull is the time a nullable column held, or the zero time when it was NULL.
+func fromNull(n sql.NullTime) time.Time {
+	if !n.Valid {
+		return time.Time{}
+	}
+	return n.Time.UTC()
 }
 
 // keepFailedPolls is how many failed polls the history keeps; successful ones are the snapshot trail and stay.
@@ -48,13 +54,10 @@ func (r *Repo) SavePollWithProjects(ctx context.Context, p models.Poll, readings
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	res, err := tx.ExecContext(ctx, `
-		INSERT INTO polls (started_at, finished_at, state, error, mods) VALUES (?, ?, ?, '', ?)`,
-		format(p.StartedAt), format(p.FinishedAt), models.PollOK, len(readings))
-	if err != nil {
-		return 0, err
-	}
-	id, err := res.LastInsertId()
+	var id int64
+	err = tx.QueryRowContext(ctx, `
+		INSERT INTO polls (started_at, finished_at, state, error, mods) VALUES ($1, $2, $3, '', $4) RETURNING id`,
+		tz(p.StartedAt), tz(p.FinishedAt), string(models.PollOK), len(readings)).Scan(&id)
 	if err != nil {
 		return 0, err
 	}
@@ -62,19 +65,19 @@ func (r *Repo) SavePollWithProjects(ctx context.Context, p models.Poll, readings
 	for _, rd := range readings {
 		if _, err := tx.ExecContext(ctx, `
 			INSERT INTO mods (id, slug, name, summary, logo_url, website_url, owned, date_created, date_modified, last_poll_id)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 			ON CONFLICT (id) DO UPDATE SET
 				slug = excluded.slug, name = excluded.name, summary = excluded.summary,
 				logo_url = excluded.logo_url, website_url = excluded.website_url, owned = excluded.owned,
 				date_created = excluded.date_created, date_modified = excluded.date_modified,
 				last_poll_id = excluded.last_poll_id`,
 			rd.ID, rd.Slug, rd.Name, rd.Summary, rd.LogoURL, rd.WebsiteURL, rd.Owned,
-			format(rd.DateCreated), format(rd.DateModified), id); err != nil {
+			tz(rd.DateCreated), tz(rd.DateModified), id); err != nil {
 			return 0, err
 		}
 		if _, err := tx.ExecContext(ctx, `
-			INSERT INTO download_snapshots (mod_id, poll_id, taken_at, download_count) VALUES (?, ?, ?, ?)`,
-			rd.ID, id, format(p.FinishedAt), rd.Downloads); err != nil {
+			INSERT INTO download_snapshots (mod_id, poll_id, taken_at, download_count) VALUES ($1, $2, $3, $4)`,
+			rd.ID, id, tz(p.FinishedAt), rd.Downloads); err != nil {
 			return 0, err
 		}
 	}
@@ -116,41 +119,33 @@ func saveFile(ctx context.Context, tx *sql.Tx, pollID int64, at time.Time, f mod
 	if err != nil {
 		return err
 	}
-	published := ""
-	if !f.PublishedAt.IsZero() {
-		published = format(f.PublishedAt)
-	}
 	if _, err := tx.ExecContext(ctx, `
 		INSERT INTO files (source, id, project_id, project_slug, project_name, name, version, release_type,
 		                   game_versions, loaders, published_at, last_poll_id)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 		ON CONFLICT (source, id) DO UPDATE SET
 			project_id = excluded.project_id, project_slug = excluded.project_slug, project_name = excluded.project_name,
 			name = excluded.name, version = excluded.version, release_type = excluded.release_type,
 			game_versions = excluded.game_versions, loaders = excluded.loaders, published_at = excluded.published_at,
 			last_poll_id = excluded.last_poll_id`,
 		f.Source, f.ID, f.ProjectID, f.ProjectSlug, f.ProjectName, f.Name, f.Version, f.ReleaseType,
-		string(gv), string(lo), published, pollID); err != nil {
+		string(gv), string(lo), tz(f.PublishedAt), pollID); err != nil {
 		return err
 	}
 	_, err = tx.ExecContext(ctx, `
-		INSERT INTO file_snapshots (source, file_id, poll_id, taken_at, download_count) VALUES (?, ?, ?, ?, ?)`,
-		f.Source, f.ID, pollID, format(at), f.Downloads)
+		INSERT INTO file_snapshots (source, file_id, poll_id, taken_at, download_count) VALUES ($1, $2, $3, $4, $5)`,
+		f.Source, f.ID, pollID, tz(at), f.Downloads)
 	return err
 }
 
 func saveSourceStatus(ctx context.Context, tx *sql.Tx, st models.SourceStatus) error {
-	lastOK := ""
-	if !st.LastOKAt.IsZero() {
-		lastOK = format(st.LastOKAt)
-	}
-	// A failed check leaves last_ok_at alone; an empty value on a failure means "keep the old one".
+	// A failed check leaves last_ok_at alone; no value on a failure means "keep the old one".
 	_, err := tx.ExecContext(ctx, `
-		INSERT INTO source_status (source, ok, error, detail, checked_at, last_ok_at) VALUES (?, ?, ?, ?, ?, ?)
+		INSERT INTO source_status (source, ok, error, detail, checked_at, last_ok_at) VALUES ($1, $2, $3, $4, $5, $6)
 		ON CONFLICT (source) DO UPDATE SET
 			ok = excluded.ok, error = excluded.error, detail = excluded.detail, checked_at = excluded.checked_at,
-			last_ok_at = CASE WHEN excluded.last_ok_at = '' THEN source_status.last_ok_at ELSE excluded.last_ok_at END`,
-		st.Source, st.OK, st.Error, st.Detail, format(st.CheckedAt), lastOK)
+			last_ok_at = COALESCE(excluded.last_ok_at, source_status.last_ok_at)`,
+		st.Source, st.OK, st.Error, st.Detail, tz(st.CheckedAt), tz(st.LastOKAt))
 	return err
 }
 
@@ -169,8 +164,8 @@ func (r *Repo) SaveFailedPoll(ctx context.Context, p models.Poll, statuses []mod
 	}
 	defer func() { _ = tx.Rollback() }()
 	if _, err := tx.ExecContext(ctx, `
-		INSERT INTO polls (started_at, finished_at, state, error, mods) VALUES (?, ?, ?, ?, 0)`,
-		format(p.StartedAt), format(p.FinishedAt), models.PollError, p.Error); err != nil {
+		INSERT INTO polls (started_at, finished_at, state, error, mods) VALUES ($1, $2, $3, $4, 0)`,
+		tz(p.StartedAt), tz(p.FinishedAt), string(models.PollError), p.Error); err != nil {
 		return err
 	}
 	for _, st := range statuses {
@@ -179,9 +174,9 @@ func (r *Repo) SaveFailedPoll(ctx context.Context, p models.Poll, statuses []mod
 		}
 	}
 	_, err = tx.ExecContext(ctx, `
-		DELETE FROM polls WHERE state = ? AND id NOT IN (
-			SELECT id FROM polls WHERE state = ? ORDER BY id DESC LIMIT ?)`,
-		models.PollError, models.PollError, keepFailedPolls)
+		DELETE FROM polls WHERE state = $1 AND id NOT IN (
+			SELECT id FROM polls WHERE state = $1 ORDER BY id DESC LIMIT $2)`,
+		string(models.PollError), keepFailedPolls)
 	if err != nil {
 		return err
 	}
@@ -200,7 +195,7 @@ func (r *Repo) LatestOKPoll(ctx context.Context) (*models.Poll, error) {
 
 func (r *Repo) onePoll(ctx context.Context, query string) (*models.Poll, error) {
 	var p models.Poll
-	var started, finished string
+	var started, finished sql.NullTime
 	err := r.db.QueryRowContext(ctx, query).Scan(&p.ID, &started, &finished, &p.State, &p.Error, &p.Mods)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, nil
@@ -208,7 +203,7 @@ func (r *Repo) onePoll(ctx context.Context, query string) (*models.Poll, error) 
 	if err != nil {
 		return nil, err
 	}
-	p.StartedAt, p.FinishedAt = parseTime(started), parseTime(finished)
+	p.StartedAt, p.FinishedAt = fromNull(started), fromNull(finished)
 	return &p, nil
 }
 
@@ -219,14 +214,14 @@ func (r *Repo) ListModStats(ctx context.Context, now time.Time) ([]models.ModSta
 		SELECT m.id, m.slug, m.name, m.summary, m.logo_url, m.website_url, m.owned, m.date_created, m.date_modified,
 		       s.download_count,
 		       (SELECT p.download_count FROM download_snapshots p
-		         WHERE p.mod_id = m.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1),
+		         WHERE p.mod_id = m.id AND p.taken_at <= $1 ORDER BY p.taken_at DESC LIMIT 1),
 		       (SELECT p.download_count FROM download_snapshots p
-		         WHERE p.mod_id = m.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1)
+		         WHERE p.mod_id = m.id AND p.taken_at <= $2 ORDER BY p.taken_at DESC LIMIT 1)
 		FROM mods m
 		JOIN download_snapshots s ON s.mod_id = m.id AND s.poll_id = m.last_poll_id
 		WHERE m.last_poll_id = (SELECT id FROM polls WHERE state = 'ok' ORDER BY id DESC LIMIT 1)
 		ORDER BY s.download_count DESC, m.name`,
-		format(now.Add(-24*time.Hour)), format(now.Add(-7*24*time.Hour)))
+		tz(now.Add(-24*time.Hour)), tz(now.Add(-7*24*time.Hour)))
 	if err != nil {
 		return nil, err
 	}
@@ -235,13 +230,13 @@ func (r *Repo) ListModStats(ctx context.Context, now time.Time) ([]models.ModSta
 	out := []models.ModStat{}
 	for rows.Next() {
 		var s models.ModStat
-		var created, modified string
+		var created, modified sql.NullTime
 		var d1, d7 sql.NullInt64
 		if err := rows.Scan(&s.ID, &s.Slug, &s.Name, &s.Summary, &s.LogoURL, &s.WebsiteURL, &s.Owned,
 			&created, &modified, &s.Downloads, &d1, &d7); err != nil {
 			return nil, err
 		}
-		s.DateCreated, s.DateModified = parseTime(created), parseTime(modified)
+		s.DateCreated, s.DateModified = fromNull(created), fromNull(modified)
 		if d1.Valid {
 			v := s.Downloads - d1.Int64
 			s.Delta24h = &v
@@ -258,12 +253,10 @@ func (r *Repo) ListModStats(ctx context.Context, now time.Time) ([]models.ModSta
 // History returns the last snapshot of each UTC day since the given time, oldest first, for every mod.
 func (r *Repo) History(ctx context.Context, since time.Time) (map[int][]models.Snapshot, error) {
 	rows, err := r.db.QueryContext(ctx, `
-		SELECT s.mod_id, s.taken_at, s.download_count
-		FROM download_snapshots s
-		JOIN (SELECT mod_id, MAX(taken_at) AS last FROM download_snapshots
-		      WHERE taken_at >= ? GROUP BY mod_id, substr(taken_at, 1, 10)) d
-		  ON d.mod_id = s.mod_id AND d.last = s.taken_at
-		ORDER BY s.mod_id, s.taken_at`, format(since))
+		SELECT DISTINCT ON (mod_id, (taken_at AT TIME ZONE 'UTC')::date) mod_id, taken_at, download_count
+		FROM download_snapshots
+		WHERE taken_at >= $1
+		ORDER BY mod_id, (taken_at AT TIME ZONE 'UTC')::date, taken_at DESC`, tz(since))
 	if err != nil {
 		return nil, err
 	}
@@ -272,12 +265,12 @@ func (r *Repo) History(ctx context.Context, since time.Time) (map[int][]models.S
 	out := map[int][]models.Snapshot{}
 	for rows.Next() {
 		var id int
-		var at string
+		var at time.Time
 		var n int64
 		if err := rows.Scan(&id, &at, &n); err != nil {
 			return nil, err
 		}
-		out[id] = append(out[id], models.Snapshot{At: parseTime(at), Downloads: n})
+		out[id] = append(out[id], models.Snapshot{At: at.UTC(), Downloads: n})
 	}
 	return out, rows.Err()
 }
@@ -290,14 +283,14 @@ func (r *Repo) ListFileStats(ctx context.Context, now time.Time) ([]models.FileS
 		SELECT f.source, f.id, f.project_id, f.project_slug, f.project_name, f.name, f.version, f.release_type,
 		       f.game_versions, f.loaders, f.published_at, s.download_count,
 		       (SELECT p.download_count FROM file_snapshots p
-		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1),
+		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= $1 ORDER BY p.taken_at DESC LIMIT 1),
 		       (SELECT p.download_count FROM file_snapshots p
-		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1)
+		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= $2 ORDER BY p.taken_at DESC LIMIT 1)
 		FROM files f
 		JOIN file_snapshots s ON s.source = f.source AND s.file_id = f.id AND s.poll_id = f.last_poll_id
 		WHERE f.last_poll_id = (SELECT MAX(x.last_poll_id) FROM files x WHERE x.source = f.source AND x.project_id = f.project_id)
 		ORDER BY s.download_count DESC, f.project_name, f.version`,
-		format(now.Add(-24*time.Hour)), format(now.Add(-7*24*time.Hour)))
+		tz(now.Add(-24*time.Hour)), tz(now.Add(-7*24*time.Hour)))
 	if err != nil {
 		return nil, err
 	}
@@ -306,19 +299,20 @@ func (r *Repo) ListFileStats(ctx context.Context, now time.Time) ([]models.FileS
 	out := []models.FileStat{}
 	for rows.Next() {
 		var s models.FileStat
-		var gv, lo, published string
+		var gv, lo []byte
+		var published sql.NullTime
 		var d1, d7 sql.NullInt64
 		if err := rows.Scan(&s.Source, &s.ID, &s.ProjectID, &s.ProjectSlug, &s.ProjectName, &s.Name, &s.Version, &s.ReleaseType,
 			&gv, &lo, &published, &s.Downloads, &d1, &d7); err != nil {
 			return nil, err
 		}
-		if err := json.Unmarshal([]byte(gv), &s.GameVersions); err != nil || s.GameVersions == nil {
+		if err := json.Unmarshal(gv, &s.GameVersions); err != nil || s.GameVersions == nil {
 			s.GameVersions = []string{}
 		}
-		if err := json.Unmarshal([]byte(lo), &s.Loaders); err != nil || s.Loaders == nil {
+		if err := json.Unmarshal(lo, &s.Loaders); err != nil || s.Loaders == nil {
 			s.Loaders = []string{}
 		}
-		s.PublishedAt = parseTime(published)
+		s.PublishedAt = fromNull(published)
 		if d1.Valid {
 			v := s.Downloads - d1.Int64
 			s.Delta24h = &v
@@ -343,11 +337,11 @@ func (r *Repo) ListSourceStatuses(ctx context.Context) ([]models.SourceStatus, e
 	out := []models.SourceStatus{}
 	for rows.Next() {
 		var st models.SourceStatus
-		var checked, lastOK string
+		var checked, lastOK sql.NullTime
 		if err := rows.Scan(&st.Source, &st.OK, &st.Error, &st.Detail, &checked, &lastOK); err != nil {
 			return nil, err
 		}
-		st.CheckedAt, st.LastOKAt = parseTime(checked), parseTime(lastOK)
+		st.CheckedAt, st.LastOKAt = fromNull(checked), fromNull(lastOK)
 		out = append(out, st)
 	}
 	return out, rows.Err()

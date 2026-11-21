@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/config"
-	"github.com/fireball1725/modwatch/internal/db"
+	"github.com/fireball1725/modwatch/internal/db/dbtest"
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/repository"
@@ -20,11 +20,7 @@ import (
 
 func issuesServer(t *testing.T) (http.Handler, *repository.Repo) {
 	t.Helper()
-	conn, err := db.Open(t.TempDir())
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { _ = conn.Close() })
+	conn := dbtest.Open(t)
 	repo := repository.New(conn)
 	ctx := context.Background()
 	now := time.Now().UTC().Truncate(time.Second)

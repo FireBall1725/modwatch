@@ -5,13 +5,13 @@ What exists, what's next, and the decisions that shape it.
 ## Done
 
 - Poll CurseForge hourly for every mod the author is a member of, mark the ones they own, store a snapshot per mod per poll.
-- JSON API, Prometheus endpoint and the React dashboard, all in one binary with one SQLite file.
+- JSON API, Prometheus endpoint and the React dashboard, all in one binary, backed by a CloudNativePG Postgres cluster.
 - Per-file downloads from CurseForge (owned mods) and Modrinth, with the Minecraft versions and loaders each file targets, and roll-ups by version and loader. CurseForge's per-file counts don't sum to the mod total.
-- Chart in homelab-applications with a ServiceMonitor, two alerts (poll failing, polls stale), an internal-only ingress and a Longhorn volume. A debug-namespace run confirmed Prometheus scrapes it and the series are queryable.
+- Chart in homelab-applications with a ServiceMonitor, alerts, an internal-only ingress and a CloudNativePG cluster. A debug-namespace run confirmed Prometheus scrapes it and the series are queryable.
 
 ## Decisions
 
-**SQLite, not Postgres.** One pod, and 14 mods at one snapshot an hour is about 120,000 rows a year, which SQLite handles without noticing. See house-style, "Single-pod tools may use SQLite".
+**Postgres on CloudNativePG.** It started on SQLite, since 14 mods at one snapshot an hour is only about 120,000 rows a year. The history can't be rebuilt, though, and the cluster runs every other app on CloudNativePG, so this one gets the same operator, metrics and backup options. Times are `TIMESTAMPTZ` and the file and issue label lists are `JSONB`.
 
 **History is built here.** The Core API returns lifetime totals and nothing older, so a snapshot per poll is the only way to get daily and weekly movement. It also means history starts the day this is deployed and can't be backfilled.
 

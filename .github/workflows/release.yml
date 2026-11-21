@@ -39,6 +39,8 @@ jobs:
     permissions:
       contents: write
       packages: write
+      # git-cliff lists PRs for the release notes; a private repo refuses that without this.
+      pull-requests: read
     uses: FireBall1725/workflows/.github/workflows/release-container.yml@v1
     with:
       image: ghcr.io/fireball1725/modwatch

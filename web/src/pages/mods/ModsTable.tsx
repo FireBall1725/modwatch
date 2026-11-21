@@ -25,13 +25,13 @@ interface Col {
 
 const COLS: Col[] = [
   { key: 'mod', sort: 'name' },
-  { key: 'curseforge', sort: 'curseforge', width: '8.5rem' },
-  { key: 'modrinth', sort: 'modrinth', width: '8.5rem' },
-  { key: 'issues', sort: 'issues', width: '7rem' },
-  { key: 'downloads', sort: 'downloads', align: 'right', width: '7rem', note: true },
-  { key: 'delta7d', sort: 'delta7d', align: 'right', width: '6.5rem', note: true },
-  { key: 'release', sort: 'release', show: 'hidden xl:table-cell', width: '11rem' },
-  { key: 'minecraft', sort: 'minecraft', show: 'hidden xl:table-cell', width: '9rem' },
+  { key: 'curseforge', sort: 'curseforge', width: '11.5rem' },
+  { key: 'modrinth', sort: 'modrinth', width: '11.5rem' },
+  { key: 'issues', sort: 'issues', width: '8rem' },
+  { key: 'downloads', sort: 'downloads', align: 'right', width: '9rem', note: true },
+  { key: 'delta7d', sort: 'delta7d', align: 'right', width: '8rem', note: true },
+  { key: 'release', sort: 'release', show: 'hidden xl:table-cell', width: '10rem' },
+  { key: 'minecraft', sort: 'minecraft', show: 'hidden xl:table-cell', width: '9.5rem' },
 ]
 
 interface Props {
@@ -82,9 +82,9 @@ export default function ModsTable({ mods, sort, dir, onSort }: Props) {
                   <button
                     type="button"
                     onClick={() => c.sort && toggle(c.sort)}
-                    className={cx('inline-flex min-h-8 cursor-pointer items-center gap-1 py-1.5 uppercase hover:text-ink', c.align === 'right' && 'flex-row-reverse text-right', active && 'text-ink')}
+                    className={cx('inline-flex min-h-8 cursor-pointer items-center gap-1 py-1.5 uppercase hover:text-ink', active && 'text-ink')}
                   >
-                    <span className="flex flex-col leading-tight">
+                    <span className={cx('flex flex-col leading-tight', c.align === 'right' ? 'items-end' : 'items-start')}>
                       {t(`columns.${c.key}`)}
                       {c.note && <span className="text-2xs font-normal tracking-normal text-faint normal-case">{t(`columns.${c.key}Note`)}</span>}
                     </span>

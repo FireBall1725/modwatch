@@ -1,0 +1,35 @@
+# Modwatch on SQLite: one container, and the data in a named volume.
+#
+#   cp .env.example .env     # then fill it in
+#   docker compose up -d
+#
+# The dashboard is at http://localhost:8080.
+
+services:
+  modwatch:
+    image: ghcr.io/fireball1725/modwatch:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      CURSEFORGE_API_KEY: ${CURSEFORGE_API_KEY:?set it in .env}
+      CURSEFORGE_AUTHOR_ID: ${CURSEFORGE_AUTHOR_ID:?set it in .env}
+      # Optional. Leave them out and set them on the Settings page instead if you prefer.
+      MODRINTH_USER: ${MODRINTH_USER:-}
+      MODRINTH_TOKEN: ${MODRINTH_TOKEN:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_ISSUES_REPO: ${GITHUB_ISSUES_REPO:-}
+      # The image already points DATABASE_URL at /data/modwatch.db. It is written out here so it is easy to find.
+      DATABASE_URL: sqlite:///data/modwatch.db
+    volumes:
+      # A named volume keeps the file between updates. The image owns /data, so the container can write to it.
+      # If you swap this for a folder on the host, run: chown 65532:65532 <folder>
+      - modwatch-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  modwatch-data:

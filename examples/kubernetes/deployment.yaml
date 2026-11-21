@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modwatch
+  labels:
+    app.kubernetes.io/name: modwatch
+spec:
+  # One replica: the poller runs inside the app, and two would poll twice.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: modwatch
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: modwatch
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: modwatch
+          # Pin a version, such as 26.11.0, once you run it for real.
+          image: ghcr.io/fireball1725/modwatch:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-db-app
+                  key: uri
+            - name: CURSEFORGE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-keys
+                  key: curseforge-api-key
+            - name: CURSEFORGE_AUTHOR_ID
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-keys
+                  key: curseforge-author-id
+            # Optional. Remove the ones you don't use, or set them on the Settings page.
+            - name: MODRINTH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-keys
+                  key: modrinth-user
+                  optional: true
+            - name: MODRINTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-keys
+                  key: modrinth-token
+                  optional: true
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: modwatch-keys
+                  key: github-token
+                  optional: true
+            - name: GITHUB_ISSUES_REPO
+              value: ""
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

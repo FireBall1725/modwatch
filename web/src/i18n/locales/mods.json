@@ -28,6 +28,7 @@
     "minecraft": "Minecraft version",
     "minecraftAny": "Any Minecraft version",
     "issues": "Has open issues",
+    "hideLegacy": "Hide legacy mods",
     "members": "Show member mods",
     "membersHint": "Mods you contribute to but don't own",
     "clear": "Clear filters",
@@ -36,11 +37,13 @@
   },
   "columns": {
     "mod": "Mod",
-    "curseforge": "CurseForge",
-    "modrinth": "Modrinth",
+    "curseforge": "CurseForge status",
+    "modrinth": "Modrinth status",
     "issues": "Open issues",
     "downloads": "Downloads",
+    "downloadsNote": "both platforms",
     "delta7d": "7 days",
+    "delta7dNote": "all platforms",
     "release": "Latest release",
     "minecraft": "Minecraft"
   },
@@ -62,7 +65,8 @@
   "cell": {
     "member": "Member",
     "memberTitle": "You are a member of this project, not the owner",
-    "notPublished": "Not published",
+    "legacy": "Legacy",
+    "legacyTitle": "Marked legacy: no longer expected to follow the newest Minecraft version",
     "queued_one": "In queue {{count}} day",
     "queued_other": "In queue {{count}} days",
     "message": "Moderator message",

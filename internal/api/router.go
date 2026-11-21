@@ -35,7 +35,7 @@ func NewRouter(cfg *config.Config, repo *repository.Repo, polls *poll.Service) h
 	mux.HandleFunc("GET /api/v1/catalog", h.getCatalog)
 	mux.HandleFunc("PUT /api/v1/catalog/{slug}", h.updateCatalogEntry)
 	mux.HandleFunc("POST /api/v1/catalog/relink", h.relinkCatalog)
-	mux.Handle("/api/", http.NotFoundHandler())
+	mux.HandleFunc("/api/", func(w http.ResponseWriter, _ *http.Request) { writeError(w, http.StatusNotFound, "not found") })
 
 	mux.Handle("/", ui.Handler())
 	return mux

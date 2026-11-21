@@ -2,7 +2,8 @@
 // Copyright (C) 2026 FireBall1725
 
 import { useTranslation } from 'react-i18next'
-import DeltaText from './LabelledDelta'
+import DeltaText from '../../components/ui/DeltaText'
+import Icon from '../../components/ui/Icon'
 import KpiCard from '../../components/ui/KpiCard'
 import ProgressBar from '../../components/ui/ProgressBar'
 import { formatCompact, formatCount } from '../../lib/format'
@@ -38,10 +39,17 @@ export default function KpiStrip({ data }: { data: Overview }) {
                 { key: 'mr', label: tc('platform.modrinth'), value: d.modrinth, color: 'var(--color-mr)', pattern: 1 },
               ]}
             />
-            <div className="flex flex-wrap gap-x-5 gap-y-1">
-              <DeltaText value={d.delta24h} suffix={t('kpi.last24h')} />
-              <DeltaText value={d.delta7d} suffix={t('kpi.last7d')} />
-            </div>
+            {d.delta24h === null && d.delta7d === null ? (
+              <p className="flex items-start gap-1.5 text-xs text-muted">
+                <Icon name="info" size={14} className="mt-0.5 shrink-0 text-faint" />
+                <span>{t('kpi.needsHistory')}</span>
+              </p>
+            ) : (
+              <div className="flex flex-wrap gap-x-5 gap-y-1">
+                <DeltaText value={d.delta24h} suffix={t('kpi.last24h')} />
+                <DeltaText value={d.delta7d} suffix={t('kpi.last7d')} />
+              </div>
+            )}
           </div>
         }
       />

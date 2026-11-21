@@ -29,7 +29,7 @@ function plat(platform: 'curseforge' | 'modrinth', status: ReviewStatus, extra: 
 
 function mod(slug: string, o: Partial<ModSummary> = {}): ModSummary {
   return {
-    slug, name: slug, iconUrl: '', summary: '', owned: true,
+    slug, name: slug, iconUrl: '', summary: '', owned: true, legacy: false,
     curseforge: plat('curseforge', 'approved'), modrinth: plat('modrinth', 'approved'), github: null,
     downloads: { total: 100, curseforge: 60, modrinth: 40, delta24h: null, delta7d: 5 },
     latestRelease: null, minecraftVersions: ['1.21.1'], loaders: [], health: 'ok', attention: [], ...o,
@@ -107,6 +107,14 @@ describe('filtering', () => {
     expect(filterMods(mods, { ...DEFAULT_QUERY, issues: true }).map((m) => m.slug)).toEqual(['alpha', 'bravo'])
   })
 
+  it('hides legacy mods only when asked, and keeps that in the URL', () => {
+    const list = [mod('old', { legacy: true }), mod('new')]
+    expect(filterMods(list, DEFAULT_QUERY).map((m) => m.slug)).toEqual(['old', 'new'])
+    expect(filterMods(list, { ...DEFAULT_QUERY, hideLegacy: true }).map((m) => m.slug)).toEqual(['new'])
+    const q = { ...DEFAULT_QUERY, hideLegacy: true, members: true, sort: 'downloads' as const, dir: 'asc' as const, q: 'x' }
+    expect(parseQuery(serializeQuery(q))).toEqual(q)
+  })
+
   it('counts health over everything except the health filter itself', () => {
     const q = { ...DEFAULT_QUERY, health: 'problem' as const, platform: 'modrinth' as const }
     expect(healthCounts(filterBase(mods, q))).toEqual({ all: 2, problem: 0, attention: 1, ok: 1 })
@@ -123,6 +131,13 @@ describe('sorting', () => {
     expect(sortMods(owned, 'health', 'desc').map((m) => m.slug)).toEqual(['alpha', 'bravo', 'charlie'])
     const tie = [mod('small'), mod('big', { downloads: { total: 999, curseforge: 0, modrinth: 0, delta24h: null, delta7d: null } })]
     expect(sortMods(tie, 'health', 'desc').map((m) => m.slug)).toEqual(['big', 'small'])
+  })
+
+  it('is stable: equal rows keep one order whatever the input order', () => {
+    const a = mod('a', { name: 'Same' })
+    const b = mod('b', { name: 'Same' })
+    expect(sortMods([a, b], 'name', 'asc').map((m) => m.slug)).toEqual(['a', 'b'])
+    expect(sortMods([b, a], 'name', 'asc').map((m) => m.slug)).toEqual(['a', 'b'])
   })
 
   it('sorts names with numbers in order', () => {

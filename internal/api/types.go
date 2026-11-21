@@ -66,6 +66,7 @@ type modSummary struct {
 	IconURL           string          `json:"iconUrl"`
 	Summary           string          `json:"summary"`
 	Owned             bool            `json:"owned"`
+	Legacy            bool            `json:"legacy"`
 	CurseForge        *platformInfo   `json:"curseforge"`
 	Modrinth          *platformInfo   `json:"modrinth"`
 	Github            *githubInfo     `json:"github"`
@@ -156,11 +157,13 @@ type versionPoint struct {
 }
 
 type versionsResponse struct {
-	LatestMinecraft *string                   `json:"latestMinecraft"`
-	GameVersions    []versionTotal            `json:"gameVersions"`
-	Loaders         []versionTotal            `json:"loaders"`
-	Matrix          versionMatrix             `json:"matrix"`
-	History         map[string][]versionPoint `json:"history"`
+	LatestMinecraft *string        `json:"latestMinecraft"`
+	GameVersions    []versionTotal `json:"gameVersions"`
+	Loaders         []versionTotal `json:"loaders"`
+	// NoLoader is the files that carry no loader tag at all (files from before loaders were tagged), counted exactly.
+	NoLoader versionTotal              `json:"noLoader"`
+	Matrix   versionMatrix             `json:"matrix"`
+	History  map[string][]versionPoint `json:"history"`
 }
 
 type releaseItem struct {

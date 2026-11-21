@@ -19,6 +19,8 @@ interface Col {
   /** Hide below this width; the info is still on the mod page. */
   show?: string
   width?: string
+  /** A second header line saying what the figure covers. */
+  note?: boolean
 }
 
 const COLS: Col[] = [
@@ -26,8 +28,8 @@ const COLS: Col[] = [
   { key: 'curseforge', sort: 'curseforge', width: '8.5rem' },
   { key: 'modrinth', sort: 'modrinth', width: '8.5rem' },
   { key: 'issues', sort: 'issues', width: '7rem' },
-  { key: 'downloads', sort: 'downloads', align: 'right', width: '7rem' },
-  { key: 'delta7d', sort: 'delta7d', align: 'right', width: '5rem' },
+  { key: 'downloads', sort: 'downloads', align: 'right', width: '7rem', note: true },
+  { key: 'delta7d', sort: 'delta7d', align: 'right', width: '6.5rem', note: true },
   { key: 'release', sort: 'release', show: 'hidden xl:table-cell', width: '11rem' },
   { key: 'minecraft', sort: 'minecraft', show: 'hidden xl:table-cell', width: '9rem' },
 ]
@@ -80,9 +82,12 @@ export default function ModsTable({ mods, sort, dir, onSort }: Props) {
                   <button
                     type="button"
                     onClick={() => c.sort && toggle(c.sort)}
-                    className={cx('inline-flex min-h-8 cursor-pointer items-center gap-1 py-1.5 uppercase hover:text-ink', c.align === 'right' && 'flex-row-reverse', active && 'text-ink')}
+                    className={cx('inline-flex min-h-8 cursor-pointer items-center gap-1 py-1.5 uppercase hover:text-ink', c.align === 'right' && 'flex-row-reverse text-right', active && 'text-ink')}
                   >
-                    {t(`columns.${c.key}`)}
+                    <span className="flex flex-col leading-tight">
+                      {t(`columns.${c.key}`)}
+                      {c.note && <span className="text-2xs font-normal tracking-normal text-faint normal-case">{t(`columns.${c.key}Note`)}</span>}
+                    </span>
                     <Icon name={active ? (dir === 'asc' ? 'arrow_up' : 'arrow_down') : 'sort'} size={12} className={active ? 'text-accent' : 'opacity-50'} />
                   </button>
                 </th>
@@ -109,10 +114,10 @@ export default function ModsTable({ mods, sort, dir, onSort }: Props) {
                   </Link>
                 </td>
                 <Td>
-                  <StatusCell info={m.curseforge} />
+                  <StatusCell info={m.curseforge} platform="curseforge" />
                 </Td>
                 <Td>
-                  <StatusCell info={m.modrinth} />
+                  <StatusCell info={m.modrinth} platform="modrinth" />
                 </Td>
                 <Td>
                   <IssuesCell mod={m} />

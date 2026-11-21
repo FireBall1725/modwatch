@@ -244,6 +244,8 @@ export interface Versions {
   latestMinecraft: string | null
   gameVersions: VersionTotal[]
   loaders: VersionTotal[]
+  /** Files with no loader tag at all (from before loaders were tagged), counted exactly, once per file. */
+  noLoader: VersionTotal
   matrix: { versions: string[]; rows: MatrixRow[] }
   /** Cumulative downloads per day per Minecraft version, for the stacked chart. */
   history: Record<string, { at: string; downloads: number }[]>

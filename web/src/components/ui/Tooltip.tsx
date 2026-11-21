@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-import { cloneElement, isValidElement, useId, useState, type KeyboardEvent, type ReactElement, type ReactNode } from 'react'
+import { cloneElement, isValidElement, useEffect, useId, useState, type ReactElement, type ReactNode } from 'react'
 import { cx } from '../../lib/cx'
 
 interface Props {
@@ -14,30 +14,55 @@ interface Props {
 
 /**
  * Hover and keyboard-focus tooltip around any content. Props: content, side (top or bottom), className. The trigger must be
- * focusable (a button or link) for keyboard users. The description id is put on the trigger itself, Escape hides the tip,
- * and the tip stays open while the pointer is over it (it has no gap to cross).
+ * focusable (a button or link) for keyboard users. The tip is always in the DOM and the trigger points at it with
+ * aria-describedby (joined to any description it already has). It stays open while the pointer is over the trigger or the tip
+ * (there is no gap to cross) or while focus is inside, and Escape closes it from anywhere until the pointer and focus leave.
  */
 export default function Tooltip({ content, side = 'top', className, children }: Props) {
   const id = useId()
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [dismissed, setDismissed] = useState(false)
-  const trigger = isValidElement(children)
-    ? cloneElement(children as ReactElement<{ 'aria-describedby'?: string }>, { 'aria-describedby': id })
-    : children
-  const onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') setDismissed(true)
+  const open = (hovered || focused) && !dismissed
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDismissed(true)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  const leave = (nextHovered: boolean, nextFocused: boolean) => {
+    if (!nextHovered && !nextFocused) setDismissed(false)
   }
+
+  const trigger = isValidElement(children)
+    ? cloneElement(children as ReactElement<{ 'aria-describedby'?: string }>, {
+        'aria-describedby': [(children.props as { 'aria-describedby'?: string })['aria-describedby'], id].filter(Boolean).join(' '),
+      })
+    : children
   return (
     <span
-      className={cx('group/tip relative inline-flex', className)}
-      onKeyDown={onKeyDown}
-      onPointerLeave={() => setDismissed(false)}
-      onBlur={() => setDismissed(false)}
+      className={cx('relative inline-flex', className)}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => {
+        setHovered(false)
+        leave(false, focused)
+      }}
+      onFocus={() => setFocused(true)}
+      onBlur={(e) => {
+        if (e.currentTarget.contains(e.relatedTarget)) return
+        setFocused(false)
+        leave(hovered, false)
+      }}
     >
       {trigger}
       <span
         className={cx(
-          'pointer-events-none absolute left-1/2 z-[50] -translate-x-1/2 opacity-0 transition-opacity duration-150',
-          !dismissed && 'group-hover/tip:pointer-events-auto group-hover/tip:opacity-100 group-focus-within/tip:pointer-events-auto group-focus-within/tip:opacity-100',
+          'absolute left-1/2 z-[50] -translate-x-1/2 transition-opacity duration-150',
+          open ? 'opacity-100' : 'pointer-events-none opacity-0',
           side === 'top' ? 'bottom-full pb-2' : 'top-full pt-2',
         )}
       >

@@ -2,6 +2,7 @@
 // Copyright (C) 2026 FireBall1725
 
 import { useTranslation } from 'react-i18next'
+import PlatformAbsent from '../../components/ui/PlatformAbsent'
 import PlatformBadge from '../../components/ui/PlatformBadge'
 import HealthDot from '../../components/ui/HealthDot'
 import Icon from '../../components/ui/Icon'
@@ -12,7 +13,7 @@ import RelativeTime from '../../components/ui/RelativeTime'
 import StatusChip from '../../components/ui/StatusChip'
 import { cx } from '../../lib/cx'
 import { daysBetween, formatCount, formatDate, NO_VALUE } from '../../lib/format'
-import type { ModSummary, PlatformInfo } from '../../lib/types'
+import type { ModSummary, Platform, PlatformInfo } from '../../lib/types'
 import { isOverAYear, openBugsAndCrashes, releaseVersion, reviewNote, topAttention, versionPreview } from './logic'
 
 /** Icon, name and the single worst reason this mod is not healthy. */
@@ -26,6 +27,11 @@ export function ModCell({ mod }: { mod: ModSummary }) {
         <div className="flex min-w-0 items-center gap-2">
           <HealthDot health={mod.health} />
           <span className="truncate font-medium text-ink">{mod.name}</span>
+          {mod.legacy && (
+            <Pill tone="neutral" size="sm" title={t('cell.legacyTitle')}>
+              {t('cell.legacy')}
+            </Pill>
+          )}
           {!mod.owned && (
             <Pill tone="info" size="sm" title={t('cell.memberTitle')}>
               {t('cell.member')}
@@ -44,9 +50,9 @@ export function ModCell({ mod }: { mod: ModSummary }) {
 }
 
 /** Status chip for one platform, with queue time or the moderator message under it. */
-export function StatusCell({ info, platformName }: { info: PlatformInfo | null; platformName?: boolean }) {
+export function StatusCell({ info, platform, platformName }: { info: PlatformInfo | null; platform?: Platform; platformName?: boolean }) {
   const { t } = useTranslation('mods')
-  if (!info) return <span className="text-xs text-faint">{t('cell.notPublished')}</span>
+  if (!info) return platform ? <PlatformAbsent platform={platform} /> : null
   const note = reviewNote(info)
   return (
     <div className="flex min-w-0 flex-col items-start gap-1">

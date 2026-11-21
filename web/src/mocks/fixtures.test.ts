@@ -14,7 +14,7 @@ import { compareMinecraft } from '../lib/minecraft'
 
 const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/
 
-const MOD_KEYS = ['slug', 'name', 'iconUrl', 'summary', 'owned', 'curseforge', 'modrinth', 'github', 'downloads', 'latestRelease', 'minecraftVersions', 'loaders', 'health', 'attention']
+const MOD_KEYS = ['slug', 'name', 'iconUrl', 'summary', 'owned', 'legacy', 'curseforge', 'modrinth', 'github', 'downloads', 'latestRelease', 'minecraftVersions', 'loaders', 'health', 'attention']
 const PLATFORM_KEYS = ['platform', 'id', 'slug', 'url', 'status', 'rawStatus', 'statusMessage', 'requestedStatus', 'queuedAt', 'downloads', 'delta24h', 'delta7d', 'followers', 'publishedAt', 'updatedAt', 'files']
 
 /** Every value in the tree that is an array must be one; null where a list belongs is the bug that crashes .length. */

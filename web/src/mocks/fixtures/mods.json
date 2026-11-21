@@ -48,7 +48,8 @@
    "neoforge"
   ],
   "health": "ok",
-  "attention": []
+  "attention": [],
+  "legacy": false
  },
  {
   "slug": "default-world-generator",
@@ -135,7 +136,8 @@
     "detail": "Last release is over a year old.",
     "url": null
    }
-  ]
+  ],
+  "legacy": true
  },
  {
   "slug": "auto-gui-scale",
@@ -225,7 +227,8 @@
     "detail": "Newest target is 26.1.",
     "url": null
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "twitch-notifier",
@@ -293,7 +296,8 @@
     "detail": "Last release is over a year old.",
     "url": null
    }
-  ]
+  ],
+  "legacy": true
  },
  {
   "slug": "ae2-tech-addon",
@@ -364,7 +368,8 @@
     "detail": "No project on the other platform is linked.",
     "url": null
    }
-  ]
+  ],
+  "legacy": true
  },
  {
   "slug": "ftb-pax-timer",
@@ -448,7 +453,8 @@
     "detail": "Last release is over a year old.",
     "url": null
    }
-  ]
+  ],
+  "legacy": true
  },
  {
   "slug": "firecore",
@@ -534,7 +540,8 @@
     "detail": "#44: Benihime sheath renders at the wrong angle while sneaking",
     "url": "https://github.com/FireBall1725/mod-issues/issues/44"
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "ae2-traffic-monitor",
@@ -627,7 +634,8 @@
     "detail": "Newest target is 26.2.",
     "url": null
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "create-turbolifts",
@@ -713,7 +721,8 @@
     "detail": "#41: Crash when two cars dock on the same chunk edge",
     "url": "https://github.com/FireBall1725/mod-issues/issues/41"
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "graves",
@@ -788,16 +797,8 @@
    "neoforge"
   ],
   "health": "ok",
-  "attention": [
-   {
-    "severity": "info",
-    "kind": "no_latest_minecraft",
-    "modSlug": "graves",
-    "title": "Graves has no file for 26.3",
-    "detail": "Newest target is 26.1.",
-    "url": null
-   }
-  ]
+  "attention": [],
+  "legacy": true
  },
  {
   "slug": "lost-crafters-server-switcher",
@@ -850,7 +851,8 @@
    "neoforge"
   ],
   "health": "ok",
-  "attention": []
+  "attention": [],
+  "legacy": false
  },
  {
   "slug": "ae2-lights",
@@ -942,7 +944,8 @@
     "detail": "Newest target is 26.1.",
     "url": null
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "qmk-extra-keybinds",
@@ -1034,7 +1037,8 @@
     "detail": "Newest target is 26.1.",
     "url": null
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "devworld",
@@ -1126,7 +1130,8 @@
     "detail": "Newest target is 26.1.",
     "url": null
    }
-  ]
+  ],
+  "legacy": false
  },
  {
   "slug": "ae2-ee3-emc-addon",
@@ -1186,6 +1191,7 @@
     "detail": "The description needs a licence statement and the source link must point at a public repository.",
     "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon"
    }
-  ]
+  ],
+  "legacy": true
  }
 ]

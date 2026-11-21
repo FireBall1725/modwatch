@@ -14,26 +14,27 @@ interface Props {
 
 const HUES = [335, 205, 150, 40, 270, 18, 175, 95]
 
-/** Mod icon with a monogram on a hashed hue when there is no URL or it fails to load. Props: src, name, size, className. Decorative; the name sits next to it. */
+/** Mod icon with a monogram on a hashed hue when the URL is missing or empty or it fails to load. Props: src, name, size, className. Decorative; the name sits next to it. */
 export default function ModIcon({ src, name, size = 40, className }: Props) {
   const [failed, setFailed] = useState<string | null>(null)
-  const show = src && failed !== src
+  const url = src?.trim() || null
+  const show = url !== null && failed !== url
   const initials = name
     .split(/[\s:]+/)
     .filter(Boolean)
     .slice(0, 2)
     .map((w) => w[0])
     .join('')
-    .toUpperCase()
+    .toUpperCase() || '?'
   const hue = HUES[[...name].reduce((a, c) => a + c.charCodeAt(0), 0) % HUES.length]
   const box = { width: size, height: size }
   if (show) {
     return (
       <img
-        src={src}
+        src={url}
         alt=""
         loading="lazy"
-        onError={() => setFailed(src)}
+        onError={() => setFailed(url)}
         style={box}
         className={cx('shrink-0 rounded-md bg-sunk object-cover', className)}
       />

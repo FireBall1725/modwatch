@@ -28,13 +28,13 @@ export default function ModCards({ mods }: { mods: ModSummary[] }) {
               <div>
                 <PlatformBadge platform="curseforge" size="sm" />
                 <div className="mt-1.5">
-                  <StatusCell info={m.curseforge} />
+                  <StatusCell info={m.curseforge} platform="curseforge" />
                 </div>
               </div>
               <div>
                 <PlatformBadge platform="modrinth" size="sm" />
                 <div className="mt-1.5">
-                  <StatusCell info={m.modrinth} />
+                  <StatusCell info={m.modrinth} platform="modrinth" />
                 </div>
               </div>
             </div>

@@ -158,3 +158,37 @@ func TestCatalogRelinkKeepsManualEntries(t *testing.T) {
 		t.Errorf("entries = %+v", c.Entries)
 	}
 }
+
+func TestCatalogPutLegacy(t *testing.T) {
+	h := catalogServer(t)
+	rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", `{"legacy":true}`)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d %s", rec.Code, rec.Body)
+	}
+	var out catalogResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &out); err != nil {
+		t.Fatal(err)
+	}
+	found := false
+	for _, e := range out.Entries {
+		if e.Slug == "firecorelib" {
+			found = true
+			if !e.Legacy || e.Auto {
+				t.Errorf("entry = %+v", e)
+			}
+		} else if e.Legacy {
+			t.Errorf("%s must not be legacy", e.Slug)
+		}
+	}
+	if !found {
+		t.Fatal("entry missing")
+	}
+	if !strings.Contains(get(t, h, "/api/v1/catalog").Body.String(), `"legacy":true`) {
+		t.Error("GET must return legacy")
+	}
+	for _, body := range []string{`{"legacy":null}`, `{"legacy":"yes"}`, `{"legacy":1}`} {
+		if rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", body); rec.Code != http.StatusBadRequest {
+			t.Errorf("%s: status = %d", body, rec.Code)
+		}
+	}
+}

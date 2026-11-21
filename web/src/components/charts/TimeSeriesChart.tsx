@@ -68,6 +68,8 @@ export default function TimeSeriesChart({
   const gid = useId().replace(/\W/g, '')
   const [hidden, setHidden] = useState<Set<string>>(new Set())
   const [active, setActive] = useState<number | null>(null)
+  // What the polite live region says. Only keyboard moves set it; pointer moves update the picture and stay silent.
+  const [spoken, setSpoken] = useState('')
 
   const visible = useMemo(() => series.filter((s) => !hidden.has(s.key)), [series, hidden])
   const n = x.length
@@ -103,10 +105,15 @@ export default function TimeSeriesChart({
     if (n === 0) return
     const cur = active ?? n - 1
     const map: Record<string, number> = { ArrowLeft: cur - 1, ArrowRight: cur + 1, Home: 0, End: n - 1 }
-    if (e.key === 'Escape') return setActive(null)
+    if (e.key === 'Escape') {
+      setSpoken('')
+      return setActive(null)
+    }
     if (e.key in map) {
       e.preventDefault()
-      setActive(Math.min(n - 1, Math.max(0, map[e.key])))
+      const next = Math.min(n - 1, Math.max(0, map[e.key]))
+      setActive(next)
+      setSpoken(`${xFormat(x[next])}: ${visible.map((s) => `${s.label} ${s.values[next] === null ? '–' : tooltipFormat(s.values[next])}`).join(', ')}`)
     }
   }
 
@@ -132,7 +139,7 @@ export default function TimeSeriesChart({
   const flip = active !== null && tipLeft > left + innerW / 2
 
   return (
-    <figure className={cx('m-0', className)}>
+    <figure className={cx('relative m-0', className)}>
       {showLegend && (
         <ul className="mb-2 flex flex-wrap gap-x-3 gap-y-1" aria-label={t('chart.legend')}>
           {series.map((s, i) => {
@@ -167,7 +174,10 @@ export default function TimeSeriesChart({
         onPointerDown={onMove}
         onPointerLeave={(e) => e.pointerType === 'mouse' && setActive(null)}
         onKeyDown={onKey}
-        onBlur={() => setActive(null)}
+        onBlur={() => {
+          setActive(null)
+          setSpoken('')
+        }}
       >
         {width > 0 && hasData && (
           <svg width={width} height={height} className="block" aria-hidden="true">
@@ -290,15 +300,15 @@ export default function TimeSeriesChart({
         )}
       </div>
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {active !== null && hasData
-          ? `${xFormat(x[active])}: ${visible.map((s) => `${s.label} ${s.values[active] === null ? '–' : tooltipFormat(s.values[active])}`).join(', ')}`
-          : ''}
+        {spoken}
       </p>
       <figcaption className="sr-only">
         {caption}. {summary}
       </figcaption>
       {hasData && (
-        <table className="sr-only">
+        // The table sits in its own clipped box: an absolutely positioned table ignores overflow and width and would widen the page.
+        <div className="sr-only">
+        <table>
           <caption>{caption}</caption>
           <thead>
             <tr>
@@ -321,6 +331,7 @@ export default function TimeSeriesChart({
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </figure>
   )

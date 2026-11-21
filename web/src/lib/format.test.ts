@@ -104,6 +104,18 @@ describe('relativeTime', () => {
     expect(relativeTime('2026-11-21T06:00:00Z', now)).toEqual({ key: 'hours', count: 6 })
     expect(relativeTime('2026-11-18T12:00:00Z', now)).toEqual({ key: 'days', count: 3 })
   })
+  const ago = (days: number) => new Date(now.getTime() - days * 86_400_000).toISOString()
+  it('stays in days up to 59 and switches to months at 60', () => {
+    expect(relativeTime(ago(59), now)).toEqual({ key: 'days', count: 59 })
+    expect(relativeTime(ago(60), now)).toEqual({ key: 'months', count: 2 })
+    expect(relativeTime(ago(200), now)).toEqual({ key: 'months', count: 7 })
+    expect(relativeTime(ago(364), now)).toEqual({ key: 'months', count: 11 })
+  })
+  it('reads whole years from 365 days, never a day count', () => {
+    expect(relativeTime(ago(365), now)).toEqual({ key: 'years', count: 1 })
+    expect(relativeTime(ago(729), now)).toEqual({ key: 'years', count: 1 })
+    expect(relativeTime(ago(4497), now)).toEqual({ key: 'years', count: 12 })
+  })
   it('treats a future time as just now', () => {
     expect(relativeTime('2026-11-21T13:00:00Z', now).key).toBe('justNow')
   })

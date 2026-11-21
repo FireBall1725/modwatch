@@ -278,3 +278,54 @@ func TestMetricsFileSeriesAreUniqueAndUseRegistrySlug(t *testing.T) {
 		t.Errorf("modwatch_mods should count registry entries:\n%s", body)
 	}
 }
+
+func TestUnknownAPIPathIsJSON(t *testing.T) {
+	rec := get(t, newServer(t), "/api/v1/nope")
+	if rec.Code != http.StatusNotFound || strings.TrimSpace(rec.Body.String()) != `{"error":"not found"}` {
+		t.Errorf("status %d body %q", rec.Code, rec.Body.String())
+	}
+	if ct := rec.Header().Get("Content-Type"); ct != "application/json" {
+		t.Errorf("content type = %q", ct)
+	}
+}
+
+func TestEmptyQueryValueActsAbsent(t *testing.T) {
+	h := newServer(t)
+	for _, base := range []string{"/api/v1/history", "/api/v1/downloads/history", "/api/v1/versions", "/api/v1/issues", "/api/v1/mods", "/api/v1/files", "/api/v1/releases"} {
+		want := get(t, h, base)
+		for _, q := range []string{"?days=", "?state=", "?days=&state="} {
+			got := get(t, h, base+q)
+			if got.Code != want.Code || got.Body.String() != want.Body.String() {
+				t.Errorf("%s%s: status %d vs %d", base, q, got.Code, want.Code)
+			}
+		}
+	}
+}
+
+func TestSummaryAndOverviewReportMissingModrinthToken(t *testing.T) {
+	cfg := &config.Config{Schedule: "0 * * * *", ModrinthUser: "someone"}
+	conn, err := db.Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = conn.Close() })
+	repo := repository.New(conn)
+	h := NewRouter(cfg, repo, poll.New(context.Background(), cfg, repo, noSource{}, nil))
+	for _, path := range []string{"/api/v1/summary", "/api/v1/overview"} {
+		var body struct {
+			Problems []string `json:"problems"`
+		}
+		if err := json.Unmarshal(get(t, h, path).Body.Bytes(), &body); err != nil {
+			t.Fatal(err)
+		}
+		found := false
+		for _, p := range body.Problems {
+			if strings.Contains(p, "MODRINTH_TOKEN is not set, so Modrinth drafts and projects in review are hidden") {
+				found = true
+			}
+		}
+		if !found {
+			t.Errorf("%s problems = %v", path, body.Problems)
+		}
+	}
+}

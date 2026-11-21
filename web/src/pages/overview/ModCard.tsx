@@ -4,9 +4,10 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Sparkline from '../../components/charts/Sparkline'
-import DeltaText from './LabelledDelta'
+import DeltaText from '../../components/ui/DeltaText'
 import HealthDot from '../../components/ui/HealthDot'
 import ModIcon from '../../components/ui/ModIcon'
+import PlatformAbsent from '../../components/ui/PlatformAbsent'
 import PlatformBadge from '../../components/ui/PlatformBadge'
 import ProgressBar from '../../components/ui/ProgressBar'
 import StatusChip from '../../components/ui/StatusChip'
@@ -17,13 +18,12 @@ import { seriesGrowth } from './logic'
 
 const RULE = { ok: 'before:bg-transparent', attention: 'before:bg-review', problem: 'before:bg-bad' }
 
+/** One line per platform: the platform's name on the left, its review status or "Not on {platform}" on the right. */
 function PlatformRow({ platform, info }: { platform: Platform; info: PlatformInfo | null }) {
-  const { t } = useTranslation('overview')
-  const { t: tc } = useTranslation('common')
   return (
-    <li className="flex items-center justify-between gap-2">
-      <PlatformBadge platform={platform} size="sm" />
-      {info ? <StatusChip status={info.status} rawStatus={info.rawStatus} size="sm" /> : <span className="rounded-full border border-dashed border-line-strong px-2 py-0.5 text-xs text-faint">{t('mods.notOnPlatform', { platform: tc(`platform.${platform}`) })}</span>}
+    <li className="flex min-h-6 items-center justify-between gap-2">
+      <PlatformBadge platform={platform} size="sm" className={info ? undefined : 'opacity-60'} />
+      {info ? <StatusChip status={info.status} rawStatus={info.rawStatus} size="sm" /> : <PlatformAbsent platform={platform} bare />}
     </li>
   )
 }

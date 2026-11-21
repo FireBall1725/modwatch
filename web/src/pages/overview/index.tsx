@@ -16,7 +16,9 @@ import ModGrid from './ModGrid'
 import RecentReleases from './RecentReleases'
 import OverviewSkeleton from './Skeleton'
 import StatusBanner from './StatusBanner'
-import { groupAttention, parseView, verdict, viewToParams, type ViewState } from './logic'
+import SetupBanner from './SetupBanner'
+import VersionsCard from './VersionsCard'
+import { groupAttention, parseView, verdict, viewToParams, withoutLegacyNewest, type ViewState } from './logic'
 
 export default function OverviewPage() {
   const { t } = useTranslation('overview')
@@ -33,7 +35,8 @@ export default function OverviewPage() {
     [params, setParams],
   )
 
-  const groups = useMemo(() => groupAttention(data?.attention ?? []), [data])
+  const groups = useMemo(() => groupAttention(withoutLegacyNewest(data?.attention ?? [], data?.mods ?? [])), [data])
+  const versions = useApi(() => api.versions(), [])
 
   const header = (description?: string) => <PageHeader title={t('title')} description={description} />
 
@@ -73,10 +76,11 @@ export default function OverviewPage() {
           {t('stale', { message: error.message })}
         </p>
       )}
+      <SetupBanner problems={setupProblems} />
       <StatusBanner
         verdict={verdict(groups, setupProblems.length)}
         groups={groups}
-        setupProblems={setupProblems}
+        setupProblemCount={setupProblems.length}
         sourceNotes={sourceNotes}
         modCount={data.totals.mods}
         sources={data.sources}
@@ -85,6 +89,7 @@ export default function OverviewPage() {
       <div className="grid items-start gap-4 xl:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] 2xl:grid-cols-[minmax(0,28rem)_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-4 xl:sticky xl:top-4 xl:order-1">
           <AttentionList groups={groups} notesOpen={view.notes} onToggleNotes={() => onView({ notes: !view.notes })} />
+          <VersionsCard versions={versions.data} loading={versions.loading} />
           <div className="hidden xl:block">
             <RecentReleases releases={data.recentReleases} />
           </div>

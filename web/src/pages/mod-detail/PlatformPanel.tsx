@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import ExternalLink from '../../components/ui/ExternalLink'
 import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
+import PlatformAbsent from '../../components/ui/PlatformAbsent'
 import PlatformBadge from '../../components/ui/PlatformBadge'
 import RelativeTime from '../../components/ui/RelativeTime'
 import StatusChip from '../../components/ui/StatusChip'
@@ -39,8 +40,10 @@ export default function PlatformPanel({ platform, info, slug }: { platform: Plat
   if (!info) {
     return (
       <Card className="border-dashed" title={<PlatformBadge platform={platform} />}>
-        <p className="text-sm font-medium text-ink">{t('status.notListed', { platform: name })}</p>
-        <p className="mt-1 text-sm text-muted">{t('status.notListedDetail')}</p>
+        <p>
+          <PlatformAbsent platform={platform} />
+        </p>
+        <p className="mt-2 text-sm text-muted">{t('status.notListedDetail')}</p>
         <Button className="mt-3" size="sm" icon="link" href={`/settings?mod=${encodeURIComponent(slug)}`}>
           {t('status.linkAction')}
         </Button>

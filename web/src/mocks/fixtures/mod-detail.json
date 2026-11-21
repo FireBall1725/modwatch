@@ -805,7 +805,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+default-world-generator%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "auto-gui-scale": {
   "slug": "auto-gui-scale",
@@ -1654,7 +1655,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+auto-gui-scale%22",
    "wiki": "https://github.com/FireBall1725/auto-gui-scale/wiki",
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "twitch-notifier": {
   "slug": "twitch-notifier",
@@ -2289,7 +2291,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+twitch-notifier%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "ae2-tech-addon": {
   "slug": "ae2-tech-addon",
@@ -2981,7 +2984,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-tech-addon%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "ftb-pax-timer": {
   "slug": "ftb-pax-timer",
@@ -3625,7 +3629,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ftb-pax-timer%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "firecore": {
   "slug": "firecore",
@@ -4369,7 +4374,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+firecore%22",
    "wiki": "https://github.com/FireBall1725/firecore/wiki",
    "discord": "https://discord.gg/modwatch-mock"
-  }
+  },
+  "legacy": false
  },
  "ae2-traffic-monitor": {
   "slug": "ae2-traffic-monitor",
@@ -5008,7 +5014,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-traffic-monitor%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "create-turbolifts": {
   "slug": "create-turbolifts",
@@ -5661,7 +5668,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+create-turbolifts%22",
    "wiki": "https://github.com/FireBall1725/create-turbolifts/wiki",
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "lost-crafters-server-switcher": {
   "slug": "lost-crafters-server-switcher",
@@ -6024,7 +6032,8 @@
    "issues": null,
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "ae2-lights": {
   "slug": "ae2-lights",
@@ -6381,7 +6390,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-lights%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "qmk-extra-keybinds": {
   "slug": "qmk-extra-keybinds",
@@ -6683,7 +6693,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+qmk-extra-keybinds%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "graves": {
   "slug": "graves",
@@ -6758,16 +6769,7 @@
    "neoforge"
   ],
   "health": "ok",
-  "attention": [
-   {
-    "severity": "info",
-    "kind": "no_latest_minecraft",
-    "modSlug": "graves",
-    "title": "Graves has no file for 26.3",
-    "detail": "Newest target is 26.1.",
-    "url": null
-   }
-  ],
+  "attention": [],
   "files": [
    {
     "platform": "curseforge",
@@ -6962,7 +6964,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+graves%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "ae2-ee3-emc-addon": {
   "slug": "ae2-ee3-emc-addon",
@@ -7105,7 +7108,8 @@
    "issues": null,
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": true
  },
  "devworld": {
   "slug": "devworld",
@@ -7312,7 +7316,8 @@
    "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+devworld%22",
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  },
  "applied-energistics-2": {
   "slug": "applied-energistics-2",
@@ -7405,6 +7410,7 @@
    "issues": null,
    "wiki": null,
    "discord": null
-  }
+  },
+  "legacy": false
  }
 }

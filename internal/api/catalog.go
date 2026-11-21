@@ -94,7 +94,7 @@ func parseCatalogUpdate(body []byte) (models.CatalogUpdate, error) {
 	}
 	for k := range raw {
 		switch k {
-		case "name", "curseforgeId", "modrinthId", "githubLabel", "hidden":
+		case "name", "curseforgeId", "modrinthId", "githubLabel", "hidden", "legacy":
 		default:
 			return u, errors.New("unknown field " + k)
 		}
@@ -108,6 +108,11 @@ func parseCatalogUpdate(body []byte) (models.CatalogUpdate, error) {
 	if b, ok := raw["hidden"]; ok {
 		if err = json.Unmarshal(b, &u.Hidden); err != nil || u.Hidden == nil {
 			return u, errors.New("hidden must be true or false")
+		}
+	}
+	if b, ok := raw["legacy"]; ok {
+		if err = json.Unmarshal(b, &u.Legacy); err != nil || u.Legacy == nil {
+			return u, errors.New("legacy must be true or false")
 		}
 	}
 	if u.CurseForgeID, err = patchOf[int64](raw, "curseforgeId"); err != nil {

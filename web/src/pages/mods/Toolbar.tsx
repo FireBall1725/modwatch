@@ -80,6 +80,7 @@ export default function Toolbar({ query, minecraft, onChange, onClear }: Props) 
       </div>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <Toggle checked={query.issues} onChange={(issues) => onChange({ issues })} label={t('filters.issues')} />
+        <Toggle checked={query.hideLegacy} onChange={(hideLegacy) => onChange({ hideLegacy })} label={t('filters.hideLegacy')} />
         <Toggle checked={query.members} onChange={(members) => onChange({ members })} label={t('filters.members')} />
         {count > 0 && (
           <Button variant="ghost" size="sm" icon="close" onClick={onClear} className="ml-auto">

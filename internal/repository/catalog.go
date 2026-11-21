@@ -47,7 +47,7 @@ type queryer interface {
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 }
 
-const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, hidden, auto`
+const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, hidden, legacy, auto`
 
 type rowScanner interface{ Scan(dest ...any) error }
 
@@ -55,7 +55,7 @@ func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 	var e models.CatalogEntry
 	var cf sql.NullInt64
 	var mr, gh sql.NullString
-	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &e.Hidden, &e.Auto); err != nil {
+	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &e.Hidden, &e.Legacy, &e.Auto); err != nil {
 		return e, err
 	}
 	if cf.Valid {
@@ -235,7 +235,7 @@ func autoLink(ctx context.Context, q queryer) error {
 			e.ModrinthID = &id
 		}
 		if _, err := q.ExecContext(ctx, `
-			INSERT INTO catalog (slug, name, curseforge_id, modrinth_id, github_label, hidden, auto) VALUES (?, ?, ?, ?, NULL, 0, 1)`,
+			INSERT INTO catalog (slug, name, curseforge_id, modrinth_id, github_label, hidden, legacy, auto) VALUES (?, ?, ?, ?, NULL, 0, 0, 1)`,
 			e.Slug, e.Name, e.CurseForgeID, e.ModrinthID); err != nil {
 			return err
 		}
@@ -356,6 +356,10 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		e.Hidden = *u.Hidden
 	}
 
+	if u.Legacy != nil {
+		e.Legacy = *u.Legacy
+	}
+
 	var donors []string
 	if u.CurseForgeID.Set {
 		e.CurseForgeID = u.CurseForgeID.Value
@@ -444,8 +448,8 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		return e, nil
 	}
 	if _, err := tx.ExecContext(ctx, `
-		UPDATE catalog SET name = ?, curseforge_id = ?, modrinth_id = ?, github_label = ?, hidden = ?, auto = 0 WHERE slug = ?`,
-		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.Hidden, slug); err != nil {
+		UPDATE catalog SET name = ?, curseforge_id = ?, modrinth_id = ?, github_label = ?, hidden = ?, legacy = ?, auto = 0 WHERE slug = ?`,
+		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.Hidden, e.Legacy, slug); err != nil {
 		return e, err
 	}
 	for _, d := range donors {

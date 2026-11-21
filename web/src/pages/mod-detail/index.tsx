@@ -13,6 +13,8 @@ import Icon from '../../components/ui/Icon'
 import KpiCard from '../../components/ui/KpiCard'
 import ModIcon from '../../components/ui/ModIcon'
 import PageHeader from '../../components/ui/PageHeader'
+import PartialCountsNote from '../../components/ui/PartialCountsNote'
+import Pill from '../../components/ui/Pill'
 import PlatformBadge from '../../components/ui/PlatformBadge'
 import ProgressBar from '../../components/ui/ProgressBar'
 import RelativeTime from '../../components/ui/RelativeTime'
@@ -164,6 +166,11 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
             <span className="text-sm font-normal">
               <HealthDot health={mod.health} showLabel />
             </span>
+            {mod.legacy && (
+              <Pill tone="neutral" icon="versions" title={t('legacy.note')}>
+                {t('legacy.chip')}
+              </Pill>
+            )}
           </span>
         }
         description={
@@ -188,6 +195,13 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
             </Button>
           ))}
         </nav>
+      )}
+
+      {mod.legacy && (
+        <p className="-mt-2 flex items-start gap-1.5 text-sm text-muted">
+          <Icon name="info" size={16} className="mt-0.5 shrink-0 text-faint" />
+          <span className="min-w-0">{t('legacy.note')}</span>
+        </p>
       )}
 
       {stale && <ErrorState compact error={stale} onRetry={onRetry} />}
@@ -294,7 +308,7 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
         />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <PlatformPanel platform="curseforge" info={mod.curseforge} slug={mod.slug} />
         <PlatformPanel platform="modrinth" info={mod.modrinth} slug={mod.slug} />
       </div>
@@ -308,6 +322,7 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
         </div>
       </div>
 
+      <PartialCountsNote className="-mb-2" />
       <FilesCard
         files={mod.files}
         filter={filter}

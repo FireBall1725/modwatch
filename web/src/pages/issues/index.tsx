@@ -269,9 +269,9 @@ export default function IssuesPage() {
         }
         className="min-w-0"
       >
-        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-4 sm:px-5 lg:grid-cols-[minmax(14rem,1fr)_12rem_11rem_11rem_auto]">
-          <SearchInput value={filters.q} onChange={(q) => setFilters({ q })} placeholder={t('filter.search')} className="col-span-2 lg:col-span-1 lg:self-end" />
-          <Select label={t('filter.mod')} value={filters.mod} onChange={(mod) => setFilters({ mod })} options={modSelect} className="col-span-2 lg:col-span-1" />
+        <div className="grid grid-cols-2 gap-3 px-4 pt-3 pb-4 sm:px-5 xl:grid-cols-[minmax(10rem,1fr)_12rem_11rem_11rem_auto]">
+          <SearchInput value={filters.q} onChange={(q) => setFilters({ q })} placeholder={t('filter.search')} className="col-span-2 xl:col-span-1 xl:self-end" />
+          <Select label={t('filter.mod')} value={filters.mod} onChange={(mod) => setFilters({ mod })} options={modSelect} className="col-span-2 xl:col-span-1" />
           <Select
             label={t('filter.kind')}
             value={filters.kind}
@@ -284,7 +284,7 @@ export default function IssuesPage() {
             onChange={(age) => setFilters({ age: age as Filters['age'] })}
             options={AGES.map((a) => ({ value: a, label: t(a === 'any' ? 'filter.ageAny' : `filter.age${a}`) }))}
           />
-          <div className="flex items-end justify-between gap-3 col-span-2 lg:col-span-1">
+          <div className="flex items-end justify-between gap-3 col-span-2 xl:col-span-1">
             <SegmentedControl
               label={t('filter.state')}
               value={filters.state}

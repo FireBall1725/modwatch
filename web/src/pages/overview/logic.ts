@@ -43,6 +43,31 @@ export function groupAttention(items: AttentionItem[]): AttentionGroups {
   return groups
 }
 
+/** Drops "no file for the newest Minecraft version" for legacy mods; the server already leaves it out, this keeps older payloads honest. */
+export function withoutLegacyNewest(items: AttentionItem[], mods: ModSummary[]): AttentionItem[] {
+  const legacy = new Set(mods.filter((m) => m.legacy).map((m) => m.slug))
+  return items.filter((i) => !(i.kind === 'no_latest_minecraft' && i.modSlug !== null && legacy.has(i.modSlug)))
+}
+
+export type HeadlinePart = 'problem' | 'setup' | 'warning' | 'info'
+
+/** What the banner says, in order: every non-empty count the list below holds, plus setup problems. */
+export function headlineParts(groups: AttentionGroups, setupProblems: number): { key: HeadlinePart; count: number }[] {
+  return (
+    [
+      { key: 'problem', count: groups.problem.length },
+      { key: 'setup', count: setupProblems },
+      { key: 'warning', count: groups.warning.length },
+      { key: 'info', count: groups.info.length },
+    ] as { key: HeadlinePart; count: number }[]
+  ).filter((p) => p.count > 0)
+}
+
+/** Top Minecraft versions by downloads, biggest first. */
+export function topVersions<T extends { downloads: number; name: string }>(versions: T[], limit = 5): T[] {
+  return [...versions].sort((a, b) => b.downloads - a.downloads || b.name.localeCompare(a.name)).slice(0, limit).filter((v) => v.downloads > 0)
+}
+
 export type Verdict = 'problem' | 'warning' | 'note' | 'clear'
 
 /** The one-word answer to "is anything wrong?". Setup problems count as problems. */

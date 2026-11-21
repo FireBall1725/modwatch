@@ -2,11 +2,13 @@
 // Copyright (C) 2026 FireBall1725
 
 import { describe, expect, it } from 'vitest'
-import type { MatrixRow, VersionTotal } from '../../lib/types'
+import type { MatrixRow, ModSummary, VersionTotal } from '../../lib/types'
 import {
   dailyByVersion,
   DEFAULT_STATE,
   coverage,
+  currentRows,
+  legacySlugs,
   filterRows,
   gapRows,
   newestCell,
@@ -115,5 +117,23 @@ describe('url state', () => {
   })
   it('ignores junk', () => {
     expect(parseState(new URLSearchParams('sort=x&range=5&span=y&gaps=0'))).toEqual(DEFAULT_STATE)
+  })
+})
+
+const mod = (slug: string, legacy: boolean, loaders: string[], total: number): ModSummary =>
+  ({ slug, legacy, loaders, downloads: { total, curseforge: total, modrinth: 0 } }) as unknown as ModSummary
+
+describe('legacy and untagged mods', () => {
+  const rows = [row('a', { '1.21.1': 5 }), row('old', { '1.7.10': 50 })]
+  const mods = [mod('a', false, ['neoforge'], 5), mod('old', true, [], 50)]
+  it('leaves legacy mods out of coverage and gaps', () => {
+    const cur = currentRows(rows, legacySlugs(mods))
+    expect(cur.map((r) => r.slug)).toEqual(['a'])
+    expect(coverage(cur, '1.21.1')).toEqual({ have: 1, total: 1 })
+    expect(gapRows(cur, '1.21.1')).toEqual([])
+  })
+  it('keeps legacy mods out of the gaps-only filter', () => {
+    expect(filterRows(rows, '', true, '1.21.1', legacySlugs(mods))).toEqual([])
+    expect(filterRows(rows, '', true, '1.21.1').map((r) => r.slug)).toEqual(['old'])
   })
 })

@@ -45,6 +45,9 @@ type group struct {
 
 func (g *group) hidden() bool { return g.entry != nil && g.entry.Hidden }
 
+// legacy reports whether the author marked the mod as one that deliberately stays on old Minecraft versions.
+func (g *group) legacy() bool { return g.entry != nil && g.entry.Legacy }
+
 func (g *group) projects() []*models.PlatformStat {
 	var out []*models.PlatformStat
 	if g.cf != nil {
@@ -410,7 +413,7 @@ func (v *view) githubInfo(g *group) *githubInfo {
 func (v *view) summary(g *group) modSummary {
 	files := v.filesOf[g.slug]
 	ms := modSummary{
-		Slug: g.slug, Name: g.name, Owned: g.owned,
+		Slug: g.slug, Name: g.name, Owned: g.owned, Legacy: g.legacy(),
 		CurseForge: v.platformInfo(g.cf), Modrinth: v.platformInfo(g.mr), Github: v.githubInfo(g),
 		Downloads:         downloadsOf(g),
 		MinecraftVersions: unionVersions(files, gameVersionsOf, mcver.Sort),
@@ -538,12 +541,31 @@ func versionTotals(files []models.FileStat, pick func(models.File) []string, mc 
 	return out
 }
 
+// noLoaderTotal adds up the files with no loader tag, split by platform. It is exact: a file counts once.
+func noLoaderTotal(files []models.FileStat) versionTotal {
+	t := versionTotal{Name: "none"}
+	for _, f := range files {
+		if len(f.Loaders) > 0 {
+			continue
+		}
+		t.Downloads += f.Downloads
+		t.Files++
+		if f.Source == platCF {
+			t.CurseForge += f.Downloads
+		} else {
+			t.Modrinth += f.Downloads
+		}
+	}
+	return t
+}
+
 // versions builds the Versions payload. fileSnaps is keyed by source and file id, as repo.FileHistory returns it.
 func (v *view) versions(fileSnaps map[models.PlatformKey][]models.Snapshot, days []time.Time) versionsResponse {
 	files := v.scopedFiles()
 	out := versionsResponse{
 		GameVersions: versionTotals(files, gameVersionsOf, true),
 		Loaders:      versionTotals(files, loadersOf, false),
+		NoLoader:     noLoaderTotal(files),
 		Matrix:       versionMatrix{Versions: []string{}, Rows: []matrixRow{}},
 		History:      map[string][]versionPoint{},
 	}

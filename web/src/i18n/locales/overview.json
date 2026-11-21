@@ -5,22 +5,28 @@
   "subtitleNever": "No poll has finished yet",
   "stale": "Showing the last data we have. The latest refresh failed: {{message}}",
   "verdict": {
-    "problem_one": "{{count}} problem needs fixing",
-    "problem_other": "{{count}} problems need fixing",
-    "setup_one": "{{count}} setup problem",
-    "setup_other": "{{count}} setup problems",
-    "warning_one": "{{count}} warning to look at",
-    "warning_other": "{{count}} warnings to look at",
-    "note_one": "{{count}} note, nothing broken",
-    "note_other": "{{count}} notes, nothing broken",
     "clear": "All clear",
     "clearDetail_one": "{{count}} mod, nothing needs attention.",
     "clearDetail_other": "{{count}} mods, nothing needs attention.",
-    "openSettings": "Open Settings",
     "seeList": "See the list",
     "problems": "Problems",
     "warnings": "Warnings",
-    "notes": "Notes"
+    "notes": "Notes",
+    "part": {
+      "problem_one": "{{count}} problem",
+      "problem_other": "{{count}} problems",
+      "setup_one": "{{count}} setup problem",
+      "setup_other": "{{count}} setup problems",
+      "warning_one": "{{count}} warning",
+      "warning_other": "{{count}} warnings",
+      "info_one": "{{count}} note",
+      "info_other": "{{count}} notes"
+    },
+    "detail": {
+      "problem": "Fix these first.",
+      "warning": "Worth a look, nothing is broken.",
+      "note": "Nothing is broken."
+    }
   },
   "kpi": {
     "downloads": "Downloads",
@@ -40,7 +46,8 @@
     "reviewSome_one": "{{count}} mod not yet approved",
     "reviewSome_other": "{{count}} mods not yet approved",
     "ofMods_one": "of {{count}} mod",
-    "ofMods_other": "of {{count}} mods"
+    "ofMods_other": "of {{count}} mods",
+    "needsHistory": "Needs a day of history before changes show here"
   },
   "attention": {
     "title": "Needs attention",
@@ -74,7 +81,6 @@
     "reset": "Show all mods",
     "none": "No mods yet",
     "noneDetail": "Modwatch lists the mods it finds on your accounts after the first poll.",
-    "notOnPlatform": "Not on {{platform}}",
     "issues": "Issues",
     "issuesNone": "none",
     "otherIssues_one": "{{count}} other",
@@ -104,5 +110,18 @@
   },
   "error": {
     "title": "Couldn't load the overview"
+  },
+  "setup": {
+    "title_one": "{{count}} setup problem",
+    "title_other": "{{count}} setup problems",
+    "open": "Open Settings"
+  },
+  "versions": {
+    "title": "Minecraft versions",
+    "description": "Top versions by downloads",
+    "all": "All versions",
+    "none": "No Minecraft versions yet",
+    "error": "Couldn't load versions",
+    "row": "{{name}}, {{downloads}} downloads"
   }
 }

@@ -85,6 +85,9 @@ func (c *Config) Problems() []error {
 	if c.GitHubIssuesRepo != "" && !ValidRepo(c.GitHubIssuesRepo) {
 		errs = append(errs, fmt.Errorf("GITHUB_ISSUES_REPO %q isn't in owner/name form, so issues are off", c.GitHubIssuesRepo))
 	}
+	if c.ModrinthUser != "" && c.ModrinthToken == "" {
+		errs = append(errs, errors.New("MODRINTH_TOKEN is not set, so Modrinth drafts and projects in review are hidden"))
+	}
 	return errs
 }
 

@@ -112,7 +112,7 @@ export default function DataTable<T>({
 
   return (
     <div
-      className={cx('overflow-auto rounded-lg', className)}
+      className={cx('relative overflow-auto rounded-lg', className)}
       style={maxHeight ? { maxHeight } : undefined}
       tabIndex={0}
       role="region"

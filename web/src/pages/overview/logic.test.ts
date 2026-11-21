@@ -16,6 +16,9 @@ import {
   sortMods,
   sourceIsDown,
   verdict,
+  headlineParts,
+  topVersions,
+  withoutLegacyNewest,
   viewToParams,
   worstAttention,
 } from './logic'
@@ -35,6 +38,7 @@ function mod(over: Partial<ModSummary> & { slug: string }): ModSummary {
     iconUrl: '',
     summary: '',
     owned: true,
+    legacy: false,
     curseforge: null,
     modrinth: null,
     github: null,
@@ -185,5 +189,33 @@ describe('derived numbers', () => {
     const s = [{ source: 'github', ok: false, checkedAt: '', lastOkAt: null }]
     expect(sourceIsDown(s, 'github')).toBe(true)
     expect(sourceIsDown(s, 'modrinth')).toBe(false)
+  })
+})
+
+describe('headline, legacy and versions helpers', () => {
+  it('headlineParts lists every non-empty count the list holds', () => {
+    const g = groupAttention([item('warning', 'bug_open'), item('warning', 'bug_open'), item('info', 'unlinked')])
+    expect(headlineParts(g, 0)).toEqual([
+      { key: 'warning', count: 2 },
+      { key: 'info', count: 1 },
+    ])
+    expect(headlineParts(g, 1)[0]).toEqual({ key: 'setup', count: 1 })
+    expect(headlineParts(groupAttention([]), 0)).toEqual([])
+  })
+
+  it('withoutLegacyNewest drops the newest-version item for legacy mods only', () => {
+    const items = [
+      { ...item('info', 'no_latest_minecraft'), modSlug: 'old' },
+      { ...item('info', 'no_latest_minecraft'), modSlug: 'new' },
+      { ...item('info', 'stale_release'), modSlug: 'old' },
+    ]
+    const out = withoutLegacyNewest(items, [mod({ slug: 'old', legacy: true }), mod({ slug: 'new', legacy: false })])
+    expect(out.map((i) => `${i.kind}:${i.modSlug}`)).toEqual(['no_latest_minecraft:new', 'stale_release:old'])
+  })
+
+  it('topVersions sorts by downloads, limits and drops empty versions', () => {
+    const v = (name: string, downloads: number) => ({ name, downloads })
+    expect(topVersions([v('1.20', 5), v('1.21', 9), v('1.19', 0), v('1.18', 7)], 2).map((x) => x.name)).toEqual(['1.21', '1.18'])
+    expect(topVersions([v('1.19', 0)])).toEqual([])
   })
 })

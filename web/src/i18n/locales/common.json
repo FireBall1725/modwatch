@@ -88,7 +88,11 @@
     "hours_one": "{{count}} hour ago",
     "hours_other": "{{count}} hours ago",
     "days_one": "{{count}} day ago",
-    "days_other": "{{count}} days ago"
+    "days_other": "{{count}} days ago",
+    "months_one": "{{count}} month ago",
+    "months_other": "{{count}} months ago",
+    "years_one": "{{count}} year ago",
+    "years_other": "{{count}} years ago"
   },
   "range": {
     "label": "Range",
@@ -121,7 +125,10 @@
     "showFewer": "Show fewer",
     "noHistory": "Needs a day or more of history",
     "downloads": "Downloads",
-    "mods": "Mods"
+    "mods": "Mods",
+    "notAvailable": "Not available yet",
+    "notOnPlatform": "Not on {{platform}}",
+    "partialCounts": "CurseForge counts each file on its own, so file downloads here don't add up to the mod's total."
   },
   "error": {
     "title": "Couldn't load this",

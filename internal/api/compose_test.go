@@ -618,3 +618,49 @@ func TestGithubInfo(t *testing.T) {
 		t.Error("github should be null with issues off")
 	}
 }
+
+func TestLegacyModNeverRaisesNoLatestMinecraft(t *testing.T) {
+	for _, legacy := range []bool{false, true} {
+		old := entry("old", "1", "m1")
+		old.Legacy = legacy
+		v := build(dataset{
+			stats: []models.PlatformStat{
+				proj("curseforge", "1", "old", models.StatusApproved, 1), proj("modrinth", "m1", "old", models.StatusApproved, 1),
+				proj("curseforge", "2", "new", models.StatusApproved, 1), proj("modrinth", "m2", "new", models.StatusApproved, 1),
+			},
+			entries: []models.CatalogEntry{old, entry("new", "2", "m2")},
+			files: []models.FileStat{
+				file("curseforge", "1", "f1", testNow.AddDate(0, -1, 0), 1, "1.21.1"),
+				file("curseforge", "2", "f2", testNow.AddDate(0, 0, -1), 1, "26.1"),
+			},
+		})
+		flagged := false
+		for _, it := range attentionOf(t, v, "old") {
+			if it.Kind == "no_latest_minecraft" {
+				flagged = true
+			}
+		}
+		if flagged == legacy {
+			t.Errorf("legacy=%v: flagged=%v", legacy, flagged)
+		}
+		if got := v.summary(v.bySlug["old"]).Legacy; got != legacy {
+			t.Errorf("summary legacy = %v, want %v", got, legacy)
+		}
+	}
+}
+
+func TestNoLoaderTotalCountsEachUntaggedFileOnce(t *testing.T) {
+	files := []models.FileStat{
+		{File: models.File{Source: platCF, Loaders: nil}, Downloads: 100},
+		{File: models.File{Source: platCF, Loaders: []string{}}, Downloads: 50},
+		{File: models.File{Source: platMR, Loaders: nil}, Downloads: 7},
+		{File: models.File{Source: platCF, Loaders: []string{"forge", "neoforge"}}, Downloads: 999},
+	}
+	got := noLoaderTotal(files)
+	if got.Downloads != 157 || got.Files != 3 || got.CurseForge != 150 || got.Modrinth != 7 {
+		t.Errorf("noLoaderTotal = %+v, want 157 downloads over 3 files (150 CurseForge, 7 Modrinth)", got)
+	}
+	if empty := noLoaderTotal(nil); empty.Downloads != 0 || empty.Files != 0 {
+		t.Errorf("no files must give zeros, got %+v", empty)
+	}
+}

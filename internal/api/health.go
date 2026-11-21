@@ -115,7 +115,7 @@ func (v *view) attentionFor(g *group) []attentionItem {
 		}
 	}
 
-	if v.latestMC != "" {
+	if v.latestMC != "" && !g.legacy() {
 		if f, ok := newestFile(v.filesOf[g.slug]); ok && f.PublishedAt.After(now.AddDate(0, -recentReleaseMonths, 0)) {
 			has := false
 			var targets []string

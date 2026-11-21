@@ -2,7 +2,7 @@
 // Copyright (C) 2026 FireBall1725
 
 import { compareMinecraft } from '../../lib/minecraft'
-import type { MatrixRow, VersionTotal } from '../../lib/types'
+import type { MatrixRow, ModSummary, VersionTotal } from '../../lib/types'
 
 export type SortMode = 'version' | 'downloads'
 export type RangeDays = 7 | 30 | 90
@@ -91,10 +91,28 @@ export function visibleVersions(versions: readonly string[], span: MatrixSpan): 
   return span === 'all' ? sorted : sorted.slice(0, RECENT_VERSIONS)
 }
 
-/** Matrix rows after search and the gaps-only switch, biggest total first. */
-export function filterRows(rows: readonly MatrixRow[], query: string, gapsOnly: boolean, latest: string | null): MatrixRow[] {
+/** Slugs of the mods marked legacy in Settings. */
+export function legacySlugs(mods: readonly ModSummary[] | null): Set<string> {
+  return new Set((mods ?? []).filter((m) => m.legacy).map((m) => m.slug))
+}
+
+/** Rows that are not legacy: the ones "ready for the newest version" is about. */
+export function currentRows(rows: readonly MatrixRow[], legacy: ReadonlySet<string>): MatrixRow[] {
+  return rows.filter((r) => !legacy.has(r.slug))
+}
+
+/** Matrix rows after search and the gaps-only switch, biggest total first. Legacy mods never count as missing a file. */
+export function filterRows(
+  rows: readonly MatrixRow[],
+  query: string,
+  gapsOnly: boolean,
+  latest: string | null,
+  legacy: ReadonlySet<string> = new Set(),
+): MatrixRow[] {
   const q = query.trim().toLowerCase()
-  const kept = rows.filter((r) => (!q || r.name.toLowerCase().includes(q) || r.slug.toLowerCase().includes(q)) && (!gapsOnly || !latest || !r.cells[latest]))
+  const kept = rows.filter(
+    (r) => (!q || r.name.toLowerCase().includes(q) || r.slug.toLowerCase().includes(q)) && (!gapsOnly || !latest || (!r.cells[latest] && !legacy.has(r.slug))),
+  )
   return kept.sort((a, b) => rowTotal(b) - rowTotal(a) || a.name.localeCompare(b.name))
 }
 

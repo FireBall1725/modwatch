@@ -7,7 +7,8 @@
    "modrinthId": "Kx9bQ2aE",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "auto-gui-scale",
@@ -16,7 +17,8 @@
    "modrinthId": "q3Zr7wLm",
    "githubLabel": "auto-gui-scale",
    "hidden": false,
-   "auto": false
+   "auto": false,
+   "legacy": false
   },
   {
    "slug": "twitch-notifier",
@@ -25,7 +27,8 @@
    "modrinthId": null,
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "ae2-tech-addon",
@@ -34,7 +37,8 @@
    "modrinthId": null,
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "ftb-pax-timer",
@@ -43,7 +47,8 @@
    "modrinthId": "T8vYc1nA",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "firecore",
@@ -52,7 +57,8 @@
    "modrinthId": "rF4dN6pS",
    "githubLabel": "firecore",
    "hidden": false,
-   "auto": false
+   "auto": false,
+   "legacy": false
   },
   {
    "slug": "ae2-traffic-monitor",
@@ -61,7 +67,8 @@
    "modrinthId": "mN2xK8vT",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "create-turbolifts",
@@ -70,7 +77,8 @@
    "modrinthId": "bV5hJ3cD",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "lost-crafters-server-switcher",
@@ -79,7 +87,8 @@
    "modrinthId": "wP7sL0eR",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "ae2-lights",
@@ -88,7 +97,8 @@
    "modrinthId": "hC3uY9tB",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "qmk-extra-keybinds",
@@ -97,7 +107,8 @@
    "modrinthId": "dE6gM2zQ",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "graves",
@@ -106,7 +117,8 @@
    "modrinthId": "jS1nA4kW",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "ae2-ee3-emc-addon",
@@ -115,7 +127,8 @@
    "modrinthId": null,
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": true
   },
   {
    "slug": "devworld",
@@ -124,7 +137,8 @@
    "modrinthId": "uZ8cH5fG",
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "applied-energistics-2",
@@ -133,7 +147,8 @@
    "modrinthId": null,
    "githubLabel": null,
    "hidden": false,
-   "auto": true
+   "auto": true,
+   "legacy": false
   },
   {
    "slug": "devworld-sandbox",
@@ -142,7 +157,8 @@
    "modrinthId": null,
    "githubLabel": null,
    "hidden": true,
-   "auto": true
+   "auto": true,
+   "legacy": false
   }
  ],
  "unlinked": {

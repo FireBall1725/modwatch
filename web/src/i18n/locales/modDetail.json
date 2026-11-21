@@ -54,7 +54,6 @@
     "published": "Published",
     "files": "Files",
     "versions": "Versions",
-    "notListed": "Not listed on {{platform}}",
     "notListedDetail": "Link a project in Settings to track it with this mod.",
     "open": "Open on {{platform}}",
     "linkAction": "Link a project"
@@ -81,7 +80,8 @@
     "files_one": "{{count}} file",
     "files_other": "{{count}} files",
     "empty": "No Minecraft versions recorded",
-    "loaders": "Loaders"
+    "loaders": "Loaders",
+    "partial": "Download counts per version are partial"
   },
   "files": {
     "title": "Files",
@@ -130,5 +130,9 @@
     "detail": "Nothing in the registry is called \"{{slug}}\".",
     "action": "Back to all mods"
   },
-  "newTab": "(opens in a new tab)"
+  "newTab": "(opens in a new tab)",
+  "legacy": {
+    "chip": "Legacy",
+    "note": "Legacy mod: it deliberately stays on older Minecraft versions, so it is left out of the newest-version checks."
+  }
 }

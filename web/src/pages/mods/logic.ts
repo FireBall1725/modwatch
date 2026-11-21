@@ -23,6 +23,8 @@ export interface ModsQuery {
   issues: boolean
   /** Include mods the author is only a member of. */
   members: boolean
+  /** Leave out mods marked legacy. */
+  hideLegacy: boolean
   sort: SortKey
   dir: SortDir
 }
@@ -35,6 +37,7 @@ export const DEFAULT_QUERY: ModsQuery = {
   mc: '',
   issues: false,
   members: false,
+  hideLegacy: false,
   sort: 'health',
   dir: 'desc',
 }
@@ -59,6 +62,7 @@ export function parseQuery(params: URLSearchParams): ModsQuery {
     mc: params.get('mc') ?? '',
     issues: params.get('issues') === '1',
     members: params.get('members') === '1',
+    hideLegacy: params.get('hideLegacy') === '1',
     sort,
     dir: pick(params.get('dir'), ['asc', 'desc'] as const, defaultDir(sort)),
   }
@@ -79,6 +83,7 @@ export function serializeQuery(q: ModsQuery): URLSearchParams {
   if (q.mc) p.set('mc', q.mc)
   if (q.issues) p.set('issues', '1')
   if (q.members) p.set('members', '1')
+  if (q.hideLegacy) p.set('hideLegacy', '1')
   if (q.sort !== DEFAULT_QUERY.sort) p.set('sort', q.sort)
   if (q.dir !== defaultDir(q.sort)) p.set('dir', q.dir)
   return p
@@ -86,7 +91,7 @@ export function serializeQuery(q: ModsQuery): URLSearchParams {
 
 /** How many filters are narrowing the list, not counting sort. */
 export function activeFilterCount(q: ModsQuery): number {
-  return [q.q.trim() !== '', q.health !== 'all', q.platform !== 'any', q.review !== 'any', q.mc !== '', q.issues].filter(Boolean).length
+  return [q.q.trim() !== '', q.health !== 'all', q.platform !== 'any', q.review !== 'any', q.mc !== '', q.issues, q.hideLegacy].filter(Boolean).length
 }
 
 export function platforms(m: ModSummary): PlatformInfo[] {
@@ -139,6 +144,7 @@ export function filterBase(mods: readonly ModSummary[], q: ModsQuery): ModSummar
   return mods.filter(
     (m) =>
       (q.members || m.owned) &&
+      (!q.hideLegacy || !m.legacy) &&
       matchesSearch(m, q.q) &&
       matchesPlatform(m, q.platform) &&
       matchesReview(m, q.review) &&
@@ -232,7 +238,7 @@ export function sortMods(mods: readonly ModSummary[], key: SortKey, dir: SortDir
     if (va === null && vb !== null) return 1
     if (vb === null && va !== null) return -1
     const c = va === null || vb === null ? 0 : key === 'minecraft' ? sign * compareMinecraft(String(va), String(vb)) : compareValues(va, vb, sign)
-    return c || b.downloads.total - a.downloads.total || a.name.localeCompare(b.name, 'en-CA')
+    return c || b.downloads.total - a.downloads.total || a.name.localeCompare(b.name, 'en-CA') || (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0)
   })
 }
 

@@ -16,7 +16,7 @@ The API contract is `web/src/lib/types.ts`. It is the source of truth: the Go ha
 
 ## The registry (manage my mods)
 
-The three catalogues name one mod three ways: CurseForge `automatic-gui-scale`, Modrinth `ags`, GitHub label `mod: auto-gui-scale`; CurseForge `firecorelib`, Modrinth `firecoremod`, label `mod: firecore`. A registry entry joins them under one slug: `slug`, `name`, `curseforgeId`, `modrinthId`, `githubLabel`, `hidden`.
+The three catalogues name one mod three ways: CurseForge `automatic-gui-scale`, Modrinth `ags`, GitHub label `mod: auto-gui-scale`; CurseForge `firecorelib`, Modrinth `firecoremod`, label `mod: firecore`. A registry entry joins them under one slug: `slug`, `name`, `curseforgeId`, `modrinthId`, `githubLabel`, `hidden`, `legacy`. `legacy` marks a mod that deliberately stays on old Minecraft versions: it never raises `no_latest_minecraft`, and the UI leaves it out of "ready for the newest version" checks.
 
 The poller creates an entry for every owned project so nothing is hidden: it links a CurseForge and a Modrinth project to one entry when their slugs match exactly, or their normalised names do (`Automatic Gui Scale` on both), and gives every other owned project its own single-platform entry. A single-platform entry is also how a mismatch shows up: `firecorelib` on CurseForge and `firecoremod` on Modrinth are two entries until Settings merges them. A `mod: <label>` issue label links to the entry whose slug equals the label, or whose `githubLabel` was set by hand.
 
@@ -72,8 +72,8 @@ Eight pages are built in parallel, so files are owned, not shared.
   - `modwatch_project_review_queue_seconds{platform,slug}` gauge, only while in review
   - `modwatch_issues_open{mod,kind}` gauge, `modwatch_oldest_open_bug_age_seconds{mod}` gauge
   - `modwatch_mod_health{slug,health}` gauge, 1 for the current health
-- Config: `GITHUB_ISSUES_REPO` (default empty, off), `GITHUB_TOKEN` (optional), `MODRINTH_TOKEN` (optional but needed for unapproved projects).
-- Write endpoints (`PUT /api/v1/catalog/{slug}`, `POST /api/v1/catalog/relink`, `POST /api/v1/poll`) validate input, return `{"error": "..."}` with a 4xx, and never panic on bad JSON.
+- Config: `GITHUB_ISSUES_REPO` (default empty, off), `GITHUB_TOKEN` (optional), `MODRINTH_TOKEN` (optional but needed for unapproved projects; with `MODRINTH_USER` set and no token, `Problems()` reports that drafts and projects in review are hidden, which shows in `Overview.problems` and `/api/v1/summary`).
+- Write endpoints (`PUT /api/v1/catalog/{slug}`, `POST /api/v1/catalog/relink`, `POST /api/v1/poll`) validate input, return `{"error": "..."}` with a 4xx, and never panic on bad JSON.  Unknown `/api/*` paths return `{"error":"not found"}` with 404, and an empty query value such as `?days=` behaves as if the parameter were absent.
 
 ## Checking your work
 

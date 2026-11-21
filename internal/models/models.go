@@ -213,6 +213,7 @@ type CatalogEntry struct {
 	ModrinthID   *string `json:"modrinthId"`
 	GitHubLabel  *string `json:"githubLabel"`
 	Hidden       bool    `json:"hidden"`
+	Legacy       bool    `json:"legacy"`
 	Auto         bool    `json:"auto"`
 }
 
@@ -240,4 +241,5 @@ type CatalogUpdate struct {
 	ModrinthID   Patch[string]
 	GitHubLabel  Patch[string]
 	Hidden       *bool
+	Legacy       *bool
 }

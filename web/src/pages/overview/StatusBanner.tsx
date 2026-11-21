@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Icon, { type IconName } from '../../components/ui/Icon'
 import { cx } from '../../lib/cx'
+import { scrollToId } from '../../lib/scroll'
 import type { SourceStatus } from '../../lib/types'
 import HealthDot from '../../components/ui/HealthDot'
-import { failingSources, type AttentionGroups, type Verdict } from './logic'
+import { failingSources, headlineParts, type AttentionGroups, type Verdict } from './logic'
 
 const LOOK: Record<Verdict, { icon: IconName; box: string; icon_: string }> = {
   problem: { icon: 'problem', box: 'border-bad/40 bg-bad-soft/50', icon_: 'bg-bad-soft text-bad' },
@@ -19,36 +20,30 @@ const LOOK: Record<Verdict, { icon: IconName; box: string; icon_: string }> = {
 interface Props {
   verdict: Verdict
   groups: AttentionGroups
-  setupProblems: string[]
+  /** How many setup problems the banner above lists; they are counted in the headline. */
+  setupProblemCount: number
   modCount: number
   sources: SourceStatus[]
   /** Plain-words limits on a working source, such as no GitHub token. */
   sourceNotes?: string[]
 }
 
-/** The two second answer: one sentence about the state of everything, with the counts behind it. */
-export default function StatusBanner({ verdict, groups, setupProblems, modCount, sources, sourceNotes = [] }: Props) {
-  const { t } = useTranslation('overview')
+/** The two second answer: one sentence that says exactly what the list below holds. */
+export default function StatusBanner({ verdict, groups, setupProblemCount, modCount, sources, sourceNotes = [] }: Props) {
+  const { t, i18n } = useTranslation('overview')
   const { t: tc } = useTranslation('common')
   const look = LOOK[verdict]
   const down = failingSources(sources)
 
-  const headline = (() => {
-    if (verdict === 'clear') return t('verdict.clear')
-    if (groups.problem.length > 0) return t('verdict.problem', { count: groups.problem.length })
-    if (setupProblems.length > 0) return t('verdict.setup', { count: setupProblems.length })
-    if (groups.warning.length > 0) return t('verdict.warning', { count: groups.warning.length })
-    return t('verdict.note', { count: groups.info.length })
-  })()
-
-  const headlineKey: 'problem' | 'warning' | 'info' | null =
-    verdict === 'clear' ? null : groups.problem.length > 0 ? 'problem' : setupProblems.length > 0 ? null : groups.warning.length > 0 ? 'warning' : 'info'
-
-  const counts: { key: 'problem' | 'warning' | 'info'; label: string; tone: string }[] = [
-    { key: 'problem', label: t('verdict.problems'), tone: 'text-bad' },
-    { key: 'warning', label: t('verdict.warnings'), tone: 'text-review' },
-    { key: 'info', label: t('verdict.notes'), tone: 'text-info' },
-  ]
+  const parts = headlineParts(groups, setupProblemCount).map((p) => t(`verdict.part.${p.key}`, { count: p.count }))
+  let headline = t('verdict.clear')
+  if (verdict !== 'clear') {
+    try {
+      headline = new Intl.ListFormat(i18n.language, { type: 'conjunction' }).format(parts)
+    } catch {
+      headline = parts.join(', ')
+    }
+  }
 
   return (
     <section aria-labelledby="overview-verdict" className={cx('rounded-lg border p-4 sm:p-5', look.box)}>
@@ -67,22 +62,7 @@ export default function StatusBanner({ verdict, groups, setupProblems, modCount,
             {verdict === 'clear' ? (
               <p className="mt-0.5 text-sm text-muted">{t('verdict.clearDetail', { count: modCount })}</p>
             ) : (
-              <ul className="mt-1.5 flex empty:hidden flex-wrap gap-x-4 gap-y-1 text-sm">
-                {counts
-                  .filter((c) => c.key !== headlineKey && groups[c.key].length > 0)
-                  .map((c) => (
-                    <li key={c.key} className="flex items-baseline gap-1.5">
-                      <span className={cx('num font-medium', c.tone)}>{groups[c.key].length}</span>
-                      <span className="text-muted">{c.label.toLowerCase()}</span>
-                    </li>
-                  ))}
-                {setupProblems.length > 0 && groups.problem.length > 0 && (
-                  <li className="flex items-baseline gap-1.5">
-                    <span className="num font-medium text-bad">{setupProblems.length}</span>
-                    <span className="text-muted">{t('verdict.setup', { count: setupProblems.length }).replace(/^\d+\s/, '')}</span>
-                  </li>
-                )}
-              </ul>
+              <p className="mt-0.5 text-sm text-muted">{t(`verdict.detail.${verdict}`)}</p>
             )}
           </div>
         </div>
@@ -104,7 +84,7 @@ export default function StatusBanner({ verdict, groups, setupProblems, modCount,
               to="#needs-attention"
               onClick={(e) => {
                 e.preventDefault()
-                document.getElementById('needs-attention')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })
+                scrollToId('needs-attention')
                 document.getElementById('needs-attention-body')?.focus({ preventScroll: true })
               }}
               className="inline-flex items-center gap-1 text-sm font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent"
@@ -115,21 +95,6 @@ export default function StatusBanner({ verdict, groups, setupProblems, modCount,
           )}
         </div>
       </div>
-      {setupProblems.length > 0 && (
-        <ul className="mt-4 space-y-1 border-t border-bad/25 pt-3 text-sm text-ink">
-          {setupProblems.map((p) => (
-            <li key={p} className="flex items-start gap-2">
-              <Icon name="problem" size={14} className="mt-0.5 shrink-0 text-bad" />
-              <span>
-                {p}{' '}
-                <Link to="/settings" className="underline decoration-line-strong underline-offset-4 hover:decoration-accent">
-                  {t('verdict.openSettings')}
-                </Link>
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
       {sourceNotes.length > 0 && (
         <ul className="mt-3 space-y-1 text-sm text-muted">
           {sourceNotes.map((n) => (

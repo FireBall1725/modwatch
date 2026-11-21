@@ -70,9 +70,15 @@ export function daysBetween(fromIso: string, to: Date = new Date()): number {
   return Math.max(0, Math.floor((to.getTime() - new Date(fromIso).getTime()) / 86_400_000))
 }
 
-export type Relative = { key: 'justNow' | 'minutes' | 'hours' | 'days'; count: number }
+export type Relative = { key: 'justNow' | 'minutes' | 'hours' | 'days' | 'months' | 'years'; count: number }
 
-/** How long ago a time was, as a translation key and a count, so the caller picks the words. */
+const DAYS_PER_YEAR = 365.25
+const DAYS_PER_MONTH = 30.4375
+
+/**
+ * How long ago a time was, as a translation key and a count, so the caller picks the words. Under 48 hours it is hours,
+ * under 60 days it is days, under a year (365 days) it is months, and from a year on it is whole years.
+ */
 export function relativeTime(iso: string, now: Date = new Date()): Relative {
   const seconds = Math.max(0, Math.round((now.getTime() - new Date(iso).getTime()) / 1000))
   if (seconds < 60) return { key: 'justNow', count: 0 }
@@ -80,7 +86,10 @@ export function relativeTime(iso: string, now: Date = new Date()): Relative {
   if (minutes < 60) return { key: 'minutes', count: minutes }
   const hours = Math.round(minutes / 60)
   if (hours < 48) return { key: 'hours', count: hours }
-  return { key: 'days', count: Math.round(hours / 24) }
+  const days = Math.round(hours / 24)
+  if (days < 60) return { key: 'days', count: days }
+  if (days < 365) return { key: 'months', count: Math.min(11, Math.max(2, Math.round(days / DAYS_PER_MONTH))) }
+  return { key: 'years', count: Math.max(1, Math.floor(days / DAYS_PER_YEAR)) }
 }
 
 const dateFmt = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: 'short', day: 'numeric' })

@@ -3,6 +3,7 @@
 
 import { useTranslation } from 'react-i18next'
 import { cx } from '../../lib/cx'
+import PlatformAbsent from './PlatformAbsent'
 import type { Platform } from '../../lib/types'
 
 const STYLE: Record<Platform, string> = {
@@ -15,12 +16,15 @@ interface Props {
   size?: 'sm' | 'md'
   /** Show only the mark; the name stays available to screen readers and as a tooltip. */
   iconOnly?: boolean
+  /** The mod has no page on this platform: shows the shared "Not on {platform}" pill instead of the badge. */
+  absent?: boolean
   className?: string
 }
 
-/** Platform label in its fixed colour. The mark differs in shape (diamond, ring) as well as colour, and the name is always present. Props: platform, size, iconOnly, className. */
-export default function PlatformBadge({ platform, size = 'md', iconOnly = false, className }: Props) {
+/** Platform label in its fixed colour. The mark differs in shape (diamond, ring) as well as colour, and the name is always present. Props: platform, size, iconOnly, absent, className. */
+export default function PlatformBadge({ platform, size = 'md', iconOnly = false, absent = false, className }: Props) {
   const { t } = useTranslation('common')
+  if (absent) return <PlatformAbsent platform={platform} className={className} />
   const name = t(`platform.${platform}`)
   const s = size === 'sm' ? 10 : 12
   return (

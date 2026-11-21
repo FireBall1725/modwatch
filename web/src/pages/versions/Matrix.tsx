@@ -31,8 +31,8 @@ export default function Matrix({ rows, columns, value, highlightColumn, caption,
   for (const r of rows) for (const c of columns) max = Math.max(max, value(r.key, c.key) ?? 0)
   const shade = (v: number) => heatShade(v, max)
   return (
-    <div>
-      <div className="overflow-auto rounded-md" tabIndex={0} role="region" aria-label={caption}>
+    <div className="min-w-0 max-w-full">
+      <div className="max-w-full overflow-auto overscroll-x-contain rounded-md" tabIndex={0} role="region" aria-label={caption}>
         <table className="w-full border-separate border-spacing-0.5 text-xs">
           <caption className="sr-only">{caption}</caption>
           <thead>
@@ -48,7 +48,7 @@ export default function Matrix({ rows, columns, value, highlightColumn, caption,
           <tbody>
             {rows.map((r) => (
               <tr key={r.key}>
-                <th scope="row" className="sticky left-0 z-[2] w-56 max-w-56 min-w-40 bg-surface pr-3 text-left font-normal text-ink">
+                <th scope="row" className="sticky left-0 z-[2] w-36 max-w-36 min-w-32 sm:w-56 sm:max-w-56 sm:min-w-40 bg-surface pr-3 text-left font-normal text-ink">
                   <span className="block truncate" title={r.name}>{r.label}</span>
                 </th>
                 {columns.map((c) => {

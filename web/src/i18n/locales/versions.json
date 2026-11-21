@@ -1,6 +1,9 @@
 {
   "description": "Downloads by Minecraft version and which mods are ready for the newest one.",
-  "empty": { "title": "No Minecraft versions yet", "text": "Versions appear after the first poll finds files with game versions." },
+  "empty": {
+    "title": "No Minecraft versions yet",
+    "text": "Versions appear after the first poll finds files with game versions."
+  },
   "kpi": {
     "newest": "Newest version",
     "coverage_one": "{{have}} of {{total}} mod has a file",
@@ -16,18 +19,37 @@
     "some_other": "{{count}} of {{total}} mods have no file for {{version}}.",
     "none": "Every mod has a file for {{version}}.",
     "allCovered": "No gaps",
+    "legacyLeftOut_one": "{{count}} legacy mod is left out of this count.",
+    "legacyLeftOut_other": "{{count}} legacy mods are left out of this count.",
+    "legacyLink": "Change in Settings",
     "newestFile": "Newest file {{version}}",
     "noFiles": "No files at all"
   },
-  "byVersion": { "title": "Downloads by version", "note": "A file counts toward every version it targets." },
-  "byLoader": { "title": "Downloads by loader" },
-  "sort": { "label": "Order", "version": "Version", "downloads": "Downloads" },
+  "byVersion": {
+    "title": "Downloads by version",
+    "note": "A file counts toward every version it targets."
+  },
+  "byLoader": {
+    "title": "Downloads by loader",
+    "none": "No loader tag",
+    "noneHint_one": "{{count}} file has no loader tag",
+    "noneHint_other": "{{count}} files have no loader tag",
+    "noneNote_one": "{{count}} file is from before loaders were tagged, so it names none (1.7.10 era). Counted once.",
+    "noneNote_other": "{{count}} files are from before loaders were tagged, so they name none (1.7.10 era). Each is counted once."
+  },
+  "sort": {
+    "label": "Order",
+    "version": "Version",
+    "downloads": "Downloads"
+  },
   "daily": {
     "title": "Downloads per day by version",
     "description": "New downloads each day, split by the version they were for.",
     "caption": "Downloads per day by Minecraft version, last {{days}} days"
   },
-  "chart": { "other": "Other versions" },
+  "chart": {
+    "other": "Other versions"
+  },
   "matrix": {
     "title": "Mod by version matrix",
     "description": "Downloads per mod for each version it has a file for. Hatched cells have no file.",

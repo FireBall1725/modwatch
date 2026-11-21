@@ -2,10 +2,10 @@
 // Copyright (C) 2026 FireBall1725
 
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { cx } from '../../lib/cx'
 import Icon, { type IconName } from './Icon'
+import NewTabCue from './NewTabCue'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'sm' | 'md'
@@ -49,7 +49,6 @@ export default function Button({
   type = 'button',
   ...rest
 }: Props) {
-  const { t } = useTranslation('common')
   const classes = cx(
     'inline-flex shrink-0 select-none items-center justify-center rounded-md whitespace-nowrap transition-colors duration-150',
     'disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer',
@@ -69,7 +68,7 @@ export default function Button({
       return (
         <a href={href} target="_blank" rel="noreferrer noopener" className={classes}>
           {content}
-          <span className="sr-only">{t('newTab')}</span>
+          <NewTabCue />
         </a>
       )
     }

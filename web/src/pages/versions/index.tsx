@@ -20,7 +20,8 @@ import Toggle from '../../components/ui/Toggle'
 import { useApi } from '../../hooks/useApi'
 import { api } from '../../lib/api'
 import { formatCompact, formatCount } from '../../lib/format'
-import type { VersionTotal, Versions } from '../../lib/types'
+import PartialCountsNote from '../../components/ui/PartialCountsNote'
+import type { ModSummary, VersionTotal, Versions } from '../../lib/types'
 import Matrix from './Matrix'
 import {
   type MatrixSpan,
@@ -28,9 +29,11 @@ import {
   type RangeDays,
   type SortMode,
   coverage,
+  currentRows,
   dailyByVersion,
   filterRows,
   gapRows,
+  legacySlugs,
   newestCell,
   parseState,
   seriesTotal,
@@ -55,6 +58,8 @@ export default function VersionsPage() {
   const state = useMemo(() => parseState(params), [params])
   const patch = (p: Partial<PageState>) => setParams(serializeState({ ...state, ...p }), { replace: true })
   const { data, error, loading, reload } = useApi(() => api.versions(), [])
+  // The mod list tells which mods are legacy and which have no loader tag. The page still works without it.
+  const { data: mods } = useApi(() => api.mods(), [])
 
   const head = <PageHeader title={tc('nav.versions')} description={t('description')} />
   if (loading) return <>{head}<LoadingView /></>
@@ -65,19 +70,24 @@ export default function VersionsPage() {
     <>
       {head}
       {error && <ErrorState compact error={error} onRetry={() => void reload()} />}
-      <Content data={data} state={state} patch={patch} />
+      <Content data={data} mods={mods} state={state} patch={patch} />
     </>
   )
 }
 
-function Content({ data, state, patch }: { data: Versions; state: PageState; patch: (p: Partial<PageState>) => void }) {
+function Content({ data, mods, state, patch }: { data: Versions; mods: ModSummary[] | null; state: PageState; patch: (p: Partial<PageState>) => void }) {
   const { t } = useTranslation('versions')
   const { t: tc } = useTranslation('common')
   const [allGaps, setAllGaps] = useState(false)
   const latest = data.latestMinecraft
   const rows = data.matrix.rows
-  const cov = coverage(rows, latest)
-  const gaps = gapRows(rows, latest)
+  const legacy = useMemo(() => legacySlugs(mods), [mods])
+  const current = useMemo(() => currentRows(rows, legacy), [rows, legacy])
+  const legacyLeftOut = rows.length - current.length
+  const cov = coverage(current, latest)
+  const gaps = gapRows(current, latest)
+  // Exact, from the API: files with no loader tag (the 1.7.10 era), each counted once.
+  const noLoader = data.noLoader.downloads > 0 ? data.noLoader : null
   const top = topVersion(data.gameVersions)
   const topLoader = sortLoaders(data.loaders)[0] ?? null
   const latestTotal = data.gameVersions.find((v) => v.name === latest)
@@ -96,12 +106,19 @@ function Content({ data, state, patch }: { data: Versions; state: PageState; pat
       </span>
     ),
   }))
-  const loaderItems: BarItem[] = sortLoaders(data.loaders).map((v) => ({
-    key: v.name,
-    label: <span className="capitalize">{v.name}</span>,
-    value: v.downloads,
-    parts: PARTS(v, cf, mr),
-  }))
+  const loaderItems: BarItem[] = [
+    ...data.loaders.map((v) => ({ key: v.name, label: <span className="capitalize">{v.name}</span>, value: v.downloads, parts: PARTS(v, cf, mr) })),
+    ...(noLoader
+      ? [
+          {
+            key: '__none',
+            label: <span className="italic" title={t('byLoader.noneHint', { count: noLoader.files })}>{t('byLoader.none')}</span>,
+            value: noLoader.downloads,
+            parts: PARTS(noLoader, cf, mr),
+          },
+        ]
+      : []),
+  ].sort((a, b) => b.value - a.value)
 
   const daily = useMemo(() => dailyByVersion(data.history, state.range), [data.history, state.range])
   const chartSeries = daily.series.map((s, i) => ({
@@ -112,7 +129,7 @@ function Content({ data, state, patch }: { data: Versions; state: PageState; pat
   }))
 
   const columns = visibleVersions(data.matrix.versions, state.span).map((v) => ({ key: v, label: v }))
-  const shownRows = filterRows(rows, state.query, state.gapsOnly, latest)
+  const shownRows = filterRows(rows, state.query, state.gapsOnly, latest, legacy)
   const hasMoreVersions = data.matrix.versions.length > RECENT_VERSIONS
 
   return (
@@ -173,6 +190,12 @@ function Content({ data, state, patch }: { data: Versions; state: PageState; pat
               })}
             </ul>
           )}
+          {legacyLeftOut > 0 && (
+            <p className="mt-3 text-xs text-muted">
+              {t('gaps.legacyLeftOut', { count: legacyLeftOut })}{' '}
+              <Link to="/settings" className="text-accent hover:underline">{t('gaps.legacyLink')}</Link>
+            </p>
+          )}
           {gaps.length > 8 && (
             <button type="button" onClick={() => setAllGaps(!allGaps)} aria-expanded={allGaps} aria-controls="gap-list" className="mt-3 text-sm text-accent hover:underline">
               {allGaps ? tc('word.showFewer') : tc('word.showAll', { count: gaps.length })}
@@ -201,10 +224,13 @@ function Content({ data, state, patch }: { data: Versions; state: PageState; pat
         >
           <PlatformKey cf={cf} mr={mr} />
           <BarList items={versionItems} topN={14} ariaLabel={t('byVersion.title')} />
+          <PartialCountsNote className="mt-3" />
         </Card>
         <Card className="min-w-0" title={t('byLoader.title')}>
           <PlatformKey cf={cf} mr={mr} />
           <BarList items={loaderItems} topN={8} format={formatCompact} ariaLabel={t('byLoader.title')} />
+          {noLoader && <p className="mt-3 text-xs text-muted">{t('byLoader.noneNote', { count: noLoader.files })}</p>}
+          <PartialCountsNote className="mt-3" />
         </Card>
       </div>
 

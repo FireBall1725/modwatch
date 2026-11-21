@@ -336,3 +336,26 @@ func TestClearingEveryLinkDeletesTheEntryAndRelinkKeepsTheSlug(t *testing.T) {
 		t.Errorf("entries = %+v", list)
 	}
 }
+
+func TestLegacyFlagSavesAndSetsHandMade(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	savePoll(t, r, time.Now(), proj("curseforge", "1", "a", "A", true))
+	if entryBySlug(t, r, "a").Legacy {
+		t.Fatal("legacy must default to false")
+	}
+	yes := true
+	if _, err := r.UpdateCatalogEntry(ctx, "a", models.CatalogUpdate{Legacy: &yes}); err != nil {
+		t.Fatal(err)
+	}
+	if e := entryBySlug(t, r, "a"); !e.Legacy || e.Auto {
+		t.Errorf("a = %+v", e)
+	}
+	no := false
+	if _, err := r.UpdateCatalogEntry(ctx, "a", models.CatalogUpdate{Legacy: &no}); err != nil {
+		t.Fatal(err)
+	}
+	if entryBySlug(t, r, "a").Legacy {
+		t.Error("legacy should clear")
+	}
+}

@@ -43,3 +43,23 @@ func contains(s, sub string) bool {
 	}
 	return false
 }
+
+func TestMissingModrinthTokenIsAProblem(t *testing.T) {
+	has := func(c *Config) bool {
+		for _, p := range c.Problems() {
+			if p.Error() == "MODRINTH_TOKEN is not set, so Modrinth drafts and projects in review are hidden" {
+				return true
+			}
+		}
+		return false
+	}
+	if !has(&Config{Schedule: "0 * * * *", ModrinthUser: "someone"}) {
+		t.Error("expected a MODRINTH_TOKEN problem")
+	}
+	if has(&Config{Schedule: "0 * * * *", ModrinthUser: "someone", ModrinthToken: "x"}) {
+		t.Error("a token is set, so no problem")
+	}
+	if has(&Config{Schedule: "0 * * * *"}) {
+		t.Error("Modrinth is off, so no problem")
+	}
+}

@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/models"
+	"github.com/fireball1725/modwatch/internal/repository"
 	"github.com/fireball1725/modwatch/internal/version"
 )
 
@@ -47,6 +48,23 @@ func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	issues, err := h.repo.ListIssues(r.Context(), "open")
+	if err != nil {
+		http.Error(w, "couldn't read issues", http.StatusInternalServerError)
+		return
+	}
+	ix, err := h.repo.CatalogIndex(r.Context())
+	if err != nil {
+		http.Error(w, "couldn't read the catalog", http.StatusInternalServerError)
+		return
+	}
+
+	v, err := h.load(r.Context())
+	if err != nil {
+		http.Error(w, "couldn't read the dashboard data", http.StatusInternalServerError)
+		return
+	}
+
 	var b strings.Builder
 	head := func(name, kind, help string) {
 		fmt.Fprintf(&b, "# HELP %s %s\n# TYPE %s %s\n", name, help, name, kind)
@@ -56,18 +74,20 @@ func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(&b, "modwatch_build_info{version=%s} 1\n", quote(version.String()))
 
 	head("modwatch_mod_downloads_total", "counter", "Lifetime downloads CurseForge reports for a mod, as of the last successful poll.")
-	owned, member := 0, 0
 	for _, s := range stats {
 		fmt.Fprintf(&b, "modwatch_mod_downloads_total{id=%s,slug=%s,name=%s,owned=%s} %d\n",
 			quote(strconv.Itoa(s.ID)), quote(s.Slug), quote(s.Name), quote(strconv.FormatBool(s.Owned)), s.Downloads)
-		if s.Owned {
+	}
+
+	owned, member := 0, 0
+	for _, g := range v.groups {
+		if g.owned {
 			owned++
 		} else {
 			member++
 		}
 	}
-
-	head("modwatch_mods", "gauge", "Mods the last successful poll found, by whether the author owns them or is only a member.")
+	head("modwatch_mods", "gauge", "Mods on the dashboard (registry entries, any platform), by whether the author owns them or is only a member.")
 	fmt.Fprintf(&b, "modwatch_mods{owned=\"true\"} %d\nmodwatch_mods{owned=\"false\"} %d\n", owned, member)
 
 	if last != nil {
@@ -87,7 +107,9 @@ func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(&b, "modwatch_last_success_timestamp_seconds %d\n", lastOK.FinishedAt.Unix())
 	}
 
-	writeFileMetrics(&b, head, files)
+	writeFileMetrics(&b, head, v, files)
+	writeIssueMetrics(&b, head, ix, issues, time.Now())
+	writeProjectMetrics(&b, head, v)
 
 	if len(sources) > 0 {
 		head("modwatch_source_up", "gauge", "1 if the last attempt to read a source fully worked. The mod list can succeed while a source's files fail.")
@@ -120,14 +142,21 @@ func quote(s string) string {
 //
 // The roll-ups attribute a file to every version or loader it targets, so summing a roll-up across
 // versions counts a multi-version file once per version. Use the file series for exact totals.
-func writeFileMetrics(b *strings.Builder, head func(name, kind, help string), files []models.FileStat) {
+func writeFileMetrics(b *strings.Builder, head func(name, kind, help string), v *view, files []models.FileStat) {
 	if len(files) == 0 {
 		return
 	}
-	head("modwatch_file_downloads_total", "counter", "Downloads of one file (CurseForge) or version (Modrinth). CurseForge's per-file counts don't add up to the mod's total.")
+	// The slug is the registry slug, as on the project series; a file with no registry entry keeps its platform slug.
+	slugOf := func(f models.FileStat) string {
+		if g := v.byKey[fileKey(f)]; g != nil {
+			return g.slug
+		}
+		return f.ProjectSlug
+	}
+	head("modwatch_file_downloads_total", "counter", "Downloads of one file (CurseForge) or version (Modrinth); id is the platform's file or version id. CurseForge's per-file counts don't add up to the mod's total.")
 	for _, f := range files {
-		fmt.Fprintf(b, "modwatch_file_downloads_total{source=%s,slug=%s,name=%s,version=%s,release_type=%s,game_versions=%s,loaders=%s} %d\n",
-			quote(f.Source), quote(f.ProjectSlug), quote(f.ProjectName), quote(f.Version), quote(f.ReleaseType),
+		fmt.Fprintf(b, "modwatch_file_downloads_total{source=%s,slug=%s,name=%s,id=%s,version=%s,release_type=%s,game_versions=%s,loaders=%s} %d\n",
+			quote(f.Source), quote(slugOf(f)), quote(f.ProjectName), quote(f.ID), quote(f.Version), quote(f.ReleaseType),
 			quote(strings.Join(f.GameVersions, ",")), quote(strings.Join(f.Loaders, ",")), f.Downloads)
 	}
 
@@ -135,8 +164,8 @@ func writeFileMetrics(b *strings.Builder, head func(name, kind, help string), fi
 	rollup := func(pick func(models.File) []string) ([]key, map[key]int64) {
 		sums := map[key]int64{}
 		for _, f := range files {
-			for _, v := range pick(f.File) {
-				sums[key{f.Source, f.ProjectSlug, f.ProjectName, v}] += f.Downloads
+			for _, val := range pick(f.File) {
+				sums[key{f.Source, slugOf(f), f.ProjectName, val}] += f.Downloads
 			}
 		}
 		keys := make([]key, 0, len(sums))
@@ -161,5 +190,115 @@ func writeFileMetrics(b *strings.Builder, head func(name, kind, help string), fi
 	for _, k := range keys {
 		fmt.Fprintf(b, "modwatch_loader_downloads_total{source=%s,slug=%s,name=%s,loader=%s} %d\n",
 			quote(k.source), quote(k.slug), quote(k.name), quote(k.value), sums[k])
+	}
+}
+
+// writeIssueMetrics writes open issues per mod and kind, and the age of the oldest open bug or crash per mod.
+// The mod label is the registry slug, the raw GitHub label for an unlinked one, and "unlabelled" for none.
+func writeIssueMetrics(b *strings.Builder, head func(name, kind, help string), ix *repository.CatalogIndex, open []models.Issue, now time.Time) {
+	type key struct{ mod, kind string }
+	counts := map[key]int{}
+	oldestBug := map[string]time.Time{}
+	for _, is := range open {
+		mod, _ := issueModKey(ix, is)
+		if mod == "" {
+			mod = "unlabelled"
+		}
+		counts[key{mod, is.Kind}]++
+		if is.Kind == models.KindBug || is.Kind == models.KindCrash {
+			if o, ok := oldestBug[mod]; !ok || is.CreatedAt.Before(o) {
+				oldestBug[mod] = is.CreatedAt
+			}
+		}
+	}
+	if len(counts) == 0 {
+		return
+	}
+	keys := make([]key, 0, len(counts))
+	for k := range counts {
+		keys = append(keys, k)
+	}
+	sort.Slice(keys, func(i, j int) bool {
+		if keys[i].mod != keys[j].mod {
+			return keys[i].mod < keys[j].mod
+		}
+		return keys[i].kind < keys[j].kind
+	})
+	head("modwatch_issues_open", "gauge", "Open GitHub issues per mod and kind.")
+	for _, k := range keys {
+		fmt.Fprintf(b, "modwatch_issues_open{mod=%s,kind=%s} %d\n", quote(k.mod), quote(k.kind), counts[k])
+	}
+	if len(oldestBug) == 0 {
+		return
+	}
+	mods := make([]string, 0, len(oldestBug))
+	for m := range oldestBug {
+		mods = append(mods, m)
+	}
+	sort.Strings(mods)
+	head("modwatch_oldest_open_bug_age_seconds", "gauge", "Age of the oldest open bug or crash issue, for mods that have one.")
+	for _, m := range mods {
+		fmt.Fprintf(b, "modwatch_oldest_open_bug_age_seconds{mod=%s} %d\n", quote(m), int64(now.Sub(oldestBug[m]).Seconds()))
+	}
+}
+
+// writeProjectMetrics writes the per-project series and each mod's health.
+// The slug label is the registry slug, so the series join to the issue metrics and to each other.
+func writeProjectMetrics(b *strings.Builder, head func(name, kind, help string), v *view) {
+	groups := append([]*group{}, v.groups...)
+	sort.Slice(groups, func(i, j int) bool { return groups[i].slug < groups[j].slug })
+
+	type row struct {
+		g *group
+		p *models.PlatformStat
+	}
+	var rows []row
+	for _, g := range groups {
+		for _, p := range g.projects() {
+			rows = append(rows, row{g, p})
+		}
+	}
+	if len(rows) == 0 {
+		return
+	}
+
+	head("modwatch_project_downloads_total", "counter", "Lifetime downloads a platform reports for a project, as of the last poll that read that platform.")
+	for _, r := range rows {
+		fmt.Fprintf(b, "modwatch_project_downloads_total{platform=%s,slug=%s,name=%s} %d\n",
+			quote(r.p.Platform), quote(r.g.slug), quote(r.p.Name), r.p.Downloads)
+	}
+	head("modwatch_project_review_status", "gauge", "1 for the project's current review status; the status label is the shared vocabulary.")
+	for _, r := range rows {
+		fmt.Fprintf(b, "modwatch_project_review_status{platform=%s,slug=%s,status=%s} 1\n",
+			quote(r.p.Platform), quote(r.g.slug), quote(string(r.p.Status)))
+	}
+
+	wroteQueue := false
+	for _, r := range rows {
+		if r.p.Status != models.StatusInReview {
+			continue
+		}
+		since := v.reviewSince(r.p)
+		if since.IsZero() {
+			continue
+		}
+		if !wroteQueue {
+			head("modwatch_project_review_queue_seconds", "gauge", "How long a project has been in review, while it is.")
+			wroteQueue = true
+		}
+		fmt.Fprintf(b, "modwatch_project_review_queue_seconds{platform=%s,slug=%s} %d\n",
+			quote(r.p.Platform), quote(r.g.slug), int64(v.ds.now.Sub(since).Seconds()))
+	}
+
+	wroteHealth := false
+	for _, g := range groups {
+		if !g.owned {
+			continue
+		}
+		if !wroteHealth {
+			head("modwatch_mod_health", "gauge", "1 for the mod's current health: ok, attention or problem.")
+			wroteHealth = true
+		}
+		fmt.Fprintf(b, "modwatch_mod_health{slug=%s,health=%s} 1\n", quote(g.slug), quote(v.summary(g).Health))
 	}
 }

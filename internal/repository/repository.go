@@ -36,6 +36,12 @@ const keepFailedPolls = 50
 // SavePoll records a successful poll, upserts each mod and file and stores their download counts, in one transaction.
 // Source statuses go in the same transaction so the dashboard never shows a poll without its verdicts.
 func (r *Repo) SavePoll(ctx context.Context, p models.Poll, readings []models.Reading, files []models.FileReading, statuses []models.SourceStatus) (int64, error) {
+	return r.SavePollWithProjects(ctx, p, readings, files, nil, statuses)
+}
+
+// SavePollWithProjects is SavePoll plus the project-level readings of both platforms, saved in the same transaction.
+// A platform with no readings keeps its previous projects, so a failed Modrinth call doesn't blank its review states.
+func (r *Repo) SavePollWithProjects(ctx context.Context, p models.Poll, readings []models.Reading, files []models.FileReading, projects []models.PlatformReading, statuses []models.SourceStatus) (int64, error) {
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {
 		return 0, err
@@ -74,6 +80,19 @@ func (r *Repo) SavePoll(ctx context.Context, p models.Poll, readings []models.Re
 	}
 	for _, f := range files {
 		if err := saveFile(ctx, tx, id, p.FinishedAt, f); err != nil {
+			return 0, err
+		}
+	}
+	for _, pr := range projects {
+		if err := savePlatformProject(ctx, tx, id, p.FinishedAt, pr); err != nil {
+			return 0, err
+		}
+	}
+	if err := trackReviews(ctx, tx, p.FinishedAt, projects); err != nil {
+		return 0, err
+	}
+	if len(projects) > 0 {
+		if err := autoLink(ctx, tx); err != nil {
 			return 0, err
 		}
 	}
@@ -127,11 +146,11 @@ func saveSourceStatus(ctx context.Context, tx *sql.Tx, st models.SourceStatus) e
 	}
 	// A failed check leaves last_ok_at alone; an empty value on a failure means "keep the old one".
 	_, err := tx.ExecContext(ctx, `
-		INSERT INTO source_status (source, ok, error, checked_at, last_ok_at) VALUES (?, ?, ?, ?, ?)
+		INSERT INTO source_status (source, ok, error, detail, checked_at, last_ok_at) VALUES (?, ?, ?, ?, ?, ?)
 		ON CONFLICT (source) DO UPDATE SET
-			ok = excluded.ok, error = excluded.error, checked_at = excluded.checked_at,
+			ok = excluded.ok, error = excluded.error, detail = excluded.detail, checked_at = excluded.checked_at,
 			last_ok_at = CASE WHEN excluded.last_ok_at = '' THEN source_status.last_ok_at ELSE excluded.last_ok_at END`,
-		st.Source, st.OK, st.Error, format(st.CheckedAt), lastOK)
+		st.Source, st.OK, st.Error, st.Detail, format(st.CheckedAt), lastOK)
 	return err
 }
 
@@ -315,7 +334,7 @@ func (r *Repo) ListFileStats(ctx context.Context, now time.Time) ([]models.FileS
 
 // ListSourceStatuses returns the last verdict for each source that has been tried.
 func (r *Repo) ListSourceStatuses(ctx context.Context) ([]models.SourceStatus, error) {
-	rows, err := r.db.QueryContext(ctx, `SELECT source, ok, error, checked_at, last_ok_at FROM source_status ORDER BY source`)
+	rows, err := r.db.QueryContext(ctx, `SELECT source, ok, error, detail, checked_at, last_ok_at FROM source_status ORDER BY source`)
 	if err != nil {
 		return nil, err
 	}
@@ -325,7 +344,7 @@ func (r *Repo) ListSourceStatuses(ctx context.Context) ([]models.SourceStatus, e
 	for rows.Next() {
 		var st models.SourceStatus
 		var checked, lastOK string
-		if err := rows.Scan(&st.Source, &st.OK, &st.Error, &checked, &lastOK); err != nil {
+		if err := rows.Scan(&st.Source, &st.OK, &st.Error, &st.Detail, &checked, &lastOK); err != nil {
 			return nil, err
 		}
 		st.CheckedAt, st.LastOKAt = parseTime(checked), parseTime(lastOK)

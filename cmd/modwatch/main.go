@@ -21,6 +21,7 @@ import (
 	"github.com/fireball1725/modwatch/internal/db"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/providers/curseforge"
+	"github.com/fireball1725/modwatch/internal/providers/github"
 	"github.com/fireball1725/modwatch/internal/providers/modrinth"
 	"github.com/fireball1725/modwatch/internal/repository"
 	"github.com/fireball1725/modwatch/internal/version"
@@ -54,6 +55,9 @@ func main() {
 		mr = modrinth.New(cfg.ModrinthBaseURL, cfg.ModrinthToken, cfg.ModrinthUserAgent)
 	}
 	polls := poll.New(ctx, cfg, repo, cf, mr)
+	if cfg.CanPollGitHub() {
+		polls.WithGitHub(github.New(cfg.GitHubBaseURL, cfg.GitHubIssuesRepo, cfg.GitHubToken, "modwatch/"+version.String()))
+	}
 
 	// Poll at boot so the page is current; the stored data shows until it finishes.
 	if err := polls.Start(); err != nil {
@@ -101,5 +105,9 @@ func main() {
 	defer cancel()
 	if err := srv.Shutdown(shutdownCtx); err != nil {
 		slog.Error("forced shutdown", "error", err)
+	}
+	// Let a running poll finish or record its failure before the deferred conn.Close().
+	if !polls.Wait(15 * time.Second) {
+		slog.Warn("poll still running at shutdown")
 	}
 }

@@ -1,0 +1,106 @@
+{
+  "title": "Issues",
+  "description": "Open reports across all mods, from {{repo}}.",
+  "openRepo": "Open on GitHub",
+  "verdict": {
+    "clear": "No open issues",
+    "clearDetail": "Nothing is waiting on you.",
+    "requests_one": "No bugs or crashes. {{count}} open request.",
+    "requests_other": "No bugs or crashes. {{count}} open requests.",
+    "problems": "{{crashes}} and {{bugs}} open",
+    "crashes_zero": "No crashes",
+    "crashes_one": "{{count}} crash",
+    "crashes_other": "{{count}} crashes",
+    "bugs_zero": "no bugs",
+    "bugs_one": "{{count}} bug",
+    "bugs_other": "{{count}} bugs"
+  },
+  "kpi": {
+    "open": "Open issues",
+    "crashes": "Crashes",
+    "bugs": "Bugs",
+    "oldest": "Oldest open bug or crash",
+    "oldestNone": "No open bugs or crashes",
+    "closed": "{{count}} closed",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "mods_one": "across {{count}} mod",
+    "mods_other": "across {{count}} mods"
+  },
+  "unclaimed": {
+    "title": "Labels no mod claims",
+    "description": "These issues carry a mod label that is not linked to a registry entry, so they are missing from the per-mod counts.",
+    "issues_one": "{{count}} issue",
+    "issues_other": "{{count}} issues",
+    "link": "Link in Settings"
+  },
+  "byMod": {
+    "title": "Open by mod",
+    "aria": "Open issues by mod",
+    "crashes_one": "{{count}} crash",
+    "crashes_other": "{{count}} crashes",
+    "bugs_one": "{{count}} bug",
+    "bugs_other": "{{count}} bugs",
+    "other": "other",
+    "legend": {
+      "crash": "Crash",
+      "bug": "Bug",
+      "other": "Other"
+    }
+  },
+  "byKind": {
+    "title": "Open by kind",
+    "aria": "Open issues by kind"
+  },
+  "list": {
+    "title": "Issues",
+    "caption": "Issues in {{repo}}",
+    "shown_one": "{{count}} issue",
+    "shown_other": "{{count}} issues",
+    "of": "{{shown}} of {{total}}"
+  },
+  "filter": {
+    "search": "Search title, number, author or label",
+    "mod": "Mod",
+    "allMods": "All mods",
+    "unclaimed": "Unclaimed label",
+    "noMod": "No mod label",
+    "kind": "Kind",
+    "allKinds": "All kinds",
+    "state": "State",
+    "open": "Open",
+    "closed": "Closed",
+    "all": "All",
+    "age": "Open for",
+    "ageAny": "Any age",
+    "age7": "7 days or more",
+    "age30": "30 days or more",
+    "age90": "90 days or more",
+    "clear": "Clear filters"
+  },
+  "col": {
+    "kind": "Kind",
+    "issue": "Issue",
+    "mod": "Mod",
+    "age": "Opened",
+    "comments": "Comments",
+    "author": "Author",
+    "updated": "Updated"
+  },
+  "state": {
+    "closed": "Closed"
+  },
+  "comments_one": "{{count}} comment",
+  "comments_other": "{{count}} comments",
+  "noMod": "No mod label",
+  "unclaimedMod": "{{label}} (unclaimed)",
+  "empty": {
+    "title": "No issues match",
+    "description": "Try a different mod or kind, or clear the filters.",
+    "none": "Nothing here yet",
+    "noneDescription": "No issues have been filed in {{repo}}."
+  },
+  "error": {
+    "title": "Couldn't load issues"
+  }
+}

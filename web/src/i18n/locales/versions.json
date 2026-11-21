@@ -1,0 +1,44 @@
+{
+  "description": "Downloads by Minecraft version and which mods are ready for the newest one.",
+  "empty": { "title": "No Minecraft versions yet", "text": "Versions appear after the first poll finds files with game versions." },
+  "kpi": {
+    "newest": "Newest version",
+    "coverage_one": "{{have}} of {{total}} mod has a file",
+    "coverage_other": "{{have}} of {{total}} mods have a file",
+    "onNewest": "Downloads on newest",
+    "noFiles": "No files yet",
+    "top": "Most downloaded version",
+    "topLoader": "Top loader"
+  },
+  "gaps": {
+    "title": "Ready for {{version}}?",
+    "some_one": "{{count}} of {{total}} mod has no file for {{version}}.",
+    "some_other": "{{count}} of {{total}} mods have no file for {{version}}.",
+    "none": "Every mod has a file for {{version}}.",
+    "allCovered": "No gaps",
+    "newestFile": "Newest file {{version}}",
+    "noFiles": "No files at all"
+  },
+  "byVersion": { "title": "Downloads by version", "note": "A file counts toward every version it targets." },
+  "byLoader": { "title": "Downloads by loader" },
+  "sort": { "label": "Order", "version": "Version", "downloads": "Downloads" },
+  "daily": {
+    "title": "Downloads per day by version",
+    "description": "New downloads each day, split by the version they were for.",
+    "caption": "Downloads per day by Minecraft version, last {{days}} days"
+  },
+  "chart": { "other": "Other versions" },
+  "matrix": {
+    "title": "Mod by version matrix",
+    "description": "Downloads per mod for each version it has a file for. Hatched cells have no file.",
+    "spanLabel": "Versions shown",
+    "recent": "Newest {{count}}",
+    "all": "All versions",
+    "search": "Search mods",
+    "gapsOnly": "Only mods missing {{version}}",
+    "count_one": "{{shown}} of {{total}} mod",
+    "count_other": "{{shown}} of {{total}} mods",
+    "none": "No mods match",
+    "noFile": "no file"
+  }
+}

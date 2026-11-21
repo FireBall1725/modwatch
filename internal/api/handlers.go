@@ -22,6 +22,14 @@ type handlers struct {
 	cfg   *config.Config
 	repo  *repository.Repo
 	polls *poll.Service
+	clock func() time.Time
+}
+
+func (h *handlers) now() time.Time {
+	if h.clock != nil {
+		return h.clock()
+	}
+	return time.Now()
 }
 
 func writeJSON(w http.ResponseWriter, status int, v any) {
@@ -84,7 +92,7 @@ type summaryResponse struct {
 	LastPoll *models.Poll `json:"lastPoll"`
 	LastOK   *models.Poll `json:"lastOkPoll"`
 	// Sources says whether each download source (CurseForge, Modrinth) worked last time.
-	Sources []models.SourceStatus `json:"sources"`
+	Sources []sourceStatus `json:"sources"`
 }
 
 func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
@@ -121,17 +129,8 @@ func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
 		All:      tally(stats, func(models.ModStat) bool { return true }),
 		LastPoll: last,
 		LastOK:   lastOK,
-		Sources:  sources,
+		Sources:  toSourceStatuses(sources),
 	})
-}
-
-func (h *handlers) listMods(w http.ResponseWriter, r *http.Request) {
-	stats, err := h.repo.ListModStats(r.Context(), time.Now())
-	if err != nil {
-		writeError(w, http.StatusInternalServerError, "couldn't read mods")
-		return
-	}
-	writeJSON(w, http.StatusOK, stats)
 }
 
 // history returns one point per day for every mod, keyed by mod id, so the table can draw its sparklines in one call.
@@ -178,22 +177,4 @@ func (h *handlers) listFiles(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, files)
-}
-
-type versionsResponse struct {
-	GameVersions []models.VersionTotal `json:"gameVersions"`
-	Loaders      []models.VersionTotal `json:"loaders"`
-}
-
-// versions answers "which Minecraft versions and loaders are people downloading for".
-func (h *handlers) versions(w http.ResponseWriter, r *http.Request) {
-	files, err := h.repo.ListFileStats(r.Context(), time.Now())
-	if err != nil {
-		writeError(w, http.StatusInternalServerError, "couldn't read files")
-		return
-	}
-	writeJSON(w, http.StatusOK, versionsResponse{
-		GameVersions: totalsBy(files, gameVersionsOf),
-		Loaders:      totalsBy(files, loadersOf),
-	})
 }

@@ -218,11 +218,249 @@ func TestModrinthFailureDoesNotFailThePoll(t *testing.T) {
 func TestVersionOf(t *testing.T) {
 	for _, c := range []struct{ display, project, want string }{
 		{"Create: Turbolifts 26.11.0-rc.2", "Create: Turbolifts", "26.11.0-rc.2"},
-		{"graves-1.0.jar", "Graves", "graves-1.0.jar"},
+		{"graves-1.0.jar", "Graves", "1.0.jar"},
+		{"Graves-1.11-b2-universal.jar", "Graves", "1.11-b2-universal.jar"},
+		{"graves-1.8.9-b46-universal.jar", "Graves", "1.8.9-b46-universal.jar"},
+		{"ae2ee3emcaddon-1.0.jar", "AE2 EE3 EMC Add-on", "1.0.jar"},
+		{"Graves.jar", "Graves", "Graves.jar"},
+		{"Graves v2.0", "Graves", "2.0"},
 		{"Graves", "Graves", "Graves"},
 	} {
 		if got := versionOf(c.display, c.project); got != c.want {
 			t.Errorf("versionOf(%q, %q) = %q, want %q", c.display, c.project, got, c.want)
 		}
+	}
+}
+
+func processingProject() modrinth.Project {
+	queued := time.Date(2026, 11, 10, 8, 0, 0, 0, time.UTC)
+	req := "approved"
+	return modrinth.Project{
+		ID: "P9", Slug: "ae-lights", Title: "AE Lights", Description: "Lights", ProjectType: "mod",
+		Status: "processing", RequestedStatus: &req, ModeratorMsg: "Add a licence.", Queued: &queued,
+		Followers: 2, Downloads: 15, SourceURL: "https://src",
+	}
+}
+
+func TestPollStoresProjectsOfBothPlatforms(t *testing.T) {
+	cfMod := mod(1, "Mine", 10)
+	cfMod.Status, cfMod.ThumbsUp = 2, 6
+	cfMod.Links.IssuesURL = "https://cf-issues"
+	team := mod(2, "Team", 99)
+	team.Status = 4
+
+	svc, repo := newServiceWith(t,
+		fakeSource{member: []curseforge.Mod{cfMod, team}, owned: []curseforge.Mod{cfMod}},
+		fakeModrinth{projects: []modrinth.Project{processingProject()}})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	got, err := repo.ListPlatformStats(context.Background(), time.Now())
+	if err != nil {
+		t.Fatal(err)
+	}
+	by := map[string]models.PlatformStat{}
+	for _, s := range got {
+		by[s.Platform+"/"+s.ID] = s
+	}
+	if len(by) != 3 {
+		t.Fatalf("want 2 CurseForge and 1 Modrinth project, got %+v", got)
+	}
+
+	if c := by["curseforge/1"]; c.Status != models.StatusChangesRequired || c.RawStatus != "ChangesRequired" || !c.Owned || c.Followers != 6 || c.IssuesURL != "https://cf-issues" || c.Downloads != 10 {
+		t.Errorf("curseforge mine = %+v", c)
+	}
+	if c := by["curseforge/2"]; c.Status != models.StatusApproved || c.Owned {
+		t.Errorf("curseforge team = %+v", c)
+	}
+	m := by["modrinth/P9"]
+	if m.Status != models.StatusInReview || m.RawStatus != "processing" || m.StatusMessage != "Add a licence." || m.RequestedStatus != "approved" {
+		t.Errorf("modrinth review = %+v", m)
+	}
+	if !m.Owned || m.QueuedAt.IsZero() || m.URL != "https://modrinth.com/mod/ae-lights" || m.Downloads != 15 || m.Followers != 2 {
+		t.Errorf("modrinth project = %+v", m)
+	}
+}
+
+func TestModrinthOutageKeepsItsLastProjects(t *testing.T) {
+	cf := fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}}
+	svc, repo := newServiceWith(t, cf, fakeModrinth{projects: []modrinth.Project{processingProject()}})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	svc.mr = fakeModrinth{err: errors.New("modrinth: rate limited")}
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	got, _ := repo.ListPlatformStats(context.Background(), time.Now())
+	var mr, cfn int
+	for _, s := range got {
+		if s.Platform == "modrinth" {
+			mr++
+		} else {
+			cfn++
+		}
+	}
+	if mr != 1 || cfn != 1 {
+		t.Errorf("the failed source must keep its last projects: %+v", got)
+	}
+}
+
+func modrinthDetail(t *testing.T, repo *repository.Repo) (models.SourceStatus, bool) {
+	t.Helper()
+	sts, err := repo.ListSourceStatuses(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, s := range sts {
+		if s.Source == models.SourceModrinth {
+			return s, true
+		}
+	}
+	return models.SourceStatus{}, false
+}
+
+func TestMissingModrinthTokenIsSaidOutLoud(t *testing.T) {
+	svc, repo := newServiceWith(t, fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}}, fakeModrinth{})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	st, ok := modrinthDetail(t, repo)
+	want := "Drafts and projects in review are hidden without MODRINTH_TOKEN"
+	if !ok || !st.OK || st.Detail != want {
+		t.Errorf("status = %+v, want detail %q", st, want)
+	}
+	if cf, _ := repo.ListSourceStatuses(context.Background()); cf[0].Detail != "" {
+		t.Errorf("curseforge must carry no detail: %+v", cf)
+	}
+
+	svc.cfg.ModrinthToken = "tok"
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if st, _ := modrinthDetail(t, repo); st.Detail != "" {
+		t.Errorf("detail with a token = %q", st.Detail)
+	}
+}
+
+func TestMissingTokenDetailSurvivesAModrinthFailure(t *testing.T) {
+	svc, repo := newServiceWith(t, fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}}, fakeModrinth{err: errors.New("down")})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if st, _ := modrinthDetail(t, repo); st.OK || st.Detail == "" || st.Error == "" {
+		t.Errorf("status = %+v", st)
+	}
+}
+
+type fakeGitHub struct {
+	issues []models.Issue
+	err    error
+}
+
+func (f fakeGitHub) ListIssues(context.Context) ([]models.Issue, error) { return f.issues, f.err }
+
+func sourceOf(t *testing.T, repo *repository.Repo, name string) (models.SourceStatus, bool) {
+	t.Helper()
+	sts, err := repo.ListSourceStatuses(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, s := range sts {
+		if s.Source == name {
+			return s, true
+		}
+	}
+	return models.SourceStatus{}, false
+}
+
+func TestIssuesAreStoredAndTheDetailNamesTheMissingToken(t *testing.T) {
+	svc, repo := newService(t, fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}})
+	svc.cfg.GitHubIssuesRepo = "o/r"
+	at := time.Date(2026, 1, 2, 3, 4, 5, 0, time.UTC)
+	svc.WithGitHub(fakeGitHub{issues: []models.Issue{{Number: 7, Title: "t", State: "open", Kind: "bug", ModLabel: "mine", Labels: []string{"bug"}, CreatedAt: at, UpdatedAt: at}}})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	got, err := repo.ListIssues(context.Background(), "open")
+	if err != nil || len(got) != 1 || got[0].Number != 7 || got[0].ModLabel != "mine" || !got[0].CreatedAt.Equal(at) {
+		t.Fatalf("issues = %+v, %v", got, err)
+	}
+	st, ok := sourceOf(t, repo, models.SourceGitHub)
+	if !ok || !st.OK || st.Detail != "Unauthenticated: 60 requests an hour" {
+		t.Errorf("status = %+v", st)
+	}
+
+	svc.cfg.GitHubToken = "tok"
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if st, _ := sourceOf(t, repo, models.SourceGitHub); st.Detail != "" {
+		t.Errorf("detail with a token = %q", st.Detail)
+	}
+}
+
+func TestGitHubFailureKeepsIssuesAndDoesNotFailThePoll(t *testing.T) {
+	svc, repo := newService(t, fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}})
+	svc.cfg.GitHubIssuesRepo = "o/r"
+	at := time.Now().UTC()
+	svc.WithGitHub(fakeGitHub{issues: []models.Issue{{Number: 7, State: "open", Kind: "bug", CreatedAt: at, UpdatedAt: at}}})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	svc.WithGitHub(fakeGitHub{err: errors.New("github: rate limit reached")})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatalf("a GitHub failure failed the poll: %v", err)
+	}
+	if got, _ := repo.ListIssues(context.Background(), "all"); len(got) != 1 {
+		t.Errorf("issues after failure = %d, want the last 1", len(got))
+	}
+	if st, _ := sourceOf(t, repo, models.SourceGitHub); st.OK || st.Error == "" {
+		t.Errorf("status = %+v", st)
+	}
+
+	// A good poll with no issues clears the old ones.
+	svc.WithGitHub(fakeGitHub{})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if got, _ := repo.ListIssues(context.Background(), "all"); len(got) != 0 {
+		t.Errorf("issues = %d, want 0", len(got))
+	}
+}
+
+func TestGitHubOffWithoutARepo(t *testing.T) {
+	svc, repo := newService(t, fakeSource{owned: []curseforge.Mod{mod(1, "Mine", 10)}})
+	svc.WithGitHub(fakeGitHub{})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := sourceOf(t, repo, models.SourceGitHub); ok {
+		t.Error("no github source expected when GITHUB_ISSUES_REPO is empty")
+	}
+}
+
+func TestEmptyModListIsAFailedPollAndKeepsTheLastGoodOne(t *testing.T) {
+	svc, repo := newService(t, fakeSource{member: []curseforge.Mod{mod(1, "mine", 10)}, owned: []curseforge.Mod{mod(1, "mine", 10)}})
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	svc.cf = fakeSource{}
+	if err := svc.Run(context.Background()); err == nil {
+		t.Fatal("an empty mod list should fail the poll")
+	}
+	stats, err := repo.ListModStats(context.Background(), time.Now())
+	if err != nil || len(stats) != 1 {
+		t.Errorf("stats = %+v, err = %v; the last good poll should stay current", stats, err)
+	}
+}
+
+func TestWaitReturnsOnceThePollIsDone(t *testing.T) {
+	svc, _ := newService(t, fakeSource{member: []curseforge.Mod{mod(1, "mine", 10)}})
+	if err := svc.Start(); err != nil {
+		t.Fatal(err)
+	}
+	if !svc.Wait(5 * time.Second) {
+		t.Error("poll did not finish")
 	}
 }

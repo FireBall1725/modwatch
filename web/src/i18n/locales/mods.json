@@ -1,0 +1,115 @@
+{
+  "title": "Mods",
+  "description_one": "{{count}} mod across CurseForge and Modrinth.",
+  "description_other": "{{count}} mods across CurseForge and Modrinth.",
+  "health": {
+    "label": "Health",
+    "all": "All mods",
+    "problem": "Problems",
+    "attention": "Needs attention",
+    "ok": "Healthy",
+    "clear": "Nothing wrong",
+    "allClear": "Every mod is healthy."
+  },
+  "filters": {
+    "label": "Filters",
+    "search": "Search mods",
+    "platform": "Platform",
+    "platformAny": "Any platform",
+    "platformBoth": "On both platforms",
+    "platformOne": "On one platform only",
+    "platformOnCf": "On CurseForge",
+    "platformOnMr": "On Modrinth",
+    "review": "Review state",
+    "reviewAny": "Any review state",
+    "reviewApproved": "All approved",
+    "reviewInReview": "Something in review",
+    "reviewNotApproved": "Something not approved",
+    "minecraft": "Minecraft version",
+    "minecraftAny": "Any Minecraft version",
+    "issues": "Has open issues",
+    "members": "Show member mods",
+    "membersHint": "Mods you contribute to but don't own",
+    "clear": "Clear filters",
+    "active_one": "{{count}} filter on",
+    "active_other": "{{count}} filters on"
+  },
+  "columns": {
+    "mod": "Mod",
+    "curseforge": "CurseForge",
+    "modrinth": "Modrinth",
+    "issues": "Open issues",
+    "downloads": "Downloads",
+    "delta7d": "7 days",
+    "release": "Latest release",
+    "minecraft": "Minecraft"
+  },
+  "sort": {
+    "label": "Sort by",
+    "direction": "Sort direction",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "health": "Health",
+    "name": "Name",
+    "curseforge": "CurseForge status",
+    "modrinth": "Modrinth status",
+    "issues": "Open issues",
+    "downloads": "Downloads",
+    "delta7d": "7 day movement",
+    "release": "Latest release",
+    "minecraft": "Newest Minecraft"
+  },
+  "cell": {
+    "member": "Member",
+    "memberTitle": "You are a member of this project, not the owner",
+    "notPublished": "Not published",
+    "queued_one": "In queue {{count}} day",
+    "queued_other": "In queue {{count}} days",
+    "message": "Moderator message",
+    "noRepo": "No issue label linked",
+    "sevenDays": "7d",
+    "crashes_one": "{{count}} crash",
+    "crashes_other": "{{count}} crashes",
+    "bugs_one": "{{count}} bug",
+    "bugs_other": "{{count}} bugs",
+    "otherOpen": "+{{count}} other",
+    "open_one": "{{count}} open",
+    "open_other": "{{count}} open",
+    "noRelease": "No release yet",
+    "moreVersions": "{{count}} more",
+    "noVersions": "No files yet",
+    "split": "Downloads split by platform"
+  },
+  "table": {
+    "label": "Mods table"
+  },
+  "totals": {
+    "label": "Totals for the list",
+    "mods_one": "{{count}} mod",
+    "mods_other": "{{count}} mods",
+    "downloads": "downloads",
+    "week": "this week",
+    "openCrashes_one": "{{count}} open crash",
+    "openCrashes_other": "{{count}} open crashes",
+    "openBugs_one": "{{count}} open bug",
+    "openBugs_other": "{{count}} open bugs"
+  },
+  "showing": "Showing {{shown}} of {{total}}",
+  "empty": {
+    "noneTitle": "No mods yet",
+    "noneBody": "Mods appear after the first poll finds your projects.",
+    "noneAction": "Open settings",
+    "noMatchTitle": "No mods match",
+    "noMatchBody": "Loosen a filter or clear them all.",
+    "onlyMembersTitle": "Only member mods here",
+    "onlyMembersBody": "Nothing you own matches. Member mods are hidden.",
+    "showMembers": "Show member mods"
+  },
+  "error": {
+    "title": "Couldn't load the mod list"
+  },
+  "results": {
+    "count_one": "{{count}} mod shown",
+    "count_other": "{{count}} mods shown"
+  }
+}

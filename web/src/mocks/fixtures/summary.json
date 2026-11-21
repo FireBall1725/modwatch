@@ -1,0 +1,55 @@
+{
+ "version": "26.11.1",
+ "schedule": "*/30 * * * *",
+ "polling": false,
+ "problems": [],
+ "owned": {
+  "mods": 14,
+  "downloads": 1265439,
+  "delta24h": 468,
+  "delta7d": 3870
+ },
+ "all": {
+  "mods": 15,
+  "downloads": 188665439,
+  "delta24h": 468,
+  "delta7d": 3870
+ },
+ "lastPoll": {
+  "id": 412,
+  "startedAt": "2026-11-21T13:29:53.800Z",
+  "finishedAt": "2026-11-21T13:30:00.000Z",
+  "state": "ok",
+  "mods": 15
+ },
+ "lastOkPoll": {
+  "id": 412,
+  "startedAt": "2026-11-21T13:29:53.800Z",
+  "finishedAt": "2026-11-21T13:30:00.000Z",
+  "state": "ok",
+  "mods": 15
+ },
+ "sources": [
+  {
+   "source": "curseforge",
+   "ok": true,
+   "checkedAt": "2026-11-21T13:30:00.000Z",
+   "lastOkAt": "2026-11-21T13:30:00.000Z"
+  },
+  {
+   "source": "modrinth",
+   "ok": true,
+   "detail": "Token set. Drafts and projects in review are included.",
+   "checkedAt": "2026-11-21T13:30:00.000Z",
+   "lastOkAt": "2026-11-21T13:30:00.000Z"
+  },
+  {
+   "source": "github",
+   "ok": false,
+   "error": "GitHub returned 403: API rate limit exceeded. Resets at 14:42.",
+   "detail": "No token set, so requests share the anonymous limit of 60 an hour.",
+   "checkedAt": "2026-11-21T13:30:00.000Z",
+   "lastOkAt": "2026-11-21T11:30:00.000Z"
+  }
+ ]
+}

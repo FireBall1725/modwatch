@@ -250,3 +250,135 @@ func TestSourceStatusKeepsTheLastGoodTime(t *testing.T) {
 		t.Errorf("a failure must keep the last good time: %+v", got[0])
 	}
 }
+
+func pr(platform, id, name string, status models.ReviewStatus, n int64) models.PlatformReading {
+	return models.PlatformReading{
+		PlatformProject: models.PlatformProject{Platform: platform, ID: id, Slug: name, Name: name, Status: status, RawStatus: string(status), Owned: true},
+		Downloads:       n,
+	}
+}
+
+func TestPlatformProjectsRoundTrip(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	now := time.Date(2026, 11, 21, 12, 0, 0, 0, time.UTC)
+	queued := now.Add(-48 * time.Hour)
+
+	mr := pr("modrinth", "P1", "ae-lights", models.StatusInReview, 40)
+	mr.StatusMessage, mr.RequestedStatus, mr.QueuedAt = "Add a licence.", "approved", queued
+	mr.Followers, mr.IconURL, mr.URL = 3, "https://i", "https://modrinth.com/mod/ae-lights"
+	mr.SourceURL, mr.IssuesURL, mr.WikiURL, mr.DiscordURL = "s", "i", "w", "d"
+	mr.PublishedAt, mr.UpdatedAt = now.Add(-72*time.Hour), now.Add(-time.Hour)
+	cf := pr("curseforge", "7", "graves", models.StatusApproved, 100)
+	cf.Owned = false
+
+	if _, err := r.SavePollWithProjects(ctx, poll(now), nil, nil, []models.PlatformReading{mr, cf}, nil); err != nil {
+		t.Fatal(err)
+	}
+	got, err := r.ListPlatformStats(ctx, now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 2 || got[0].ID != "7" || got[1].ID != "P1" {
+		t.Fatalf("want biggest first, got %+v", got)
+	}
+	if got[0].Owned || got[0].Delta24h != nil || got[0].Delta7d != nil {
+		t.Errorf("curseforge = %+v", got[0])
+	}
+	m := got[1]
+	if m.Status != models.StatusInReview || m.StatusMessage != "Add a licence." || m.RequestedStatus != "approved" || !m.QueuedAt.Equal(queued) {
+		t.Errorf("review fields lost: %+v", m)
+	}
+	if m.Followers != 3 || m.SourceURL != "s" || m.IssuesURL != "i" || m.WikiURL != "w" || m.DiscordURL != "d" || !m.Owned || m.Downloads != 40 {
+		t.Errorf("metadata lost: %+v", m)
+	}
+	if !m.PublishedAt.Equal(mr.PublishedAt) || !m.UpdatedAt.Equal(mr.UpdatedAt) {
+		t.Errorf("times = %v %v", m.PublishedAt, m.UpdatedAt)
+	}
+}
+
+func TestPlatformStatsEmptyIsNotNilAndMissingTimesStayZero(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	got, err := r.ListPlatformStats(ctx, time.Now())
+	if err != nil || got == nil || len(got) != 0 {
+		t.Fatalf("got %v, %v", got, err)
+	}
+	if _, err := r.SavePollWithProjects(ctx, poll(time.Now()), nil, nil, []models.PlatformReading{pr("modrinth", "P", "x", models.StatusDraft, 0)}, nil); err != nil {
+		t.Fatal(err)
+	}
+	got, _ = r.ListPlatformStats(ctx, time.Now())
+	if len(got) != 1 || !got[0].QueuedAt.IsZero() || !got[0].PublishedAt.IsZero() || got[0].Downloads != 0 {
+		t.Errorf("got %+v", got)
+	}
+}
+
+func TestPlatformStatsKeepAPlatformThatMissedThePoll(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	t1 := time.Date(2026, 11, 20, 12, 0, 0, 0, time.UTC)
+	t2 := t1.Add(time.Hour)
+
+	_, _ = r.SavePollWithProjects(ctx, poll(t1), nil, nil, []models.PlatformReading{
+		pr("curseforge", "1", "a", models.StatusApproved, 10), pr("curseforge", "2", "gone", models.StatusApproved, 5),
+		pr("modrinth", "P1", "a", models.StatusApproved, 20),
+	}, nil)
+	// Modrinth failed in the second poll; CurseForge dropped project 2.
+	_, _ = r.SavePollWithProjects(ctx, poll(t2), nil, nil, []models.PlatformReading{pr("curseforge", "1", "a", models.StatusApproved, 12)}, nil)
+
+	got, _ := r.ListPlatformStats(ctx, t2)
+	ids := map[string]int64{}
+	for _, s := range got {
+		ids[s.Platform+"/"+s.ID] = s.Downloads
+	}
+	if len(ids) != 2 || ids["curseforge/1"] != 12 || ids["modrinth/P1"] != 20 {
+		t.Errorf("got %v", ids)
+	}
+}
+
+func TestPlatformHistoryKeepsTheLastSnapshotOfEachDay(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	day1 := time.Date(2026, 11, 19, 6, 0, 0, 0, time.UTC)
+	for i, at := range []time.Time{day1, day1.Add(10 * time.Hour), day1.Add(24 * time.Hour)} {
+		_, err := r.SavePollWithProjects(ctx, poll(at), nil, nil, []models.PlatformReading{
+			pr("curseforge", "1", "a", models.StatusApproved, int64(100+i)), pr("modrinth", "P", "a", models.StatusApproved, int64(10+i)),
+		}, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+	h, err := r.PlatformHistory(ctx, day1.Add(-time.Hour))
+	if err != nil {
+		t.Fatal(err)
+	}
+	cf := h[models.PlatformKey{Platform: "curseforge", ID: "1"}]
+	if len(cf) != 2 || cf[0].Downloads != 101 || cf[1].Downloads != 102 {
+		t.Errorf("curseforge history = %+v", cf)
+	}
+	if mr := h[models.PlatformKey{Platform: "modrinth", ID: "P"}]; len(mr) != 2 || mr[0].Downloads != 11 {
+		t.Errorf("modrinth history = %+v", mr)
+	}
+	if later, _ := r.PlatformHistory(ctx, day1.Add(20*time.Hour)); len(later[models.PlatformKey{Platform: "curseforge", ID: "1"}]) != 1 {
+		t.Errorf("since must cut older days: %+v", later)
+	}
+}
+
+func TestSourceDetailRoundTripsAndClears(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	now := time.Now()
+	st := models.SourceStatus{Source: "modrinth", OK: true, Detail: "hidden", CheckedAt: now, LastOKAt: now}
+	if _, err := r.SavePoll(ctx, poll(now), nil, nil, []models.SourceStatus{st}); err != nil {
+		t.Fatal(err)
+	}
+	got, _ := r.ListSourceStatuses(ctx)
+	if len(got) != 1 || got[0].Detail != "hidden" {
+		t.Fatalf("got %+v", got)
+	}
+	st.Detail = ""
+	_, _ = r.SavePoll(ctx, poll(now), nil, nil, []models.SourceStatus{st})
+	if got, _ = r.ListSourceStatuses(ctx); got[0].Detail != "" {
+		t.Errorf("detail must clear once the token is set: %+v", got)
+	}
+}

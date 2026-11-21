@@ -12,14 +12,91 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/fireball1725/modwatch/internal/models"
 )
 
 // Project is the part of a Modrinth project Modwatch keeps.
 type Project struct {
-	ID        string `json:"id"`
-	Slug      string `json:"slug"`
-	Title     string `json:"title"`
-	Downloads int64  `json:"downloads"`
+	ID          string `json:"id"`
+	Slug        string `json:"slug"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	// ProjectType is mod, modpack, resourcepack and so on; it is part of the project's web address.
+	ProjectType     string           `json:"project_type"`
+	Status          string           `json:"status"`
+	RequestedStatus *string          `json:"requested_status"`
+	ModeratorMsg    ModeratorMessage `json:"moderator_message"`
+	Queued          *time.Time       `json:"queued"`
+	Published       time.Time        `json:"published"`
+	Updated         time.Time        `json:"updated"`
+	Followers       int64            `json:"followers"`
+	IconURL         string           `json:"icon_url"`
+	SourceURL       string           `json:"source_url"`
+	IssuesURL       string           `json:"issues_url"`
+	WikiURL         string           `json:"wiki_url"`
+	DiscordURL      string           `json:"discord_url"`
+	Downloads       int64            `json:"downloads"`
+}
+
+// ModeratorMessage is the feedback a moderator left. The API sends an object with a message and a
+// body, or null; only the message text is kept.
+type ModeratorMessage string
+
+// UnmarshalJSON reads the object form, null, and a bare string.
+func (m *ModeratorMessage) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err == nil {
+		*m = ModeratorMessage(s)
+		return nil
+	}
+	var o struct {
+		Message *string `json:"message"`
+	}
+	if err := json.Unmarshal(b, &o); err != nil {
+		return fmt.Errorf("modrinth: unreadable moderator_message: %w", err)
+	}
+	*m = ""
+	if o.Message != nil {
+		*m = ModeratorMessage(*o.Message)
+	}
+	return nil
+}
+
+// Requested returns the requested status, or an empty string when there is none.
+func (p Project) Requested() string {
+	if p.RequestedStatus == nil {
+		return ""
+	}
+	return *p.RequestedStatus
+}
+
+// URL is the project's page on modrinth.com.
+func (p Project) URL() string {
+	kind := p.ProjectType
+	if kind == "" {
+		kind = "mod"
+	}
+	return "https://modrinth.com/" + kind + "/" + p.Slug
+}
+
+// ReviewStatus maps a Modrinth status to the shared vocabulary.
+func ReviewStatus(status string) models.ReviewStatus {
+	switch status {
+	case "approved":
+		return models.StatusApproved
+	case "processing":
+		return models.StatusInReview
+	case "draft":
+		return models.StatusDraft
+	case "rejected":
+		return models.StatusRejected
+	case "unlisted", "scheduled":
+		return models.StatusUnlisted
+	case "archived", "withheld":
+		return models.StatusArchived
+	}
+	return models.StatusUnknown
 }
 
 // Version is one release of a project. Unlike CurseForge, game versions and loaders arrive as separate lists.

@@ -81,6 +81,9 @@ export interface ModSummary {
   summary: string
   /** False for mods the author is only a member of. Hidden from the dashboards unless asked for. */
   owned: boolean
+  /** Set in Settings for a mod that deliberately stays on old Minecraft versions: it is left out of
+   *  "ready for the newest version" checks and never raises no_latest_minecraft. */
+  legacy: boolean
   curseforge: PlatformInfo | null
   modrinth: PlatformInfo | null
   github: GithubInfo | null
@@ -310,6 +313,7 @@ export interface CatalogEntry {
   modrinthId: string | null
   githubLabel: string | null
   hidden: boolean
+  legacy: boolean
   /** True when the poller linked it by matching names or slugs; false when it was set by hand. */
   auto: boolean
 }
@@ -340,6 +344,7 @@ export interface CatalogUpdate {
   modrinthId?: string | null
   githubLabel?: string | null
   hidden?: boolean
+  legacy?: boolean
 }
 
 // ---- POST /api/v1/poll -> 202 {"status":"started"}, 409 {"error":...} ---------------------------

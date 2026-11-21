@@ -72,7 +72,7 @@ var loaders = map[string]string{
 }
 
 // minecraftVersion matches release versions ("1.21.1"), pre-releases and snapshots ("1.21-Pre1", "24w14a").
-var minecraftVersion = regexp.MustCompile(`^(\d+\.\d+(\.\d+)?(-[A-Za-z0-9.]+)?|\d{2}w\d{2}[a-z])$`)
+var minecraftVersion = regexp.MustCompile(`(?i)^(\d+\.\d+(\.\d+)?([- ](snapshot|pre|rc)[-. ]?(release[-. ]?)?\d*|-[a-z0-9.]+)?|\d{2}w\d{2}[a-z])$`)
 
 // Classify splits a file's mixed game-version list into Minecraft versions and loaders.
 // Sides ("Client", "Server") and Java versions are dropped. Anything unrecognised is dropped too,

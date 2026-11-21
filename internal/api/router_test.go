@@ -68,8 +68,6 @@ func TestMetricsExposition(t *testing.T) {
 		"# TYPE modwatch_mod_downloads_total counter",
 		`modwatch_mod_downloads_total{id="7",slug="graves",name="Graves \"beta\"",owned="true"} 325645`,
 		`modwatch_mod_downloads_total{id="9",slug="ae2",name="Applied Energistics 2",owned="false"} 99`,
-		`modwatch_mods{owned="true"} 1`,
-		`modwatch_mods{owned="false"} 1`,
 		"modwatch_last_poll_success 1",
 		`modwatch_build_info{version="0.0.0-dev"} 1`,
 	} {
@@ -203,7 +201,7 @@ func TestFileAndSourceMetrics(t *testing.T) {
 	})
 	body := get(t, h, "/metrics").Body.String()
 	for _, want := range []string{
-		`modwatch_file_downloads_total{source="curseforge",slug="tower",name="tower",version="26.11.0-rc.2",release_type="release",game_versions="1.21.1",loaders="neoforge"} 16`,
+		`modwatch_file_downloads_total{source="curseforge",slug="tower",name="tower",id="tower26.11.0-rc.2",version="26.11.0-rc.2",release_type="release",game_versions="1.21.1",loaders="neoforge"} 16`,
 		`modwatch_game_version_downloads_total{source="curseforge",slug="tower",name="tower",game_version="1.21.1"} 33`,
 		`modwatch_game_version_downloads_total{source="curseforge",slug="tower",name="tower",game_version="1.21"} 17`,
 		`modwatch_loader_downloads_total{source="curseforge",slug="tower",name="tower",loader="neoforge"} 33`,
@@ -221,12 +219,62 @@ func TestFileAndSourceMetrics(t *testing.T) {
 
 func TestSummaryListsSources(t *testing.T) {
 	now := time.Now()
-	h := serverWithFiles(t, nil, []models.SourceStatus{{Source: "modrinth", OK: false, Error: "429", CheckedAt: now}})
+	h := serverWithFiles(t, nil, []models.SourceStatus{{Source: "modrinth", OK: false, Error: "429", Detail: "hidden without a token", CheckedAt: now}})
 	var s summaryResponse
 	if err := json.Unmarshal(get(t, h, "/api/v1/summary").Body.Bytes(), &s); err != nil {
 		t.Fatal(err)
 	}
-	if len(s.Sources) != 1 || s.Sources[0].OK || s.Sources[0].Error != "429" {
+	if len(s.Sources) != 1 || s.Sources[0].OK || s.Sources[0].Error != "429" || s.Sources[0].Detail != "hidden without a token" {
 		t.Errorf("sources = %+v", s.Sources)
+	}
+}
+
+// Two Modrinth versions sharing a version number must stay two series, and every series of a mod uses its registry slug.
+func TestMetricsFileSeriesAreUniqueAndUseRegistrySlug(t *testing.T) {
+	conn, err := db.Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = conn.Close() })
+	repo := repository.New(conn)
+	now := time.Now()
+	p := models.Poll{StartedAt: now.Add(-time.Second), FinishedAt: now}
+	mk := func(id string, n int64) models.FileReading {
+		return models.FileReading{
+			File: models.File{Source: "modrinth", ID: id, ProjectID: "MR1", ProjectSlug: "ags", ProjectName: "Auto Scale",
+				Name: id, Version: "1.0", ReleaseType: "release", GameVersions: []string{"1.21.1"}, Loaders: []string{"neoforge"}},
+			Downloads: n,
+		}
+	}
+	projects := []models.PlatformReading{
+		{PlatformProject: models.PlatformProject{Platform: "modrinth", ID: "MR1", Slug: "ags", Name: "Auto Scale", Status: models.StatusApproved, Owned: true}, Downloads: 50},
+		{PlatformProject: models.PlatformProject{Platform: "curseforge", ID: "5", Slug: "automatic-gui-scale", Name: "Auto Scale", Status: models.StatusApproved, Owned: true}, Downloads: 7},
+	}
+	if _, err := repo.SavePollWithProjects(context.Background(), p, nil, []models.FileReading{mk("v1", 40), mk("v2", 10)}, projects, nil); err != nil {
+		t.Fatal(err)
+	}
+	cfg := &config.Config{Schedule: "0 * * * *"}
+	h := NewRouter(cfg, repo, poll.New(context.Background(), cfg, repo, noSource{}, nil))
+	body := get(t, h, "/metrics").Body.String()
+
+	seen := map[string]bool{}
+	for _, line := range strings.Split(body, "\n") {
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		series := line[:strings.LastIndex(line, " ")]
+		if seen[series] {
+			t.Errorf("duplicate series %s", series)
+		}
+		seen[series] = true
+	}
+	if !strings.Contains(body, `id="v1"`) || !strings.Contains(body, `id="v2"`) {
+		t.Errorf("file series need the version id:\n%s", body)
+	}
+	if strings.Contains(body, `slug="ags"`) {
+		t.Errorf("a series uses the Modrinth slug instead of the registry slug:\n%s", body)
+	}
+	if !strings.Contains(body, `modwatch_mods{owned="true"} 1`) {
+		t.Errorf("modwatch_mods should count registry entries:\n%s", body)
 	}
 }

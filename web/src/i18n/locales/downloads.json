@@ -1,0 +1,86 @@
+{
+  "title": "Downloads",
+  "description": "CurseForge and Modrinth side by side.",
+  "kpi": {
+    "combined": "Combined",
+    "gained": "{{value}} in {{range}}",
+    "share": "{{value}} of all downloads",
+    "average": "Daily average",
+    "averageUnit": "per day",
+    "peak": "Best day {{value}} on {{date}}",
+    "noPeak": "Needs two polls on different days",
+    "split": "CurseForge {{cf}}, Modrinth {{mr}}",
+    "splitLead": "Split of all downloads",
+    "window": "Mean over {{range}}"
+  },
+  "chart": {
+    "title": "Movement",
+    "view": "Chart view",
+    "daily": "Per day",
+    "total": "Running total",
+    "dailyCaption": "Downloads gained per day, {{range}}, by platform",
+    "totalCaption": "Total downloads, {{range}}, by platform",
+    "partial": "Only {{count}} days of history so far.",
+    "today": "The last bar is today so far."
+  },
+  "flat": {
+    "title": "No new downloads in {{range}}",
+    "body": "Either nobody downloaded anything or polling stopped. Check the last poll in the header."
+  },
+  "share": {
+    "title": "Share by platform",
+    "allTime": "All time",
+    "range": "Gained in {{range}}",
+    "none": "No downloads gained in this range.",
+    "shift": "Modrinth is {{gain}} of the gain against {{all}} all time ({{points}} points).",
+    "shiftNone": "Modrinth holds {{all}} of all downloads."
+  },
+  "movers": {
+    "title": "Top movers",
+    "description": "Most downloads gained in {{range}}.",
+    "empty": "No mod gained downloads in this range."
+  },
+  "compare": {
+    "title": "Mod by mod",
+    "caption": "Downloads per mod on CurseForge and Modrinth, with the gain in {{range}}",
+    "search": "Search mods",
+    "platform": "Platform",
+    "members": "Include member mods",
+    "sort": "Sort by",
+    "count_one": "{{count}} mod",
+    "count_other": "{{count}} mods",
+    "emptyTitle": "No mods match",
+    "emptyBody": "Clear the search or the platform filter.",
+    "reset": "Reset filters",
+    "mod": "Mod",
+    "split": "Split",
+    "total": "Total",
+    "gain": "Gain",
+    "notThere": "Not on this platform",
+    "filter": {
+      "all": "All platforms",
+      "both": "On both platforms",
+      "curseforge": "On CurseForge",
+      "modrinth": "On Modrinth"
+    },
+    "sortKey": {
+      "total": "Total downloads",
+      "gain": "Gain in range",
+      "name": "Name"
+    },
+    "cfShort": "CF",
+    "mrShort": "MR",
+    "cfGain": "CurseForge gain",
+    "mrGain": "Modrinth gain",
+    "splitCf": "{{value}} CF",
+    "splitLabel": "CurseForge {{cf}}, Modrinth {{mr}}"
+  },
+  "empty": {
+    "title": "No download history yet",
+    "body": "History starts after the first poll. Use Poll now in the header."
+  },
+  "span": {
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
+  }
+}

@@ -1,0 +1,854 @@
+[
+ {
+  "platform": "modrinth",
+  "modSlug": "devworld",
+  "modName": "DevWorld",
+  "version": "0.1.1",
+  "name": "DevWorld 0.1.1 for 26.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-21T11:12:00.000Z",
+  "downloads": 43,
+  "url": "https://modrinth.com/mod/devworld/version/0.1.1-26.1"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "devworld",
+  "modName": "DevWorld",
+  "version": "0.1.0",
+  "name": "DevWorld 0.1.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-21T11:12:00.000Z",
+  "downloads": 42,
+  "url": "https://modrinth.com/mod/devworld/version/0.1.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "devworld",
+  "modName": "DevWorld",
+  "version": "0.1.1",
+  "name": "devworld-0.1.1+26.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-21T09:12:00.000Z",
+  "downloads": 0,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/devworld/files/900000"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "devworld",
+  "modName": "DevWorld",
+  "version": "0.1.0",
+  "name": "devworld-0.1.0+1.21.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-21T09:12:00.000Z",
+  "downloads": 0,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/devworld/files/900001"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.6.0",
+  "name": "Create: Turbolifts 0.6.0 for 26.3",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.3"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-19T11:12:00.000Z",
+  "downloads": 273,
+  "url": "https://modrinth.com/mod/create-turbolifts/version/0.6.0-26.3"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.6.0",
+  "name": "Create: Turbolifts 0.6.0 for 26.2",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-19T11:12:00.000Z",
+  "downloads": 273,
+  "url": "https://modrinth.com/mod/create-turbolifts/version/0.6.0-26.2"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.6.0",
+  "name": "create-turbolifts-0.6.0+26.3.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.3"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-19T09:12:00.000Z",
+  "downloads": 410,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900000"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.6.0",
+  "name": "create-turbolifts-0.6.0+26.2.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-19T09:12:00.000Z",
+  "downloads": 410,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900001"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.2",
+  "name": "FireCore 0.9.2 for 26.3",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.3"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-18T11:12:00.000Z",
+  "downloads": 721,
+  "url": "https://modrinth.com/mod/firecoremod/version/0.9.2-26.3"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.2",
+  "name": "FireCore 0.9.2 for 26.2",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-18T11:12:00.000Z",
+  "downloads": 721,
+  "url": "https://modrinth.com/mod/firecoremod/version/0.9.2-26.2"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.2",
+  "name": "firecorelib-0.9.2+26.3.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.3"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-18T09:12:00.000Z",
+  "downloads": 1333,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900000"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.2",
+  "name": "firecorelib-0.9.2+26.2.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-18T09:12:00.000Z",
+  "downloads": 1333,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900001"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-tech-addon",
+  "modName": "AE2 Tech Add-On",
+  "version": "2.0.0",
+  "name": "ae2-tech-addon-2.0.0+26.3.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.3"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-17T09:12:00.000Z",
+  "downloads": 3271,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900000"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "graves",
+  "modName": "Graves",
+  "version": "1.0.1",
+  "name": "Graves 1.0.1 for 26.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-16T11:12:00.000Z",
+  "downloads": 159,
+  "url": "https://modrinth.com/mod/graves-fb/version/1.0.1-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "graves",
+  "modName": "Graves",
+  "version": "1.0.1",
+  "name": "graves-fb-1.0.1+26.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-16T09:12:00.000Z",
+  "downloads": 265,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb/files/900000"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-ee3-emc-addon",
+  "modName": "AE2 EE3 EMC Add-On",
+  "version": "0.1.0",
+  "name": "ae2-ee3-emc-addon-0.1.0+1.7.10.jar",
+  "releaseType": "alpha",
+  "minecraftVersions": [
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "publishedAt": "2026-11-14T09:12:00.000Z",
+  "downloads": 0,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon/files/900000"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.2.0",
+  "name": "AE2 Traffic Monitor 1.2.0 for 26.2",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-13T11:12:00.000Z",
+  "downloads": 601,
+  "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.2.0-26.2"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.2.0",
+  "name": "AE2 Traffic Monitor 1.2.0 for 26.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-13T11:12:00.000Z",
+  "downloads": 601,
+  "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.2.0-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.2.0",
+  "name": "ae2-traffic-monitor-1.2.0+26.2.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-13T09:12:00.000Z",
+  "downloads": 942,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900000"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.2.0",
+  "name": "ae2-traffic-monitor-1.2.0+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-13T09:12:00.000Z",
+  "downloads": 942,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900001"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-lights",
+  "modName": "AE2 Lights",
+  "version": "0.3.0",
+  "name": "AE2 Lights 0.3.0 for 26.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-12T11:12:00.000Z",
+  "downloads": 0,
+  "url": "https://modrinth.com/mod/processing/version/0.3.0-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-lights",
+  "modName": "AE2 Lights",
+  "version": "0.3.0",
+  "name": "ae2-lights-0.3.0+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-12T09:12:00.000Z",
+  "downloads": 216,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights/files/900000"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "graves",
+  "modName": "Graves",
+  "version": "1.0.0",
+  "name": "Graves 1.0.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-10T11:12:00.000Z",
+  "downloads": 153,
+  "url": "https://modrinth.com/mod/graves-fb/version/1.0.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-tech-addon",
+  "modName": "AE2 Tech Add-On",
+  "version": "2.0.0",
+  "name": "ae2-tech-addon-2.0.0+26.2.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.2"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-10T09:12:00.000Z",
+  "downloads": 3129,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900001"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "graves",
+  "modName": "Graves",
+  "version": "1.0.0",
+  "name": "graves-fb-1.0.0+1.21.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-10T09:12:00.000Z",
+  "downloads": 256,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb/files/900001"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "qmk-extra-keybinds",
+  "modName": "QMK Extra Keybinds",
+  "version": "0.2.0",
+  "name": "QMK Extra Keybinds 0.2.0 for 26.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-09T11:12:00.000Z",
+  "downloads": 0,
+  "url": "https://modrinth.com/mod/qmk-extra-keybinds/version/0.2.0-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "qmk-extra-keybinds",
+  "modName": "QMK Extra Keybinds",
+  "version": "0.2.0",
+  "name": "qmk-extra-keybinds-0.2.0+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-09T09:12:00.000Z",
+  "downloads": 94,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds/files/900000"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.1",
+  "name": "FireCore 0.9.1 for 26.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-06T11:12:00.000Z",
+  "downloads": 669,
+  "url": "https://modrinth.com/mod/firecoremod/version/0.9.1-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.1",
+  "name": "firecorelib-0.9.1+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-06T09:12:00.000Z",
+  "downloads": 1236,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900002"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.5.1",
+  "name": "Create: Turbolifts 0.5.1 for 26.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-05T11:12:00.000Z",
+  "downloads": 250,
+  "url": "https://modrinth.com/mod/create-turbolifts/version/0.5.1-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.5.1",
+  "name": "create-turbolifts-0.5.1+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-05T09:12:00.000Z",
+  "downloads": 376,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900002"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "qmk-extra-keybinds",
+  "modName": "QMK Extra Keybinds",
+  "version": "0.1.0",
+  "name": "QMK Extra Keybinds 0.1.0 for 1.21.1",
+  "releaseType": "alpha",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-03T11:12:00.000Z",
+  "downloads": 0,
+  "url": "https://modrinth.com/mod/qmk-extra-keybinds/version/0.1.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "qmk-extra-keybinds",
+  "modName": "QMK Extra Keybinds",
+  "version": "0.1.0",
+  "name": "qmk-extra-keybinds-0.1.0+1.21.1.jar",
+  "releaseType": "alpha",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-03T09:12:00.000Z",
+  "downloads": 90,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds/files/900001"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-tech-addon",
+  "modName": "AE2 Tech Add-On",
+  "version": "2.0.0",
+  "name": "ae2-tech-addon-2.0.0+26.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-11-02T09:12:00.000Z",
+  "downloads": 2981,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900002"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.5.0",
+  "name": "Create: Turbolifts 0.5.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-31T11:12:00.000Z",
+  "downloads": 242,
+  "url": "https://modrinth.com/mod/create-turbolifts/version/0.5.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.5.0",
+  "name": "create-turbolifts-0.5.0+1.21.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-31T09:12:00.000Z",
+  "downloads": 365,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900003"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "lost-crafters-server-switcher",
+  "modName": "Lost Crafters Server Switcher",
+  "version": "1.1.0",
+  "name": "Lost Crafters Server Switcher 1.1.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-28T11:12:00.000Z",
+  "downloads": 340,
+  "url": "https://modrinth.com/mod/lost-crafters-server-switcher/version/1.1.0-1.21.1"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-lights",
+  "modName": "AE2 Lights",
+  "version": "0.2.0",
+  "name": "AE2 Lights 0.2.0 for 1.21.1",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-27T11:12:00.000Z",
+  "downloads": 0,
+  "url": "https://modrinth.com/mod/processing/version/0.2.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-lights",
+  "modName": "AE2 Lights",
+  "version": "0.2.0",
+  "name": "ae2-lights-0.2.0+1.21.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-27T09:12:00.000Z",
+  "downloads": 196,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights/files/900001"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-tech-addon",
+  "modName": "AE2 Tech Add-On",
+  "version": "2.0.0",
+  "name": "ae2-tech-addon-2.0.0+1.21.1.jar",
+  "releaseType": "beta",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-25T09:12:00.000Z",
+  "downloads": 2846,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900003"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.1.0",
+  "name": "AE2 Traffic Monitor 1.1.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-23T11:12:00.000Z",
+  "downloads": 530,
+  "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.1.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.1.0",
+  "name": "ae2-traffic-monitor-1.1.0+1.21.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-23T09:12:00.000Z",
+  "downloads": 832,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900002"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.0",
+  "name": "FireCore 0.9.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-19T11:12:00.000Z",
+  "downloads": 603,
+  "url": "https://modrinth.com/mod/firecoremod/version/0.9.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "firecore",
+  "modName": "FireCore",
+  "version": "0.9.0",
+  "name": "firecorelib-0.9.0+1.21.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-19T09:12:00.000Z",
+  "downloads": 1114,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900003"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "auto-gui-scale",
+  "modName": "Automatic Gui Scale",
+  "version": "3.2.1",
+  "name": "Automatic Gui Scale 3.2.1 for 26.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge",
+   "fabric"
+  ],
+  "publishedAt": "2026-10-14T11:12:00.000Z",
+  "downloads": 10960,
+  "url": "https://modrinth.com/mod/ags/version/3.2.1-26.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "auto-gui-scale",
+  "modName": "Automatic Gui Scale",
+  "version": "3.2.1",
+  "name": "automatic-gui-scale-3.2.1+26.1.jar",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "26.1"
+  ],
+  "loaders": [
+   "neoforge",
+   "fabric"
+  ],
+  "publishedAt": "2026-10-14T09:12:00.000Z",
+  "downloads": 16576,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900000"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "lost-crafters-server-switcher",
+  "modName": "Lost Crafters Server Switcher",
+  "version": "1.0.0",
+  "name": "Lost Crafters Server Switcher 1.0.0 for 1.20.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.20.1"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "publishedAt": "2026-10-06T11:12:00.000Z",
+  "downloads": 301,
+  "url": "https://modrinth.com/mod/lost-crafters-server-switcher/version/1.0.0-1.20.1"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.3.0",
+  "name": "Create: Turbolifts 0.3.0 for 1.21.1",
+  "releaseType": "alpha",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-02T11:12:00.000Z",
+  "downloads": 206,
+  "url": "https://modrinth.com/mod/create-turbolifts/version/0.3.0-1.21.1"
+ },
+ {
+  "platform": "curseforge",
+  "modSlug": "create-turbolifts",
+  "modName": "Create: Turbolifts",
+  "version": "0.3.0",
+  "name": "create-turbolifts-0.3.0+1.21.1.jar",
+  "releaseType": "alpha",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-10-02T09:12:00.000Z",
+  "downloads": 312,
+  "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900004"
+ },
+ {
+  "platform": "modrinth",
+  "modSlug": "ae2-traffic-monitor",
+  "modName": "AE2 Traffic Monitor",
+  "version": "1.0.0",
+  "name": "AE2 Traffic Monitor 1.0.0 for 1.21.1",
+  "releaseType": "release",
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "publishedAt": "2026-09-22T11:12:00.000Z",
+  "downloads": 451,
+  "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.0.0-1.21.1"
+ }
+]

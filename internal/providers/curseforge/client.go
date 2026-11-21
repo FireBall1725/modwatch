@@ -13,6 +13,8 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/fireball1725/modwatch/internal/models"
 )
 
 // pageSize is the API's maximum. It also caps a query at 10,000 results, far past any one author.
@@ -27,13 +29,49 @@ type Mod struct {
 	DownloadCount int64     `json:"downloadCount"`
 	DateCreated   time.Time `json:"dateCreated"`
 	DateModified  time.Time `json:"dateModified"`
-	Links         struct {
+	DateReleased  time.Time `json:"dateReleased"`
+	// Status is the review state, 1 to 10. See ReviewStatus.
+	Status      int  `json:"status"`
+	IsAvailable bool `json:"isAvailable"`
+	ThumbsUp    int  `json:"thumbsUpCount"`
+	Links       struct {
 		WebsiteURL string `json:"websiteUrl"`
+		SourceURL  string `json:"sourceUrl"`
+		IssuesURL  string `json:"issuesUrl"`
+		WikiURL    string `json:"wikiUrl"`
 	} `json:"links"`
 	Logo *struct {
 		ThumbnailURL string `json:"thumbnailUrl"`
 	} `json:"logo"`
 }
+
+// statusNames maps CurseForge's numeric project status to its raw word and the shared vocabulary.
+var statusNames = map[int]struct {
+	raw    string
+	status models.ReviewStatus
+}{
+	1:  {"New", models.StatusInReview},
+	2:  {"ChangesRequired", models.StatusChangesRequired},
+	3:  {"UnderSoftReview", models.StatusInReview},
+	4:  {"Approved", models.StatusApproved},
+	5:  {"Rejected", models.StatusRejected},
+	6:  {"ChangesMade", models.StatusInReview},
+	7:  {"Inactive", models.StatusInactive},
+	8:  {"Abandoned", models.StatusInactive},
+	9:  {"Deleted", models.StatusInactive},
+	10: {"UnderReview", models.StatusInReview},
+}
+
+// ReviewStatus maps a numeric status to the shared vocabulary and the raw word.
+func ReviewStatus(code int) (models.ReviewStatus, string) {
+	if n, ok := statusNames[code]; ok {
+		return n.status, n.raw
+	}
+	return models.StatusUnknown, "Unknown"
+}
+
+// Review returns the mod's review state in the shared vocabulary and as CurseForge words it.
+func (m Mod) Review() (models.ReviewStatus, string) { return ReviewStatus(m.Status) }
 
 // LogoURL returns the thumbnail, or an empty string when the project has no logo.
 func (m Mod) LogoURL() string {

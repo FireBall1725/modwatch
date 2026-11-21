@@ -1,0 +1,1191 @@
+[
+ {
+  "slug": "applied-energistics-2",
+  "name": "Applied Energistics 2",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(210%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(250%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Store and move items digitally. The author is a member of the project.",
+  "owned": false,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "223794",
+   "slug": "applied-energistics-2",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 187400000,
+   "delta24h": 3889,
+   "delta7d": 42745,
+   "followers": 9000,
+   "publishedAt": "2026-10-12T09:30:00.000Z",
+   "updatedAt": "2026-11-01T09:12:00.000Z",
+   "files": 1
+  },
+  "modrinth": null,
+  "github": null,
+  "downloads": {
+   "total": 187400000,
+   "curseforge": 187400000,
+   "modrinth": 0,
+   "delta24h": 3889,
+   "delta7d": 42745
+  },
+  "latestRelease": {
+   "platform": "curseforge",
+   "version": "19.2.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-01T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.21.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "ok",
+  "attention": []
+ },
+ {
+  "slug": "default-world-generator",
+  "name": "Default World Generator",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(140%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(180%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EDW%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Sets the world type, seed and generator settings for new worlds, so a pack ships its own defaults.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "227814",
+   "slug": "default-world-generator",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1115528,
+   "delta24h": 94,
+   "delta7d": 982,
+   "followers": 412,
+   "publishedAt": "2018-05-02T09:30:00.000Z",
+   "updatedAt": "2024-05-30T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "Kx9bQ2aE",
+   "slug": "default-world-generator",
+   "url": "https://modrinth.com/mod/default-world-generator",
+   "status": "unlisted",
+   "rawStatus": "unlisted",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 5236,
+   "delta24h": 2,
+   "delta7d": 11,
+   "followers": 18,
+   "publishedAt": "2018-05-02T09:30:00.000Z",
+   "updatedAt": "2024-05-30T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "default-world-generator",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 1120764,
+   "curseforge": 1115528,
+   "modrinth": 5236,
+   "delta24h": 96,
+   "delta7d": 993
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "1.5.0",
+   "releaseType": "release",
+   "publishedAt": "2024-05-30T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.18.2"
+   ]
+  },
+  "minecraftVersions": [
+   "1.18.2",
+   "1.16.5",
+   "1.12.2",
+   "1.10.2",
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "default-world-generator",
+    "title": "Default World Generator has had no release in 2.5 years",
+    "detail": "Last release is over a year old.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "auto-gui-scale",
+  "name": "Automatic Gui Scale",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(205%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(245%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAG%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Picks the GUI scale that fits your window, so menus stay readable on every monitor.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "689123",
+   "slug": "automatic-gui-scale",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 48310,
+   "delta24h": 31,
+   "delta7d": 249,
+   "followers": 96,
+   "publishedAt": "2024-07-14T09:30:00.000Z",
+   "updatedAt": "2026-10-14T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "q3Zr7wLm",
+   "slug": "ags",
+   "url": "https://modrinth.com/mod/ags",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 31942,
+   "delta24h": 24,
+   "delta7d": 183,
+   "followers": 61,
+   "publishedAt": "2024-07-14T09:30:00.000Z",
+   "updatedAt": "2026-10-14T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "auto-gui-scale",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 80252,
+   "curseforge": 48310,
+   "modrinth": 31942,
+   "delta24h": 55,
+   "delta7d": 432
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "3.2.1",
+   "releaseType": "release",
+   "publishedAt": "2026-10-14T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.11",
+   "1.21.4",
+   "1.21.1",
+   "1.20.1",
+   "1.19.2"
+  ],
+  "loaders": [
+   "fabric",
+   "forge",
+   "neoforge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "auto-gui-scale",
+    "title": "Automatic Gui Scale has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "twitch-notifier",
+  "name": "Twitch Notifier",
+  "iconUrl": "",
+  "summary": "Shows an in-game toast when a streamer you follow goes live.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "391775",
+   "slug": "twitch-notifier",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier",
+   "status": "inactive",
+   "rawStatus": "Inactive",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 22604,
+   "delta24h": 4,
+   "delta7d": 24,
+   "followers": 71,
+   "publishedAt": "2023-03-22T09:30:00.000Z",
+   "updatedAt": "2025-02-19T09:12:00.000Z",
+   "files": 3
+  },
+  "modrinth": null,
+  "github": {
+   "label": "twitch-notifier",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 22604,
+   "curseforge": 22604,
+   "modrinth": 0,
+   "delta24h": 4,
+   "delta7d": 24
+  },
+  "latestRelease": {
+   "platform": "curseforge",
+   "version": "1.3.0",
+   "releaseType": "release",
+   "publishedAt": "2025-02-19T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.20.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.20.1",
+   "1.19.2",
+   "1.16.5"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "twitch-notifier",
+    "title": "Twitch Notifier has had no release in 1.8 years",
+    "detail": "Last release is over a year old.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "ae2-tech-addon",
+  "name": "AE2 Tech Add-On",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(190%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(230%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Adds advanced multiblock machines to Applied Energistics 2, rewritten from the 1.7.10 original.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "905512",
+   "slug": "ae2-tech-addon",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 12418,
+   "delta24h": 66,
+   "delta7d": 512,
+   "followers": 44,
+   "publishedAt": "2020-01-07T09:30:00.000Z",
+   "updatedAt": "2026-11-17T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": null,
+  "github": {
+   "label": "ae2-tech-addon",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 12418,
+   "curseforge": 12418,
+   "modrinth": 0,
+   "delta24h": 66,
+   "delta7d": 512
+  },
+  "latestRelease": {
+   "platform": "curseforge",
+   "version": "2.0.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-17T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1",
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge",
+   "neoforge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "missing_platform",
+    "modSlug": "ae2-tech-addon",
+    "title": "AE2 Tech Add-On is only on CurseForge",
+    "detail": "No project on the other platform is linked.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "ftb-pax-timer",
+  "name": "FTB Pax Timer",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(30%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(70%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EFP%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "A countdown and event timer overlay for FTB convention packs.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "560341",
+   "slug": "ftb-pax-timer",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-pax-timer",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 8950,
+   "delta24h": 4,
+   "delta7d": 28,
+   "followers": 22,
+   "publishedAt": "2024-01-03T09:30:00.000Z",
+   "updatedAt": "2025-10-05T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "T8vYc1nA",
+   "slug": "ftb-pax-timer",
+   "url": "https://modrinth.com/mod/ftb-pax-timer",
+   "status": "archived",
+   "rawStatus": "archived",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 411,
+   "delta24h": 0,
+   "delta7d": 1,
+   "followers": 3,
+   "publishedAt": "2024-01-03T09:30:00.000Z",
+   "updatedAt": "2025-10-05T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "ftb-pax-timer",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 9361,
+   "curseforge": 8950,
+   "modrinth": 411,
+   "delta24h": 4,
+   "delta7d": 29
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "1.1.0",
+   "releaseType": "release",
+   "publishedAt": "2025-10-05T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.18.2"
+   ]
+  },
+  "minecraftVersions": [
+   "1.18.2",
+   "1.12.2"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "ftb-pax-timer",
+    "title": "FTB Pax Timer has had no release in 1.1 years",
+    "detail": "Last release is over a year old.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "firecore",
+  "name": "FireCore",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(335%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(15%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EF%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "The shared library and GUI toolkit behind the FireBall1725 mods, plus the Benihime sword.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1214770",
+   "slug": "firecorelib",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 5942,
+   "delta24h": 62,
+   "delta7d": 412,
+   "followers": 31,
+   "publishedAt": "2026-09-08T09:30:00.000Z",
+   "updatedAt": "2026-11-18T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "rF4dN6pS",
+   "slug": "firecoremod",
+   "url": "https://modrinth.com/mod/firecoremod",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 3217,
+   "delta24h": 27,
+   "delta7d": 210,
+   "followers": 27,
+   "publishedAt": "2026-09-08T09:30:00.000Z",
+   "updatedAt": "2026-11-18T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "firecore",
+   "open": 1,
+   "openBugs": 1,
+   "openCrashes": 0,
+   "oldestOpenBugAt": "2026-11-16T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 9159,
+   "curseforge": 5942,
+   "modrinth": 3217,
+   "delta24h": 89,
+   "delta7d": 622
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "0.9.2",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-18T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "bug_open",
+    "modSlug": "firecore",
+    "title": "Open bug in FireCore",
+    "detail": "#44: Benihime sheath renders at the wrong angle while sneaking",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/44"
+   }
+  ]
+ },
+ {
+  "slug": "ae2-traffic-monitor",
+  "name": "AE2 Traffic Monitor",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(175%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(215%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Shows how much item traffic each AE2 network cable carries, with a graph you can read at a glance.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1187326",
+   "slug": "ae2-traffic-monitor",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 3426,
+   "delta24h": 29,
+   "delta7d": 277,
+   "followers": 19,
+   "publishedAt": "2026-09-21T09:30:00.000Z",
+   "updatedAt": "2026-11-13T09:12:00.000Z",
+   "files": 4
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "mN2xK8vT",
+   "slug": "ae2-traffic-monitor",
+   "url": "https://modrinth.com/mod/ae2-traffic-monitor",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 2183,
+   "delta24h": 19,
+   "delta7d": 176,
+   "followers": 14,
+   "publishedAt": "2026-09-21T09:30:00.000Z",
+   "updatedAt": "2026-11-13T09:12:00.000Z",
+   "files": 4
+  },
+  "github": {
+   "label": "ae2-traffic-monitor",
+   "open": 1,
+   "openBugs": 1,
+   "openCrashes": 0,
+   "oldestOpenBugAt": "2026-10-26T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 5609,
+   "curseforge": 3426,
+   "modrinth": 2183,
+   "delta24h": 48,
+   "delta7d": 453
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "1.2.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-13T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.2"
+   ]
+  },
+  "minecraftVersions": [
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "bug_open",
+    "modSlug": "ae2-traffic-monitor",
+    "title": "Open bug in AE2 Traffic Monitor",
+    "detail": "#38: Traffic graph resets after a world reload",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/38"
+   },
+   {
+    "severity": "warning",
+    "kind": "no_latest_minecraft",
+    "modSlug": "ae2-traffic-monitor",
+    "title": "AE2 Traffic Monitor has no file for 26.3",
+    "detail": "Newest target is 26.2.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "create-turbolifts",
+  "name": "Create: Turbolifts",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(18%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(58%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3ECT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Elevator cars for Create contraptions that ride sub-levels without a rail.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1196044",
+   "slug": "create-turbolifts",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1873,
+   "delta24h": 27,
+   "delta7d": 172,
+   "followers": 12,
+   "publishedAt": "2026-09-30T09:30:00.000Z",
+   "updatedAt": "2026-11-19T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "bV5hJ3cD",
+   "slug": "create-turbolifts",
+   "url": "https://modrinth.com/mod/create-turbolifts",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1244,
+   "delta24h": 20,
+   "delta7d": 123,
+   "followers": 9,
+   "publishedAt": "2026-09-30T09:30:00.000Z",
+   "updatedAt": "2026-11-19T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "create-turbolifts",
+   "open": 2,
+   "openBugs": 0,
+   "openCrashes": 1,
+   "oldestOpenBugAt": "2026-11-18T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 3117,
+   "curseforge": 1873,
+   "modrinth": 1244,
+   "delta24h": 47,
+   "delta7d": 295
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "0.6.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-19T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "crash_open",
+    "modSlug": "create-turbolifts",
+    "title": "Open crash in Create: Turbolifts",
+    "detail": "#41: Crash when two cars dock on the same chunk edge",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/41"
+   }
+  ]
+ },
+ {
+  "slug": "graves",
+  "name": "Graves",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(240%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(280%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EG%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Drops a grave where you die and keeps your items safe until you come back.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1248320",
+   "slug": "graves-fb",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 521,
+   "delta24h": 21,
+   "delta7d": 204,
+   "followers": 6,
+   "publishedAt": "2026-11-09T09:30:00.000Z",
+   "updatedAt": "2026-11-16T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "jS1nA4kW",
+   "slug": "graves-fb",
+   "url": "https://modrinth.com/mod/graves-fb",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 312,
+   "delta24h": 16,
+   "delta7d": 119,
+   "followers": 4,
+   "publishedAt": "2026-11-09T09:30:00.000Z",
+   "updatedAt": "2026-11-16T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "graves",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 833,
+   "curseforge": 521,
+   "modrinth": 312,
+   "delta24h": 37,
+   "delta7d": 323
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "1.0.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-16T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "graves",
+    "title": "Graves has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "lost-crafters-server-switcher",
+  "name": "Lost Crafters Server Switcher",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(95%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(135%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3ELC%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "A server picker screen for the Lost Crafters network.",
+  "owned": true,
+  "curseforge": null,
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "wP7sL0eR",
+   "slug": "lost-crafters-server-switcher",
+   "url": "https://modrinth.com/mod/lost-crafters-server-switcher",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 641,
+   "delta24h": 9,
+   "delta7d": 73,
+   "followers": 5,
+   "publishedAt": "2026-10-05T09:30:00.000Z",
+   "updatedAt": "2026-10-28T09:12:00.000Z",
+   "files": 2
+  },
+  "github": null,
+  "downloads": {
+   "total": 641,
+   "curseforge": 0,
+   "modrinth": 641,
+   "delta24h": 9,
+   "delta7d": 73
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "1.1.0",
+   "releaseType": "release",
+   "publishedAt": "2026-10-28T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.21.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.21.1",
+   "1.20.1"
+  ],
+  "loaders": [
+   "forge",
+   "neoforge"
+  ],
+  "health": "ok",
+  "attention": []
+ },
+ {
+  "slug": "ae2-lights",
+  "name": "AE2 Lights",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(55%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(95%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAL%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Light blocks that run on an AE2 network and dim when power drops.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1230915",
+   "slug": "ae2-lights",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 412,
+   "delta24h": 8,
+   "delta7d": 70,
+   "followers": 7,
+   "publishedAt": "2026-10-26T09:30:00.000Z",
+   "updatedAt": "2026-11-12T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "hC3uY9tB",
+   "slug": "processing",
+   "url": "https://modrinth.com/mod/processing",
+   "status": "in_review",
+   "rawStatus": "processing",
+   "statusMessage": null,
+   "requestedStatus": "approved",
+   "queuedAt": "2026-11-12T10:02:00.000Z",
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-12T09:30:00.000Z",
+   "updatedAt": "2026-11-12T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "ae2-lights",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 412,
+   "curseforge": 412,
+   "modrinth": 0,
+   "delta24h": 8,
+   "delta7d": 70
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "0.3.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-12T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "review_stuck",
+    "modSlug": "ae2-lights",
+    "title": "AE2 Lights has waited 9 days for review on Modrinth",
+    "detail": "Requested: approved.",
+    "url": "https://modrinth.com/mod/processing"
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "ae2-lights",
+    "title": "AE2 Lights has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "qmk-extra-keybinds",
+  "name": "QMK Extra Keybinds",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(310%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(350%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EQE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Binds keyboard layers and macro keys to Minecraft actions over QMK Raw HID.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1238801",
+   "slug": "qmk-extra-keybinds",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 184,
+   "delta24h": 5,
+   "delta7d": 44,
+   "followers": 4,
+   "publishedAt": "2026-11-02T09:30:00.000Z",
+   "updatedAt": "2026-11-09T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "dE6gM2zQ",
+   "slug": "qmk-extra-keybinds",
+   "url": "https://modrinth.com/mod/qmk-extra-keybinds",
+   "status": "draft",
+   "rawStatus": "draft",
+   "statusMessage": null,
+   "requestedStatus": "approved",
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-02T09:30:00.000Z",
+   "updatedAt": "2026-11-09T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "qmk-extra-keybinds",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 184,
+   "curseforge": 184,
+   "modrinth": 0,
+   "delta24h": 5,
+   "delta7d": 44
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "0.2.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-09T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "not_approved",
+    "modSlug": "qmk-extra-keybinds",
+    "title": "QMK Extra Keybinds is still a draft on Modrinth",
+    "detail": "Submit it for review to publish it.",
+    "url": "https://modrinth.com/mod/qmk-extra-keybinds"
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "qmk-extra-keybinds",
+    "title": "QMK Extra Keybinds has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "devworld",
+  "name": "DevWorld",
+  "iconUrl": "https://cdn.modrinth.com/data/uZ8cH5fG/icon-missing.png",
+  "summary": "A flat, peaceful, always-day world preset for mod development, created on first launch.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1253344",
+   "slug": "devworld",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+   "status": "rejected",
+   "rawStatus": "Rejected",
+   "statusMessage": "Project description is missing a licence. Add one and resubmit.",
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": null,
+   "delta7d": null,
+   "followers": 0,
+   "publishedAt": "2026-11-21T09:30:00.000Z",
+   "updatedAt": "2026-11-21T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "uZ8cH5fG",
+   "slug": "devworld",
+   "url": "https://modrinth.com/mod/devworld",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 85,
+   "delta24h": null,
+   "delta7d": null,
+   "followers": 2,
+   "publishedAt": "2026-11-21T09:30:00.000Z",
+   "updatedAt": "2026-11-21T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "devworld",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 85,
+   "curseforge": 0,
+   "modrinth": 85,
+   "delta24h": null,
+   "delta7d": null
+  },
+  "latestRelease": {
+   "platform": "modrinth",
+   "version": "0.1.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-21T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "not_approved",
+    "modSlug": "devworld",
+    "title": "DevWorld was rejected on CurseForge",
+    "detail": "Project description is missing a licence. Add one and resubmit.",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/devworld"
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "devworld",
+    "title": "DevWorld has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null
+   }
+  ]
+ },
+ {
+  "slug": "ae2-ee3-emc-addon",
+  "name": "AE2 EE3 EMC Add-On",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(120%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(160%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Bridges Equivalent Exchange 3 EMC values into AE2 patterns.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1251007",
+   "slug": "ae2-ee3-emc-addon",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+   "status": "changes_required",
+   "rawStatus": "ChangesRequired",
+   "statusMessage": "The description needs a licence statement and the source link must point at a public repository.",
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-14T09:30:00.000Z",
+   "updatedAt": "2026-11-14T09:12:00.000Z",
+   "files": 1
+  },
+  "modrinth": null,
+  "github": null,
+  "downloads": {
+   "total": 0,
+   "curseforge": 0,
+   "modrinth": 0,
+   "delta24h": 0,
+   "delta7d": 0
+  },
+  "latestRelease": {
+   "platform": "curseforge",
+   "version": "0.1.0",
+   "releaseType": "alpha",
+   "publishedAt": "2026-11-14T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.7.10"
+   ]
+  },
+  "minecraftVersions": [
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "not_approved",
+    "modSlug": "ae2-ee3-emc-addon",
+    "title": "AE2 EE3 EMC Add-On needs changes on CurseForge",
+    "detail": "The description needs a licence statement and the source link must point at a public repository.",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon"
+   }
+  ]
+ }
+]

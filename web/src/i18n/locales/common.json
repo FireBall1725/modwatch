@@ -1,0 +1,139 @@
+{
+  "newTab": "(opens in a new tab)",
+  "app": {
+    "name": "Modwatch",
+    "tagline": "Mod dashboard",
+    "skipToContent": "Skip to content",
+    "menu": "Open menu",
+    "setupProblems_one": "{{count}} setup problem",
+    "setupProblems_other": "{{count}} setup problems"
+  },
+  "nav": {
+    "label": "Main",
+    "overview": "Overview",
+    "mods": "Mods",
+    "downloads": "Downloads",
+    "versions": "Minecraft versions",
+    "issues": "Issues",
+    "releases": "Releases",
+    "settings": "Settings",
+    "countLabel": "open:"
+  },
+  "poll": {
+    "now": "Poll now",
+    "polling": "Polling",
+    "lastGood": "Last poll",
+    "lastFailed": "Newest poll failed",
+    "never": "No poll yet",
+    "unreachable": "Server unreachable",
+    "sources": "Data sources",
+    "status": "Poll status",
+    "failed": "Poll failed: {{message}}",
+    "doneAt": "Last good poll at {{time}}"
+  },
+  "source": {
+    "curseforge": "CurseForge",
+    "modrinth": "Modrinth",
+    "github": "GitHub",
+    "ok": "Reachable",
+    "down": "Failing"
+  },
+  "status": {
+    "approved": "Approved",
+    "in_review": "In review",
+    "changes_required": "Changes required",
+    "rejected": "Rejected",
+    "draft": "Draft",
+    "unlisted": "Unlisted",
+    "archived": "Archived",
+    "inactive": "Inactive",
+    "unknown": "Unknown"
+  },
+  "platform": {
+    "curseforge": "CurseForge",
+    "modrinth": "Modrinth",
+    "both": "Both platforms",
+    "combined": "Combined"
+  },
+  "severity": {
+    "problem": "Problem",
+    "warning": "Warning",
+    "info": "Note"
+  },
+  "health": {
+    "ok": "Healthy",
+    "attention": "Needs attention",
+    "problem": "Problem",
+    "up": "Reachable",
+    "down": "Failing"
+  },
+  "releaseType": {
+    "release": "Release",
+    "beta": "Beta",
+    "alpha": "Alpha",
+    "unknown": "Unknown"
+  },
+  "issueKind": {
+    "bug": "Bug",
+    "crash": "Crash",
+    "enhancement": "Enhancement",
+    "compatibility": "Compatibility",
+    "question": "Question",
+    "other": "Other"
+  },
+  "relative": {
+    "justNow": "just now",
+    "minutes_one": "{{count}} minute ago",
+    "minutes_other": "{{count}} minutes ago",
+    "hours_one": "{{count}} hour ago",
+    "hours_other": "{{count}} hours ago",
+    "days_one": "{{count}} day ago",
+    "days_other": "{{count}} days ago"
+  },
+  "range": {
+    "label": "Range",
+    "days_7": "7 days",
+    "days_30": "30 days",
+    "days_90": "90 days",
+    "days_365": "1 year"
+  },
+  "chart": {
+    "legend": "Legend",
+    "total": "Total",
+    "date": "Date",
+    "noData": "No data for this range yet",
+    "keyboardHint": "Use the left and right arrow keys to move between points",
+    "fewer": "Fewer",
+    "more": "More"
+  },
+  "table": {
+    "empty": "Nothing to show",
+    "sortBy": "sort"
+  },
+  "word": {
+    "retry": "Try again",
+    "clear": "Clear",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading",
+    "showAll": "Show all {{count}}",
+    "showFewer": "Show fewer",
+    "noHistory": "Needs a day or more of history",
+    "downloads": "Downloads",
+    "mods": "Mods"
+  },
+  "error": {
+    "title": "Couldn't load this",
+    "boundaryTitle": "This page hit a problem",
+    "reload": "Reload the page"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "heading": "Nothing lives at this address",
+    "body": "Check the link, or go back to the overview."
+  },
+  "stub": {
+    "placeholder": "This page is being built."
+  }
+}

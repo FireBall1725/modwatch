@@ -60,3 +60,14 @@ func TestListFilesPages(t *testing.T) {
 		t.Errorf("got %d files from %q", len(files), path)
 	}
 }
+
+func TestClassifyKeepsPreReleaseAndSnapshotTags(t *testing.T) {
+	in := []string{"26.1-snapshot-1", "26.1-pre-1", "1.14 Pre-Release 5", "1.21.1-Pre-Release 1", "1.20-rc1"}
+	mc, _ := Classify(in)
+	if !reflect.DeepEqual(mc, in) {
+		t.Errorf("minecraft = %v, want %v", mc, in)
+	}
+	if mc, _ := Classify([]string{"Java 21", "Client", "Mystery Tag"}); len(mc) != 0 {
+		t.Errorf("non-versions leaked: %v", mc)
+	}
+}

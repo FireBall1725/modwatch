@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -39,6 +40,12 @@ type Config struct {
 	ModrinthToken     string
 	ModrinthBaseURL   string
 	ModrinthUserAgent string
+
+	// GitHubIssuesRepo is "owner/name" of the public repo that holds the mods' issues. Empty turns issues off.
+	// The token is optional; without one GitHub allows 60 requests an hour, which hourly polling stays under.
+	GitHubIssuesRepo string
+	GitHubToken      string
+	GitHubBaseURL    string
 }
 
 // Load reads the environment and fills in defaults.
@@ -57,6 +64,9 @@ func Load() *Config {
 		ModrinthBaseURL:    strings.TrimRight(getEnv("MODRINTH_BASE_URL", "https://api.modrinth.com"), "/"),
 		// Modrinth asks for a descriptive agent; this names the software and nothing about who runs it.
 		ModrinthUserAgent: getEnv("MODRINTH_USER_AGENT", "modwatch/"+version.String()),
+		GitHubIssuesRepo:  getEnv("GITHUB_ISSUES_REPO", ""),
+		GitHubToken:       getEnv("GITHUB_TOKEN", ""),
+		GitHubBaseURL:     strings.TrimRight(getEnv("GITHUB_BASE_URL", "https://api.github.com"), "/"),
 	}
 }
 
@@ -72,7 +82,20 @@ func (c *Config) Problems() []error {
 	if _, err := cron.ParseStandard(c.Schedule); err != nil {
 		errs = append(errs, fmt.Errorf("MODWATCH_SCHEDULE %q isn't a valid cron expression, so polls only run on demand: %w", c.Schedule, err))
 	}
+	if c.GitHubIssuesRepo != "" && !ValidRepo(c.GitHubIssuesRepo) {
+		errs = append(errs, fmt.Errorf("GITHUB_ISSUES_REPO %q isn't in owner/name form, so issues are off", c.GitHubIssuesRepo))
+	}
 	return errs
+}
+
+var repoPattern = regexp.MustCompile(`^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$`)
+
+// ValidRepo reports whether s looks like owner/name.
+func ValidRepo(s string) bool { return repoPattern.MatchString(s) }
+
+// CanPollGitHub reports whether a valid issues repo is configured.
+func (c *Config) CanPollGitHub() bool {
+	return ValidRepo(c.GitHubIssuesRepo)
 }
 
 // CanPoll reports whether the CurseForge settings are complete enough to fetch anything.

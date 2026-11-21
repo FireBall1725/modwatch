@@ -1,0 +1,377 @@
+{
+ "repo": "FireBall1725/mod-issues",
+ "summary": {
+  "open": 9,
+  "closed": 6,
+  "openBugs": 2,
+  "openCrashes": 1,
+  "oldestOpenAt": "2026-10-12T16:40:00.000Z",
+  "byMod": [
+   {
+    "slug": "create-turbolifts",
+    "name": "Create: Turbolifts",
+    "open": 2,
+    "bugs": 0,
+    "crashes": 1,
+    "oldestOpenAt": "2026-11-10T16:40:00.000Z"
+   },
+   {
+    "slug": "firecore",
+    "name": "FireCore",
+    "open": 1,
+    "bugs": 1,
+    "crashes": 0,
+    "oldestOpenAt": "2026-11-16T16:40:00.000Z"
+   },
+   {
+    "slug": "ae2-traffic-monitor",
+    "name": "AE2 Traffic Monitor",
+    "open": 1,
+    "bugs": 1,
+    "crashes": 0,
+    "oldestOpenAt": "2026-10-26T16:40:00.000Z"
+   },
+   {
+    "slug": "graves",
+    "name": "Graves",
+    "open": 1,
+    "bugs": 0,
+    "crashes": 0,
+    "oldestOpenAt": "2026-11-19T16:40:00.000Z"
+   },
+   {
+    "slug": "auto-gui-scale",
+    "name": "Automatic Gui Scale",
+    "open": 1,
+    "bugs": 0,
+    "crashes": 0,
+    "oldestOpenAt": "2026-11-03T16:40:00.000Z"
+   },
+   {
+    "slug": "ae2-tech-addon",
+    "name": "AE2 Tech Add-On",
+    "open": 1,
+    "bugs": 0,
+    "crashes": 0,
+    "oldestOpenAt": "2026-10-12T16:40:00.000Z"
+   },
+   {
+    "slug": "ae2-lights",
+    "name": "AE2 Lights",
+    "open": 1,
+    "bugs": 0,
+    "crashes": 0,
+    "oldestOpenAt": "2026-10-19T16:40:00.000Z"
+   }
+  ],
+  "byKind": [
+   {
+    "kind": "crash",
+    "open": 1
+   },
+   {
+    "kind": "bug",
+    "open": 2
+   },
+   {
+    "kind": "compatibility",
+    "open": 1
+   },
+   {
+    "kind": "enhancement",
+    "open": 3
+   },
+   {
+    "kind": "question",
+    "open": 2
+   }
+  ]
+ },
+ "issues": [
+  {
+   "number": 43,
+   "title": "Does a grave survive /kill?",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/43",
+   "modSlug": "graves",
+   "modName": "Graves",
+   "modLabel": "graves",
+   "kind": "question",
+   "labels": [
+    "mod: graves",
+    "question"
+   ],
+   "author": "maplesyrup",
+   "comments": 1,
+   "createdAt": "2026-11-19T16:40:00.000Z",
+   "updatedAt": "2026-11-20T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 41,
+   "title": "Crash when two cars dock on the same chunk edge",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/41",
+   "modSlug": "create-turbolifts",
+   "modName": "Create: Turbolifts",
+   "modLabel": "create-turbolifts",
+   "kind": "crash",
+   "labels": [
+    "mod: create-turbolifts",
+    "crash"
+   ],
+   "author": "gearhead22",
+   "comments": 4,
+   "createdAt": "2026-11-18T16:40:00.000Z",
+   "updatedAt": "2026-11-19T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 44,
+   "title": "Benihime sheath renders at the wrong angle while sneaking",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/44",
+   "modSlug": "firecore",
+   "modName": "FireCore",
+   "modLabel": "firecore",
+   "kind": "bug",
+   "labels": [
+    "mod: firecore",
+    "bug"
+   ],
+   "author": "ironwick",
+   "comments": 3,
+   "createdAt": "2026-11-16T16:40:00.000Z",
+   "updatedAt": "2026-11-17T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 45,
+   "title": "EMC values missing for modded ingots",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/45",
+   "modSlug": null,
+   "modName": null,
+   "modLabel": "ae2-emc",
+   "kind": "question",
+   "labels": [
+    "mod: ae2-emc",
+    "question"
+   ],
+   "author": "tinkerbell",
+   "comments": 2,
+   "createdAt": "2026-11-13T16:40:00.000Z",
+   "updatedAt": "2026-11-14T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 42,
+   "title": "Config option for car speed",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/42",
+   "modSlug": "create-turbolifts",
+   "modName": "Create: Turbolifts",
+   "modLabel": "create-turbolifts",
+   "kind": "enhancement",
+   "labels": [
+    "mod: create-turbolifts",
+    "enhancement"
+   ],
+   "author": "lowtide",
+   "comments": 0,
+   "createdAt": "2026-11-10T16:40:00.000Z",
+   "updatedAt": "2026-11-11T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 36,
+   "title": "Elevator button tooltip shows the wrong floor",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/36",
+   "modSlug": "create-turbolifts",
+   "modName": "Create: Turbolifts",
+   "modLabel": "create-turbolifts",
+   "kind": "bug",
+   "labels": [
+    "mod: create-turbolifts",
+    "bug"
+   ],
+   "author": "lowtide",
+   "comments": 3,
+   "createdAt": "2026-11-07T16:40:00.000Z",
+   "updatedAt": "2026-11-09T11:05:00.000Z",
+   "closedAt": "2026-11-09T11:05:00.000Z"
+  },
+  {
+   "number": 40,
+   "title": "Per-screen scale override",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/40",
+   "modSlug": "auto-gui-scale",
+   "modName": "Automatic Gui Scale",
+   "modLabel": "auto-gui-scale",
+   "kind": "enhancement",
+   "labels": [
+    "mod: auto-gui-scale",
+    "enhancement"
+   ],
+   "author": "pixelpusher",
+   "comments": 5,
+   "createdAt": "2026-11-03T16:40:00.000Z",
+   "updatedAt": "2026-11-04T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 38,
+   "title": "Traffic graph resets after a world reload",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/38",
+   "modSlug": "ae2-traffic-monitor",
+   "modName": "AE2 Traffic Monitor",
+   "modLabel": "ae2-traffic-monitor",
+   "kind": "bug",
+   "labels": [
+    "mod: ae2-traffic-monitor",
+    "bug"
+   ],
+   "author": "cablecat",
+   "comments": 6,
+   "createdAt": "2026-10-26T16:40:00.000Z",
+   "updatedAt": "2026-10-27T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 34,
+   "title": "Expose tassle physics strength in the config",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/34",
+   "modSlug": "firecore",
+   "modName": "FireCore",
+   "modLabel": "firecore",
+   "kind": "enhancement",
+   "labels": [
+    "mod: firecore",
+    "enhancement"
+   ],
+   "author": "ironwick",
+   "comments": 2,
+   "createdAt": "2026-10-23T16:40:00.000Z",
+   "updatedAt": "2026-10-31T11:05:00.000Z",
+   "closedAt": "2026-10-31T11:05:00.000Z"
+  },
+  {
+   "number": 37,
+   "title": "Lights stay dark under Embeddium shader packs",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/37",
+   "modSlug": "ae2-lights",
+   "modName": "AE2 Lights",
+   "modLabel": "ae2-lights",
+   "kind": "compatibility",
+   "labels": [
+    "mod: ae2-lights",
+    "compatibility"
+   ],
+   "author": "glowstick",
+   "comments": 7,
+   "createdAt": "2026-10-19T16:40:00.000Z",
+   "updatedAt": "2026-10-20T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 39,
+   "title": "Port the Tech Add-On crystallizer recipes to datapacks",
+   "state": "open",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/39",
+   "modSlug": "ae2-tech-addon",
+   "modName": "AE2 Tech Add-On",
+   "modLabel": "ae2-tech-addon",
+   "kind": "enhancement",
+   "labels": [
+    "mod: ae2-tech-addon",
+    "enhancement"
+   ],
+   "author": "quartzfan",
+   "comments": 2,
+   "createdAt": "2026-10-12T16:40:00.000Z",
+   "updatedAt": "2026-10-13T11:05:00.000Z",
+   "closedAt": null
+  },
+  {
+   "number": 31,
+   "title": "Support 26.1",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/31",
+   "modSlug": "ae2-traffic-monitor",
+   "modName": "AE2 Traffic Monitor",
+   "modLabel": "ae2-traffic-monitor",
+   "kind": "enhancement",
+   "labels": [
+    "mod: ae2-traffic-monitor",
+    "enhancement"
+   ],
+   "author": "cablecat",
+   "comments": 8,
+   "createdAt": "2026-10-07T16:40:00.000Z",
+   "updatedAt": "2026-10-22T11:05:00.000Z",
+   "closedAt": "2026-10-22T11:05:00.000Z"
+  },
+  {
+   "number": 35,
+   "title": "Scale resets when the window is maximised",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/35",
+   "modSlug": "auto-gui-scale",
+   "modName": "Automatic Gui Scale",
+   "modLabel": "auto-gui-scale",
+   "kind": "bug",
+   "labels": [
+    "mod: auto-gui-scale",
+    "bug"
+   ],
+   "author": "pixelpusher",
+   "comments": 4,
+   "createdAt": "2026-09-22T16:40:00.000Z",
+   "updatedAt": "2026-09-30T11:05:00.000Z",
+   "closedAt": "2026-09-30T11:05:00.000Z"
+  },
+  {
+   "number": 33,
+   "title": "Seed field ignores negative numbers",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/33",
+   "modSlug": "default-world-generator",
+   "modName": "Default World Generator",
+   "modLabel": "default-world-generator",
+   "kind": "bug",
+   "labels": [
+    "mod: default-world-generator",
+    "bug"
+   ],
+   "author": "seedlord",
+   "comments": 5,
+   "createdAt": "2026-07-24T16:40:00.000Z",
+   "updatedAt": "2026-08-16T11:05:00.000Z",
+   "closedAt": "2026-08-16T11:05:00.000Z"
+  },
+  {
+   "number": 32,
+   "title": "Notification stays on screen after the stream ends",
+   "state": "closed",
+   "url": "https://github.com/FireBall1725/mod-issues/issues/32",
+   "modSlug": "twitch-notifier",
+   "modName": "Twitch Notifier",
+   "modLabel": "twitch-notifier",
+   "kind": "bug",
+   "labels": [
+    "mod: twitch-notifier",
+    "bug"
+   ],
+   "author": "streamsnipe",
+   "comments": 3,
+   "createdAt": "2026-01-25T16:40:00.000Z",
+   "updatedAt": "2026-02-14T11:05:00.000Z",
+   "closedAt": "2026-02-14T11:05:00.000Z"
+  }
+ ]
+}

@@ -2,11 +2,86 @@
 // Copyright (C) 2026 FireBall1725
 
 import { describe, expect, it } from 'vitest'
-import { formatCount, formatDelta, relativeTime, sparklinePoints } from './format'
+import {
+  daysBetween,
+  formatCompact,
+  formatCount,
+  formatDelta,
+  formatDuration,
+  formatPercent,
+  formatTime,
+  plural,
+  ratio,
+  relativeTime,
+  sparklinePoints,
+} from './format'
 
 describe('formatCount', () => {
   it('groups thousands', () => {
     expect(formatCount(1234567)).toBe('1,234,567')
+  })
+  it('shows a dash for an unknown count and a zero for zero', () => {
+    expect(formatCount(null)).toBe('–')
+    expect(formatCount(0)).toBe('0')
+  })
+})
+
+describe('formatCompact', () => {
+  it('shortens thousands and millions', () => {
+    expect(formatCompact(940)).toBe('940')
+    expect(formatCompact(48300)).toBe('48.3k')
+    expect(formatCompact(1115528)).toBe('1.1M')
+    expect(formatCompact(250000)).toBe('250k')
+  })
+  it('handles null and negatives', () => {
+    expect(formatCompact(null)).toBe('–')
+    expect(formatCompact(-1500)).toBe('−1.5k')
+  })
+})
+
+describe('formatPercent', () => {
+  it('formats a ratio', () => {
+    expect(formatPercent(0.4234)).toBe('42%')
+    expect(formatPercent(0.4234, 1)).toBe('42.3%')
+    expect(formatPercent(null)).toBe('–')
+  })
+  it('ratio never divides by zero', () => {
+    expect(ratio(5, 0)).toBe(0)
+    expect(ratio(1, 4)).toBe(0.25)
+  })
+})
+
+describe('formatDuration', () => {
+  it('shows the two largest units', () => {
+    expect(formatDuration(30)).toBe('30s')
+    expect(formatDuration(45 * 60)).toBe('45m')
+    expect(formatDuration(2 * 3600 + 5 * 60)).toBe('2h 5m')
+    expect(formatDuration(3 * 86400 + 4 * 3600 + 59)).toBe('3d 4h')
+    expect(formatDuration(2 * 86400)).toBe('2d')
+    expect(formatDuration(null)).toBe('–')
+  })
+})
+
+describe('formatTime', () => {
+  it('uses a 24-hour clock', () => {
+    // Midday UTC is a two-digit hour in every zone, and never "PM".
+    expect(formatTime('2026-11-21T15:30:00Z')).toMatch(/^\d{2}:\d{2}$/)
+    expect(formatTime(null)).toBe('–')
+  })
+})
+
+describe('daysBetween', () => {
+  it('counts whole days', () => {
+    expect(daysBetween('2026-11-10T12:00:00Z', new Date('2026-11-21T11:00:00Z'))).toBe(10)
+    expect(daysBetween('2026-11-22T12:00:00Z', new Date('2026-11-21T11:00:00Z'))).toBe(0)
+  })
+})
+
+describe('plural', () => {
+  it('picks by count', () => {
+    expect(plural(1, 'file', 'files')).toBe('file')
+    expect(plural(0, 'file', 'files')).toBe('files')
+    expect(plural(2, 'file', 'files')).toBe('files')
   })
 })
 

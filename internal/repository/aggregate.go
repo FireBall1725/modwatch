@@ -6,6 +6,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"time"
 
 	"github.com/fireball1725/modwatch/internal/models"
@@ -52,11 +53,7 @@ func (r *Repo) ReviewSeen(ctx context.Context) (map[models.PlatformKey]time.Time
 
 // FileHistory returns the last snapshot of each UTC day since the given time, oldest first, for every file.
 func (r *Repo) FileHistory(ctx context.Context, since time.Time) (map[models.PlatformKey][]models.Snapshot, error) {
-	rows, err := r.db.QueryContext(ctx, `
-		SELECT DISTINCT ON (source, file_id, (taken_at AT TIME ZONE 'UTC')::date) source, file_id, taken_at, download_count
-		FROM file_snapshots
-		WHERE taken_at >= $1
-		ORDER BY source, file_id, (taken_at AT TIME ZONE 'UTC')::date, taken_at DESC`, tz(since))
+	rows, err := r.db.QueryContext(ctx, r.dailyLast("source, file_id", "file_snapshots"), tz(since))
 	if err != nil {
 		return nil, err
 	}
@@ -73,4 +70,19 @@ func (r *Repo) FileHistory(ctx context.Context, since time.Time) (map[models.Pla
 		out[k] = append(out[k], models.Snapshot{At: at.UTC(), Downloads: n})
 	}
 	return out, rows.Err()
+}
+
+// dailyLast is the query for the last snapshot of each UTC day since a time, oldest first, for every key. keys are
+// the columns that name one series, such as "source, file_id". The one argument is the earliest time.
+// A window function does what Postgres's DISTINCT ON does, and SQLite has no DISTINCT ON.
+func (r *Repo) dailyLast(keys, table string) string {
+	return fmt.Sprintf(`
+		SELECT %[1]s, taken_at, download_count FROM (
+			SELECT %[1]s, taken_at, download_count,
+				ROW_NUMBER() OVER (PARTITION BY %[1]s, %[3]s ORDER BY taken_at DESC) AS rn
+			FROM %[2]s
+			WHERE taken_at >= $1
+		) last_of_day
+		WHERE rn = 1
+		ORDER BY %[1]s, taken_at`, keys, table, r.dialect.Day("taken_at"))
 }

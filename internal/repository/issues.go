@@ -7,6 +7,8 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"strconv"
+	"strings"
 
 	"github.com/fireball1725/modwatch/internal/models"
 )
@@ -40,21 +42,37 @@ func (r *Repo) SaveIssues(ctx context.Context, pollID int64, configured, fetched
 			return err
 		}
 	}
-	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE repo = ANY($1) AND last_poll_id <> $2`, pgTextArray(fetched), pollID); err != nil {
-		return err
+	// Issues gone from a repository that was read are deleted, and so is everything in a repository no longer
+	// configured. A repository that failed to read keeps what it had.
+	if len(fetched) > 0 {
+		list, args := inList(2, fetched)
+		if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE last_poll_id <> $1 AND repo IN (`+list+`)`, append([]any{pollID}, args...)...); err != nil {
+			return err
+		}
 	}
-	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE NOT (repo = ANY($1))`, pgTextArray(configured)); err != nil {
-		return err
+	if len(configured) == 0 {
+		if _, err := tx.ExecContext(ctx, `DELETE FROM issues`); err != nil {
+			return err
+		}
+	} else {
+		list, args := inList(1, configured)
+		if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE repo NOT IN (`+list+`)`, args...); err != nil {
+			return err
+		}
 	}
 	return tx.Commit()
 }
 
-// pgTextArray is a Go string slice as a Postgres text[] argument; nil becomes an empty array, never NULL.
-func pgTextArray(s []string) []string {
-	if s == nil {
-		return []string{}
+// inList is "$n, $n+1, ..." for a list of values, and the values as arguments, so one query reads the same in both
+// databases. Postgres has = ANY($1) for an array and SQLite has no arrays.
+func inList(first int, values []string) (string, []any) {
+	marks := make([]string, len(values))
+	args := make([]any, len(values))
+	for i, v := range values {
+		marks[i] = "$" + strconv.Itoa(first+i)
+		args[i] = v
 	}
-	return s
+	return strings.Join(marks, ", "), args
 }
 
 // ListIssues returns stored issues, newest updated first. state is "open", "closed" or "all".

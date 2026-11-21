@@ -11,7 +11,7 @@ What exists, what's next, and the decisions that shape it.
 
 ## Decisions
 
-**Postgres on CloudNativePG.** It started on SQLite, since 14 mods at one snapshot an hour is only about 120,000 rows a year. The history can't be rebuilt, though, and the cluster runs every other app on CloudNativePG, so this one gets the same operator, metrics and backup options. Times are `TIMESTAMPTZ` and the file and issue label lists are `JSONB`.
+**SQLite or Postgres, the user's choice.** The author's cluster runs it on CloudNativePG, because the history can't be rebuilt and every other app there gets that operator's backups and metrics. Someone with no Postgres can run the same binary on a SQLite file; 14 mods at one snapshot an hour is only about 120,000 rows a year. `DATABASE_URL` picks: `postgres://` or `sqlite:`. Unset, it is `modwatch.db` next to the binary. The repository's SQL is written to read the same on both, with `internal/db/dialect.go` for the few differences: one window query per daily history instead of Postgres's `DISTINCT ON`, `IN` lists instead of `= ANY`, and times kept in one fixed UTC text form (`tz()`) so they sort as text in SQLite and parse as `timestamptz` in Postgres. Each database has its own migrations folder with matching numbers. SQLite starts from one baseline file at version 10. A database is not converted from one to the other.
 
 **History is built here.** The Core API returns lifetime totals and nothing older, so a snapshot per poll is the only way to get daily and weekly movement. It also means history starts the day this is deployed and can't be backfilled.
 

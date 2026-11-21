@@ -11,21 +11,28 @@ import (
 	"errors"
 	"time"
 
+	"github.com/fireball1725/modwatch/internal/db"
 	"github.com/fireball1725/modwatch/internal/models"
 )
 
 type Repo struct {
-	db *sql.DB
+	db      *sql.DB
+	dialect db.Dialect
 }
 
-func New(db *sql.DB) *Repo { return &Repo{db: db} }
+// New wraps a connection from db.Open. The dialect comes from the connection, so callers never pass it.
+func New(conn *sql.DB) *Repo { return &Repo{db: conn, dialect: db.Of(conn)} }
 
-// tz is a time as a query argument: UTC, trimmed to the millisecond the dashboard shows, and NULL when unset.
+// timeLayout is the one form a time is stored in, for both databases: UTC, to the millisecond the dashboard shows,
+// fixed width. Postgres reads it as a timestamptz. In SQLite it is text, so it sorts in time order and date() reads it.
+const timeLayout = "2006-01-02 15:04:05.000-07:00"
+
+// tz is a time as a query argument, and NULL when unset.
 func tz(t time.Time) any {
 	if t.IsZero() {
 		return nil
 	}
-	return t.UTC().Truncate(time.Millisecond)
+	return t.UTC().Format(timeLayout)
 }
 
 // fromNull is the time a nullable column held, or the zero time when it was NULL.
@@ -252,11 +259,7 @@ func (r *Repo) ListModStats(ctx context.Context, now time.Time) ([]models.ModSta
 
 // History returns the last snapshot of each UTC day since the given time, oldest first, for every mod.
 func (r *Repo) History(ctx context.Context, since time.Time) (map[int][]models.Snapshot, error) {
-	rows, err := r.db.QueryContext(ctx, `
-		SELECT DISTINCT ON (mod_id, (taken_at AT TIME ZONE 'UTC')::date) mod_id, taken_at, download_count
-		FROM download_snapshots
-		WHERE taken_at >= $1
-		ORDER BY mod_id, (taken_at AT TIME ZONE 'UTC')::date, taken_at DESC`, tz(since))
+	rows, err := r.db.QueryContext(ctx, r.dailyLast("mod_id", "download_snapshots"), tz(since))
 	if err != nil {
 		return nil, err
 	}

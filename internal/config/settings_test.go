@@ -82,3 +82,21 @@ func TestMetricsEnvVar(t *testing.T) {
 		t.Error("an unreadable value means not chosen, which is on")
 	}
 }
+
+func TestDisabledMinecraftVersionsValidatesAndRoundTrips(t *testing.T) {
+	if err := ValidateSetting(KeyDisabledMinecraftVersions, "1.7.10,26.3"); err != nil {
+		t.Errorf("valid list rejected: %v", err)
+	}
+	for _, bad := range []string{"latest", "1.7.10,fabric", "1..2"} {
+		if ValidateSetting(KeyDisabledMinecraftVersions, bad) == nil {
+			t.Errorf("%q should be rejected", bad)
+		}
+	}
+	c := (&Config{}).With(map[string]string{KeyDisabledMinecraftVersions: "1.7.10, 1.12.2"})
+	if got := c.DisabledMinecraftVersions; len(got) != 2 || got[1] != "1.12.2" {
+		t.Errorf("parsed = %v", got)
+	}
+	if c.Value(KeyDisabledMinecraftVersions) != "1.7.10,1.12.2" {
+		t.Errorf("value = %q", c.Value(KeyDisabledMinecraftVersions))
+	}
+}

@@ -337,7 +337,7 @@ func TestClearingEveryLinkDeletesTheEntryAndRelinkKeepsTheSlug(t *testing.T) {
 	}
 }
 
-func TestLegacyFlagSavesAndSetsHandMade(t *testing.T) {
+func TestLegacyFlagSavesAndLeavesTheEntryAutomatic(t *testing.T) {
 	r := newRepo(t)
 	ctx := context.Background()
 	savePoll(t, r, time.Now(), proj("curseforge", "1", "a", "A", true))
@@ -348,7 +348,7 @@ func TestLegacyFlagSavesAndSetsHandMade(t *testing.T) {
 	if _, err := r.UpdateCatalogEntry(ctx, "a", models.CatalogUpdate{Legacy: &yes}); err != nil {
 		t.Fatal(err)
 	}
-	if e := entryBySlug(t, r, "a"); !e.Legacy || e.Auto {
+	if e := entryBySlug(t, r, "a"); !e.Legacy || !e.Auto {
 		t.Errorf("a = %+v", e)
 	}
 	no := false
@@ -357,5 +357,12 @@ func TestLegacyFlagSavesAndSetsHandMade(t *testing.T) {
 	}
 	if entryBySlug(t, r, "a").Legacy {
 		t.Error("legacy should clear")
+	}
+	name := "Renamed"
+	if _, err := r.UpdateCatalogEntry(ctx, "a", models.CatalogUpdate{Name: &name}); err != nil {
+		t.Fatal(err)
+	}
+	if entryBySlug(t, r, "a").Auto {
+		t.Error("a rename should make the entry hand-made")
 	}
 }

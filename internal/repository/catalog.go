@@ -16,6 +16,7 @@ import (
 
 	"github.com/fireball1725/modwatch/internal/config"
 	"github.com/fireball1725/modwatch/internal/models"
+	"github.com/fireball1725/modwatch/internal/release"
 )
 
 // ErrNotFound is returned for an entry slug that doesn't exist.
@@ -49,15 +50,15 @@ type queryer interface {
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 }
 
-const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, github_repo, hidden, legacy, auto`
+const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, github_repo, version_regex, hidden, legacy, auto`
 
 type rowScanner interface{ Scan(dest ...any) error }
 
 func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 	var e models.CatalogEntry
 	var cf sql.NullInt64
-	var mr, gh, repo sql.NullString
-	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &repo, &e.Hidden, &e.Legacy, &e.Auto); err != nil {
+	var mr, gh, repo, vre sql.NullString
+	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &repo, &vre, &e.Hidden, &e.Legacy, &e.Auto); err != nil {
 		return e, err
 	}
 	if cf.Valid {
@@ -71,6 +72,9 @@ func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 	}
 	if repo.Valid {
 		e.GitHubRepo = &repo.String
+	}
+	if vre.Valid {
+		e.VersionRegex = &vre.String
 	}
 	return e, nil
 }
@@ -452,7 +456,24 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		}
 	}
 
-	e.Auto = false
+	if u.VersionRegex.Set {
+		e.VersionRegex = u.VersionRegex.Value
+		if e.VersionRegex != nil {
+			pattern := strings.TrimSpace(*e.VersionRegex)
+			if pattern == "" {
+				return e, invalid("versionRegex can't be empty; send null to use the default reading")
+			}
+			if _, err := release.Compile(pattern); err != nil {
+				return e, invalid("%s", err.Error())
+			}
+			e.VersionRegex = &pattern
+		}
+	}
+
+	// Only a change to the name or the links makes an entry hand-made. Flipping hidden or legacy leaves it as the matcher had it.
+	if u.Name != nil || u.CurseForgeID.Set || u.ModrinthID.Set || u.GitHubLabel.Set || u.GitHubRepo.Set {
+		e.Auto = false
+	}
 	// An edit that clears every link leaves nothing to show; drop the entry so a relink can reuse its slug.
 	if e.CurseForgeID == nil && e.ModrinthID == nil && e.GitHubLabel == nil && e.GitHubRepo == nil &&
 		(u.CurseForgeID.Set || u.ModrinthID.Set || u.GitHubLabel.Set || u.GitHubRepo.Set) {
@@ -471,8 +492,8 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		return e, nil
 	}
 	if _, err := tx.ExecContext(ctx, `
-		UPDATE catalog SET name = $1, curseforge_id = $2, modrinth_id = $3, github_label = $4, github_repo = $5, hidden = $6, legacy = $7, auto = FALSE WHERE slug = $8`,
-		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.GitHubRepo, e.Hidden, e.Legacy, slug); err != nil {
+		UPDATE catalog SET name = $1, curseforge_id = $2, modrinth_id = $3, github_label = $4, github_repo = $5, version_regex = $6, hidden = $7, legacy = $8, auto = $9 WHERE slug = $10`,
+		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.GitHubRepo, e.VersionRegex, e.Hidden, e.Legacy, e.Auto, slug); err != nil {
 		return e, err
 	}
 	for _, d := range donors {

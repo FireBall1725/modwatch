@@ -54,7 +54,7 @@ func TestDeltasNeedAnOldEnoughSnapshot(t *testing.T) {
 		{now.Add(-24*time.Hour - time.Minute), 1100},
 		{now, 1150},
 	} {
-		if _, err := r.SavePoll(ctx, poll(step.at), []models.Reading{reading(1, "graves", true, step.n)}); err != nil {
+		if _, err := r.SavePoll(ctx, poll(step.at), []models.Reading{reading(1, "graves", true, step.n)}, nil, nil); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -78,7 +78,7 @@ func TestFreshInstallHasNoDeltas(t *testing.T) {
 	r := newRepo(t)
 	ctx := context.Background()
 	now := time.Now()
-	if _, err := r.SavePoll(ctx, poll(now), []models.Reading{reading(1, "graves", true, 5)}); err != nil {
+	if _, err := r.SavePoll(ctx, poll(now), []models.Reading{reading(1, "graves", true, 5)}, nil, nil); err != nil {
 		t.Fatal(err)
 	}
 	stats, _ := r.ListModStats(ctx, now)
@@ -91,10 +91,10 @@ func TestRemovedModsDropOutOfTheLatestList(t *testing.T) {
 	r := newRepo(t)
 	ctx := context.Background()
 	now := time.Now()
-	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), []models.Reading{reading(1, "a", true, 10), reading(2, "b", true, 20)}); err != nil {
+	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), []models.Reading{reading(1, "a", true, 10), reading(2, "b", true, 20)}, nil, nil); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := r.SavePoll(ctx, poll(now), []models.Reading{reading(1, "a", true, 11)}); err != nil {
+	if _, err := r.SavePoll(ctx, poll(now), []models.Reading{reading(1, "a", true, 11)}, nil, nil); err != nil {
 		t.Fatal(err)
 	}
 	stats, _ := r.ListModStats(ctx, now)
@@ -107,12 +107,12 @@ func TestFailedPollKeepsTheLastGoodData(t *testing.T) {
 	r := newRepo(t)
 	ctx := context.Background()
 	now := time.Now()
-	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), []models.Reading{reading(1, "a", true, 10)}); err != nil {
+	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), []models.Reading{reading(1, "a", true, 10)}, nil, nil); err != nil {
 		t.Fatal(err)
 	}
 	failed := poll(now)
 	failed.State, failed.Error = models.PollError, "403"
-	if err := r.SaveFailedPoll(ctx, failed); err != nil {
+	if err := r.SaveFailedPoll(ctx, failed, nil); err != nil {
 		t.Fatal(err)
 	}
 	stats, _ := r.ListModStats(ctx, now)
@@ -131,11 +131,11 @@ func TestHistoryKeepsOneSnapshotPerDay(t *testing.T) {
 	ctx := context.Background()
 	day := time.Date(2026, 11, 20, 0, 0, 0, 0, time.UTC)
 	for h, n := range []int64{10, 12, 15} {
-		if _, err := r.SavePoll(ctx, poll(day.Add(time.Duration(h)*time.Hour)), []models.Reading{reading(1, "a", true, n)}); err != nil {
+		if _, err := r.SavePoll(ctx, poll(day.Add(time.Duration(h)*time.Hour)), []models.Reading{reading(1, "a", true, n)}, nil, nil); err != nil {
 			t.Fatal(err)
 		}
 	}
-	if _, err := r.SavePoll(ctx, poll(day.Add(25*time.Hour)), []models.Reading{reading(1, "a", true, 20)}); err != nil {
+	if _, err := r.SavePoll(ctx, poll(day.Add(25*time.Hour)), []models.Reading{reading(1, "a", true, 20)}, nil, nil); err != nil {
 		t.Fatal(err)
 	}
 	hist, err := r.History(ctx, day.Add(-time.Hour))
@@ -145,5 +145,108 @@ func TestHistoryKeepsOneSnapshotPerDay(t *testing.T) {
 	got := hist[1]
 	if len(got) != 2 || got[0].Downloads != 15 || got[1].Downloads != 20 {
 		t.Errorf("want the last snapshot of each day (15, 20), got %+v", got)
+	}
+}
+
+func file(source, id, project string, gv []string, n int64) models.FileReading {
+	return models.FileReading{
+		File: models.File{
+			Source: source, ID: id, ProjectID: project, ProjectSlug: project, ProjectName: project,
+			Name: id, Version: id, ReleaseType: "release", GameVersions: gv, Loaders: []string{"neoforge"},
+		},
+		Downloads: n,
+	}
+}
+
+func TestFileStatsRoundTripAndDeltas(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	now := time.Date(2026, 11, 21, 12, 0, 0, 0, time.UTC)
+
+	if _, err := r.SavePoll(ctx, poll(now.Add(-25*time.Hour)), nil, []models.FileReading{file("modrinth", "a", "p", []string{"1.21.1"}, 10)}, nil); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := r.SavePoll(ctx, poll(now), nil, []models.FileReading{file("modrinth", "a", "p", []string{"1.21.1", "1.21"}, 16)}, nil); err != nil {
+		t.Fatal(err)
+	}
+	got, err := r.ListFileStats(ctx, now)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 1 || got[0].Downloads != 16 {
+		t.Fatalf("files = %+v", got)
+	}
+	if got[0].Delta24h == nil || *got[0].Delta24h != 6 {
+		t.Errorf("24h delta = %v, want 6", got[0].Delta24h)
+	}
+	if got[0].Delta7d != nil {
+		t.Errorf("7d delta = %v, want none: the oldest snapshot is only 25 hours old", *got[0].Delta7d)
+	}
+	if len(got[0].GameVersions) != 2 || got[0].Loaders[0] != "neoforge" {
+		t.Errorf("versions and loaders must survive storage: %+v", got[0].File)
+	}
+}
+
+func TestFileStatsEmptyIsNotNil(t *testing.T) {
+	got, err := newRepo(t).ListFileStats(context.Background(), time.Now())
+	if err != nil || got == nil || len(got) != 0 {
+		t.Errorf("want an empty non-nil slice, got %v %v", got, err)
+	}
+}
+
+func TestAFileRemovedFromAProjectDisappears(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	now := time.Now()
+	both := []models.FileReading{file("curseforge", "1", "p", nil, 5), file("curseforge", "2", "p", nil, 7)}
+	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), nil, both, nil); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := r.SavePoll(ctx, poll(now), nil, both[:1], nil); err != nil {
+		t.Fatal(err)
+	}
+	got, _ := r.ListFileStats(ctx, now)
+	if len(got) != 1 || got[0].ID != "1" {
+		t.Errorf("file 2 was removed upstream, got %+v", got)
+	}
+}
+
+func TestAProjectThatWasNotRefreshedKeepsItsLastFiles(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	now := time.Now()
+	if _, err := r.SavePoll(ctx, poll(now.Add(-time.Hour)), nil,
+		[]models.FileReading{file("curseforge", "1", "a", nil, 5), file("curseforge", "2", "b", nil, 7)}, nil); err != nil {
+		t.Fatal(err)
+	}
+	// The second poll could only fetch project a's files.
+	if _, err := r.SavePoll(ctx, poll(now), nil, []models.FileReading{file("curseforge", "1", "a", nil, 6)}, nil); err != nil {
+		t.Fatal(err)
+	}
+	got, _ := r.ListFileStats(ctx, now)
+	if len(got) != 2 {
+		t.Fatalf("project b's last files should stay on the dashboard, got %+v", got)
+	}
+}
+
+func TestSourceStatusKeepsTheLastGoodTime(t *testing.T) {
+	r := newRepo(t)
+	ctx := context.Background()
+	good := time.Date(2026, 11, 21, 10, 0, 0, 0, time.UTC)
+	if _, err := r.SavePoll(ctx, poll(good), nil, nil,
+		[]models.SourceStatus{{Source: "modrinth", OK: true, CheckedAt: good, LastOKAt: good}}); err != nil {
+		t.Fatal(err)
+	}
+	bad := good.Add(time.Hour)
+	if _, err := r.SavePoll(ctx, poll(bad), nil, nil,
+		[]models.SourceStatus{{Source: "modrinth", OK: false, Error: "429", CheckedAt: bad}}); err != nil {
+		t.Fatal(err)
+	}
+	got, err := r.ListSourceStatuses(ctx)
+	if err != nil || len(got) != 1 {
+		t.Fatalf("statuses = %v %v", got, err)
+	}
+	if got[0].OK || got[0].Error != "429" || !got[0].LastOKAt.Equal(good) {
+		t.Errorf("a failure must keep the last good time: %+v", got[0])
 	}
 }

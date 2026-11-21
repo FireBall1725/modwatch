@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/fireball1725/modwatch/internal/version"
 	"github.com/robfig/cron/v3"
 )
 
@@ -31,6 +32,13 @@ type Config struct {
 	CurseForgeAuthorID int
 	CurseForgeBaseURL  string
 	CurseForgeGameID   int
+
+	// ModrinthUser is a Modrinth username or id. Empty turns Modrinth off.
+	// The token is optional; public projects need none, and it only matters for drafts and private projects.
+	ModrinthUser      string
+	ModrinthToken     string
+	ModrinthBaseURL   string
+	ModrinthUserAgent string
 }
 
 // Load reads the environment and fills in defaults.
@@ -44,6 +52,11 @@ func Load() *Config {
 		CurseForgeAuthorID: getEnvInt("CURSEFORGE_AUTHOR_ID", 0),
 		CurseForgeBaseURL:  strings.TrimRight(getEnv("CURSEFORGE_BASE_URL", "https://api.curseforge.com"), "/"),
 		CurseForgeGameID:   getEnvInt("CURSEFORGE_GAME_ID", 432), // 432 is Minecraft
+		ModrinthUser:       getEnv("MODRINTH_USER", ""),
+		ModrinthToken:      getEnv("MODRINTH_TOKEN", ""),
+		ModrinthBaseURL:    strings.TrimRight(getEnv("MODRINTH_BASE_URL", "https://api.modrinth.com"), "/"),
+		// Modrinth asks for a descriptive agent; this names the software and nothing about who runs it.
+		ModrinthUserAgent: getEnv("MODRINTH_USER_AGENT", "modwatch/"+version.String()),
 	}
 }
 
@@ -65,6 +78,11 @@ func (c *Config) Problems() []error {
 // CanPoll reports whether the CurseForge settings are complete enough to fetch anything.
 func (c *Config) CanPoll() bool {
 	return c.CurseForgeKey != "" && c.CurseForgeAuthorID > 0
+}
+
+// CanPollModrinth reports whether a Modrinth user is configured.
+func (c *Config) CanPollModrinth() bool {
+	return c.ModrinthUser != ""
 }
 
 func getEnv(key, fallback string) string {

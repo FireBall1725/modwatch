@@ -57,3 +57,57 @@ type Reading struct {
 	Mod
 	Downloads int64
 }
+
+// Sources the downloads come from.
+const (
+	SourceCurseForge = "curseforge"
+	SourceModrinth   = "modrinth"
+)
+
+// File is one downloadable file (CurseForge) or version (Modrinth) of a project.
+// GameVersions holds Minecraft versions only and Loaders holds mod loaders only; each source's
+// own mixed list is split before it gets here.
+type File struct {
+	Source       string    `json:"source"`
+	ID           string    `json:"id"`
+	ProjectID    string    `json:"projectId"`
+	ProjectSlug  string    `json:"projectSlug"`
+	ProjectName  string    `json:"projectName"`
+	Name         string    `json:"name"`
+	Version      string    `json:"version"`
+	ReleaseType  string    `json:"releaseType"`
+	GameVersions []string  `json:"gameVersions"`
+	Loaders      []string  `json:"loaders"`
+	PublishedAt  time.Time `json:"publishedAt"`
+}
+
+// FileReading is a file and its download count as one poll saw it.
+type FileReading struct {
+	File
+	Downloads int64
+}
+
+// FileStat is a file with its latest download count and movement.
+type FileStat struct {
+	File
+	Downloads int64  `json:"downloads"`
+	Delta24h  *int64 `json:"delta24h"`
+	Delta7d   *int64 `json:"delta7d"`
+}
+
+// SourceStatus is whether the last attempt to read a source worked.
+type SourceStatus struct {
+	Source    string    `json:"source"`
+	OK        bool      `json:"ok"`
+	Error     string    `json:"error,omitempty"`
+	CheckedAt time.Time `json:"checkedAt"`
+	LastOKAt  time.Time `json:"lastOkAt"`
+}
+
+// VersionTotal is the downloads attributed to one Minecraft version or loader.
+// A file that targets several versions counts toward each of them, so the totals overlap.
+type VersionTotal struct {
+	Name      string `json:"name"`
+	Downloads int64  `json:"downloads"`
+	Files     int    `json:"files"`
+}

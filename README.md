@@ -1,6 +1,6 @@
 # Modwatch
 
-A dashboard for the mods I publish. It polls CurseForge once an hour, keeps every download count it sees, and shows totals, 24 hour and 7 day movement, and a 30 day trend per mod. It also serves the same numbers to Prometheus.
+A dashboard for the mods I publish. It polls CurseForge and Modrinth once an hour, keeps every download count it sees, and shows totals, 24 hour and 7 day movement, a 30 day trend per mod, and which Minecraft versions and loaders people download for. It also serves the same numbers to Prometheus.
 
 CurseForge's API returns lifetime totals only. Modwatch builds the history itself, so the day and week figures read "needs a day of history" until it has a snapshot that old.
 
@@ -21,6 +21,8 @@ The UI is at `http://localhost:8080`. To build the web client into the binary fi
 | `CURSEFORGE_API_KEY` | | Core API key, sent as `x-api-key` |
 | `CURSEFORGE_AUTHOR_ID` | | Numeric author ID |
 | `CURSEFORGE_GAME_ID` | `432` | Minecraft |
+| `MODRINTH_USER` | | Modrinth username or id. Empty turns Modrinth off |
+| `MODRINTH_TOKEN` | | Optional. Public projects need none; it matters for drafts and private projects |
 | `MODWATCH_SCHEDULE` | `0 * * * *` | Cron, in the `TZ` time zone |
 | `MODWATCH_ADDR` | `:8080` | |
 | `MODWATCH_DATA_DIR` | `./data` | SQLite database |
@@ -36,6 +38,8 @@ The older "API Tokens" page on CurseForge issues upload tokens. Those get a 403 
 | `GET /healthz` | Liveness |
 | `GET /api/v1/summary` | Totals, deltas, last poll, config problems |
 | `GET /api/v1/mods` | Every mod with downloads and deltas |
+| `GET /api/v1/files` | Every file or version with downloads and deltas |
+| `GET /api/v1/versions` | Downloads by Minecraft version and by loader |
 | `GET /api/v1/history?days=30` | One snapshot per day per mod |
 | `POST /api/v1/poll` | Start a poll now |
 
@@ -44,6 +48,10 @@ The older "API Tokens" page on CurseForge issues upload tokens. Those get a 403 
 | Series | Type | |
 |---|---|---|
 | `modwatch_mod_downloads_total{id,slug,name,owned}` | counter | Lifetime downloads per mod |
+| `modwatch_file_downloads_total{source,slug,name,version,release_type,game_versions,loaders}` | counter | Downloads of one file or version |
+| `modwatch_game_version_downloads_total{source,slug,name,game_version}` | counter | File downloads per mod and Minecraft version |
+| `modwatch_loader_downloads_total{source,slug,name,loader}` | counter | File downloads per mod and loader |
+| `modwatch_source_up{source}` | gauge | 1 if CurseForge or Modrinth was read without error |
 | `modwatch_mods{owned}` | gauge | Mods found |
 | `modwatch_last_poll_success` | gauge | 1 if the last poll worked |
 | `modwatch_last_success_timestamp_seconds` | gauge | Alert when this goes stale |
@@ -51,6 +59,8 @@ The older "API Tokens" page on CurseForge issues upload tokens. Those get a 403 
 | `modwatch_build_info{version}` | gauge | Always 1 |
 
 `increase(modwatch_mod_downloads_total{owned="true"}[1d])` gives downloads per day. CurseForge sometimes recounts downward; Prometheus reads that as a counter reset.
+
+A file that targets several Minecraft versions counts toward each in the version and loader series, so don't sum those across versions. CurseForge's per-file counts also don't add up to a mod's total; Turbolifts' three files sum to 35 against 8,505 on the mod. Modrinth's do add up.
 
 ## Develop
 

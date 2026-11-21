@@ -92,31 +92,39 @@ func (c *Client) ListByAuthor(ctx context.Context, authorID int, ownerOnly bool)
 }
 
 func (c *Client) search(ctx context.Context, q url.Values) (*searchResponse, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+"/v1/mods/search?"+q.Encode(), nil)
-	if err != nil {
+	var out searchResponse
+	if err := c.get(ctx, "/v1/mods/search", q, &out); err != nil {
 		return nil, err
+	}
+	return &out, nil
+}
+
+// get fetches one endpoint and decodes the JSON body into out.
+func (c *Client) get(ctx context.Context, path string, q url.Values, out any) error {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+path+"?"+q.Encode(), nil)
+	if err != nil {
+		return err
 	}
 	req.Header.Set("x-api-key", c.key)
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := c.http.Do(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer func() { _ = resp.Body.Close() }()
 
 	body, err := io.ReadAll(io.LimitReader(resp.Body, 8<<20))
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return nil, statusError(resp.StatusCode, resp.Header.Get("Retry-After"), body)
+		return statusError(resp.StatusCode, resp.Header.Get("Retry-After"), body)
 	}
-	var out searchResponse
-	if err := json.Unmarshal(body, &out); err != nil {
-		return nil, fmt.Errorf("curseforge: unreadable response: %w", err)
+	if err := json.Unmarshal(body, out); err != nil {
+		return fmt.Errorf("curseforge: unreadable response: %w", err)
 	}
-	return &out, nil
+	return nil
 }
 
 // statusError names the failure without echoing the key, which never appears in a response anyway.

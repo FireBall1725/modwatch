@@ -83,6 +83,8 @@ type summaryResponse struct {
 	All      totals       `json:"all"`
 	LastPoll *models.Poll `json:"lastPoll"`
 	LastOK   *models.Poll `json:"lastOkPoll"`
+	// Sources says whether each download source (CurseForge, Modrinth) worked last time.
+	Sources []models.SourceStatus `json:"sources"`
 }
 
 func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
@@ -101,6 +103,11 @@ func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, "couldn't read polls")
 		return
 	}
+	sources, err := h.repo.ListSourceStatuses(r.Context())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "couldn't read sources")
+		return
+	}
 	problems := []string{}
 	for _, p := range h.cfg.Problems() {
 		problems = append(problems, p.Error())
@@ -114,6 +121,7 @@ func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
 		All:      tally(stats, func(models.ModStat) bool { return true }),
 		LastPoll: last,
 		LastOK:   lastOK,
+		Sources:  sources,
 	})
 }
 
@@ -161,4 +169,31 @@ func (h *handlers) startPoll(w http.ResponseWriter, _ *http.Request) {
 	default:
 		writeJSON(w, http.StatusAccepted, map[string]string{"status": "started"})
 	}
+}
+
+func (h *handlers) listFiles(w http.ResponseWriter, r *http.Request) {
+	files, err := h.repo.ListFileStats(r.Context(), time.Now())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "couldn't read files")
+		return
+	}
+	writeJSON(w, http.StatusOK, files)
+}
+
+type versionsResponse struct {
+	GameVersions []models.VersionTotal `json:"gameVersions"`
+	Loaders      []models.VersionTotal `json:"loaders"`
+}
+
+// versions answers "which Minecraft versions and loaders are people downloading for".
+func (h *handlers) versions(w http.ResponseWriter, r *http.Request) {
+	files, err := h.repo.ListFileStats(r.Context(), time.Now())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "couldn't read files")
+		return
+	}
+	writeJSON(w, http.StatusOK, versionsResponse{
+		GameVersions: totalsBy(files, gameVersionsOf),
+		Loaders:      totalsBy(files, loadersOf),
+	})
 }

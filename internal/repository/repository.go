@@ -7,6 +7,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"time"
 
@@ -32,8 +33,9 @@ func parseTime(s string) time.Time {
 // keepFailedPolls is how many failed polls the history keeps; successful ones are the snapshot trail and stay.
 const keepFailedPolls = 50
 
-// SavePoll records a successful poll, upserts each mod and stores its download count, in one transaction.
-func (r *Repo) SavePoll(ctx context.Context, p models.Poll, readings []models.Reading) (int64, error) {
+// SavePoll records a successful poll, upserts each mod and file and stores their download counts, in one transaction.
+// Source statuses go in the same transaction so the dashboard never shows a poll without its verdicts.
+func (r *Repo) SavePoll(ctx context.Context, p models.Poll, readings []models.Reading, files []models.FileReading, statuses []models.SourceStatus) (int64, error) {
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {
 		return 0, err
@@ -70,24 +72,101 @@ func (r *Repo) SavePoll(ctx context.Context, p models.Poll, readings []models.Re
 			return 0, err
 		}
 	}
+	for _, f := range files {
+		if err := saveFile(ctx, tx, id, p.FinishedAt, f); err != nil {
+			return 0, err
+		}
+	}
+	for _, st := range statuses {
+		if err := saveSourceStatus(ctx, tx, st); err != nil {
+			return 0, err
+		}
+	}
 	if err := tx.Commit(); err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
+func saveFile(ctx context.Context, tx *sql.Tx, pollID int64, at time.Time, f models.FileReading) error {
+	gv, err := json.Marshal(nonNil(f.GameVersions))
+	if err != nil {
+		return err
+	}
+	lo, err := json.Marshal(nonNil(f.Loaders))
+	if err != nil {
+		return err
+	}
+	published := ""
+	if !f.PublishedAt.IsZero() {
+		published = format(f.PublishedAt)
+	}
+	if _, err := tx.ExecContext(ctx, `
+		INSERT INTO files (source, id, project_id, project_slug, project_name, name, version, release_type,
+		                   game_versions, loaders, published_at, last_poll_id)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT (source, id) DO UPDATE SET
+			project_id = excluded.project_id, project_slug = excluded.project_slug, project_name = excluded.project_name,
+			name = excluded.name, version = excluded.version, release_type = excluded.release_type,
+			game_versions = excluded.game_versions, loaders = excluded.loaders, published_at = excluded.published_at,
+			last_poll_id = excluded.last_poll_id`,
+		f.Source, f.ID, f.ProjectID, f.ProjectSlug, f.ProjectName, f.Name, f.Version, f.ReleaseType,
+		string(gv), string(lo), published, pollID); err != nil {
+		return err
+	}
+	_, err = tx.ExecContext(ctx, `
+		INSERT INTO file_snapshots (source, file_id, poll_id, taken_at, download_count) VALUES (?, ?, ?, ?, ?)`,
+		f.Source, f.ID, pollID, format(at), f.Downloads)
+	return err
+}
+
+func saveSourceStatus(ctx context.Context, tx *sql.Tx, st models.SourceStatus) error {
+	lastOK := ""
+	if !st.LastOKAt.IsZero() {
+		lastOK = format(st.LastOKAt)
+	}
+	// A failed check leaves last_ok_at alone; an empty value on a failure means "keep the old one".
+	_, err := tx.ExecContext(ctx, `
+		INSERT INTO source_status (source, ok, error, checked_at, last_ok_at) VALUES (?, ?, ?, ?, ?)
+		ON CONFLICT (source) DO UPDATE SET
+			ok = excluded.ok, error = excluded.error, checked_at = excluded.checked_at,
+			last_ok_at = CASE WHEN excluded.last_ok_at = '' THEN source_status.last_ok_at ELSE excluded.last_ok_at END`,
+		st.Source, st.OK, st.Error, format(st.CheckedAt), lastOK)
+	return err
+}
+
+func nonNil(s []string) []string {
+	if s == nil {
+		return []string{}
+	}
+	return s
+}
+
 // SaveFailedPoll records a poll that didn't produce data.
-func (r *Repo) SaveFailedPoll(ctx context.Context, p models.Poll) error {
-	if _, err := r.db.ExecContext(ctx, `
+func (r *Repo) SaveFailedPoll(ctx context.Context, p models.Poll, statuses []models.SourceStatus) error {
+	tx, err := r.db.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = tx.Rollback() }()
+	if _, err := tx.ExecContext(ctx, `
 		INSERT INTO polls (started_at, finished_at, state, error, mods) VALUES (?, ?, ?, ?, 0)`,
 		format(p.StartedAt), format(p.FinishedAt), models.PollError, p.Error); err != nil {
 		return err
 	}
-	_, err := r.db.ExecContext(ctx, `
+	for _, st := range statuses {
+		if err := saveSourceStatus(ctx, tx, st); err != nil {
+			return err
+		}
+	}
+	_, err = tx.ExecContext(ctx, `
 		DELETE FROM polls WHERE state = ? AND id NOT IN (
 			SELECT id FROM polls WHERE state = ? ORDER BY id DESC LIMIT ?)`,
 		models.PollError, models.PollError, keepFailedPolls)
-	return err
+	if err != nil {
+		return err
+	}
+	return tx.Commit()
 }
 
 // LatestPoll returns the most recent poll of any state, or nil if there has been none.
@@ -180,6 +259,77 @@ func (r *Repo) History(ctx context.Context, since time.Time) (map[int][]models.S
 			return nil, err
 		}
 		out[id] = append(out[id], models.Snapshot{At: parseTime(at), Downloads: n})
+	}
+	return out, rows.Err()
+}
+
+// ListFileStats returns every file the latest refresh of each project saw, biggest first, with day and week movement.
+// "Latest refresh of each project" rather than "latest poll": if one project's files couldn't be fetched this time,
+// its files keep their last counts instead of vanishing from the dashboard and the metrics.
+func (r *Repo) ListFileStats(ctx context.Context, now time.Time) ([]models.FileStat, error) {
+	rows, err := r.db.QueryContext(ctx, `
+		SELECT f.source, f.id, f.project_id, f.project_slug, f.project_name, f.name, f.version, f.release_type,
+		       f.game_versions, f.loaders, f.published_at, s.download_count,
+		       (SELECT p.download_count FROM file_snapshots p
+		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1),
+		       (SELECT p.download_count FROM file_snapshots p
+		         WHERE p.source = f.source AND p.file_id = f.id AND p.taken_at <= ? ORDER BY p.taken_at DESC LIMIT 1)
+		FROM files f
+		JOIN file_snapshots s ON s.source = f.source AND s.file_id = f.id AND s.poll_id = f.last_poll_id
+		WHERE f.last_poll_id = (SELECT MAX(x.last_poll_id) FROM files x WHERE x.source = f.source AND x.project_id = f.project_id)
+		ORDER BY s.download_count DESC, f.project_name, f.version`,
+		format(now.Add(-24*time.Hour)), format(now.Add(-7*24*time.Hour)))
+	if err != nil {
+		return nil, err
+	}
+	defer func() { _ = rows.Close() }()
+
+	out := []models.FileStat{}
+	for rows.Next() {
+		var s models.FileStat
+		var gv, lo, published string
+		var d1, d7 sql.NullInt64
+		if err := rows.Scan(&s.Source, &s.ID, &s.ProjectID, &s.ProjectSlug, &s.ProjectName, &s.Name, &s.Version, &s.ReleaseType,
+			&gv, &lo, &published, &s.Downloads, &d1, &d7); err != nil {
+			return nil, err
+		}
+		if err := json.Unmarshal([]byte(gv), &s.GameVersions); err != nil || s.GameVersions == nil {
+			s.GameVersions = []string{}
+		}
+		if err := json.Unmarshal([]byte(lo), &s.Loaders); err != nil || s.Loaders == nil {
+			s.Loaders = []string{}
+		}
+		s.PublishedAt = parseTime(published)
+		if d1.Valid {
+			v := s.Downloads - d1.Int64
+			s.Delta24h = &v
+		}
+		if d7.Valid {
+			v := s.Downloads - d7.Int64
+			s.Delta7d = &v
+		}
+		out = append(out, s)
+	}
+	return out, rows.Err()
+}
+
+// ListSourceStatuses returns the last verdict for each source that has been tried.
+func (r *Repo) ListSourceStatuses(ctx context.Context) ([]models.SourceStatus, error) {
+	rows, err := r.db.QueryContext(ctx, `SELECT source, ok, error, checked_at, last_ok_at FROM source_status ORDER BY source`)
+	if err != nil {
+		return nil, err
+	}
+	defer func() { _ = rows.Close() }()
+
+	out := []models.SourceStatus{}
+	for rows.Next() {
+		var st models.SourceStatus
+		var checked, lastOK string
+		if err := rows.Scan(&st.Source, &st.OK, &st.Error, &checked, &lastOK); err != nil {
+			return nil, err
+		}
+		st.CheckedAt, st.LastOKAt = parseTime(checked), parseTime(lastOK)
+		out = append(out, st)
 	}
 	return out, rows.Err()
 }

@@ -21,6 +21,7 @@ import (
 	"github.com/fireball1725/modwatch/internal/db"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/providers/curseforge"
+	"github.com/fireball1725/modwatch/internal/providers/modrinth"
 	"github.com/fireball1725/modwatch/internal/repository"
 	"github.com/fireball1725/modwatch/internal/version"
 	"github.com/robfig/cron/v3"
@@ -47,7 +48,12 @@ func main() {
 	repo := repository.New(conn)
 
 	cf := curseforge.New(cfg.CurseForgeBaseURL, cfg.CurseForgeKey, cfg.CurseForgeGameID)
-	polls := poll.New(ctx, cfg, repo, cf)
+	// Leave mr nil when Modrinth is off; a typed nil inside the interface would look configured.
+	var mr poll.Modrinth
+	if cfg.CanPollModrinth() {
+		mr = modrinth.New(cfg.ModrinthBaseURL, cfg.ModrinthToken, cfg.ModrinthUserAgent)
+	}
+	polls := poll.New(ctx, cfg, repo, cf, mr)
 
 	// Poll at boot so the page is current; the stored data shows until it finishes.
 	if err := polls.Start(); err != nil {

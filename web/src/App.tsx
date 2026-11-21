@@ -3,14 +3,16 @@
 
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import FilesTable from './components/FilesTable'
 import ModsTable from './components/ModsTable'
 import Summary from './components/Summary'
 import TopBar from './components/TopBar'
+import VersionsPanel from './components/VersionsPanel'
 import { useDashboard } from './hooks/useDashboard'
 
 export default function App() {
   const { t } = useTranslation()
-  const { summary, mods, history, error, loading, poll } = useDashboard()
+  const { summary, mods, history, files, versions, error, loading, poll } = useDashboard()
   // Mods the author is only a member of (Applied Energistics 2 and the like) would drown their own numbers.
   const [includeMember, setIncludeMember] = useState(false)
   const shown = useMemo(() => (includeMember ? mods : mods.filter((m) => m.owned)), [mods, includeMember])
@@ -34,6 +36,13 @@ export default function App() {
             </ul>
           </section>
         )}
+        {summary?.sources
+          .filter((src) => !src.ok)
+          .map((src) => (
+            <p key={src.source} className="rounded-md bg-warn-bg px-3 py-2 text-sm text-warn" role="alert">
+              {t('sources.failed', { source: t(`sources.${src.source}`, { defaultValue: src.source }), error: src.error })}
+            </p>
+          ))}
         {summary && <Summary totals={includeMember ? summary.all : summary.owned} />}
         <label className="flex w-fit items-center gap-2 text-sm text-muted">
           <input
@@ -45,6 +54,8 @@ export default function App() {
           {t('table.includeMember')}
         </label>
         {!loading && <ModsTable mods={shown} history={history} />}
+        {!loading && <VersionsPanel gameVersions={versions.gameVersions} loaders={versions.loaders} />}
+        {!loading && <FilesTable files={files} />}
       </main>
     </div>
   )

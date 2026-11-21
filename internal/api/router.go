@@ -23,6 +23,8 @@ func NewRouter(cfg *config.Config, repo *repository.Repo, polls *poll.Service) h
 	mux.HandleFunc("GET /metrics", h.metrics)
 	mux.HandleFunc("GET /api/v1/summary", h.summary)
 	mux.HandleFunc("GET /api/v1/mods", h.listMods)
+	mux.HandleFunc("GET /api/v1/files", h.listFiles)
+	mux.HandleFunc("GET /api/v1/versions", h.versions)
 	mux.HandleFunc("GET /api/v1/history", h.history)
 	mux.HandleFunc("POST /api/v1/poll", h.startPoll)
 	mux.Handle("/api/", http.NotFoundHandler())

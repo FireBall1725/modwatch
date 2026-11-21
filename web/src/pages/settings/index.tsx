@@ -15,6 +15,7 @@ import type {
 } from "../../lib/types";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
+import ConnectionsCard from "./ConnectionsCard";
 import Dialog from "../../components/ui/Dialog";
 import EmptyState from "../../components/ui/EmptyState";
 import ErrorState from "../../components/ui/ErrorState";
@@ -203,19 +204,14 @@ export default function SettingsPage() {
     <>
       <PageHeader title={t("title")} description={t("description")} />
       <Strip summary={summary} loading={cat.loading} />
-      <div className="flex flex-col gap-4 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:grid-rows-[auto_1fr] xl:items-start">
-        <div className="xl:col-start-2 xl:row-start-1">
-          <SourcesCard />
-        </div>
-        <div className="xl:col-start-2 xl:row-start-2">
-          <PollCard />
-        </div>
+      <ConnectionsCard />
+      <div className="flex flex-col gap-4">
         <Card
           id="registry"
           title={t("registry.title")}
           description={t("registry.description")}
           padded={false}
-          className="order-first min-w-0 xl:order-none xl:col-start-1 xl:row-span-2 xl:row-start-1"
+          className="min-w-0"
           actions={
             <div className="flex min-w-0 flex-col items-end gap-2 sm:flex-row sm:flex-wrap sm:items-center">
               <Button
@@ -356,6 +352,10 @@ export default function SettingsPage() {
             </>
           )}
         </Card>
+        <div className="grid gap-4 md:grid-cols-2">
+          <SourcesCard />
+          <PollCard />
+        </div>
       </div>
 
       {editing && (

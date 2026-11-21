@@ -144,5 +144,13 @@
   },
   "stub": {
     "placeholder": "This page is being built."
+  },
+  "attention": {
+    "dismiss": "Dismiss: {{title}}",
+    "dismissHint": "Dismiss. It leaves the list until you restore it.",
+    "dismissedToggle_one": "Dismissed ({{count}})",
+    "dismissedToggle_other": "Dismissed ({{count}})",
+    "restore": "Restore",
+    "failed": "That didn't save: {{message}}"
   }
 }

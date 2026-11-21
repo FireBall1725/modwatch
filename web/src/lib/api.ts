@@ -2,6 +2,7 @@
 // Copyright (C) 2026 FireBall1725
 
 import type {
+  AttentionRef,
   Catalog,
   CatalogEntry,
   CatalogUpdate,
@@ -12,6 +13,8 @@ import type {
   ModSummary,
   Overview,
   ReleaseItem,
+  Settings,
+  SettingsUpdate,
   Versions,
 } from './types'
 import { withLegacy } from './legacyPref'
@@ -106,6 +109,23 @@ export const api = {
   poll: async (): Promise<void> => {
     if (MOCK) return mock().then((m) => m.poll())
     await request<unknown>('/api/v1/poll', { method: 'POST' })
+  },
+
+  settings: (): Promise<Settings> => (MOCK ? mock().then((m) => m.settings()) : request('/api/v1/settings')),
+
+  /** Only the keys sent change; null or "" clears the value set here. Resolves to the settings as they are now. */
+  settingsPut: (update: SettingsUpdate): Promise<Settings> =>
+    MOCK ? mock().then((m) => m.settingsPut(update)) : request('/api/v1/settings', json('PUT', update)),
+
+  /** Moves a needs-attention item to the dismissed list. Rejects with ApiError 400 for a kind that can't be dismissed. */
+  attentionDismiss: async (ref: AttentionRef): Promise<void> => {
+    if (MOCK) return mock().then((m) => m.attentionDismiss(ref))
+    await request<unknown>('/api/v1/attention/dismiss', json('POST', ref))
+  },
+
+  attentionRestore: async (ref: AttentionRef): Promise<void> => {
+    if (MOCK) return mock().then((m) => m.attentionRestore(ref))
+    await request<unknown>('/api/v1/attention/restore', json('POST', ref))
   },
 
   summary: (): Promise<LegacySummary> => (MOCK ? mock().then((m) => m.summary()) : request('/api/v1/summary')),

@@ -6,6 +6,7 @@ package poll
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 	"time"
 
@@ -15,6 +16,7 @@ import (
 	"github.com/fireball1725/modwatch/internal/providers/curseforge"
 	"github.com/fireball1725/modwatch/internal/providers/modrinth"
 	"github.com/fireball1725/modwatch/internal/repository"
+	"github.com/fireball1725/modwatch/internal/settings"
 )
 
 type fakeSource struct {
@@ -353,7 +355,9 @@ type fakeGitHub struct {
 	err    error
 }
 
-func (f fakeGitHub) ListIssues(context.Context) ([]models.Issue, error) { return f.issues, f.err }
+func (f fakeGitHub) ListIssues(context.Context, string) ([]models.Issue, error) {
+	return f.issues, f.err
+}
 
 func sourceOf(t *testing.T, repo *repository.Repo, name string) (models.SourceStatus, bool) {
 	t.Helper()
@@ -457,5 +461,139 @@ func TestWaitReturnsOnceThePollIsDone(t *testing.T) {
 	}
 	if !svc.Wait(5 * time.Second) {
 		t.Error("poll did not finish")
+	}
+}
+
+// repoGitHub serves issues per repository and counts the calls.
+type repoGitHub struct {
+	byRepo map[string][]models.Issue
+	failed map[string]error
+	calls  *[]string
+}
+
+func (g repoGitHub) ListIssues(_ context.Context, repo string) ([]models.Issue, error) {
+	*g.calls = append(*g.calls, repo)
+	if err := g.failed[repo]; err != nil {
+		return nil, err
+	}
+	out := append([]models.Issue(nil), g.byRepo[repo]...)
+	return out, nil
+}
+
+func TestIssuesComeFromTheSharedRepoAndEachModsOwn(t *testing.T) {
+	ctx := context.Background()
+	at := time.Now().UTC()
+	svc, repo := newService(t, fakeSource{owned: []curseforge.Mod{mod(1, "mine", 10)}})
+	svc.cfg.GitHubIssuesRepo = "me/shared"
+	// One poll first, so the catalog has an entry to give its own repository.
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	own := "me/mine-issues"
+	if _, err := repo.UpdateCatalogEntry(ctx, "mine", models.CatalogUpdate{GitHubRepo: models.Patch[string]{Set: true, Value: &own}}); err != nil {
+		t.Fatal(err)
+	}
+	var calls []string
+	mk := func(n int) models.Issue {
+		return models.Issue{Number: n, State: "open", Kind: "bug", CreatedAt: at, UpdatedAt: at}
+	}
+	svc.WithGitHub(repoGitHub{calls: &calls, byRepo: map[string][]models.Issue{
+		"me/shared":      {mk(1), mk(2)},
+		"me/mine-issues": {mk(1)}, // the same number in another repo
+	}})
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if len(calls) != 2 || calls[0] != "me/shared" || calls[1] != "me/mine-issues" {
+		t.Errorf("repositories read = %v, want the shared one then the mod's own", calls)
+	}
+	got, _ := repo.ListIssues(ctx, "all")
+	perRepo := map[string]int{}
+	for _, is := range got {
+		perRepo[is.Repo]++
+	}
+	if perRepo["me/shared"] != 2 || perRepo["me/mine-issues"] != 1 {
+		t.Errorf("stored per repo = %v", perRepo)
+	}
+}
+
+func TestOneFailingRepoKeepsItsIssuesAndNamesItInTheStatus(t *testing.T) {
+	ctx := context.Background()
+	at := time.Now().UTC()
+	svc, repo := newService(t, fakeSource{owned: []curseforge.Mod{mod(1, "mine", 10)}})
+	svc.cfg.GitHubIssuesRepo = "me/shared"
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	own := "me/mine-issues"
+	if _, err := repo.UpdateCatalogEntry(ctx, "mine", models.CatalogUpdate{GitHubRepo: models.Patch[string]{Set: true, Value: &own}}); err != nil {
+		t.Fatal(err)
+	}
+	var calls []string
+	issues := map[string][]models.Issue{
+		"me/shared":      {{Number: 1, State: "open", Kind: "bug", CreatedAt: at, UpdatedAt: at}},
+		"me/mine-issues": {{Number: 1, State: "open", Kind: "bug", CreatedAt: at, UpdatedAt: at}},
+	}
+	svc.WithGitHub(repoGitHub{calls: &calls, byRepo: issues})
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	svc.WithGitHub(repoGitHub{calls: &calls, byRepo: issues, failed: map[string]error{"me/mine-issues": errors.New("github: not found")}})
+	if err := svc.Run(ctx); err != nil {
+		t.Fatalf("one repo failing must not fail the poll: %v", err)
+	}
+	if got, _ := repo.ListIssues(ctx, "all"); len(got) != 2 {
+		t.Errorf("stored = %d, want both kept", len(got))
+	}
+	st, _ := sourceOf(t, repo, models.SourceGitHub)
+	if st.OK || !strings.Contains(st.Error, "me/mine-issues") || strings.Contains(st.Error, "me/shared") {
+		t.Errorf("status = %+v, want the failing repo named and only it", st)
+	}
+}
+
+type recordingFactory struct{ seen *[]*config.Config }
+
+func (f recordingFactory) CurseForge(cfg *config.Config) CurseForge {
+	*f.seen = append(*f.seen, cfg)
+	return fakeSource{owned: []curseforge.Mod{mod(1, "mine", 10)}}
+}
+func (recordingFactory) Modrinth(*config.Config) Modrinth { return nil }
+func (recordingFactory) GitHub(*config.Config) GitHub     { return nil }
+
+func TestEachPollReadsTheCurrentSettings(t *testing.T) {
+	ctx := context.Background()
+	conn := dbtest.Open(t)
+	repo := repository.New(conn)
+	base := &config.Config{} // nothing in the environment
+	store := settings.New(base, repo)
+	var seen []*config.Config
+	svc := New(ctx, base, repo, nil, nil).WithSettings(store, recordingFactory{seen: &seen})
+
+	if err := svc.Start(); !errors.Is(err, ErrNotConfigured) {
+		t.Fatalf("with no key anywhere, Start = %v, want ErrNotConfigured", err)
+	}
+	key, id := "ui-key", "77"
+	if err := store.Update(ctx, map[string]*string{config.KeyCurseForgeAPIKey: &key, config.KeyCurseForgeAuthorID: &id}); err != nil {
+		t.Fatal(err)
+	}
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if len(seen) != 1 || seen[0].CurseForgeKey != "ui-key" || seen[0].CurseForgeAuthorID != 77 {
+		t.Fatalf("the poll must build its clients from Settings, saw %+v", seen)
+	}
+	if base.CurseForgeKey != "" {
+		t.Error("the base configuration must stay as the environment gave it")
+	}
+	// Change it again; the next poll sees the new value without a restart.
+	id2 := "78"
+	if err := store.Update(ctx, map[string]*string{config.KeyCurseForgeAuthorID: &id2}); err != nil {
+		t.Fatal(err)
+	}
+	if err := svc.Run(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if len(seen) != 2 || seen[1].CurseForgeAuthorID != 78 {
+		t.Errorf("second poll saw %+v", seen)
 	}
 }

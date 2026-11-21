@@ -66,7 +66,10 @@ func fullServer(t *testing.T) http.Handler {
 		{Number: 5, Title: "crash on load", State: "open", Kind: "crash", ModLabel: "tower", URL: "https://gh/5", CreatedAt: now.AddDate(0, 0, -3), UpdatedAt: now},
 		{Number: 6, Title: "who", State: "open", Kind: "other", ModLabel: "ghost", CreatedAt: now, UpdatedAt: now},
 	}
-	if err := repo.SaveIssues(ctx, id, issues); err != nil {
+	for i := range issues {
+		issues[i].Repo = "o/r"
+	}
+	if err := repo.SaveIssues(ctx, id, []string{"o/r"}, []string{"o/r"}, issues); err != nil {
 		t.Fatal(err)
 	}
 	cfg := &config.Config{Schedule: "0 * * * *", GitHubIssuesRepo: "o/r"}

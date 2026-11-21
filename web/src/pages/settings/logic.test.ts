@@ -28,6 +28,7 @@ const entry = (o: Partial<CatalogEntry>): CatalogEntry => ({
   curseforgeId: null,
   modrinthId: null,
   githubLabel: null,
+  githubRepo: null,
   hidden: false,
   legacy: false,
   auto: true,

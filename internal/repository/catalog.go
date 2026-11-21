@@ -8,11 +8,13 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/fireball1725/modwatch/internal/config"
 	"github.com/fireball1725/modwatch/internal/models"
 )
 
@@ -47,15 +49,15 @@ type queryer interface {
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 }
 
-const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, hidden, legacy, auto`
+const entryColumns = `slug, name, curseforge_id, modrinth_id, github_label, github_repo, hidden, legacy, auto`
 
 type rowScanner interface{ Scan(dest ...any) error }
 
 func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 	var e models.CatalogEntry
 	var cf sql.NullInt64
-	var mr, gh sql.NullString
-	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &e.Hidden, &e.Legacy, &e.Auto); err != nil {
+	var mr, gh, repo sql.NullString
+	if err := row.Scan(&e.Slug, &e.Name, &cf, &mr, &gh, &repo, &e.Hidden, &e.Legacy, &e.Auto); err != nil {
 		return e, err
 	}
 	if cf.Valid {
@@ -66,6 +68,9 @@ func scanEntry(row rowScanner) (models.CatalogEntry, error) {
 	}
 	if gh.Valid {
 		e.GitHubLabel = &gh.String
+	}
+	if repo.Valid {
+		e.GitHubRepo = &repo.String
 	}
 	return e, nil
 }
@@ -429,16 +434,34 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		}
 	}
 
+	if u.GitHubRepo.Set {
+		e.GitHubRepo = u.GitHubRepo.Value
+		if e.GitHubRepo != nil {
+			repo := strings.TrimSpace(*e.GitHubRepo)
+			if !config.ValidRepo(repo) {
+				return e, invalid("githubRepo must look like owner/name; send null to clear it")
+			}
+			e.GitHubRepo = &repo
+			var holder string
+			err := tx.QueryRowContext(ctx, `SELECT slug FROM catalog WHERE lower(github_repo) = lower($1) AND slug <> $2`, repo, slug).Scan(&holder)
+			if err == nil {
+				return e, invalid("repository %q is already linked to %s", repo, holder)
+			} else if !errors.Is(err, sql.ErrNoRows) {
+				return e, err
+			}
+		}
+	}
+
 	e.Auto = false
 	// An edit that clears every link leaves nothing to show; drop the entry so a relink can reuse its slug.
-	if e.CurseForgeID == nil && e.ModrinthID == nil && e.GitHubLabel == nil &&
-		(u.CurseForgeID.Set || u.ModrinthID.Set || u.GitHubLabel.Set) {
+	if e.CurseForgeID == nil && e.ModrinthID == nil && e.GitHubLabel == nil && e.GitHubRepo == nil &&
+		(u.CurseForgeID.Set || u.ModrinthID.Set || u.GitHubLabel.Set || u.GitHubRepo.Set) {
 		if _, err := tx.ExecContext(ctx, `DELETE FROM catalog WHERE slug = $1`, slug); err != nil {
 			return e, err
 		}
 		for _, d := range donors {
 			if _, err := tx.ExecContext(ctx, `
-				DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
+				DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL AND github_repo IS NULL`, d); err != nil {
 				return e, err
 			}
 		}
@@ -448,13 +471,13 @@ func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.Cat
 		return e, nil
 	}
 	if _, err := tx.ExecContext(ctx, `
-		UPDATE catalog SET name = $1, curseforge_id = $2, modrinth_id = $3, github_label = $4, hidden = $5, legacy = $6, auto = FALSE WHERE slug = $7`,
-		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.Hidden, e.Legacy, slug); err != nil {
+		UPDATE catalog SET name = $1, curseforge_id = $2, modrinth_id = $3, github_label = $4, github_repo = $5, hidden = $6, legacy = $7, auto = FALSE WHERE slug = $8`,
+		e.Name, e.CurseForgeID, e.ModrinthID, e.GitHubLabel, e.GitHubRepo, e.Hidden, e.Legacy, slug); err != nil {
 		return e, err
 	}
 	for _, d := range donors {
 		if _, err := tx.ExecContext(ctx, `
-			DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL`, d); err != nil {
+			DELETE FROM catalog WHERE slug = $1 AND curseforge_id IS NULL AND modrinth_id IS NULL AND github_label IS NULL AND github_repo IS NULL`, d); err != nil {
 			return e, err
 		}
 	}
@@ -469,6 +492,7 @@ type CatalogIndex struct {
 	entries map[string]models.CatalogEntry
 	byKey   map[models.PlatformKey]string
 	byLabel map[string]string
+	byRepo  map[string]string
 }
 
 // NewCatalogIndex indexes a list of entries.
@@ -477,6 +501,7 @@ func NewCatalogIndex(entries []models.CatalogEntry) *CatalogIndex {
 		entries: make(map[string]models.CatalogEntry, len(entries)),
 		byKey:   map[models.PlatformKey]string{},
 		byLabel: map[string]string{},
+		byRepo:  map[string]string{},
 	}
 	for _, e := range entries {
 		ix.entries[e.Slug] = e
@@ -488,6 +513,9 @@ func NewCatalogIndex(entries []models.CatalogEntry) *CatalogIndex {
 		}
 		if e.GitHubLabel != nil {
 			ix.byLabel[strings.ToLower(*e.GitHubLabel)] = e.Slug
+		}
+		if e.GitHubRepo != nil {
+			ix.byRepo[strings.ToLower(*e.GitHubRepo)] = e.Slug
 		}
 	}
 	return ix
@@ -506,6 +534,24 @@ func (r *Repo) CatalogIndex(ctx context.Context) (*CatalogIndex, error) {
 func (ix *CatalogIndex) SlugFor(platform, id string) (string, bool) {
 	s, ok := ix.byKey[models.PlatformKey{Platform: platform, ID: id}]
 	return s, ok
+}
+
+// SlugForRepo returns the slug of the entry whose own issues repository is repo.
+func (ix *CatalogIndex) SlugForRepo(repo string) (string, bool) {
+	s, ok := ix.byRepo[strings.ToLower(repo)]
+	return s, ok
+}
+
+// Repos returns every per-mod issues repository, sorted.
+func (ix *CatalogIndex) Repos() []string {
+	out := []string{}
+	for _, e := range ix.entries {
+		if e.GitHubRepo != nil {
+			out = append(out, *e.GitHubRepo)
+		}
+	}
+	sort.Strings(out)
+	return out
 }
 
 // SlugForLabel returns the slug of the entry whose githubLabel is label, or whose slug equals it

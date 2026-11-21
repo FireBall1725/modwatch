@@ -25,6 +25,9 @@ type Config struct {
 	// DatabaseURL is the Postgres connection URL. On Kubernetes it comes from the CloudNativePG secret (key "uri").
 	DatabaseURL string
 
+	// MetricsEnabled turns the Prometheus endpoint on or off. nil means not chosen, which is on.
+	MetricsEnabled *bool
+
 	// Schedule is a five-field cron expression in the process time zone (TZ).
 	Schedule string
 
@@ -55,6 +58,7 @@ func Load() *Config {
 		Addr:               getEnv("MODWATCH_ADDR", ":8080"),
 		LogLevel:           parseLogLevel(getEnv("LOG_LEVEL", "info")),
 		DatabaseURL:        getEnv("DATABASE_URL", ""),
+		MetricsEnabled:     getEnvBool("MODWATCH_METRICS_ENABLED"),
 		Schedule:           getEnv("MODWATCH_SCHEDULE", "0 * * * *"),
 		CurseForgeKey:      getEnv("CURSEFORGE_API_KEY", ""),
 		CurseForgeAuthorID: getEnvInt("CURSEFORGE_AUTHOR_ID", 0),
@@ -118,6 +122,22 @@ func getEnv(key, fallback string) string {
 	}
 	return fallback
 }
+
+// getEnvBool reads true or false; anything else, or nothing, is "not chosen" (nil).
+func getEnvBool(key string) *bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv(key))) {
+	case "true", "1", "yes", "on":
+		v := true
+		return &v
+	case "false", "0", "no", "off":
+		v := false
+		return &v
+	}
+	return nil
+}
+
+// MetricsOn reports whether /metrics should answer. It is on unless someone turned it off.
+func (c *Config) MetricsOn() bool { return c.MetricsEnabled == nil || *c.MetricsEnabled }
 
 func getEnvInt(key string, fallback int) int {
 	v := strings.TrimSpace(os.Getenv(key))

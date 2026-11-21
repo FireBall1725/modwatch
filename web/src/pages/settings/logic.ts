@@ -185,6 +185,7 @@ export function filterEntries(
       e.name,
       e.slug,
       e.githubLabel ?? "",
+      e.githubRepo ?? "",
       String(e.curseforgeId ?? ""),
       e.modrinthId ?? "",
     ].some((v) => v.toLowerCase().includes(q));
@@ -231,7 +232,14 @@ export interface Form {
   curseforgeId: string;
   modrinthId: string;
   githubLabel: string;
+  /** This mod's own issues repository, owner/name. */
+  githubRepo: string;
   hidden: boolean;
+}
+
+/** owner/name as GitHub allows it: letters, digits, dots, dashes and underscores on both sides. */
+export function isRepo(s: string): boolean {
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(s.trim());
 }
 
 export function formFrom(e: CatalogEntry): Form {
@@ -240,14 +248,15 @@ export function formFrom(e: CatalogEntry): Form {
     curseforgeId: e.curseforgeId === null ? "" : String(e.curseforgeId),
     modrinthId: e.modrinthId ?? "",
     githubLabel: e.githubLabel ?? "",
+    githubRepo: e.githubRepo ?? "",
     hidden: e.hidden,
   };
 }
 
 export type FormErrors = Partial<
   Record<
-    "name" | "curseforgeId" | "modrinthId" | "githubLabel",
-    "required" | "digits" | "chars" | "label"
+    "name" | "curseforgeId" | "modrinthId" | "githubLabel" | "githubRepo",
+    "required" | "digits" | "chars" | "label" | "repo"
   >
 >;
 
@@ -269,6 +278,8 @@ export function validate(f: Form): FormErrors {
     !/^[a-z0-9][a-z0-9-]*$/.test(f.githubLabel.trim())
   )
     errors.githubLabel = "label";
+  if (f.githubRepo.trim() !== "" && !isRepo(f.githubRepo))
+    errors.githubRepo = "repo";
   return errors;
 }
 
@@ -283,6 +294,8 @@ export function diff(entry: CatalogEntry, f: Form): CatalogUpdate {
   if (cf !== entry.curseforgeId) out.curseforgeId = cf;
   if (mr !== entry.modrinthId) out.modrinthId = mr;
   if (label !== entry.githubLabel) out.githubLabel = label;
+  const repo = f.githubRepo.trim() === "" ? null : f.githubRepo.trim();
+  if (repo !== entry.githubRepo) out.githubRepo = repo;
   if (f.hidden !== entry.hidden) out.hidden = f.hidden;
   return out;
 }

@@ -40,6 +40,29 @@ func severityRank(s string) int {
 	return 2
 }
 
+// dismissibleKinds are the attention kinds the author may dismiss. Real bugs and crashes, a source that is down and
+// an unlinked label are not: each goes away when the cause is fixed, and hiding them would hide a real problem.
+var dismissibleKinds = map[string]bool{
+	"review_pending": true, "review_stuck": true, "not_approved": true,
+	"missing_platform": true, "no_latest_minecraft": true, "stale_release": true,
+}
+
+// dismissible reports whether the author may dismiss items of this kind.
+func dismissible(kind string) bool { return dismissibleKinds[kind] }
+
+// splitDismissed separates the items the author dismissed from the ones still showing.
+func (v *view) splitDismissed(items []attentionItem) (active, dismissed []attentionItem) {
+	active, dismissed = []attentionItem{}, []attentionItem{}
+	for _, it := range items {
+		if it.ModSlug != nil && v.ds.dismissed[dismissKey{it.Kind, *it.ModSlug}] {
+			dismissed = append(dismissed, it)
+			continue
+		}
+		active = append(active, it)
+	}
+	return active, dismissed
+}
+
 // healthOf rolls attention items up: any problem is problem, else any warning is attention, else ok.
 // Info items never change health.
 func healthOf(items []attentionItem) string {
@@ -69,7 +92,7 @@ func (v *view) attentionFor(g *group) []attentionItem {
 	slug := g.slug
 	items := []attentionItem{}
 	add := func(sev, kind, title, detail string, url *string) {
-		items = append(items, attentionItem{Severity: sev, Kind: kind, ModSlug: &slug, Title: title, Detail: detail, URL: url})
+		items = append(items, attentionItem{Severity: sev, Kind: kind, ModSlug: &slug, Title: title, Detail: detail, URL: url, Dismissible: dismissible(kind)})
 	}
 
 	for _, is := range v.issuesOf[g.slug] {
@@ -192,6 +215,21 @@ func (v *view) globalAttention() []attentionItem {
 			Detail: fmt.Sprintf("%d %s carry it", l.Issues, noun),
 		})
 	}
+	return items
+}
+
+// dismissed lists the dismissed items that still apply to the visible owned mods, in the overview's order.
+func (v *view) dismissed(mods []modSummary) []attentionItem {
+	items := []attentionItem{}
+	names := map[string]string{}
+	for _, m := range mods {
+		names[m.Slug] = m.Name
+		if g := v.bySlug[m.Slug]; g != nil {
+			_, gone := v.splitDismissed(v.attentionFor(g))
+			items = append(items, gone...)
+		}
+	}
+	sortAttention(items, func(slug string) string { return names[slug] })
 	return items
 }
 

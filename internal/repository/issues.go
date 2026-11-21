@@ -11,9 +11,12 @@ import (
 	"github.com/fireball1725/modwatch/internal/models"
 )
 
-// SaveIssues replaces the stored issues with the ones the poll just read, and records pollID on each.
-// An issue that is no longer in the list (deleted or transferred) is removed.
-func (r *Repo) SaveIssues(ctx context.Context, pollID int64, issues []models.Issue) error {
+// SaveIssues stores the issues a poll read and records pollID on each.
+//
+// configured is every repository that should have issues now and fetched the ones this poll read without error.
+// An issue that is gone from a repository that was read (deleted or transferred) is removed; a repository that
+// failed keeps its last stored issues; a repository nobody has configured any more loses its issues.
+func (r *Repo) SaveIssues(ctx context.Context, pollID int64, configured, fetched []string, issues []models.Issue) error {
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -25,34 +28,45 @@ func (r *Repo) SaveIssues(ctx context.Context, pollID int64, issues []models.Iss
 			return err
 		}
 		if _, err := tx.ExecContext(ctx, `
-			INSERT INTO issues (number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at, last_poll_id)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-			ON CONFLICT (number) DO UPDATE SET
+			INSERT INTO issues (repo, number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at, last_poll_id)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+			ON CONFLICT (repo, number) DO UPDATE SET
 				title = excluded.title, state = excluded.state, url = excluded.url, labels = excluded.labels,
 				mod_label = excluded.mod_label, kind = excluded.kind, author = excluded.author, comments = excluded.comments,
 				created_at = excluded.created_at, updated_at = excluded.updated_at, closed_at = excluded.closed_at,
 				last_poll_id = excluded.last_poll_id`,
-			is.Number, is.Title, is.State, is.URL, string(labels), is.ModLabel, is.Kind, is.Author, is.Comments,
+			is.Repo, is.Number, is.Title, is.State, is.URL, string(labels), is.ModLabel, is.Kind, is.Author, is.Comments,
 			tz(is.CreatedAt), tz(is.UpdatedAt), tz(is.ClosedAt), pollID); err != nil {
 			return err
 		}
 	}
-	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE last_poll_id <> $1`, pollID); err != nil {
+	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE repo = ANY($1) AND last_poll_id <> $2`, pgTextArray(fetched), pollID); err != nil {
+		return err
+	}
+	if _, err := tx.ExecContext(ctx, `DELETE FROM issues WHERE NOT (repo = ANY($1))`, pgTextArray(configured)); err != nil {
 		return err
 	}
 	return tx.Commit()
 }
 
+// pgTextArray is a Go string slice as a Postgres text[] argument; nil becomes an empty array, never NULL.
+func pgTextArray(s []string) []string {
+	if s == nil {
+		return []string{}
+	}
+	return s
+}
+
 // ListIssues returns stored issues, newest updated first. state is "open", "closed" or "all".
 // Newest updated first puts the issues someone just touched at the top; oldest-first would bury them.
 func (r *Repo) ListIssues(ctx context.Context, state string) ([]models.Issue, error) {
-	q := `SELECT number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at FROM issues`
+	q := `SELECT repo, number, title, state, url, labels, mod_label, kind, author, comments, created_at, updated_at, closed_at FROM issues`
 	var args []any
 	if state == "open" || state == "closed" {
 		q += ` WHERE state = $1`
 		args = append(args, state)
 	}
-	q += ` ORDER BY updated_at DESC NULLS LAST, number DESC`
+	q += ` ORDER BY updated_at DESC NULLS LAST, repo, number DESC`
 	rows, err := r.db.QueryContext(ctx, q, args...)
 	if err != nil {
 		return nil, err
@@ -63,7 +77,7 @@ func (r *Repo) ListIssues(ctx context.Context, state string) ([]models.Issue, er
 		var is models.Issue
 		var labels []byte
 		var created, updated, closed sql.NullTime
-		if err := rows.Scan(&is.Number, &is.Title, &is.State, &is.URL, &labels, &is.ModLabel, &is.Kind, &is.Author,
+		if err := rows.Scan(&is.Repo, &is.Number, &is.Title, &is.State, &is.URL, &labels, &is.ModLabel, &is.Kind, &is.Author,
 			&is.Comments, &created, &updated, &closed); err != nil {
 			return nil, err
 		}

@@ -89,3 +89,12 @@ Look at pages with headless Chrome, which can't collide with another agent's bro
 ```
 
 then read the PNG. Check 1600 px and 390 px. Each page agent runs its own Vite dev server on its own port (5201 to 5208, Overview first).
+
+
+## Settings, issue repositories and dismissals
+
+**Settings.** Seven values can come from an environment variable or be set in Settings: `curseforgeApiKey`, `curseforgeAuthorId`, `modrinthUser`, `modrinthToken`, `githubToken`, `githubIssuesRepo` and `metricsEnabled` (`MODWATCH_METRICS_ENABLED`, the strings `true` or `false`; not chosen means on). With metrics off `/metrics` answers 404, so Prometheus shows the target as down. A value set in Settings wins; clearing it brings the environment variable back. `GET /api/v1/settings` returns `{items: SettingItem[]}` with `source` (`ui`, `env`, `none`) and `envSet`; a secret's `value` is always null. `PUT /api/v1/settings` takes a partial `SettingsUpdate`. The server reads the effective values at the start of every poll, so a change applies to the next poll (the UI offers Poll now). Values set in Settings are stored in the database in plain text; the UI says so and points at the environment variable for anyone who would rather keep a key out of it.
+
+**Issue repositories, two modes.** The shared repository (`githubIssuesRepo`) holds issues for every mod and links them by `mod: <label>` labels. A mod can also have its own repository (`CatalogEntry.githubRepo`): every issue in it belongs to that mod, labels or not. Both can be used together. Settings has the shared repository field in the connections section and a per-mod "Issues repository" field in the registry. An issue's `repo` says where it came from, and issue numbers are only unique within a repo.
+
+**Dismissals.** A needs-attention item of a dismissible kind (`AttentionItem.dismissible`) can be dismissed: `POST /api/v1/attention/dismiss {kind, modSlug}`; `POST /api/v1/attention/restore` undoes it. A dismissed item leaves `Overview.attention` and the mod's `attention`, stops counting toward the mod's health and `needAttention`, and moves to `Overview.dismissed`. It stays dismissed until restored. Dismissing is per kind and mod, so dismissing `not_approved` for a mod covers its CurseForge and Modrinth items.

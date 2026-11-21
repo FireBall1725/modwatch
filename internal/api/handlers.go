@@ -4,6 +4,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"log/slog"
@@ -15,14 +16,29 @@ import (
 	"github.com/fireball1725/modwatch/internal/models"
 	"github.com/fireball1725/modwatch/internal/poll"
 	"github.com/fireball1725/modwatch/internal/repository"
+	"github.com/fireball1725/modwatch/internal/settings"
 	"github.com/fireball1725/modwatch/internal/version"
 )
 
 type handlers struct {
 	cfg   *config.Config
+	store *settings.Store
 	repo  *repository.Repo
 	polls *poll.Service
 	clock func() time.Time
+}
+
+// effective is the configuration in use: the environment's with the values set in Settings over it.
+func (h *handlers) effective(ctx context.Context) *config.Config {
+	if h.store == nil {
+		return h.cfg
+	}
+	cfg, err := h.store.Effective(ctx)
+	if err != nil {
+		slog.Warn("reading settings", "error", err)
+		return h.cfg
+	}
+	return cfg
 }
 
 func (h *handlers) now() time.Time {
@@ -117,12 +133,13 @@ func (h *handlers) summary(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	problems := []string{}
-	for _, p := range h.cfg.Problems() {
+	cfg := h.effective(r.Context())
+	for _, p := range cfg.Problems() {
 		problems = append(problems, p.Error())
 	}
 	writeJSON(w, http.StatusOK, summaryResponse{
 		Version:  version.String(),
-		Schedule: h.cfg.Schedule,
+		Schedule: cfg.Schedule,
 		Polling:  h.polls.Running(),
 		Problems: problems,
 		Owned:    tally(stats, func(s models.ModStat) bool { return s.Owned }),

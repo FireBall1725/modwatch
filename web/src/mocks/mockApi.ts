@@ -8,6 +8,8 @@
 import type { LegacySummary } from '../lib/api'
 import { ApiError } from '../lib/api'
 import type {
+  AttentionItem,
+  AttentionRef,
   Catalog,
   CatalogEntry,
   CatalogUpdate,
@@ -19,6 +21,10 @@ import type {
   ModSummary,
   Overview,
   ReleaseItem,
+  SettingItem,
+  SettingKey,
+  Settings,
+  SettingsUpdate,
   Versions,
 } from '../lib/types'
 import catalogJson from './fixtures/catalog.json'
@@ -69,9 +75,44 @@ const catalogState: Catalog = clone(catalogJson)
 let polling = false
 let pollFinishedAt: string | null = null
 
+// ---- Dismissed attention items. Same rule as the server: a dismissed item leaves every list, stops counting
+// toward its mod's health and the totals, and shows in Overview.dismissed until restored. ----------------------
+
+const dismissed = new Set<string>()
+const refKey = (kind: string, slug: string | null) => `${kind}|${slug ?? ''}`
+const isDismissed = (it: AttentionItem) => it.dismissible && dismissed.has(refKey(it.kind, it.modSlug))
+
+function healthOf(items: AttentionItem[]): ModSummary['health'] {
+  if (items.some((i) => i.severity === 'problem')) return 'problem'
+  return items.some((i) => i.severity === 'warning') ? 'attention' : 'ok'
+}
+
+function withoutDismissed<T extends ModSummary>(m: T): T {
+  const attention = m.attention.filter((i) => !isDismissed(i))
+  return { ...m, attention, health: m.owned ? healthOf(attention) : m.health }
+}
+
+export const attentionDismiss = (ref: AttentionRef): Promise<void> =>
+  later(() => {
+    const known = (clone<Overview>(overviewJson).attention as AttentionItem[]).find(
+      (i) => i.kind === ref.kind && i.modSlug === ref.modSlug,
+    )
+    if (known && !known.dismissible) throw new ApiError(`${ref.kind} can't be dismissed`, 400)
+    dismissed.add(refKey(ref.kind, ref.modSlug))
+  })
+
+export const attentionRestore = (ref: AttentionRef): Promise<void> =>
+  later(() => {
+    dismissed.delete(refKey(ref.kind, ref.modSlug))
+  })
+
 export const overview = (): Promise<Overview> =>
   later(() => {
     const o = clone<Overview>(overviewJson)
+    o.dismissed = o.attention.filter(isDismissed)
+    o.attention = o.attention.filter((i) => !isDismissed(i))
+    o.mods = o.mods.map(withoutDismissed)
+    o.totals = { ...o.totals, needAttention: o.mods.filter((m) => m.health !== 'ok').length }
     o.polling = polling
     if (pollFinishedAt && o.lastPoll) {
       o.lastPoll = { ...o.lastPoll, id: o.lastPoll.id + 1, finishedAt: pollFinishedAt }
@@ -80,13 +121,13 @@ export const overview = (): Promise<Overview> =>
     return o
   })
 
-export const mods = (): Promise<ModSummary[]> => later(() => clone<ModSummary[]>(modsJson))
+export const mods = (): Promise<ModSummary[]> => later(() => clone<ModSummary[]>(modsJson).map(withoutDismissed))
 
 export const mod = (slug: string): Promise<ModDetail> =>
   later(() => {
     const all = modDetailJson as unknown as Record<string, unknown>
     if (!all[slug]) throw new ApiError('mod not found', 404)
-    return clone<ModDetail>(all[slug])
+    return withoutDismissed(clone<ModDetail>(all[slug]))
   })
 
 export const downloadsHistory = (days: number): Promise<DownloadsHistory> =>
@@ -119,6 +160,9 @@ export const catalogPut = (slug: string, update: CatalogUpdate): Promise<Catalog
     const entry = catalogState.entries.find((e) => e.slug === slug)
     if (!entry) throw new ApiError('no such entry', 404)
     if (update.name !== undefined && update.name.trim() === '') throw new ApiError('name must not be empty', 400)
+    if (update.githubRepo != null && !REPO_PATTERN.test(update.githubRepo.trim()))
+      throw new ApiError('githubRepo must look like owner/name', 400)
+    if (update.githubRepo != null) update = { ...update, githubRepo: update.githubRepo.trim() }
     Object.assign(entry, update, { auto: false })
     // Pointing at a project another entry holds moves it, and an entry left with no links goes away.
     for (const other of catalogState.entries) {
@@ -130,6 +174,63 @@ export const catalogPut = (slug: string, update: CatalogUpdate): Promise<Catalog
       (e) => e.slug === slug || e.curseforgeId !== null || e.modrinthId !== null,
     )
     return structuredClone(entry)
+  })
+
+// ---- Settings: a value set here wins over the environment variable; clearing it brings the variable back. ----
+
+const REPO_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/
+const SECRET_KEYS: SettingKey[] = ['curseforgeApiKey', 'modrinthToken', 'githubToken']
+const KEYS: SettingKey[] = ['curseforgeApiKey', 'curseforgeAuthorId', 'modrinthUser', 'modrinthToken', 'githubToken', 'githubIssuesRepo', 'metricsEnabled']
+// What the mock server pretends its environment holds.
+const ENV: Partial<Record<SettingKey, string>> = {
+  curseforgeApiKey: 'env-key',
+  curseforgeAuthorId: '8109937',
+  modrinthUser: 'FireBall1725',
+  githubIssuesRepo: 'FireBall1725/mod-issues',
+}
+const uiValues: Partial<Record<SettingKey, string>> = {}
+
+function settingsNow(): Settings {
+  return {
+    items: KEYS.map((key): SettingItem => {
+      const secret = SECRET_KEYS.includes(key)
+      const ui = uiValues[key]
+      const env = ENV[key]
+      const value = ui ?? env ?? null
+      return {
+        key,
+        secret,
+        value: secret ? null : value,
+        set: value !== null,
+        source: ui !== undefined ? 'ui' : env !== undefined ? 'env' : 'none',
+        envSet: env !== undefined,
+      }
+    }),
+  }
+}
+
+export const settings = (): Promise<Settings> => later(settingsNow)
+
+export const settingsPut = (update: SettingsUpdate): Promise<Settings> =>
+  later(() => {
+    const next: Partial<Record<SettingKey, string | undefined>> = {}
+    for (const [k, raw] of Object.entries(update) as [SettingKey, string | null][]) {
+      if (!KEYS.includes(k)) throw new ApiError(`unknown setting ${k}`, 400)
+      const v = (raw ?? '').trim()
+      if (v === '') {
+        next[k] = undefined
+        continue
+      }
+      if (k === 'curseforgeAuthorId' && !/^[1-9]\d*$/.test(v)) throw new ApiError('curseforgeAuthorId must be a positive number', 400)
+      if (k === 'metricsEnabled' && v !== 'true' && v !== 'false') throw new ApiError('metricsEnabled must be true or false', 400)
+      if (k === 'githubIssuesRepo' && !REPO_PATTERN.test(v)) throw new ApiError('githubIssuesRepo must look like owner/name', 400)
+      next[k] = v
+    }
+    for (const [k, v] of Object.entries(next) as [SettingKey, string | undefined][]) {
+      if (v === undefined) delete uiValues[k]
+      else uiValues[k] = v
+    }
+    return settingsNow()
   })
 
 export const catalogRelink = (): Promise<void> => later(() => undefined)

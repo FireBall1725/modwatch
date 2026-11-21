@@ -250,6 +250,9 @@ const ISSUE_DEFS = [
   { n: 31, title: 'Support 26.1', label: 'ae2-traffic-monitor', kind: 'enhancement', ago: 45, closedAgo: 30, by: 'cablecat', c: 8 },
 ]
 
+// One issue lives in a mod's own repository, to show the second mode: every issue there belongs to that mod.
+const OWN_REPO = { slug: 'create-turbolifts', repo: 'FireBall1725/create-turbolifts' }
+
 const issueItems = ISSUE_DEFS.map((d) => {
   const slug = LABEL_TO_SLUG[d.label] ?? null
   const closed = d.closedAgo !== undefined
@@ -257,11 +260,19 @@ const issueItems = ISSUE_DEFS.map((d) => {
   return {
     number: d.n, title: d.title, state: closed ? 'closed' : 'open',
     url: `${REPO}/mod-issues/issues/${d.n}`,
+    repo: 'FireBall1725/mod-issues',
     modSlug: slug, modName: slug ? slugName(slug) : null, modLabel: d.label,
     kind: d.kind, labels, author: d.by, comments: d.c,
     createdAt: daysAgo(d.ago, 16, 40), updatedAt: daysAgo(closed ? d.closedAgo : Math.max(0, d.ago - 1), 11, 5),
     closedAt: closed ? daysAgo(d.closedAgo, 11, 5) : null,
   }
+})
+issueItems.push({
+  number: 3, title: 'Doors stay open after a restart', state: 'closed',
+  url: `${REPO}/create-turbolifts/issues/3`, repo: OWN_REPO.repo,
+  modSlug: OWN_REPO.slug, modName: slugName(OWN_REPO.slug), modLabel: null,
+  kind: 'bug', labels: ['bug'], author: 'cablecat', comments: 2,
+  createdAt: daysAgo(40, 16, 40), updatedAt: daysAgo(33, 11, 5), closedAt: daysAgo(33, 11, 5),
 })
 const openIssues = issueItems.filter((i) => i.state === 'open')
 
@@ -415,11 +426,16 @@ const NEWEST_MC = sortMcDesc(built.filter((b) => b.owned).flatMap((b) => b.mcAll
 
 // ---- Attention ---------------------------------------------------------------------------------
 
+// The kinds a real issue or a failing source raises can't be dismissed; the server holds the same list.
+// Mods that deliberately stay on old Minecraft versions; the server never flags them for a missing newest file.
+const LEGACY = ['default-world-generator', 'twitch-notifier', 'ae2-tech-addon', 'ftb-pax-timer', 'graves', 'ae2-ee3-emc-addon']
+const NOT_DISMISSIBLE = ['crash_open', 'bug_open', 'source_down', 'unlinked']
+
 function attentionFor(b) {
   const { m } = b
   const items = []
   const add = (severity, kind, title, detail, url = null) =>
-    items.push({ severity, kind, modSlug: m.slug, title, detail, url })
+    items.push({ severity, kind, modSlug: m.slug, title, detail, url, dismissible: !NOT_DISMISSIBLE.includes(kind) })
   for (const i of openIssues.filter((x) => x.modLabel === m.label && x.kind === 'crash'))
     add('problem', 'crash_open', `Open crash in ${m.name}`, `#${i.number}: ${i.title}`, i.url)
   for (const [c, name] of [[b.cf, 'CurseForge'], [b.mr, 'Modrinth']]) {
@@ -457,6 +473,7 @@ const summaries = built.map((b) => {
     curseforge: b.cf, modrinth: b.mr, github: githubFor(b.m),
     downloads: b.downloads, latestRelease: b.latestRelease,
     minecraftVersions: b.mcAll, loaders: b.loaders,
+    legacy: LEGACY.includes(b.m.slug),
     health: healthOf(attention), attention,
   }
 })
@@ -496,8 +513,8 @@ const sources = [
 
 const globalAttention = [
   ...ownedSums.flatMap((s) => s.attention),
-  { severity: 'warning', kind: 'source_down', modSlug: null, title: 'GitHub could not be read', detail: sources[2].error, url: null },
-  { severity: 'info', kind: 'unlinked', modSlug: 'ae2-tech-addon', title: 'AE2 Tech Addon on Modrinth is not linked to a mod', detail: 'A project with a similar name exists. Link it in Settings.', url: null },
+  { severity: 'warning', kind: 'source_down', modSlug: null, title: 'GitHub could not be read', detail: sources[2].error, url: null, dismissible: false },
+  { severity: 'info', kind: 'unlinked', modSlug: 'ae2-tech-addon', title: 'AE2 Tech Addon on Modrinth is not linked to a mod', detail: 'A project with a similar name exists. Link it in Settings.', url: null, dismissible: false },
 ].sort((a, b) => sevRank[a.severity] - sevRank[b.severity])
 
 const totals = {
@@ -514,7 +531,8 @@ const totals = {
   openCrashes: openIssues.filter((i) => i.kind === 'crash').length,
   needAttention: ownedSums.filter((s) => s.health !== 'ok').length,
   inReview: sum(ownedSums, (s) => [s.curseforge, s.modrinth].filter((p) => p && ['in_review', 'draft', 'changes_required', 'rejected'].includes(p.status)).length),
-  legacyMods: ownedSums.filter((s) => s.legacy).length,
+  // Mock mode ignores the legacy switch, so it reports none.
+  legacyMods: 0,
 }
 
 const polls = {
@@ -526,6 +544,7 @@ const overview = {
   polling: false,
   totals,
   attention: globalAttention,
+  dismissed: [],
   mods: ownedSums.sort((a, b) => b.downloads.total - a.downloads.total),
   recentReleases: releaseItems(8),
   sources,
@@ -584,9 +603,18 @@ for (const g of gameVersions) {
     }
   vHistory[g.name] = arr.map((d, i) => ({ at: dayEnd(DAYS - 1 - i), downloads: d }))
 }
+// Files with no loader tag, counted once each, like the server's noLoader total.
+const untagged = ownedFiles.filter((f) => f.loaders.length === 0)
+const noLoader = {
+  name: 'none',
+  downloads: sum(untagged, (f) => f.downloads),
+  curseforge: sum(untagged.filter((f) => f.platform === 'curseforge'), (f) => f.downloads),
+  modrinth: sum(untagged.filter((f) => f.platform === 'modrinth'), (f) => f.downloads),
+  files: untagged.length,
+}
 const versions = {
   latestMinecraft: NEWEST_MC,
-  gameVersions, loaders: loaderTotals,
+  gameVersions, loaders: loaderTotals, noLoader,
   matrix: { versions: allVersions, rows: matrixRows },
   history: vHistory,
 }
@@ -610,7 +638,7 @@ const history = { days: DAYS, total: totalPoints, perMod }
 const modDetail = {}
 for (const b of built) {
   const s = b.summary
-  const mine = issueItems.filter((i) => i.modLabel === b.m.label && b.m.label)
+  const mine = issueItems.filter((i) => i.modSlug === b.m.slug)
   const mv = new Map()
   for (const f of b.files)
     for (const v of f.minecraftVersions) {
@@ -650,6 +678,7 @@ for (const i of openIssues.filter((x) => x.modSlug)) {
 const kinds = ['crash', 'bug', 'compatibility', 'enhancement', 'question', 'other']
 const issuesFx = {
   repo: 'FireBall1725/mod-issues',
+  repos: ['FireBall1725/mod-issues', OWN_REPO.repo],
   summary: {
     open: openIssues.length, closed: issueItems.length - openIssues.length,
     openBugs: totals.openBugs, openCrashes: totals.openCrashes,
@@ -666,9 +695,10 @@ const entries = built.map((b) => ({
   slug: b.m.slug, name: b.m.name,
   curseforgeId: b.m.cf ? b.m.cf.id : null, modrinthId: b.m.mr ? b.m.mr.id : null,
   githubLabel: b.m.manualLabel || b.m.manual ? b.m.label : null,
-  hidden: false, auto: !(b.m.manual || b.m.manualLabel),
+  githubRepo: b.m.slug === OWN_REPO.slug ? OWN_REPO.repo : null,
+  hidden: false, legacy: LEGACY.includes(b.m.slug), auto: !(b.m.manual || b.m.manualLabel),
 }))
-entries.push({ slug: 'devworld-sandbox', name: 'DevWorld Sandbox', curseforgeId: 1240021, modrinthId: null, githubLabel: null, hidden: true, auto: true })
+entries.push({ slug: 'devworld-sandbox', name: 'DevWorld Sandbox', curseforgeId: 1240021, modrinthId: null, githubLabel: null, githubRepo: null, hidden: true, legacy: false, auto: true })
 const catalog = {
   entries,
   unlinked: {

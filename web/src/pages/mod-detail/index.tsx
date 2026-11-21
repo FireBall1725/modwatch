@@ -4,6 +4,9 @@
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
+import DismissButton from '../../components/attention/DismissButton'
+import DismissedList from '../../components/attention/DismissedList'
+import { dismissKey } from '../../components/attention/dismiss'
 import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
 import EmptyState from '../../components/ui/EmptyState'
@@ -22,6 +25,8 @@ import Skeleton from '../../components/ui/Skeleton'
 import DeltaText from '../../components/ui/DeltaText'
 import SeverityBadge from '../../components/ui/SeverityBadge'
 import { useApi } from '../../hooks/useApi'
+import { useDismissals } from '../../hooks/useDismissals'
+import { useOverview } from '../../hooks/overviewContext'
 import { useDocumentTitle } from '../../hooks/useDocumentTitle'
 import { api, ApiError } from '../../lib/api'
 import { cx } from '../../lib/cx'
@@ -68,6 +73,11 @@ export default function ModDetailPage() {
   const { t: tc } = useTranslation('common')
   const [params, setParams] = useSearchParams()
   const { data, error, loading, reload } = useApi(() => api.mod(slug), [slug], { resetOnChange: true })
+  const { reload: reloadOverview } = useOverview()
+  // Dismissing changes this mod's health and the totals on the Overview, so both are read again.
+  const refreshAll = useCallback(async () => {
+    await Promise.all([reload(), reloadOverview()])
+  }, [reload, reloadOverview])
   useDocumentTitle(data ? `${data.name} · ${tc('nav.mods')}` : null)
 
   const range = parseRange(params.get('range'))
@@ -125,6 +135,7 @@ export default function ModDetailPage() {
       back={back}
       stale={error}
       onRetry={() => void reload()}
+      onChanged={refreshAll}
       range={range}
       view={view}
       filter={filter}
@@ -139,6 +150,7 @@ interface DetailProps {
   back: React.ReactNode
   stale: Error | null
   onRetry: () => void
+  onChanged: () => Promise<void>
   range: RangeKey
   view: ChartView
   filter: FileFilter
@@ -146,9 +158,12 @@ interface DetailProps {
   setParam: (c: Record<string, string | null>) => void
 }
 
-function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, setParam }: DetailProps) {
+function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, showClosed, setParam }: DetailProps) {
   const { t } = useTranslation('modDetail')
   const { t: tc } = useTranslation('common')
+  const dismissals = useDismissals(onChanged)
+  const { data: overview } = useOverview()
+  const dismissed = useMemo(() => (overview?.dismissed ?? []).filter((i) => i.modSlug === mod.slug), [overview, mod.slug])
   const gh = mod.github
   const oldest = gh?.oldestOpenBugAt ?? null
   const rel = mod.latestRelease
@@ -206,7 +221,7 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
 
       {stale && <ErrorState compact error={stale} onRetry={onRetry} />}
 
-      <section aria-label={t('verdict.title')} className={cx('rounded-lg border p-4 sm:p-5', mod.attention.length ? (mod.health === 'problem' ? 'border-bad/40 bg-bad-soft' : 'border-review/40 bg-review-soft') : 'border-ok/30 bg-ok-soft')}>
+      <section aria-label={t('verdict.title')} id="mod-attention" tabIndex={-1} className={cx('rounded-lg border p-4 outline-none sm:p-5', mod.attention.length ? (mod.health === 'problem' ? 'border-bad/40 bg-bad-soft' : 'border-review/40 bg-review-soft') : 'border-ok/30 bg-ok-soft')}>
         {mod.attention.length === 0 ? (
           <div className="flex items-start gap-3">
             <Icon name="check" size={20} className="mt-0.5 text-ok" />
@@ -232,11 +247,26 @@ function Detail({ mod, back, stale, onRetry, range, view, filter, showClosed, se
                       <span className="sr-only"> {t('newTab')}</span>
                     </Button>
                   )}
+                  {a.dismissible && (
+                    <DismissButton
+                      item={a}
+                      busy={dismissals.busy === dismissKey(a)}
+                      onDismiss={() =>
+                        void dismissals.dismiss(a).then((ok) => ok && document.getElementById('mod-attention')?.focus({ preventScroll: true }))
+                      }
+                    />
+                  )}
                 </li>
               ))}
             </ul>
           </>
         )}
+        {dismissals.error && (
+          <p role="alert" className="mt-3 rounded-md border border-bad/40 bg-bad-soft/50 px-3 py-2 text-sm text-ink">
+            {tc('attention.failed', { message: dismissals.error })}
+          </p>
+        )}
+        <DismissedList items={dismissed} dismissals={dismissals} className="mt-3" />
       </section>
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">

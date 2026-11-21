@@ -26,7 +26,8 @@ const (
 // load reads everything the composed endpoints need.
 func (h *handlers) load(ctx context.Context, showLegacy bool) (*view, error) {
 	now := h.now()
-	ds := &dataset{now: now, ghRepo: h.cfg.GitHubIssuesRepo}
+	cfg := h.effective(ctx)
+	ds := &dataset{now: now, ghRepo: cfg.GitHubIssuesRepo, dismissed: map[dismissKey]bool{}}
 	var err error
 	if ds.stats, err = h.repo.ListPlatformStats(ctx, now); err != nil {
 		return nil, err
@@ -46,7 +47,14 @@ func (h *handlers) load(ctx context.Context, showLegacy bool) (*view, error) {
 	if ds.sources, err = h.repo.ListSourceStatuses(ctx); err != nil {
 		return nil, err
 	}
-	for _, p := range h.cfg.Problems() {
+	dis, err := h.repo.Dismissals(ctx)
+	if err != nil {
+		return nil, err
+	}
+	for _, d := range dis {
+		ds.dismissed[dismissKey{d.Kind, d.ModSlug}] = true
+	}
+	for _, p := range cfg.Problems() {
 		ds.problems = append(ds.problems, p.Error())
 	}
 	return newView(ds, showLegacy), nil
@@ -111,13 +119,13 @@ func (h *handlers) overview(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	out := overviewResponse{
-		Version: version.String(), Schedule: h.cfg.Schedule, Polling: h.polls.Running(),
+		Version: version.String(), Schedule: h.effective(r.Context()).Schedule, Polling: h.polls.Running(),
 		Totals: overviewTotals{
 			Mods: len(owned), Downloads: ownedTotals(owned),
 			OpenIssues: issues.Open, OpenBugs: issues.OpenBugs, OpenCrashes: issues.OpenCrashes,
 			LegacyMods: legacyMods,
 		},
-		Attention: v.attention(owned), Mods: owned, RecentReleases: v.releases(overviewReleases),
+		Attention: v.attention(owned), Dismissed: v.dismissed(owned), Mods: owned, RecentReleases: v.releases(overviewReleases),
 		Sources: toSourceStatuses(v.ds.sources), LastPoll: last, LastOKPoll: lastOK, Problems: nonNilStrings(v.ds.problems),
 	}
 	for _, m := range owned {

@@ -26,10 +26,15 @@ The UI is at `http://localhost:8080`. To build the web client into the binary fi
 | `CURSEFORGE_GAME_ID` | `432` | Minecraft |
 | `MODRINTH_USER` | | Modrinth username or id. Empty turns Modrinth off |
 | `MODRINTH_TOKEN` | | Optional. Public projects need none; it matters for drafts and private projects |
+| `GITHUB_ISSUES_REPO` | | `owner/name` of one repository that holds the issues for every mod, linked by `mod: <label>` labels. A mod can have its own repository instead, set in Settings. Empty turns shared issues off |
+| `GITHUB_TOKEN` | | Optional. Raises GitHub's 60 requests an hour, and reads private repositories |
+| `MODWATCH_METRICS_ENABLED` | on | `false` turns `/metrics` off (it answers 404) |
 | `MODWATCH_SCHEDULE` | `0 * * * *` | Cron, in the `TZ` time zone |
 | `MODWATCH_ADDR` | `:8080` | |
 | `DATABASE_URL` | | Postgres connection URL. Required. On Kubernetes it is the `uri` key of the CloudNativePG `<cluster>-app` secret |
 | `LOG_LEVEL` | `info` | |
+
+Every key and repository above can also be set in the Settings page, which wins over the environment variable and takes effect on the next poll. Values set there are stored in the database in plain text.
 
 The older "API Tokens" page on CurseForge issues upload tokens. Those get a 403 from this API.
 

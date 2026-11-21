@@ -22,13 +22,15 @@ import (
 	"github.com/fireball1725/modwatch/internal/providers/github"
 	"github.com/fireball1725/modwatch/internal/providers/modrinth"
 	"github.com/fireball1725/modwatch/internal/repository"
+	"github.com/fireball1725/modwatch/internal/settings"
+	"github.com/fireball1725/modwatch/internal/version"
 )
 
 // ErrRunning is returned by Start when a poll is already in progress.
 var ErrRunning = errors.New("a poll is already running")
 
 // ErrNotConfigured is returned by Start when the CurseForge key or author ID is missing.
-var ErrNotConfigured = errors.New("CURSEFORGE_API_KEY and CURSEFORGE_AUTHOR_ID must both be set")
+var ErrNotConfigured = errors.New("the CurseForge API key and author ID must both be set, as environment variables or in Settings")
 
 // CurseForge lists an author's mods and a mod's files.
 type CurseForge interface {
@@ -42,9 +44,43 @@ type Modrinth interface {
 	ListVersions(ctx context.Context, projectID string) ([]modrinth.Version, error)
 }
 
-// GitHub lists the issues of the configured repository.
+// GitHub lists the issues of a repository, written owner/name.
 type GitHub interface {
-	ListIssues(ctx context.Context) ([]models.Issue, error)
+	ListIssues(ctx context.Context, repo string) ([]models.Issue, error)
+}
+
+// Factory builds the API clients from a configuration, so a change in Settings reaches the next poll.
+type Factory interface {
+	CurseForge(cfg *config.Config) CurseForge
+	// Modrinth returns nil when no Modrinth user is set.
+	Modrinth(cfg *config.Config) Modrinth
+	GitHub(cfg *config.Config) GitHub
+}
+
+// DefaultFactory builds the real clients.
+type DefaultFactory struct{}
+
+func (DefaultFactory) CurseForge(cfg *config.Config) CurseForge {
+	return curseforge.New(cfg.CurseForgeBaseURL, cfg.CurseForgeKey, cfg.CurseForgeGameID)
+}
+
+func (DefaultFactory) Modrinth(cfg *config.Config) Modrinth {
+	if !cfg.CanPollModrinth() {
+		return nil
+	}
+	return modrinth.New(cfg.ModrinthBaseURL, cfg.ModrinthToken, cfg.ModrinthUserAgent)
+}
+
+func (DefaultFactory) GitHub(cfg *config.Config) GitHub {
+	return github.New(cfg.GitHubBaseURL, cfg.GitHubToken, "modwatch/"+version.String())
+}
+
+// runner is what one poll uses: the configuration and clients as they stand when the poll starts.
+type runner struct {
+	cfg *config.Config
+	cf  CurseForge
+	mr  Modrinth // nil when Modrinth is not configured
+	gh  GitHub   // nil when issues are off
 }
 
 // Service runs one poll at a time.
@@ -57,6 +93,10 @@ type Service struct {
 	mr   Modrinth // nil when Modrinth is not configured
 	gh   GitHub   // nil when issues are off
 	now  func() time.Time
+
+	// store and factory, when set, make every poll read the current Settings and build its clients afresh.
+	store   *settings.Store
+	factory Factory
 
 	mu      sync.Mutex
 	running bool
@@ -86,6 +126,37 @@ func (s *Service) WithGitHub(gh GitHub) *Service {
 	return s
 }
 
+// WithSettings makes each poll use the effective configuration (environment plus Settings) and build its clients
+// from it with factory.
+func (s *Service) WithSettings(store *settings.Store, factory Factory) *Service {
+	s.store, s.factory = store, factory
+	return s
+}
+
+// config is the configuration the next poll uses: the environment's with the values set in Settings over it.
+func (s *Service) config(ctx context.Context) (*config.Config, error) {
+	if s.store == nil {
+		return s.cfg, nil
+	}
+	cfg, err := s.store.Effective(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("reading settings: %w", err)
+	}
+	return cfg, nil
+}
+
+// runner resolves what the next poll uses.
+func (s *Service) runner(ctx context.Context) (*runner, error) {
+	cfg, err := s.config(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if s.store == nil {
+		return &runner{cfg: cfg, cf: s.cf, mr: s.mr, gh: s.gh}, nil
+	}
+	return &runner{cfg: cfg, cf: s.factory.CurseForge(cfg), mr: s.factory.Modrinth(cfg), gh: s.factory.GitHub(cfg)}, nil
+}
+
 // Running reports whether a poll is in progress.
 func (s *Service) Running() bool {
 	s.mu.Lock()
@@ -95,7 +166,11 @@ func (s *Service) Running() bool {
 
 // Start begins a poll in the background and returns at once.
 func (s *Service) Start() error {
-	if !s.cfg.CanPoll() {
+	cfg, err := s.config(s.ctx)
+	if err != nil {
+		return err
+	}
+	if !cfg.CanPoll() {
 		return ErrNotConfigured
 	}
 	s.mu.Lock()
@@ -127,7 +202,11 @@ func (s *Service) Start() error {
 // if they fail, the totals still save and the source's status says what went wrong.
 func (s *Service) Run(ctx context.Context) error {
 	started := s.now()
-	readings, cfProjects, err := s.fetch(ctx)
+	r, err := s.runner(ctx)
+	if err != nil {
+		return err
+	}
+	readings, cfProjects, err := r.fetch(ctx)
 	p := models.Poll{StartedAt: started, FinishedAt: s.now()}
 	if err != nil {
 		p.State, p.Error = models.PollError, err.Error()
@@ -141,7 +220,7 @@ func (s *Service) Run(ctx context.Context) error {
 		return err
 	}
 
-	files, mrProjects, statuses := s.fetchFiles(ctx, readings)
+	files, mrProjects, statuses := r.fetchFiles(ctx, readings)
 	p.FinishedAt = s.now()
 	for i := range statuses {
 		statuses[i].CheckedAt = p.FinishedAt
@@ -149,7 +228,11 @@ func (s *Service) Run(ctx context.Context) error {
 			statuses[i].LastOKAt = p.FinishedAt
 		}
 	}
-	issues, issuesOK, ghStatus := s.fetchIssues(ctx)
+	var perModRepos []string
+	if ix, err := s.repo.CatalogIndex(ctx); err == nil {
+		perModRepos = ix.Repos()
+	}
+	issues, configuredRepos, fetchedRepos, ghStatus := r.fetchIssues(ctx, perModRepos)
 	if ghStatus != nil {
 		ghStatus.CheckedAt = p.FinishedAt
 		if ghStatus.OK {
@@ -162,9 +245,9 @@ func (s *Service) Run(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("saving poll: %w", err)
 	}
-	// A failed GitHub call leaves the last stored issues in place.
-	if issuesOK {
-		if err := s.repo.SaveIssues(ctx, pollID, issues); err != nil {
+	// A repository that failed keeps its last stored issues; the others are replaced.
+	if ghStatus != nil {
+		if err := s.repo.SaveIssues(ctx, pollID, configuredRepos, fetchedRepos, issues); err != nil {
 			slog.Warn("saving issues", "error", err)
 		}
 	}
@@ -178,12 +261,12 @@ func (s *Service) Run(ctx context.Context) error {
 }
 
 // fetch asks for every mod the author is on, then marks the ones they own.
-func (s *Service) fetch(ctx context.Context) ([]models.Reading, []models.PlatformReading, error) {
-	member, err := s.cf.ListByAuthor(ctx, s.cfg.CurseForgeAuthorID, false)
+func (r *runner) fetch(ctx context.Context) ([]models.Reading, []models.PlatformReading, error) {
+	member, err := r.cf.ListByAuthor(ctx, r.cfg.CurseForgeAuthorID, false)
 	if err != nil {
 		return nil, nil, err
 	}
-	owned, err := s.cf.ListByAuthor(ctx, s.cfg.CurseForgeAuthorID, true)
+	owned, err := r.cf.ListByAuthor(ctx, r.cfg.CurseForgeAuthorID, true)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -266,17 +349,17 @@ func modrinthProject(pr modrinth.Project) models.PlatformReading {
 
 // fetchFiles reads per-file counts: CurseForge files for the mods the author owns, and every Modrinth version.
 // Files of mods the author is only a member of are skipped; Applied Energistics 2 alone has hundreds.
-func (s *Service) fetchFiles(ctx context.Context, readings []models.Reading) ([]models.FileReading, []models.PlatformReading, []models.SourceStatus) {
-	files, cfErrs := s.curseForgeFiles(ctx, readings)
+func (r *runner) fetchFiles(ctx context.Context, readings []models.Reading) ([]models.FileReading, []models.PlatformReading, []models.SourceStatus) {
+	files, cfErrs := r.curseForgeFiles(ctx, readings)
 	statuses := []models.SourceStatus{status(models.SourceCurseForge, cfErrs)}
 
 	var projects []models.PlatformReading
-	if s.mr != nil && s.cfg.CanPollModrinth() {
-		mrFiles, mrProjects, mrErrs := s.modrinthFiles(ctx)
+	if r.mr != nil && r.cfg.CanPollModrinth() {
+		mrFiles, mrProjects, mrErrs := r.modrinthFiles(ctx)
 		files = append(files, mrFiles...)
 		projects = mrProjects
 		st := status(models.SourceModrinth, mrErrs)
-		if s.cfg.ModrinthToken == "" {
+		if r.cfg.ModrinthToken == "" {
 			st.Detail = MissingTokenDetail
 		}
 		statuses = append(statuses, st)
@@ -284,22 +367,54 @@ func (s *Service) fetchFiles(ctx context.Context, readings []models.Reading) ([]
 	return files, projects, statuses
 }
 
-// fetchIssues reads the repo's issues. It returns a nil status when issues are off.
-// A failure never fails the poll; the status carries the error.
-func (s *Service) fetchIssues(ctx context.Context) ([]models.Issue, bool, *models.SourceStatus) {
-	if s.gh == nil || !s.cfg.CanPollGitHub() {
-		return nil, false, nil
+// issueRepos lists the repositories to read: the shared one, then each mod's own, without repeats.
+func (r *runner) issueRepos(perMod []string) []string {
+	var out []string
+	seen := map[string]bool{}
+	add := func(repo string) {
+		if k := strings.ToLower(repo); repo != "" && !seen[k] {
+			seen[k] = true
+			out = append(out, repo)
+		}
 	}
-	st := &models.SourceStatus{Source: models.SourceGitHub, OK: true}
-	if s.cfg.GitHubToken == "" {
+	if r.cfg.CanPollGitHub() {
+		add(r.cfg.GitHubIssuesRepo)
+	}
+	for _, repo := range perMod {
+		add(repo)
+	}
+	return out
+}
+
+// fetchIssues reads the issues of every configured repository. It returns a nil status when issues are off.
+// configured is every repository that should have issues and fetched the ones read without error. A failure never
+// fails the poll; the status carries the errors, one per repository that failed.
+func (r *runner) fetchIssues(ctx context.Context, perMod []string) (issues []models.Issue, configured, fetched []string, st *models.SourceStatus) {
+	configured = r.issueRepos(perMod)
+	if r.gh == nil || len(configured) == 0 {
+		return nil, nil, nil, nil
+	}
+	st = &models.SourceStatus{Source: models.SourceGitHub, OK: true}
+	if r.cfg.GitHubToken == "" {
 		st.Detail = github.UnauthenticatedDetail
 	}
-	issues, err := s.gh.ListIssues(ctx)
-	if err != nil {
-		st.OK, st.Error = false, err.Error()
-		return nil, false, st
+	var errs []string
+	for _, repo := range configured {
+		got, err := r.gh.ListIssues(ctx, repo)
+		if err != nil {
+			errs = append(errs, repo+": "+err.Error())
+			continue
+		}
+		for i := range got {
+			got[i].Repo = repo
+		}
+		issues = append(issues, got...)
+		fetched = append(fetched, repo)
 	}
-	return issues, true, st
+	if len(errs) > 0 {
+		st.OK, st.Error = false, strings.Join(errs, "; ")
+	}
+	return issues, configured, fetched, st
 }
 
 // MissingTokenDetail is shown beside Modrinth when no token is set.
@@ -313,14 +428,14 @@ func status(source string, errs []string) models.SourceStatus {
 	return st
 }
 
-func (s *Service) curseForgeFiles(ctx context.Context, readings []models.Reading) ([]models.FileReading, []string) {
+func (r *runner) curseForgeFiles(ctx context.Context, readings []models.Reading) ([]models.FileReading, []string) {
 	var out []models.FileReading
 	var errs []string
 	for _, rd := range readings {
 		if !rd.Owned {
 			continue
 		}
-		files, err := s.cf.ListFiles(ctx, rd.ID)
+		files, err := r.cf.ListFiles(ctx, rd.ID)
 		if err != nil {
 			errs = append(errs, fmt.Sprintf("files of %s: %v", rd.Slug, err))
 			continue
@@ -389,8 +504,8 @@ func trimProjectName(displayName, project string) string {
 	return displayName
 }
 
-func (s *Service) modrinthFiles(ctx context.Context) ([]models.FileReading, []models.PlatformReading, []string) {
-	projects, err := s.mr.ListProjects(ctx, s.cfg.ModrinthUser)
+func (r *runner) modrinthFiles(ctx context.Context) ([]models.FileReading, []models.PlatformReading, []string) {
+	projects, err := r.mr.ListProjects(ctx, r.cfg.ModrinthUser)
 	if err != nil {
 		return nil, nil, []string{err.Error()}
 	}
@@ -399,7 +514,7 @@ func (s *Service) modrinthFiles(ctx context.Context) ([]models.FileReading, []mo
 	readings := make([]models.PlatformReading, 0, len(projects))
 	for _, pr := range projects {
 		readings = append(readings, modrinthProject(pr))
-		versions, err := s.mr.ListVersions(ctx, pr.ID)
+		versions, err := r.mr.ListVersions(ctx, pr.ID)
 		if err != nil {
 			errs = append(errs, fmt.Sprintf("versions of %s: %v", pr.Slug, err))
 			continue

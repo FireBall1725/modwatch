@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-// Package github reads the issues of one public repository from the GitHub REST API.
+// Package github reads the issues of public repositories from the GitHub REST API.
 package github
 
 import (
@@ -28,18 +28,17 @@ const (
 // UnauthenticatedDetail is shown beside the GitHub source when no token is set.
 const UnauthenticatedDetail = "Unauthenticated: 60 requests an hour"
 
-// Client lists a repository's issues. The token is optional.
+// Client lists the issues of any repository it is asked about. The token is optional.
 type Client struct {
 	baseURL   string
-	repo      string
 	token     string
 	userAgent string
 	http      *http.Client
 }
 
-// New returns a client for repo, written owner/name.
-func New(baseURL, repo, token, userAgent string) *Client {
-	return &Client{baseURL: baseURL, repo: repo, token: token, userAgent: userAgent, http: &http.Client{Timeout: 30 * time.Second}}
+// New returns a client. A repository is named per call, written owner/name.
+func New(baseURL, token, userAgent string) *Client {
+	return &Client{baseURL: baseURL, token: token, userAgent: userAgent, http: &http.Client{Timeout: 30 * time.Second}}
 }
 
 type apiIssue struct {
@@ -61,10 +60,10 @@ type apiIssue struct {
 }
 
 // ListIssues returns every issue, open and closed, without pull requests. It pages until a short page.
-func (c *Client) ListIssues(ctx context.Context) ([]models.Issue, error) {
+func (c *Client) ListIssues(ctx context.Context, repo string) ([]models.Issue, error) {
 	out := []models.Issue{}
 	for page := 1; page <= maxPages; page++ {
-		items, err := c.page(ctx, page)
+		items, err := c.page(ctx, repo, page)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +71,7 @@ func (c *Client) ListIssues(ctx context.Context) ([]models.Issue, error) {
 			if len(it.PullRequest) > 0 && string(it.PullRequest) != "null" {
 				continue
 			}
-			out = append(out, convert(it))
+			out = append(out, convert(repo, it))
 		}
 		if len(items) < perPage {
 			break
@@ -81,8 +80,8 @@ func (c *Client) ListIssues(ctx context.Context) ([]models.Issue, error) {
 	return out, nil
 }
 
-func (c *Client) page(ctx context.Context, page int) ([]apiIssue, error) {
-	u := fmt.Sprintf("%s/repos/%s/issues?state=all&per_page=%d&page=%d", c.baseURL, c.repo, perPage, page)
+func (c *Client) page(ctx context.Context, repo string, page int) ([]apiIssue, error) {
+	u := fmt.Sprintf("%s/repos/%s/issues?state=all&per_page=%d&page=%d", c.baseURL, repo, perPage, page)
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u, nil)
 	if err != nil {
 		return nil, err
@@ -113,9 +112,9 @@ func (c *Client) page(ctx context.Context, page int) ([]apiIssue, error) {
 		resp.StatusCode == http.StatusForbidden && resp.Header.Get("Retry-After") != "":
 		return nil, c.rateLimited(resp)
 	case resp.StatusCode == http.StatusForbidden || resp.StatusCode == http.StatusUnauthorized:
-		return nil, fmt.Errorf("github: %d, access to %s was refused", resp.StatusCode, c.repo)
+		return nil, fmt.Errorf("github: %d, access to %s was refused", resp.StatusCode, repo)
 	case resp.StatusCode == http.StatusNotFound:
-		return nil, fmt.Errorf("github: %s was not found, or it is private and the token can't see it", c.repo)
+		return nil, fmt.Errorf("github: %s was not found, or it is private and the token can't see it", repo)
 	default:
 		if len(body) > 200 {
 			body = body[:200]
@@ -143,13 +142,13 @@ func (c *Client) rateLimited(resp *http.Response) error {
 	return errors.New(msg)
 }
 
-func convert(it apiIssue) models.Issue {
+func convert(repo string, it apiIssue) models.Issue {
 	labels := make([]string, 0, len(it.Labels))
 	for _, l := range it.Labels {
 		labels = append(labels, l.Name)
 	}
 	is := models.Issue{
-		Number: it.Number, Title: it.Title, State: it.State, URL: it.HTMLURL,
+		Repo: repo, Number: it.Number, Title: it.Title, State: it.State, URL: it.HTMLURL,
 		Labels: labels, ModLabel: ModLabel(labels), Kind: Kind(labels),
 		Comments: it.Comments, CreatedAt: it.CreatedAt.UTC(), UpdatedAt: it.UpdatedAt.UTC(),
 	}

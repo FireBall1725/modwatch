@@ -38,7 +38,10 @@ func issuesServer(t *testing.T) (http.Handler, *repository.Repo) {
 		{Number: 4, Title: "closed", State: "closed", Kind: "bug", ModLabel: "turbolifts", CreatedAt: day(9), UpdatedAt: day(4), ClosedAt: day(4)},
 		{Number: 5, Title: "no label", State: "open", Kind: "other", CreatedAt: day(1), UpdatedAt: day(0)},
 	}
-	if err := repo.SaveIssues(ctx, id, issues); err != nil {
+	for i := range issues {
+		issues[i].Repo = "o/r"
+	}
+	if err := repo.SaveIssues(ctx, id, []string{"o/r"}, []string{"o/r"}, issues); err != nil {
 		t.Fatal(err)
 	}
 	cfg := &config.Config{Schedule: "0 * * * *", GitHubIssuesRepo: "o/r"}

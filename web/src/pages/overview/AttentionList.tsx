@@ -3,9 +3,13 @@
 
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import DismissButton from '../../components/attention/DismissButton'
+import DismissedList from '../../components/attention/DismissedList'
+import { dismissKey } from '../../components/attention/dismiss'
 import Card from '../../components/ui/Card'
 import EmptyState from '../../components/ui/EmptyState'
 import Icon, { type IconName } from '../../components/ui/Icon'
+import type { Dismissals } from '../../hooks/useDismissals'
 import { cx } from '../../lib/cx'
 import type { AttentionItem, AttentionKind, Severity } from '../../lib/types'
 import type { AttentionGroups } from './logic'
@@ -39,7 +43,13 @@ function target(item: AttentionItem): string {
   return '/settings'
 }
 
-function Row({ item }: { item: AttentionItem }) {
+interface RowProps {
+  item: AttentionItem
+  busy: boolean
+  onDismiss: (item: AttentionItem) => void
+}
+
+function Row({ item, busy, onDismiss }: RowProps) {
   const { t } = useTranslation('overview')
   const { t: tc } = useTranslation('common')
   const tone = TONE[item.severity]
@@ -64,6 +74,7 @@ function Row({ item }: { item: AttentionItem }) {
           <Icon name="external" size={16} />
         </a>
       )}
+      {item.dismissible && <DismissButton item={item} busy={busy} onDismiss={() => onDismiss(item)} />}
     </li>
   )
 }
@@ -80,11 +91,17 @@ interface Props {
   groups: AttentionGroups
   notesOpen: boolean
   onToggleNotes: () => void
+  /** Items the author dismissed; they can be restored from the list under the card. */
+  dismissed: AttentionItem[]
+  dismissals: Dismissals
+  /** Dismisses an item and then puts focus back on the list, since the row it was on is gone. */
+  onDismiss: (item: AttentionItem) => void
 }
 
 /** Every attention item, grouped by severity. Problems and warnings are always listed; notes fold away. */
-export default function AttentionList({ groups, notesOpen, onToggleNotes }: Props) {
+export default function AttentionList({ groups, notesOpen, onToggleNotes, dismissed, dismissals, onDismiss }: Props) {
   const { t } = useTranslation('overview')
+  const { t: tc } = useTranslation('common')
   const total = groups.problem.length + groups.warning.length + groups.info.length
 
   const section = (sev: Severity, items: AttentionItem[]) =>
@@ -97,7 +114,7 @@ export default function AttentionList({ groups, notesOpen, onToggleNotes }: Prop
         </h3>
         <ul className="divide-y divide-line">
           {items.map((it, i) => (
-            <Row key={`${it.kind}-${it.modSlug}-${i}`} item={it} />
+            <Row key={`${it.kind}-${it.modSlug}-${i}`} item={it} busy={dismissals.busy === dismissKey(it)} onDismiss={onDismiss} />
           ))}
         </ul>
       </div>
@@ -128,6 +145,12 @@ export default function AttentionList({ groups, notesOpen, onToggleNotes }: Prop
             )}
           </>
         )}
+        {dismissals.error && (
+          <p role="alert" className="mt-3 rounded-md border border-bad/40 bg-bad-soft/50 px-3 py-2 text-sm text-ink">
+            {tc('attention.failed', { message: dismissals.error })}
+          </p>
+        )}
+        <DismissedList items={dismissed} dismissals={dismissals} className="mt-3" />
       </div>
     </Card>
   )

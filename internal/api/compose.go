@@ -21,16 +21,18 @@ const (
 
 // dataset is everything the composition reads, loaded once per request so the pure functions below need no database.
 type dataset struct {
-	now      time.Time
-	ghRepo   string
-	stats    []models.PlatformStat
-	files    []models.FileStat
-	entries  []models.CatalogEntry
-	issues   []models.Issue // every state
-	seen     map[models.PlatformKey]time.Time
-	sources  []models.SourceStatus
-	ix       *repository.CatalogIndex
-	problems []string
+	now     time.Time
+	ghRepo  string
+	stats   []models.PlatformStat
+	files   []models.FileStat
+	entries []models.CatalogEntry
+	issues  []models.Issue // every state
+	// dismissed holds the needs-attention items the author dismissed, by kind and mod.
+	dismissed map[dismissKey]bool
+	seen      map[models.PlatformKey]time.Time
+	sources   []models.SourceStatus
+	ix        *repository.CatalogIndex
+	problems  []string
 }
 
 // group is one mod: a catalog entry with the projects it holds, or a lone project no entry holds.
@@ -42,6 +44,9 @@ type group struct {
 	mr    *models.PlatformStat
 	owned bool
 }
+
+// dismissKey names one dismissible item: a kind of attention for one mod.
+type dismissKey struct{ kind, modSlug string }
 
 func (g *group) hidden() bool { return g.entry != nil && g.entry.Hidden }
 
@@ -384,13 +389,21 @@ func (v *view) platformInfo(p *models.PlatformStat) *platformInfo {
 	}
 }
 
+// repoFor is the issues repository a mod's issues live in: its own when it has one, else the shared one.
+func (v *view) repoFor(g *group) string {
+	if g.entry != nil && g.entry.GitHubRepo != nil && *g.entry.GitHubRepo != "" {
+		return *g.entry.GitHubRepo
+	}
+	return v.ds.ghRepo
+}
+
 func (v *view) githubInfo(g *group) *githubInfo {
 	issues := v.issuesOf[g.slug]
 	label := g.slug
 	if g.entry != nil && g.entry.GitHubLabel != nil && *g.entry.GitHubLabel != "" {
 		label = *g.entry.GitHubLabel
 	}
-	if v.ds.ghRepo == "" && len(issues) == 0 && (g.entry == nil || g.entry.GitHubLabel == nil) {
+	if v.repoFor(g) == "" && len(issues) == 0 && (g.entry == nil || g.entry.GitHubLabel == nil) {
 		return nil
 	}
 	if !g.owned && len(issues) == 0 {
@@ -445,7 +458,7 @@ func (v *view) summary(g *group) modSummary {
 	}
 	ms.Health = healthOK
 	if g.owned {
-		ms.Attention = v.attentionFor(g)
+		ms.Attention, _ = v.splitDismissed(v.attentionFor(g))
 		ms.Health = healthOf(ms.Attention)
 	}
 	return ms
@@ -491,8 +504,9 @@ func (v *view) links(g *group) modLinks {
 	if g.mr != nil {
 		l.Modrinth = strPtr(g.mr.URL)
 	}
-	if v.ds.ghRepo != "" {
-		l.Github = strPtr("https://github.com/" + v.ds.ghRepo)
+	repo := v.repoFor(g)
+	if repo != "" {
+		l.Github = strPtr("https://github.com/" + repo)
 	}
 	first := func(pick func(*models.PlatformStat) string) *string {
 		for _, p := range g.projects() {
@@ -504,8 +518,8 @@ func (v *view) links(g *group) modLinks {
 	}
 	l.Source = first(func(p *models.PlatformStat) string { return p.SourceURL })
 	l.Issues = first(func(p *models.PlatformStat) string { return p.IssuesURL })
-	if l.Issues == nil && v.ds.ghRepo != "" {
-		l.Issues = strPtr("https://github.com/" + v.ds.ghRepo + "/issues")
+	if l.Issues == nil && repo != "" {
+		l.Issues = strPtr("https://github.com/" + repo + "/issues")
 	}
 	l.Wiki = first(func(p *models.PlatformStat) string { return p.WikiURL })
 	l.Discord = first(func(p *models.PlatformStat) string { return p.DiscordURL })

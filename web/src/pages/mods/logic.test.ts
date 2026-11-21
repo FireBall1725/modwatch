@@ -191,8 +191,8 @@ describe('derived numbers', () => {
   it('picks the worst attention item', () => {
     const m = mod('x', {
       attention: [
-        { severity: 'info', kind: 'unlinked', modSlug: 'x', title: 'i', detail: '', url: null },
-        { severity: 'problem', kind: 'crash_open', modSlug: 'x', title: 'p', detail: '', url: null },
+        { severity: 'info', kind: 'unlinked', modSlug: 'x', title: 'i', detail: '', url: null, dismissible: false },
+        { severity: 'problem', kind: 'crash_open', modSlug: 'x', title: 'p', detail: '', url: null, dismissible: false },
       ],
     })
     expect(topAttention(m)?.title).toBe('p')

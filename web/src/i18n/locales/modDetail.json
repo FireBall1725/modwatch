@@ -113,7 +113,7 @@
     "none": "No open issues",
     "noneDetail": "Nothing is open for this mod in the issues repo.",
     "noLabel": "Issues are not linked",
-    "noLabelDetail": "Set a GitHub label for this mod in Settings to see its issues.",
+    "noLabelDetail": "Give this mod a GitHub label or its own issues repository in Settings to see its issues.",
     "showClosed": "Show closed ({{count}})",
     "hideClosed": "Hide closed",
     "open_one": "{{count}} open",

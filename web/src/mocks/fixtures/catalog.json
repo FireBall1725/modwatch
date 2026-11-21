@@ -6,9 +6,10 @@
    "curseforgeId": 227814,
    "modrinthId": "Kx9bQ2aE",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "auto-gui-scale",
@@ -16,9 +17,10 @@
    "curseforgeId": 689123,
    "modrinthId": "q3Zr7wLm",
    "githubLabel": "auto-gui-scale",
+   "githubRepo": null,
    "hidden": false,
-   "auto": false,
-   "legacy": false
+   "legacy": false,
+   "auto": false
   },
   {
    "slug": "twitch-notifier",
@@ -26,9 +28,10 @@
    "curseforgeId": 391775,
    "modrinthId": null,
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "ae2-tech-addon",
@@ -36,9 +39,10 @@
    "curseforgeId": 905512,
    "modrinthId": null,
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "ftb-pax-timer",
@@ -46,9 +50,10 @@
    "curseforgeId": 560341,
    "modrinthId": "T8vYc1nA",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "firecore",
@@ -56,9 +61,10 @@
    "curseforgeId": 1214770,
    "modrinthId": "rF4dN6pS",
    "githubLabel": "firecore",
+   "githubRepo": null,
    "hidden": false,
-   "auto": false,
-   "legacy": false
+   "legacy": false,
+   "auto": false
   },
   {
    "slug": "ae2-traffic-monitor",
@@ -66,9 +72,10 @@
    "curseforgeId": 1187326,
    "modrinthId": "mN2xK8vT",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "create-turbolifts",
@@ -76,9 +83,10 @@
    "curseforgeId": 1196044,
    "modrinthId": "bV5hJ3cD",
    "githubLabel": null,
+   "githubRepo": "FireBall1725/create-turbolifts",
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "lost-crafters-server-switcher",
@@ -86,9 +94,10 @@
    "curseforgeId": null,
    "modrinthId": "wP7sL0eR",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "ae2-lights",
@@ -96,9 +105,10 @@
    "curseforgeId": 1230915,
    "modrinthId": "hC3uY9tB",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "qmk-extra-keybinds",
@@ -106,9 +116,10 @@
    "curseforgeId": 1238801,
    "modrinthId": "dE6gM2zQ",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "graves",
@@ -116,9 +127,10 @@
    "curseforgeId": 1248320,
    "modrinthId": "jS1nA4kW",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "ae2-ee3-emc-addon",
@@ -126,9 +138,10 @@
    "curseforgeId": 1251007,
    "modrinthId": null,
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": true
+   "legacy": true,
+   "auto": true
   },
   {
    "slug": "devworld",
@@ -136,9 +149,10 @@
    "curseforgeId": 1253344,
    "modrinthId": "uZ8cH5fG",
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "applied-energistics-2",
@@ -146,9 +160,10 @@
    "curseforgeId": 223794,
    "modrinthId": null,
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": false,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   },
   {
    "slug": "devworld-sandbox",
@@ -156,9 +171,10 @@
    "curseforgeId": 1240021,
    "modrinthId": null,
    "githubLabel": null,
+   "githubRepo": null,
    "hidden": true,
-   "auto": true,
-   "legacy": false
+   "legacy": false,
+   "auto": true
   }
  ],
  "unlinked": {

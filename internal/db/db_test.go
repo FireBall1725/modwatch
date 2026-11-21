@@ -6,6 +6,8 @@ package db_test
 import (
 	"context"
 	"database/sql"
+	"os"
+	"strings"
 	"testing"
 
 	"github.com/fireball1725/modwatch/internal/db/dbtest"
@@ -47,7 +49,17 @@ func TestMigrationsRunTwice(t *testing.T) {
 	if err := conn.QueryRowContext(context.Background(), `SELECT version FROM schema_migrations`).Scan(&v); err != nil {
 		t.Fatal(err)
 	}
-	if v != 8 {
-		t.Errorf("schema version = %d, want 8", v)
+	files, err := os.ReadDir("migrations")
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := 0
+	for _, f := range files {
+		if strings.HasSuffix(f.Name(), ".up.sql") {
+			want++
+		}
+	}
+	if v != want {
+		t.Errorf("schema version = %d, want %d (one per .up.sql file)", v, want)
 	}
 }

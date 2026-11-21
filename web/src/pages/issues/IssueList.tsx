@@ -34,7 +34,7 @@ function ModCell({ issue }: { issue: IssueItem }) {
   return <span className="text-faint">{t('noMod')}</span>
 }
 
-function Title({ issue }: { issue: IssueItem }) {
+function Title({ issue, showRepo }: { issue: IssueItem; showRepo: boolean }) {
   const { t } = useTranslation('issues')
   return (
     <span className="flex min-w-0 items-start gap-2">
@@ -44,7 +44,10 @@ function Title({ issue }: { issue: IssueItem }) {
         rel="noreferrer noopener"
         className="min-w-0 font-medium text-ink hover:text-accent focus-visible:text-accent"
       >
-        <span className="num mr-1.5 text-faint">#{issue.number}</span>
+        <span className="num mr-1.5 text-faint">
+          {showRepo && issue.repo ? `${issue.repo}#` : '#'}
+          {issue.number}
+        </span>
         {issue.title}
         <span className="sr-only"> ({t('openRepo')})</span>
       </a>
@@ -76,11 +79,22 @@ function ageTone(i: IssueItem): string {
 }
 
 /** The filterable list: a dense table from md up, stacked cards below it. */
-export default function IssueList({ issues, caption, empty }: { issues: IssueItem[]; caption: string; empty: ReactNode }) {
+export default function IssueList({
+  issues,
+  caption,
+  empty,
+  showRepo = false,
+}: {
+  issues: IssueItem[]
+  caption: string
+  empty: ReactNode
+  /** Put the repository in front of each issue number. Numbers repeat across repositories, so it matters once more than one is read. */
+  showRepo?: boolean
+}) {
   const { t } = useTranslation('issues')
   const columns: Column<IssueItem>[] = [
     { key: 'kind', header: t('col.kind'), cell: (i) => <KindPill kind={i.kind} />, sortValue: (i) => kindRank(i.kind), width: '9rem' },
-    { key: 'issue', header: t('col.issue'), cell: (i) => <Title issue={i} />, sortValue: (i) => i.number },
+    { key: 'issue', header: t('col.issue'), cell: (i) => <Title issue={i} showRepo={showRepo} />, sortValue: (i) => i.number },
     { key: 'mod', header: t('col.mod'), cell: (i) => <ModCell issue={i} />, sortValue: (i) => i.modName ?? i.modLabel ?? '~', hideBelow: 'lg' },
     {
       key: 'age',
@@ -114,18 +128,18 @@ export default function IssueList({ issues, caption, empty }: { issues: IssueIte
   return (
     <>
       <div className="hidden md:block">
-        <DataTable columns={columns} rows={issues} rowKey={(i) => String(i.number)} caption={caption} defaultSort={{ key: 'kind', dir: 'asc' }} dense />
+        <DataTable columns={columns} rows={issues} rowKey={(i) => `${i.repo}#${i.number}`} caption={caption} defaultSort={{ key: 'kind', dir: 'asc' }} dense />
       </div>
       <ul aria-label={caption} className="divide-y divide-line md:hidden">
         {issues.map((i) => (
-          <li key={i.number} className="flex flex-col gap-1.5 px-4 py-3">
+          <li key={`${i.repo}#${i.number}`} className="flex flex-col gap-1.5 px-4 py-3">
             <div className="flex items-center justify-between gap-2">
               <KindPill kind={i.kind} />
               <span className={`text-xs ${ageTone(i)}`}>
                 <Age issue={i} />
               </span>
             </div>
-            <Title issue={i} />
+            <Title issue={i} showRepo={showRepo} />
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
               <ModCell issue={i} />
               <span>{i.author}</span>

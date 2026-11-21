@@ -1,6 +1,6 @@
 {
   "title": "Issues",
-  "description": "Open reports across all mods, from {{repo}}.",
+  "description": "Open reports across all mods, from {{where}}.",
   "openRepo": "Open on GitHub",
   "verdict": {
     "clear": "No open issues",
@@ -54,7 +54,7 @@
   },
   "list": {
     "title": "Issues",
-    "caption": "Issues in {{repo}}",
+    "caption": "Issues in {{where}}",
     "shown_one": "{{count}} issue",
     "shown_other": "{{count}} issues",
     "of": "{{shown}} of {{total}}"
@@ -98,9 +98,13 @@
     "title": "No issues match",
     "description": "Try a different mod or kind, or clear the filters.",
     "none": "Nothing here yet",
-    "noneDescription": "No issues have been filed in {{repo}}."
+    "noneDescription": "No issues have been filed in {{where}}."
   },
   "error": {
     "title": "Couldn't load issues"
+  },
+  "repos": {
+    "none": "no repository yet",
+    "many": "{{count}} repositories"
   }
 }

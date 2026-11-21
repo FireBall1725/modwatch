@@ -44,7 +44,7 @@ func TestPagingAndPullRequestSkipping(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	got, err := New(srv.URL, "o/r", "tok", "modwatch/test").ListIssues(t.Context())
+	got, err := New(srv.URL, "tok", "modwatch/test").ListIssues(t.Context(), "o/r")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -68,7 +68,7 @@ func TestNoTokenSendsNoAuthorization(t *testing.T) {
 		_, _ = w.Write([]byte("[]"))
 	}))
 	defer srv.Close()
-	got, err := New(srv.URL, "o/r", "", "ua").ListIssues(t.Context())
+	got, err := New(srv.URL, "", "ua").ListIssues(t.Context(), "o/r")
 	if err != nil || got == nil || len(got) != 0 {
 		t.Errorf("got %v, %v; want an empty non-nil list", got, err)
 	}
@@ -93,7 +93,7 @@ func TestRateLimitErrors(t *testing.T) {
 				w.WriteHeader(tc.status)
 			}))
 			defer srv.Close()
-			_, err := New(srv.URL, "o/r", tc.token, "ua").ListIssues(t.Context())
+			_, err := New(srv.URL, tc.token, "ua").ListIssues(t.Context(), "o/r")
 			if err == nil || !strings.Contains(err.Error(), tc.want) {
 				t.Errorf("err = %v, want %q", err, tc.want)
 			}

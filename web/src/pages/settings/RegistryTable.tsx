@@ -67,7 +67,12 @@ export default function RegistryTable({
   };
 
   const labelCell = (e: CatalogEntry) =>
-    e.githubLabel ? (
+    e.githubRepo ? (
+      <span className="block break-words">
+        <span className="num block">{e.githubRepo}</span>
+        <span className="block text-xs text-faint">{t("registry.ownRepo")}</span>
+      </span>
+    ) : e.githubLabel ? (
       <span className="num break-words">
         {t("registry.labelDefault", { label: e.githubLabel })}
       </span>

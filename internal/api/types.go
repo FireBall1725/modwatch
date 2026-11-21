@@ -58,6 +58,8 @@ type attentionItem struct {
 	Title    string  `json:"title"`
 	Detail   string  `json:"detail"`
 	URL      *string `json:"url"`
+	// Dismissible is true for the kinds the author may dismiss.
+	Dismissible bool `json:"dismissible"`
 }
 
 type modSummary struct {
@@ -202,11 +204,13 @@ type overviewTotals struct {
 }
 
 type overviewResponse struct {
-	Version        string          `json:"version"`
-	Schedule       string          `json:"schedule"`
-	Polling        bool            `json:"polling"`
-	Totals         overviewTotals  `json:"totals"`
-	Attention      []attentionItem `json:"attention"`
+	Version   string          `json:"version"`
+	Schedule  string          `json:"schedule"`
+	Polling   bool            `json:"polling"`
+	Totals    overviewTotals  `json:"totals"`
+	Attention []attentionItem `json:"attention"`
+	// Dismissed holds the items the author dismissed that still apply, so they can be restored.
+	Dismissed      []attentionItem `json:"dismissed"`
 	Mods           []modSummary    `json:"mods"`
 	RecentReleases []releaseItem   `json:"recentReleases"`
 	Sources        []sourceStatus  `json:"sources"`

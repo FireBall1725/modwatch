@@ -25,7 +25,8 @@
    "modSlug": "create-turbolifts",
    "title": "Open crash in Create: Turbolifts",
    "detail": "#41: Crash when two cars dock on the same chunk edge",
-   "url": "https://github.com/FireBall1725/mod-issues/issues/41"
+   "url": "https://github.com/FireBall1725/mod-issues/issues/41",
+   "dismissible": false
   },
   {
    "severity": "problem",
@@ -33,7 +34,8 @@
    "modSlug": "ae2-ee3-emc-addon",
    "title": "AE2 EE3 EMC Add-On needs changes on CurseForge",
    "detail": "The description needs a licence statement and the source link must point at a public repository.",
-   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon"
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+   "dismissible": true
   },
   {
    "severity": "problem",
@@ -41,7 +43,8 @@
    "modSlug": "devworld",
    "title": "DevWorld was rejected on CurseForge",
    "detail": "Project description is missing a licence. Add one and resubmit.",
-   "url": "https://www.curseforge.com/minecraft/mc-mods/devworld"
+   "url": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+   "dismissible": true
   },
   {
    "severity": "warning",
@@ -49,7 +52,8 @@
    "modSlug": "firecore",
    "title": "Open bug in FireCore",
    "detail": "#44: Benihime sheath renders at the wrong angle while sneaking",
-   "url": "https://github.com/FireBall1725/mod-issues/issues/44"
+   "url": "https://github.com/FireBall1725/mod-issues/issues/44",
+   "dismissible": false
   },
   {
    "severity": "warning",
@@ -57,7 +61,8 @@
    "modSlug": "ae2-traffic-monitor",
    "title": "Open bug in AE2 Traffic Monitor",
    "detail": "#38: Traffic graph resets after a world reload",
-   "url": "https://github.com/FireBall1725/mod-issues/issues/38"
+   "url": "https://github.com/FireBall1725/mod-issues/issues/38",
+   "dismissible": false
   },
   {
    "severity": "warning",
@@ -65,7 +70,8 @@
    "modSlug": "ae2-traffic-monitor",
    "title": "AE2 Traffic Monitor has no file for 26.3",
    "detail": "Newest target is 26.2.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "warning",
@@ -73,7 +79,8 @@
    "modSlug": "ae2-lights",
    "title": "AE2 Lights has waited 9 days for review on Modrinth",
    "detail": "Requested: approved.",
-   "url": "https://modrinth.com/mod/processing"
+   "url": "https://modrinth.com/mod/processing",
+   "dismissible": true
   },
   {
    "severity": "warning",
@@ -81,7 +88,8 @@
    "modSlug": "qmk-extra-keybinds",
    "title": "QMK Extra Keybinds is still a draft on Modrinth",
    "detail": "Submit it for review to publish it.",
-   "url": "https://modrinth.com/mod/qmk-extra-keybinds"
+   "url": "https://modrinth.com/mod/qmk-extra-keybinds",
+   "dismissible": true
   },
   {
    "severity": "warning",
@@ -89,7 +97,8 @@
    "modSlug": null,
    "title": "GitHub could not be read",
    "detail": "GitHub returned 403: API rate limit exceeded. Resets at 14:42.",
-   "url": null
+   "url": null,
+   "dismissible": false
   },
   {
    "severity": "info",
@@ -97,7 +106,8 @@
    "modSlug": "default-world-generator",
    "title": "Default World Generator has had no release in 2.5 years",
    "detail": "Last release is over a year old.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -105,7 +115,8 @@
    "modSlug": "auto-gui-scale",
    "title": "Automatic Gui Scale has no file for 26.3",
    "detail": "Newest target is 26.1.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -113,7 +124,8 @@
    "modSlug": "twitch-notifier",
    "title": "Twitch Notifier has had no release in 1.8 years",
    "detail": "Last release is over a year old.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -121,7 +133,8 @@
    "modSlug": "ae2-tech-addon",
    "title": "AE2 Tech Add-On is only on CurseForge",
    "detail": "No project on the other platform is linked.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -129,7 +142,8 @@
    "modSlug": "ftb-pax-timer",
    "title": "FTB Pax Timer has had no release in 1.1 years",
    "detail": "Last release is over a year old.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -137,7 +151,8 @@
    "modSlug": "ae2-lights",
    "title": "AE2 Lights has no file for 26.3",
    "detail": "Newest target is 26.1.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -145,7 +160,17 @@
    "modSlug": "qmk-extra-keybinds",
    "title": "QMK Extra Keybinds has no file for 26.3",
    "detail": "Newest target is 26.1.",
-   "url": null
+   "url": null,
+   "dismissible": true
+  },
+  {
+   "severity": "info",
+   "kind": "no_latest_minecraft",
+   "modSlug": "graves",
+   "title": "Graves has no file for 26.3",
+   "detail": "Newest target is 26.1.",
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -153,7 +178,8 @@
    "modSlug": "devworld",
    "title": "DevWorld has no file for 26.3",
    "detail": "Newest target is 26.1.",
-   "url": null
+   "url": null,
+   "dismissible": true
   },
   {
    "severity": "info",
@@ -161,9 +187,11 @@
    "modSlug": "ae2-tech-addon",
    "title": "AE2 Tech Addon on Modrinth is not linked to a mod",
    "detail": "A project with a similar name exists. Link it in Settings.",
-   "url": null
+   "url": null,
+   "dismissible": false
   }
  ],
+ "dismissed": [],
  "mods": [
   {
    "slug": "default-world-generator",
@@ -240,6 +268,7 @@
    "loaders": [
     "forge"
    ],
+   "legacy": true,
    "health": "ok",
    "attention": [
     {
@@ -248,10 +277,10 @@
      "modSlug": "default-world-generator",
      "title": "Default World Generator has had no release in 2.5 years",
      "detail": "Last release is over a year old.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": true
+   ]
   },
   {
    "slug": "auto-gui-scale",
@@ -331,6 +360,7 @@
     "forge",
     "neoforge"
    ],
+   "legacy": false,
    "health": "ok",
    "attention": [
     {
@@ -339,10 +369,10 @@
      "modSlug": "auto-gui-scale",
      "title": "Automatic Gui Scale has no file for 26.3",
      "detail": "Newest target is 26.1.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "twitch-notifier",
@@ -400,6 +430,7 @@
    "loaders": [
     "forge"
    ],
+   "legacy": true,
    "health": "ok",
    "attention": [
     {
@@ -408,10 +439,10 @@
      "modSlug": "twitch-notifier",
      "title": "Twitch Notifier has had no release in 1.8 years",
      "detail": "Last release is over a year old.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": true
+   ]
   },
   {
    "slug": "ae2-tech-addon",
@@ -472,6 +503,7 @@
     "forge",
     "neoforge"
    ],
+   "legacy": true,
    "health": "ok",
    "attention": [
     {
@@ -480,10 +512,10 @@
      "modSlug": "ae2-tech-addon",
      "title": "AE2 Tech Add-On is only on CurseForge",
      "detail": "No project on the other platform is linked.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": true
+   ]
   },
   {
    "slug": "ftb-pax-timer",
@@ -557,6 +589,7 @@
    "loaders": [
     "forge"
    ],
+   "legacy": true,
    "health": "ok",
    "attention": [
     {
@@ -565,10 +598,10 @@
      "modSlug": "ftb-pax-timer",
      "title": "FTB Pax Timer has had no release in 1.1 years",
      "detail": "Last release is over a year old.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": true
+   ]
   },
   {
    "slug": "firecore",
@@ -644,6 +677,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "attention",
    "attention": [
     {
@@ -652,10 +686,10 @@
      "modSlug": "firecore",
      "title": "Open bug in FireCore",
      "detail": "#44: Benihime sheath renders at the wrong angle while sneaking",
-     "url": "https://github.com/FireBall1725/mod-issues/issues/44"
+     "url": "https://github.com/FireBall1725/mod-issues/issues/44",
+     "dismissible": false
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "ae2-traffic-monitor",
@@ -730,6 +764,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "attention",
    "attention": [
     {
@@ -738,7 +773,8 @@
      "modSlug": "ae2-traffic-monitor",
      "title": "Open bug in AE2 Traffic Monitor",
      "detail": "#38: Traffic graph resets after a world reload",
-     "url": "https://github.com/FireBall1725/mod-issues/issues/38"
+     "url": "https://github.com/FireBall1725/mod-issues/issues/38",
+     "dismissible": false
     },
     {
      "severity": "warning",
@@ -746,10 +782,10 @@
      "modSlug": "ae2-traffic-monitor",
      "title": "AE2 Traffic Monitor has no file for 26.3",
      "detail": "Newest target is 26.2.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "create-turbolifts",
@@ -825,6 +861,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "problem",
    "attention": [
     {
@@ -833,10 +870,10 @@
      "modSlug": "create-turbolifts",
      "title": "Open crash in Create: Turbolifts",
      "detail": "#41: Crash when two cars dock on the same chunk edge",
-     "url": "https://github.com/FireBall1725/mod-issues/issues/41"
+     "url": "https://github.com/FireBall1725/mod-issues/issues/41",
+     "dismissible": false
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "graves",
@@ -910,9 +947,19 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": true,
    "health": "ok",
-   "attention": [],
-   "legacy": true
+   "attention": [
+    {
+     "severity": "info",
+     "kind": "no_latest_minecraft",
+     "modSlug": "graves",
+     "title": "Graves has no file for 26.3",
+     "detail": "Newest target is 26.1.",
+     "url": null,
+     "dismissible": true
+    }
+   ]
   },
   {
    "slug": "lost-crafters-server-switcher",
@@ -964,9 +1011,9 @@
     "forge",
     "neoforge"
    ],
+   "legacy": false,
    "health": "ok",
-   "attention": [],
-   "legacy": false
+   "attention": []
   },
   {
    "slug": "ae2-lights",
@@ -1040,6 +1087,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "attention",
    "attention": [
     {
@@ -1048,7 +1096,8 @@
      "modSlug": "ae2-lights",
      "title": "AE2 Lights has waited 9 days for review on Modrinth",
      "detail": "Requested: approved.",
-     "url": "https://modrinth.com/mod/processing"
+     "url": "https://modrinth.com/mod/processing",
+     "dismissible": true
     },
     {
      "severity": "info",
@@ -1056,10 +1105,10 @@
      "modSlug": "ae2-lights",
      "title": "AE2 Lights has no file for 26.3",
      "detail": "Newest target is 26.1.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "qmk-extra-keybinds",
@@ -1133,6 +1182,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "attention",
    "attention": [
     {
@@ -1141,7 +1191,8 @@
      "modSlug": "qmk-extra-keybinds",
      "title": "QMK Extra Keybinds is still a draft on Modrinth",
      "detail": "Submit it for review to publish it.",
-     "url": "https://modrinth.com/mod/qmk-extra-keybinds"
+     "url": "https://modrinth.com/mod/qmk-extra-keybinds",
+     "dismissible": true
     },
     {
      "severity": "info",
@@ -1149,10 +1200,10 @@
      "modSlug": "qmk-extra-keybinds",
      "title": "QMK Extra Keybinds has no file for 26.3",
      "detail": "Newest target is 26.1.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "devworld",
@@ -1226,6 +1277,7 @@
    "loaders": [
     "neoforge"
    ],
+   "legacy": false,
    "health": "problem",
    "attention": [
     {
@@ -1234,7 +1286,8 @@
      "modSlug": "devworld",
      "title": "DevWorld was rejected on CurseForge",
      "detail": "Project description is missing a licence. Add one and resubmit.",
-     "url": "https://www.curseforge.com/minecraft/mc-mods/devworld"
+     "url": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+     "dismissible": true
     },
     {
      "severity": "info",
@@ -1242,10 +1295,10 @@
      "modSlug": "devworld",
      "title": "DevWorld has no file for 26.3",
      "detail": "Newest target is 26.1.",
-     "url": null
+     "url": null,
+     "dismissible": true
     }
-   ],
-   "legacy": false
+   ]
   },
   {
    "slug": "ae2-ee3-emc-addon",
@@ -1295,6 +1348,7 @@
    "loaders": [
     "forge"
    ],
+   "legacy": true,
    "health": "problem",
    "attention": [
     {
@@ -1303,10 +1357,10 @@
      "modSlug": "ae2-ee3-emc-addon",
      "title": "AE2 EE3 EMC Add-On needs changes on CurseForge",
      "detail": "The description needs a licence statement and the source link must point at a public repository.",
-     "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon"
+     "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+     "dismissible": true
     }
-   ],
-   "legacy": true
+   ]
   }
  ],
  "recentReleases": [

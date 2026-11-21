@@ -20,10 +20,8 @@ import (
 	"github.com/fireball1725/modwatch/internal/config"
 	"github.com/fireball1725/modwatch/internal/db"
 	"github.com/fireball1725/modwatch/internal/poll"
-	"github.com/fireball1725/modwatch/internal/providers/curseforge"
-	"github.com/fireball1725/modwatch/internal/providers/github"
-	"github.com/fireball1725/modwatch/internal/providers/modrinth"
 	"github.com/fireball1725/modwatch/internal/repository"
+	"github.com/fireball1725/modwatch/internal/settings"
 	"github.com/fireball1725/modwatch/internal/version"
 	"github.com/robfig/cron/v3"
 )
@@ -52,16 +50,8 @@ func main() {
 	defer func() { _ = conn.Close() }()
 	repo := repository.New(conn)
 
-	cf := curseforge.New(cfg.CurseForgeBaseURL, cfg.CurseForgeKey, cfg.CurseForgeGameID)
-	// Leave mr nil when Modrinth is off; a typed nil inside the interface would look configured.
-	var mr poll.Modrinth
-	if cfg.CanPollModrinth() {
-		mr = modrinth.New(cfg.ModrinthBaseURL, cfg.ModrinthToken, cfg.ModrinthUserAgent)
-	}
-	polls := poll.New(ctx, cfg, repo, cf, mr)
-	if cfg.CanPollGitHub() {
-		polls.WithGitHub(github.New(cfg.GitHubBaseURL, cfg.GitHubIssuesRepo, cfg.GitHubToken, "modwatch/"+version.String()))
-	}
+	// The clients are built at the start of each poll from the environment plus whatever was set in Settings.
+	polls := poll.New(ctx, cfg, repo, nil, nil).WithSettings(settings.New(cfg, repo), poll.DefaultFactory{})
 
 	// Poll at boot so the page is current; the stored data shows until it finishes.
 	if err := polls.Start(); err != nil {
@@ -70,14 +60,18 @@ func main() {
 
 	// cron uses the process time zone, so TZ decides when "0 * * * *" fires.
 	sched := cron.New()
-	if cfg.CanPoll() {
-		if _, err := sched.AddFunc(cfg.Schedule, func() {
-			if err := polls.Start(); err != nil && !errors.Is(err, poll.ErrRunning) {
-				slog.Error("scheduled poll", "error", err)
-			}
-		}); err != nil {
-			slog.Error("poll schedule not started", "schedule", cfg.Schedule, "error", err)
+	// Always scheduled: a key set in Settings later makes the next scheduled poll work.
+	if _, err := sched.AddFunc(cfg.Schedule, func() {
+		err := polls.Start()
+		switch {
+		case err == nil, errors.Is(err, poll.ErrRunning):
+		case errors.Is(err, poll.ErrNotConfigured):
+			slog.Debug("scheduled poll skipped", "reason", err.Error())
+		default:
+			slog.Error("scheduled poll", "error", err)
 		}
+	}); err != nil {
+		slog.Error("poll schedule not started", "schedule", cfg.Schedule, "error", err)
 	}
 	sched.Start()
 	defer sched.Stop()

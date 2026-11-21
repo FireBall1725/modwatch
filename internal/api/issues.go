@@ -15,6 +15,7 @@ import (
 )
 
 type issueItem struct {
+	Repo      string   `json:"repo"`
 	Number    int      `json:"number"`
 	Title     string   `json:"title"`
 	State     string   `json:"state"`
@@ -56,7 +57,9 @@ type issuesSummary struct {
 }
 
 type issuesResponse struct {
+	// Repo is the shared issues repository; Repos is every repository being read, the shared one first.
 	Repo    string        `json:"repo"`
+	Repos   []string      `json:"repos"`
 	Summary issuesSummary `json:"summary"`
 	Issues  []issueItem   `json:"issues"`
 }
@@ -71,9 +74,15 @@ func rfc3339Ptr(t time.Time) *string {
 	return &s
 }
 
-// modOf maps an issue to the registry entry that claims its label.
-// ok is false when the issue has no label or no entry claims it.
+// modOf maps an issue to its registry entry: the entry whose own repository the issue lives in, else the entry that
+// claims its `mod:` label. ok is false when neither applies.
 func modOf(ix *repository.CatalogIndex, is models.Issue) (slug, name string, ok bool) {
+	if is.Repo != "" {
+		if slug, found := ix.SlugForRepo(is.Repo); found {
+			e, _ := ix.Entry(slug)
+			return slug, e.Name, true
+		}
+	}
 	if is.ModLabel == "" {
 		return "", "", false
 	}
@@ -95,7 +104,7 @@ func issueModKey(ix *repository.CatalogIndex, is models.Issue) (key, name string
 
 func toIssueItem(ix *repository.CatalogIndex, is models.Issue) issueItem {
 	it := issueItem{
-		Number: is.Number, Title: is.Title, State: is.State, URL: is.URL, Kind: is.Kind,
+		Repo: is.Repo, Number: is.Number, Title: is.Title, State: is.State, URL: is.URL, Kind: is.Kind,
 		Labels: is.Labels, Author: is.Author, Comments: is.Comments,
 		CreatedAt: rfc3339(is.CreatedAt), UpdatedAt: rfc3339(is.UpdatedAt), ClosedAt: rfc3339Ptr(is.ClosedAt),
 	}
@@ -180,6 +189,9 @@ func unlinkedLabels(ix *repository.CatalogIndex, all []models.Issue) []gitHubLab
 		if is.ModLabel == "" {
 			continue
 		}
+		if _, ok := ix.SlugForRepo(is.Repo); ok && is.Repo != "" {
+			continue // the mod owns this repository, so its labels aren't how the issue is linked
+		}
 		if _, ok := ix.SlugForLabel(is.ModLabel); !ok {
 			counts[is.ModLabel]++
 		}
@@ -194,6 +206,19 @@ func unlinkedLabels(ix *repository.CatalogIndex, all []models.Issue) []gitHubLab
 		}
 		return out[i].Label < out[j].Label
 	})
+	return out
+}
+
+// issueRepos lists the repositories being read: the shared one first, then each mod's own, without repeats.
+func issueRepos(shared string, ix *repository.CatalogIndex) []string {
+	out := []string{}
+	seen := map[string]bool{}
+	for _, r := range append([]string{shared}, ix.Repos()...) {
+		if k := strings.ToLower(r); r != "" && !seen[k] {
+			seen[k] = true
+			out = append(out, r)
+		}
+	}
 	return out
 }
 
@@ -218,7 +243,8 @@ func (h *handlers) listIssues(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, "couldn't read the catalog")
 		return
 	}
-	out := issuesResponse{Repo: h.cfg.GitHubIssuesRepo, Summary: summarize(ix, all), Issues: []issueItem{}}
+	shared := h.effective(r.Context()).GitHubIssuesRepo
+	out := issuesResponse{Repo: shared, Repos: issueRepos(shared, ix), Summary: summarize(ix, all), Issues: []issueItem{}}
 	// ListIssues sorts newest updated first, so filtering keeps that order.
 	for _, is := range all {
 		if state == "all" || is.State == state {

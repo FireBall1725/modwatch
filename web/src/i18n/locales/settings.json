@@ -74,7 +74,7 @@
     "emptyNone": "The registry is empty",
     "emptyNoneHint": "Entries appear after the first poll.",
     "mod": "Mod",
-    "label": "Issue label",
+    "label": "Issue source",
     "labelDefault": "mod: {{label}}",
     "noLabel": "No label",
     "legacy": "Legacy",
@@ -101,7 +101,8 @@
     "shownDone": "{{name}} is back on the dashboards.",
     "unlinkedDone": "Unlinked {{platform}} from {{name}}.",
     "linkedDone": "Linked {{what}} to {{name}}.",
-    "failed": "Could not save: {{message}}"
+    "failed": "Could not save: {{message}}",
+    "ownRepo": "Its own repository, so no label is needed"
   },
   "unlinked": {
     "projects": "Projects without an entry",
@@ -144,7 +145,11 @@
     "save": "Save changes",
     "saving": "Saving",
     "noChanges": "No changes yet",
-    "slug": "Slug"
+    "slug": "Slug",
+    "repo": "Issues repository",
+    "repoHelper": "Only if this mod keeps its issues in a repository of its own, written owner/name. Every issue there belongs to this mod. Leave empty to use the shared repository and the label above.",
+    "repoHelperSet": "Every issue in this repository belongs to this mod, so the label above isn't needed.",
+    "repoBad": "Write it as owner/name, with letters, digits, dots, dashes and underscores."
   },
   "confirm": {
     "unlinkTitle": "Unlink {{platform}} from {{name}}?",
@@ -156,5 +161,72 @@
   },
   "error": {
     "title": "Couldn't load the registry"
+  },
+  "connections": {
+    "title": "Connections",
+    "description": "Where Modwatch gets its data. Each value can come from an environment variable or be set here. A value set here wins. Clear it to go back to the environment variable.",
+    "storage": "Values set here are stored in the database in plain text. To keep a key out of the database, set its environment variable instead. That works the same.",
+    "error": "Could not load the settings",
+    "groups": {
+      "curseforge": "CurseForge",
+      "modrinth": "Modrinth",
+      "github": "GitHub",
+      "prometheus": "Prometheus"
+    },
+    "keys": {
+      "curseforgeApiKey": {
+        "label": "Core API key",
+        "help": "From console.curseforge.com. The tokens on the older API Tokens page get a 403."
+      },
+      "curseforgeAuthorId": {
+        "label": "Author id",
+        "help": "Your numeric CurseForge author id."
+      },
+      "modrinthUser": {
+        "label": "Username or id",
+        "help": "Leave it empty to turn Modrinth off."
+      },
+      "modrinthToken": {
+        "label": "Personal access token",
+        "help": "Public projects need none. Drafts and projects in review stay hidden without one."
+      },
+      "githubToken": {
+        "label": "Access token",
+        "help": "Optional. Without one GitHub allows 60 requests an hour. Needed for private repositories."
+      },
+      "githubIssuesRepo": {
+        "label": "Shared issues repository",
+        "help": "Written owner/name, such as FireBall1725/mod-issues. Leave it empty if every mod keeps its own."
+      },
+      "metricsEnabled": {
+        "label": "Serve /metrics",
+        "help": "When it is off, /metrics answers 404 and Prometheus shows the target as down. The environment variable is MODWATCH_METRICS_ENABLED."
+      }
+    },
+    "source": {
+      "ui": "Set here",
+      "env": "From environment",
+      "none": "Not set"
+    },
+    "envToo": "The environment variable is set too.",
+    "placeholderSet": "Set. Type to replace it",
+    "placeholderNone": "Not set",
+    "save": "Save",
+    "useEnv": "Use the environment value",
+    "clear": "Clear",
+    "bad": {
+      "digits": "Digits only, no leading zero.",
+      "repo": "Write it as owner/name.",
+      "spaces": "No spaces or line breaks."
+    },
+    "saved": "Saved {{label}}. It applies to the next poll.",
+    "backToEnv": "{{label}} now uses the environment variable. It applies to the next poll.",
+    "cleared": "Cleared {{label}}. It applies to the next poll.",
+    "pollNow": "Poll now",
+    "dismiss": "Dismiss",
+    "issueModes": "Issues can live in one shared repository for every mod, where each issue has a mod: label, or in a repository for each mod, set in the registry below under Edit and Issues repository. You can use both. A mod with its own repository reads from it, and the rest use the shared one.",
+    "on": "On",
+    "off": "Off",
+    "onDefault": "On (default)"
   }
 }

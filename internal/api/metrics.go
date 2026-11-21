@@ -21,6 +21,11 @@ import (
 // The per-mod series is typed counter so rate() and increase() work on it. CurseForge occasionally
 // recounts downward, which Prometheus reads as a counter reset and handles.
 func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
+	// Answering 404 rather than an empty page makes the Prometheus target show as down, which is the truth.
+	if !h.effective(r.Context()).MetricsOn() {
+		http.Error(w, "metrics are turned off in Settings", http.StatusNotFound)
+		return
+	}
 	stats, err := h.repo.ListModStats(r.Context(), time.Now())
 	if err != nil {
 		http.Error(w, "couldn't read mods", http.StatusInternalServerError)

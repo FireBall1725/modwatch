@@ -29,6 +29,7 @@ function issue(n: number, over: Partial<IssueItem> = {}): IssueItem {
     title: `Issue ${n}`,
     state: 'open',
     url: `https://example.test/${n}`,
+    repo: 'owner/issues',
     modSlug: 'alpha',
     modName: 'Alpha',
     modLabel: 'alpha',

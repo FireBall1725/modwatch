@@ -36,8 +36,28 @@ describe('fixtures follow the API contract', () => {
   })
 
   it('never has null where a list belongs', () => {
-    const listKeys = ['attention', 'recentReleases', 'sources', 'problems', 'gameVersions', 'minecraftVersions', 'loaders', 'entries', 'labels']
+    const listKeys = ['attention', 'dismissed', 'repos', 'recentReleases', 'sources', 'problems', 'gameVersions', 'minecraftVersions', 'loaders', 'entries', 'labels']
     for (const tree of [overview, mods, modDetail, versions, issues, catalog]) walk(tree, (k, v) => listKeys.includes(k) && expect(Array.isArray(v), k).toBe(true))
+  })
+
+  it('marks every attention item dismissible or not, and never dismissible for what is real or global', () => {
+    for (const it of [...overview.attention, ...mods.flatMap((m) => m.attention)]) {
+      expect(typeof it.dismissible, it.kind).toBe('boolean')
+      if (['crash_open', 'bug_open', 'source_down', 'unlinked'].includes(it.kind)) expect(it.dismissible, it.kind).toBe(false)
+    }
+    expect(overview.dismissed).toEqual([])
+    expect(overview.attention.some((i) => i.dismissible)).toBe(true)
+  })
+
+  it('names the repository of every issue, and lists each repository once', () => {
+    for (const i of issues.issues) expect(i.repo).toMatch(/^[\w.-]+\/[\w.-]+$/)
+    expect(new Set(issues.issues.map((i) => i.repo))).toEqual(new Set(issues.repos))
+    expect(issues.repos).toContain(issues.repo)
+    expect(catalog.entries.every((e) => 'githubRepo' in e)).toBe(true)
+    // An issue in a mod's own repository belongs to that mod without a label.
+    const own = catalog.entries.find((e) => e.githubRepo)
+    expect(own).toBeTruthy()
+    expect(issues.issues.some((i) => i.repo === own?.githubRepo && i.modSlug === own?.slug && i.modLabel === null)).toBe(true)
   })
 
   it('gives every mod detail its lists', () => {

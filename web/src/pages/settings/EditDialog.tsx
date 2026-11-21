@@ -59,7 +59,7 @@ export default function EditDialog({ entry, catalog, onClose, onSave }: Props) {
 
   const errText = (k: keyof typeof errors) =>
     errors[k]
-      ? t(`edit.${errors[k] === "label" ? "labelBad" : errors[k]}`)
+      ? t(`edit.${errors[k] === "label" ? "labelBad" : errors[k] === "repo" ? "repoBad" : errors[k]}`)
       : null;
 
   const platformField = (platform: Platform) => {
@@ -175,6 +175,17 @@ export default function EditDialog({ entry, catalog, onClose, onSave }: Props) {
           onChange={(v) => set({ githubLabel: v })}
           helper={t("edit.labelHelper", { slug: entry.slug })}
           error={errText("githubLabel")}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <TextInput
+          mono
+          label={t("edit.repo")}
+          value={form.githubRepo}
+          onChange={(v) => set({ githubRepo: v })}
+          helper={form.githubRepo.trim() !== "" ? t("edit.repoHelperSet") : t("edit.repoHelper")}
+          error={errText("githubRepo")}
+          placeholder="owner/name"
           autoComplete="off"
           spellCheck={false}
         />

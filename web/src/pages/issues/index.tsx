@@ -92,7 +92,11 @@ export default function IssuesPage() {
     )
   }
 
-  const { summary, repo } = open.data
+  const { summary, repos } = open.data
+  // The shared repository comes first; mods with a repository of their own add to it.
+  const linkRepo = open.data.repo || repos[0] || ''
+  const where = repos.length === 0 ? t('repos.none') : repos.length === 1 ? repos[0] : t('repos.many', { count: repos.length })
+  const showRepo = repos.length > 1
   const openIssues = open.data.issues
   const listLoading = filters.state !== 'open' && (other.loading || !other.data)
   const source = filters.state === 'open' ? openIssues : (other.data?.issues ?? [])
@@ -167,11 +171,13 @@ export default function IssuesPage() {
     <>
       <PageHeader
         title={t('title')}
-        description={t('description', { repo })}
+        description={t('description', { where })}
         actions={
-          <Button variant="secondary" size="sm" icon="github" href={`https://github.com/${repo}/issues`}>
-            {t('openRepo')}
-          </Button>
+          linkRepo ? (
+            <Button variant="secondary" size="sm" icon="github" href={`https://github.com/${linkRepo}/issues`}>
+              {t('openRepo')}
+            </Button>
+          ) : undefined
         }
       />
 
@@ -316,10 +322,11 @@ export default function IssuesPage() {
           ) : (
             <IssueList
               issues={shown}
-              caption={t('list.caption', { repo })}
+              showRepo={showRepo}
+              caption={t('list.caption', { where })}
               empty={
                 source.length === 0 && filterCount === 0 ? (
-                  <EmptyState compact icon="check" title={t('empty.none')} description={t('empty.noneDescription', { repo })} />
+                  <EmptyState compact icon="check" title={t('empty.none')} description={t('empty.noneDescription', { where })} />
                 ) : (
                   <EmptyState
                     compact

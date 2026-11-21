@@ -30,6 +30,7 @@ const item = (severity: AttentionItem['severity'], kind: AttentionItem['kind'], 
   title,
   detail: '',
   url: null,
+  dismissible: false,
 })
 
 function mod(over: Partial<ModSummary> & { slug: string }): ModSummary {

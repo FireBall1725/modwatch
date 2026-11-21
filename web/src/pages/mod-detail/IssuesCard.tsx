@@ -39,6 +39,8 @@ export default function IssuesCard({ issues, linked, allUrl, slug, showClosed, o
   const rows = useMemo(() => orderIssues(issues, showClosed), [issues, showClosed])
   const closed = countClosed(issues)
   const open = issues.length - closed
+  // Issue numbers repeat across repositories, so name the repository when this mod's issues come from more than one.
+  const showRepo = new Set(issues.map((i) => i.repo)).size > 1
 
   return (
     <Card
@@ -66,12 +68,16 @@ export default function IssuesCard({ issues, linked, allUrl, slug, showClosed, o
       ) : (
         <ul aria-label={t('issues.list')} className="-my-1 divide-y divide-line">
           {rows.map((i) => (
-            <li key={i.number} className={cx('flex flex-wrap items-center gap-x-3 gap-y-1.5 py-3', i.state === 'closed' && 'opacity-70')}>
+            <li key={`${i.repo}#${i.number}`} className={cx('flex flex-wrap items-center gap-x-3 gap-y-1.5 py-3', i.state === 'closed' && 'opacity-70')}>
               <Pill tone={KIND_TONE[i.kind]} icon={KIND_ICON[i.kind]} size="sm">
                 {tc(`issueKind.${i.kind}`)}
               </Pill>
               <a href={i.url} target="_blank" rel="noreferrer noopener" className="min-w-0 flex-1 basis-60 text-sm text-ink hover:underline">
-                <span className="num text-muted">#{i.number}</span> {i.title}
+                <span className="num text-muted">
+                  {showRepo && i.repo ? `${i.repo}#` : '#'}
+                  {i.number}
+                </span>{' '}
+                {i.title}
               </a>
               <span className="flex items-center gap-3 text-xs text-muted">
                 {i.comments > 0 && (

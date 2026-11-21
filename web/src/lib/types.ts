@@ -116,6 +116,14 @@ export interface AttentionItem {
   title: string
   detail: string
   url: string | null
+  /** True for the kinds the author may dismiss: review_pending, review_stuck, not_approved, missing_platform, no_latest_minecraft, stale_release. Never crash_open, bug_open, source_down or unlinked. */
+  dismissible: boolean
+}
+
+/** POST /api/v1/attention/dismiss and /restore. 400 for a kind that isn't dismissible. Both answer 204. */
+export interface AttentionRef {
+  kind: AttentionKind
+  modSlug: string
 }
 
 export interface SourceStatus {
@@ -159,7 +167,10 @@ export interface Overview {
   schedule: string
   polling: boolean
   totals: OverviewTotals
+  /** What is wrong now. Items the author dismissed are not here; they are in `dismissed`. */
   attention: AttentionItem[]
+  /** Dismissed items that still apply, so the author can restore them. A dismissed item doesn't count toward a mod's health or the totals. */
+  dismissed: AttentionItem[]
   /** Owned mods, biggest first, same shape as /mods. */
   mods: ModSummary[]
   recentReleases: ReleaseItem[]
@@ -278,6 +289,8 @@ export interface IssueItem {
   title: string
   state: 'open' | 'closed'
   url: string
+  /** The repository the issue lives in, owner/name. */
+  repo: string
   /** Registry slug from the issue's `mod: <label>`, or null when it has none or the label isn't linked. */
   modSlug: string | null
   modName: string | null
@@ -303,7 +316,10 @@ export interface IssuesSummary {
 }
 
 export interface Issues {
+  /** The shared issues repository (settings.githubIssuesRepo), or "" when there is none. */
   repo: string
+  /** Every repository being read: the shared one plus each mod's own (CatalogEntry.githubRepo). */
+  repos: string[]
   summary: IssuesSummary
   issues: IssueItem[]
 }
@@ -316,6 +332,8 @@ export interface CatalogEntry {
   curseforgeId: number | null
   modrinthId: string | null
   githubLabel: string | null
+  /** This mod's own issues repository, owner/name. Every issue in it belongs to this mod. null when the mod uses the shared repository's `mod: <label>` labels, or has no issues. */
+  githubRepo: string | null
   hidden: boolean
   legacy: boolean
   /** True when the poller linked it by matching names or slugs; false when it was set by hand. */
@@ -347,8 +365,44 @@ export interface CatalogUpdate {
   curseforgeId?: number | null
   modrinthId?: string | null
   githubLabel?: string | null
+  githubRepo?: string | null
   hidden?: boolean
   legacy?: boolean
 }
+
+// ---- Settings: GET and PUT /api/v1/settings ----------------------------------------------------
+// Each setting can come from an environment variable, or be set here. A value set here wins; clearing it
+// falls back to the environment variable. Secrets are write-only: the API never returns them.
+
+export type SettingKey =
+  | 'curseforgeApiKey'
+  | 'curseforgeAuthorId'
+  | 'modrinthUser'
+  | 'modrinthToken'
+  | 'githubToken'
+  | 'githubIssuesRepo'
+  | 'metricsEnabled'
+
+export type SettingSource = 'ui' | 'env' | 'none'
+
+/** metricsEnabled holds the strings 'true' or 'false'. value null with source 'none' means not chosen, which the app treats as on. */
+export interface SettingItem {
+  key: SettingKey
+  /** A secret's value is never sent (value is null); `set` says whether one exists. */
+  secret: boolean
+  value: string | null
+  set: boolean
+  /** Where the value in use comes from. */
+  source: SettingSource
+  /** True when the environment variable is set too, so clearing the value set here has something to fall back to. */
+  envSet: boolean
+}
+
+export interface Settings {
+  items: SettingItem[]
+}
+
+/** PUT body: only the keys sent change. A string sets the value; null or "" clears the value set here, so the environment variable applies again. 400 with {error} for a bad value (author id not a positive number, repo not owner/name). */
+export type SettingsUpdate = Partial<Record<SettingKey, string | null>>
 
 // ---- POST /api/v1/poll -> 202 {"status":"started"}, 409 {"error":...} ---------------------------

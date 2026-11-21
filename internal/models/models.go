@@ -80,6 +80,7 @@ var IssueKinds = []string{KindBug, KindCrash, KindEnhancement, KindCompatibility
 
 // Issue is one GitHub issue. Pull requests are never stored. ClosedAt is the zero time while open.
 type Issue struct {
+	Repo      string // owner/name; issue numbers are only unique within one repo
 	Number    int
 	Title     string
 	State     string // "open" or "closed"
@@ -212,9 +213,11 @@ type CatalogEntry struct {
 	CurseForgeID *int64  `json:"curseforgeId"`
 	ModrinthID   *string `json:"modrinthId"`
 	GitHubLabel  *string `json:"githubLabel"`
-	Hidden       bool    `json:"hidden"`
-	Legacy       bool    `json:"legacy"`
-	Auto         bool    `json:"auto"`
+	// GitHubRepo is the mod's own issues repository, owner/name; every issue in it belongs to this mod.
+	GitHubRepo *string `json:"githubRepo"`
+	Hidden     bool    `json:"hidden"`
+	Legacy     bool    `json:"legacy"`
+	Auto       bool    `json:"auto"`
 }
 
 // UnlinkedProject is a platform project no catalog entry points at.
@@ -240,6 +243,14 @@ type CatalogUpdate struct {
 	CurseForgeID Patch[int64]
 	ModrinthID   Patch[string]
 	GitHubLabel  Patch[string]
+	GitHubRepo   Patch[string]
 	Hidden       *bool
 	Legacy       *bool
+}
+
+// Dismissal is a needs-attention item the author dismissed, per kind and mod.
+type Dismissal struct {
+	Kind        string
+	ModSlug     string
+	DismissedAt time.Time
 }

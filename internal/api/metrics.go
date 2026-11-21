@@ -133,6 +133,25 @@ func (h *handlers) metrics(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if h.effective(r.Context()).RevenueOn() {
+		if rows, err := h.repo.Revenue(r.Context()); err == nil && len(rows) > 0 {
+			for _, m := range []struct {
+				name, help string
+				pick       func(models.Revenue) float64
+			}{
+				{"modwatch_revenue_available", "What the platform owes the author and has released for payout, in the currency label.", func(x models.Revenue) float64 { return x.Available }},
+				{"modwatch_revenue_pending", "What the platform owes the author that isn't released for payout yet.", func(x models.Revenue) float64 { return x.Pending }},
+				{"modwatch_revenue_withdrawn_ytd", "What the author has withdrawn from the platform this year.", func(x models.Revenue) float64 { return x.WithdrawnYTD }},
+				{"modwatch_revenue_withdrawn_lifetime", "What the author has withdrawn from the platform in total.", func(x models.Revenue) float64 { return x.WithdrawnLifetime }},
+			} {
+				head(m.name, "gauge", m.help)
+				for _, rev := range rows {
+					fmt.Fprintf(&b, "%s{platform=%s,currency=%s} %g\n", m.name, quote(rev.Platform), quote(rev.Currency), m.pick(rev))
+				}
+			}
+		}
+	}
+
 	w.Header().Set("Content-Type", "text/plain; version=0.0.4; charset=utf-8")
 	_, _ = w.Write([]byte(b.String()))
 }

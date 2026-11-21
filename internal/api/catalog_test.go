@@ -168,7 +168,7 @@ func TestCatalogPutLegacy(t *testing.T) {
 	for _, e := range out.Entries {
 		if e.Slug == "firecorelib" {
 			found = true
-			if !e.Legacy || e.Auto {
+			if !e.Legacy || !e.Auto {
 				t.Errorf("entry = %+v", e)
 			}
 		} else if e.Legacy {
@@ -211,5 +211,46 @@ func TestLegacyModsHideUnlessAskedAndStayInMetrics(t *testing.T) {
 	}
 	if !strings.Contains(get(t, h, "/metrics").Body.String(), `slug="firecorelib"`) {
 		t.Error("metrics must keep legacy mods; Prometheus wants every series")
+	}
+}
+
+func TestCatalogPutVersionRegex(t *testing.T) {
+	h := catalogServer(t)
+	good := `^(?P<version>\d+\.\d+\.\d+)(?:-(?P<pre>rc\.\d+))?-(?:mc)?(?P<minecraft>.+)$`
+	body := func(v any) string {
+		b, _ := json.Marshal(map[string]any{"versionRegex": v})
+		return string(b)
+	}
+	rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", body(good))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d %s", rec.Code, rec.Body)
+	}
+	var out catalogResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &out); err != nil {
+		t.Fatal(err)
+	}
+	found := false
+	for _, e := range out.Entries {
+		if e.Slug != "firecorelib" {
+			continue
+		}
+		found = true
+		if e.VersionRegex == nil || *e.VersionRegex != good {
+			t.Errorf("versionRegex = %v", e.VersionRegex)
+		}
+		if !e.Auto {
+			t.Error("a pattern alone must not mark the entry as set by hand")
+		}
+	}
+	if !found {
+		t.Fatal("entry missing")
+	}
+	for _, bad := range []string{"(", `\d+`, "", "   "} {
+		if rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", body(bad)); rec.Code != http.StatusBadRequest {
+			t.Errorf("%q: status = %d %s", bad, rec.Code, rec.Body)
+		}
+	}
+	if rec := send(h, http.MethodPut, "/api/v1/catalog/firecorelib", body(nil)); rec.Code != http.StatusOK {
+		t.Errorf("clearing: %d %s", rec.Code, rec.Body)
 	}
 }

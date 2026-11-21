@@ -361,7 +361,7 @@ func TestModSummaryComposition(t *testing.T) {
 	if want := []string{"fabric", "neoforge"}; !reflect.DeepEqual(s.Loaders, want) {
 		t.Errorf("loaders = %v", s.Loaders)
 	}
-	if s.LatestRelease == nil || s.LatestRelease.Platform != "modrinth" || s.LatestRelease.Version != "new" {
+	if s.LatestRelease == nil || len(s.LatestRelease.Platforms) != 1 || s.LatestRelease.Platforms[0] != "modrinth" || s.LatestRelease.Version != "new" {
 		t.Errorf("latestRelease = %+v", s.LatestRelease)
 	}
 	if s.CurseForge.Files != 1 || s.Modrinth.Files != 1 {

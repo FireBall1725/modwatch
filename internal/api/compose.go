@@ -4,6 +4,7 @@
 package api
 
 import (
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/fireball1725/modwatch/internal/mcver"
 	"github.com/fireball1725/modwatch/internal/models"
+	"github.com/fireball1725/modwatch/internal/release"
 	"github.com/fireball1725/modwatch/internal/repository"
 )
 
@@ -77,6 +79,7 @@ type view struct {
 	filesOf    map[string][]models.FileStat
 	issuesOf   map[string][]models.Issue
 	latestMC   string
+	patterns   map[string]*regexp.Regexp
 }
 
 func keyOf(p *models.PlatformStat) models.PlatformKey {
@@ -339,7 +342,39 @@ func (v *view) toFileItem(g *group, f models.FileStat) fileItem {
 		slug := g.slug
 		it.ModSlug, it.ModName = &slug, g.name
 	}
+	info := v.releaseInfo(g, f.File)
+	it.Release, it.Prerelease = info.Name(), info.Pre != ""
 	return it
+}
+
+// releaseInfo reads a file's version text with the mod's own pattern when it has one, else the default reading.
+func (v *view) releaseInfo(g *group, f models.File) release.Info {
+	var re *regexp.Regexp
+	if g != nil && g.entry != nil && g.entry.VersionRegex != nil {
+		re = v.versionPattern(*g.entry.VersionRegex)
+	}
+	text := f.Version
+	if text == "" {
+		text = f.Name
+	}
+	return release.Parse(text, f.GameVersions, re)
+}
+
+// versionPattern compiles a mod's own version pattern once per request. A pattern that no longer compiles reads
+// as no pattern, so the default reading still applies.
+func (v *view) versionPattern(pattern string) *regexp.Regexp {
+	if re, ok := v.patterns[pattern]; ok {
+		return re
+	}
+	if v.patterns == nil {
+		v.patterns = map[string]*regexp.Regexp{}
+	}
+	re, err := release.Compile(pattern)
+	if err != nil {
+		re = nil
+	}
+	v.patterns[pattern] = re
+	return re
 }
 
 func sortedCopy(in []string) []string {
@@ -366,6 +401,57 @@ func newestFile(files []models.FileStat) (models.FileStat, bool) {
 		}
 	}
 	return best, found
+}
+
+// latestRelease finds the release that came out most recently. Files are grouped by the release their version names,
+// so the same release on both platforms and for each Minecraft version is one release. The newest is the one whose
+// first file is newest; a later file added to an old release (a backport) doesn't make it the latest.
+func (v *view) latestRelease(g *group, files []models.FileStat) *latestRelease {
+	type grp struct {
+		first, last models.FileStat
+		files       []models.FileStat
+	}
+	groups := map[string]*grp{}
+	for _, f := range files {
+		if f.PublishedAt.IsZero() {
+			continue
+		}
+		name := v.releaseInfo(g, f.File).Name()
+		x := groups[name]
+		if x == nil {
+			x = &grp{first: f, last: f}
+			groups[name] = x
+		}
+		x.files = append(x.files, f)
+		if f.PublishedAt.Before(x.first.PublishedAt) {
+			x.first = f
+		}
+		if f.PublishedAt.After(x.last.PublishedAt) {
+			x.last = f
+		}
+	}
+	bestName := ""
+	for name, x := range groups {
+		b := groups[bestName]
+		if b == nil || x.first.PublishedAt.After(b.first.PublishedAt) || (x.first.PublishedAt.Equal(b.first.PublishedAt) && name > bestName) {
+			bestName = name
+		}
+	}
+	x := groups[bestName]
+	if x == nil {
+		return nil
+	}
+	platforms := []string{}
+	for _, f := range x.files {
+		if !containsStr(platforms, f.Source) {
+			platforms = append(platforms, f.Source)
+		}
+	}
+	sort.Strings(platforms) // curseforge sorts before modrinth
+	return &latestRelease{
+		Platforms: platforms, Version: bestName, ReleaseType: releaseTypeOf(x.last.ReleaseType),
+		PublishedAt: rfc3339(x.first.PublishedAt), MinecraftVersions: unionVersions(x.files, gameVersionsOf, mcver.Sort),
+	}
 }
 
 // ---- mod summaries --------------------------------------------------------------------------
@@ -450,12 +536,7 @@ func (v *view) summary(g *group) modSummary {
 			ms.Summary = p.Summary
 		}
 	}
-	if f, ok := newestFile(files); ok {
-		ms.LatestRelease = &latestRelease{
-			Platform: f.Source, Version: f.Version, ReleaseType: releaseTypeOf(f.ReleaseType),
-			PublishedAt: rfc3339(f.PublishedAt), MinecraftVersions: sortedCopy(f.GameVersions),
-		}
-	}
+	ms.LatestRelease = v.latestRelease(g, files)
 	ms.Health = healthOK
 	if g.owned {
 		ms.Attention, _ = v.splitDismissed(v.attentionFor(g))
@@ -680,7 +761,7 @@ func (v *view) releases(limit int) []releaseItem {
 		}
 		it := v.toFileItem(v.byKey[fileKey(f)], f)
 		out = append(out, releaseItem{
-			Platform: it.Platform, ModSlug: it.ModSlug, ModName: it.ModName, Version: it.Version, Name: it.Name,
+			Platform: it.Platform, ModSlug: it.ModSlug, ModName: it.ModName, Version: it.Release, Name: it.Name,
 			ReleaseType: it.ReleaseType, MinecraftVersions: it.MinecraftVersions, Loaders: it.Loaders,
 			PublishedAt: rfc3339(f.PublishedAt), Downloads: it.Downloads, URL: it.URL,
 		})

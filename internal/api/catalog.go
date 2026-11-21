@@ -94,7 +94,7 @@ func parseCatalogUpdate(body []byte) (models.CatalogUpdate, error) {
 	}
 	for k := range raw {
 		switch k {
-		case "name", "curseforgeId", "modrinthId", "githubLabel", "githubRepo", "hidden", "legacy":
+		case "name", "curseforgeId", "modrinthId", "githubLabel", "githubRepo", "versionRegex", "hidden", "legacy":
 		default:
 			return u, errors.New("unknown field " + k)
 		}
@@ -126,6 +126,9 @@ func parseCatalogUpdate(body []byte) (models.CatalogUpdate, error) {
 	}
 	if u.GitHubRepo, err = patchOf[string](raw, "githubRepo"); err != nil {
 		return u, errors.New("githubRepo must be a string or null")
+	}
+	if u.VersionRegex, err = patchOf[string](raw, "versionRegex"); err != nil {
+		return u, errors.New("versionRegex must be a string or null")
 	}
 	return u, nil
 }

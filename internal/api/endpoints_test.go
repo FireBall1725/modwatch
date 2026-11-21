@@ -6,7 +6,9 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 	"testing"
 	"time"
@@ -70,6 +72,10 @@ func fullServer(t *testing.T) http.Handler {
 		issues[i].Repo = "o/r"
 	}
 	if err := repo.SaveIssues(ctx, id, []string{"o/r"}, []string{"o/r"}, issues); err != nil {
+		t.Fatal(err)
+	}
+	if err := repo.SaveRevenue(ctx, models.Revenue{Platform: "modrinth", Currency: "USD", Available: 0.3, Pending: 0.09, FetchedAt: now,
+		Months: []models.RevenueMonth{{Month: "2026-10", Amount: 0.01}, {Month: "2026-11", Amount: 0.02}}}); err != nil {
 		t.Fatal(err)
 	}
 	cfg := &config.Config{Schedule: "0 * * * *", GitHubIssuesRepo: "o/r"}
@@ -328,5 +334,168 @@ func TestProjectMetricsAbsentOnEmptyDatabase(t *testing.T) {
 		if strings.Contains(body, name) {
 			t.Errorf("%s should not appear with no projects", name)
 		}
+	}
+}
+
+func TestModFilesCarryTheReleaseTheirVersionNames(t *testing.T) {
+	h := fullServer(t)
+	var d struct {
+		Files []struct {
+			Version string `json:"version"`
+			Release string `json:"release"`
+		} `json:"files"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/mods/tower").Body.Bytes(), &d); err != nil {
+		t.Fatal(err)
+	}
+	if len(d.Files) == 0 {
+		t.Fatal("no files")
+	}
+	for _, f := range d.Files {
+		if f.Release == "" {
+			t.Errorf("file with version %q has no release", f.Version)
+		}
+	}
+}
+
+func TestLatestReleaseShowsTheParsedRelease(t *testing.T) {
+	h := serverWith(t, &config.Config{Schedule: "0 * * * *"}, func(repo *repository.Repo) {
+		ctx := context.Background()
+		now := time.Now().UTC().Truncate(time.Second)
+		files := []models.FileReading{
+			{File: models.File{Source: "modrinth", ID: "a", ProjectID: "m1", ProjectSlug: "tower", ProjectName: "Tower", Name: "Tower a", Version: "26.11.0-rc.1-mc26.1", ReleaseType: "beta", GameVersions: []string{"26.1.2"}, PublishedAt: now}, Downloads: 1},
+			{File: models.File{Source: "curseforge", ID: "b", ProjectID: "1", ProjectSlug: "tower", ProjectName: "Tower", Name: "Tower b", Version: "26.10.0 for Minecraft 1.21.1", ReleaseType: "release", GameVersions: []string{"1.21.1"}, PublishedAt: now.Add(-time.Hour)}, Downloads: 1},
+		}
+		ps := []models.PlatformReading{
+			{PlatformProject: models.PlatformProject{Platform: "modrinth", ID: "m1", Slug: "tower", Name: "Tower", Owned: true}},
+			{PlatformProject: models.PlatformProject{Platform: "curseforge", ID: "1", Slug: "tower", Name: "Tower", Owned: true}},
+		}
+		if _, err := repo.SavePollWithProjects(ctx, models.Poll{StartedAt: now, FinishedAt: now}, nil, files, ps, nil); err != nil {
+			panic(err)
+		}
+	})
+	var d struct {
+		LatestRelease struct {
+			Version string `json:"version"`
+		} `json:"latestRelease"`
+		Files []struct {
+			Release    string `json:"release"`
+			Prerelease bool   `json:"prerelease"`
+		} `json:"files"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/mods/tower").Body.Bytes(), &d); err != nil {
+		t.Fatal(err)
+	}
+	if d.LatestRelease.Version != "26.11.0-rc.1" {
+		t.Errorf("latest release = %q, want 26.11.0-rc.1", d.LatestRelease.Version)
+	}
+	got := map[string]bool{}
+	for _, f := range d.Files {
+		got[f.Release] = f.Prerelease
+	}
+	if len(got) != 2 || !got["26.11.0-rc.1"] || got["26.10.0"] {
+		t.Errorf("releases = %v", got)
+	}
+}
+
+func TestLatestReleaseIsOneReleaseAcrossPlatformsAndVersions(t *testing.T) {
+	var now time.Time
+	h := serverWith(t, &config.Config{Schedule: "0 * * * *"}, func(repo *repository.Repo) {
+		ctx := context.Background()
+		now = time.Now().UTC().Truncate(time.Second)
+		f := func(source, id, project, version string, at time.Time, gv string) models.FileReading {
+			return models.FileReading{File: models.File{Source: source, ID: id, ProjectID: project, ProjectSlug: "tower", ProjectName: "Tower", Name: id, Version: version, ReleaseType: "release", GameVersions: []string{gv}, PublishedAt: at}, Downloads: 1}
+		}
+		files := []models.FileReading{
+			f("curseforge", "cf-new", "1", "26.11.0 for Minecraft 1.21.1", now.Add(-3*time.Hour), "1.21.1"),
+			f("modrinth", "mr-new", "m1", "26.11.0-mc26.1", now.Add(-time.Hour), "26.1.2"),
+			f("curseforge", "cf-old", "1", "26.10.0 for Minecraft 1.21.1", now.AddDate(0, 0, -10), "1.21.1"),
+			// A backport added today to an old release must not make that release the latest.
+			f("modrinth", "mr-backport", "m1", "26.10.0-mc26.1", now, "26.1.2"),
+		}
+		ps := []models.PlatformReading{
+			{PlatformProject: models.PlatformProject{Platform: "modrinth", ID: "m1", Slug: "tower", Name: "Tower", Owned: true}},
+			{PlatformProject: models.PlatformProject{Platform: "curseforge", ID: "1", Slug: "tower", Name: "Tower", Owned: true}},
+		}
+		if _, err := repo.SavePollWithProjects(ctx, models.Poll{StartedAt: now, FinishedAt: now}, nil, files, ps, nil); err != nil {
+			panic(err)
+		}
+	})
+	var d struct {
+		LatestRelease struct {
+			Version           string   `json:"version"`
+			Platforms         []string `json:"platforms"`
+			MinecraftVersions []string `json:"minecraftVersions"`
+			PublishedAt       string   `json:"publishedAt"`
+		} `json:"latestRelease"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/mods/tower").Body.Bytes(), &d); err != nil {
+		t.Fatal(err)
+	}
+	lr := d.LatestRelease
+	if lr.Version != "26.11.0" {
+		t.Errorf("version = %q, want 26.11.0", lr.Version)
+	}
+	if len(lr.Platforms) != 2 || lr.Platforms[0] != "curseforge" || lr.Platforms[1] != "modrinth" {
+		t.Errorf("platforms = %v, want both", lr.Platforms)
+	}
+	if len(lr.MinecraftVersions) != 2 || lr.MinecraftVersions[0] != "26.1.2" || lr.MinecraftVersions[1] != "1.21.1" {
+		t.Errorf("minecraft versions = %v", lr.MinecraftVersions)
+	}
+	if want := now.Add(-3 * time.Hour).UTC().Format(time.RFC3339); lr.PublishedAt != want {
+		t.Errorf("published = %s, want the release's first file, %s", lr.PublishedAt, want)
+	}
+}
+
+func TestRevenueShowsTheBalanceAndTheSwitchHidesIt(t *testing.T) {
+	h := serverWith(t, &config.Config{Schedule: "0 * * * *"}, func(repo *repository.Repo) {
+		months := []models.RevenueMonth{}
+		for m := 1; m <= 14; m++ { // more than the 12 the dashboard shows
+			months = append(months, models.RevenueMonth{Month: fmt.Sprintf("2026-%02d", m%12+1), Amount: float64(m)})
+		}
+		sort.Slice(months, func(i, j int) bool { return months[i].Month < months[j].Month })
+		err := repo.SaveRevenue(context.Background(), models.Revenue{Platform: "modrinth", Currency: "USD", Available: 0.3, Pending: 0.09,
+			WithdrawnYTD: 1, WithdrawnLifetime: 2, Months: months, FetchedAt: time.Now().UTC()})
+		if err != nil {
+			panic(err)
+		}
+	})
+	var out struct {
+		Enabled bool `json:"enabled"`
+		Items   []struct {
+			Platform  string  `json:"platform"`
+			Currency  string  `json:"currency"`
+			Available float64 `json:"available"`
+			Pending   float64 `json:"pending"`
+			Months    []struct {
+				Month string `json:"month"`
+			} `json:"months"`
+		} `json:"items"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/revenue").Body.Bytes(), &out); err != nil {
+		t.Fatal(err)
+	}
+	if !out.Enabled || len(out.Items) != 1 || out.Items[0].Platform != "modrinth" || out.Items[0].Available != 0.3 {
+		t.Fatalf("revenue = %+v", out)
+	}
+	if n := len(out.Items[0].Months); n != 12 {
+		t.Errorf("months = %d, want the last 12", n)
+	}
+	if body := get(t, h, "/metrics").Body.String(); !strings.Contains(body, `modwatch_revenue_available{platform="modrinth",currency="USD"} 0.3`) {
+		t.Errorf("metrics lack the balance:\n%s", body)
+	}
+
+	if rec := send(h, http.MethodPut, "/api/v1/settings", `{"revenueEnabled":"false"}`); rec.Code != http.StatusOK {
+		t.Fatalf("switching off: %d %s", rec.Code, rec.Body)
+	}
+	out.Items = nil
+	if err := json.Unmarshal(get(t, h, "/api/v1/revenue").Body.Bytes(), &out); err != nil {
+		t.Fatal(err)
+	}
+	if out.Enabled || len(out.Items) != 0 {
+		t.Errorf("switched off, still got %+v", out)
+	}
+	if body := get(t, h, "/metrics").Body.String(); strings.Contains(body, "modwatch_revenue") {
+		t.Error("switched off, the metrics still carry the balance")
 	}
 }

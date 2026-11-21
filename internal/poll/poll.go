@@ -44,6 +44,11 @@ type Modrinth interface {
 	ListVersions(ctx context.Context, projectID string) ([]modrinth.Version, error)
 }
 
+// Balancer reads a payout balance. The Modrinth client does; a test double doesn't have to.
+type Balancer interface {
+	Balance(ctx context.Context) (*modrinth.Balance, error)
+}
+
 // GitHub lists the issues of a repository, written owner/name.
 type GitHub interface {
 	ListIssues(ctx context.Context, repo string) ([]models.Issue, error)
@@ -251,6 +256,7 @@ func (s *Service) Run(ctx context.Context) error {
 			slog.Warn("saving issues", "error", err)
 		}
 	}
+	s.saveRevenue(ctx, r, p.FinishedAt)
 	slog.Info("poll finished", "mods", len(readings), "files", len(files), "took", p.FinishedAt.Sub(p.StartedAt).Round(time.Millisecond))
 	for _, st := range statuses {
 		if !st.OK {
@@ -532,4 +538,33 @@ func (r *runner) modrinthFiles(ctx context.Context) ([]models.FileReading, []mod
 		}
 	}
 	return out, readings, errs
+}
+
+// saveRevenue stores Modrinth's payout balance when there is a token and the author hasn't turned it off in Settings.
+// A failure only logs: the last balance stays, and the poll's own result is not affected.
+func (s *Service) saveRevenue(ctx context.Context, r *runner, at time.Time) {
+	if !r.cfg.RevenueOn() || r.cfg.ModrinthToken == "" || r.mr == nil {
+		return
+	}
+	b, ok := r.mr.(Balancer)
+	if !ok {
+		return
+	}
+	bal, err := b.Balance(ctx)
+	if err != nil {
+		slog.Warn("reading the Modrinth balance", "error", err)
+		return
+	}
+	months := make([]models.RevenueMonth, 0, len(bal.Months))
+	for m, amount := range bal.Months {
+		months = append(months, models.RevenueMonth{Month: m, Amount: amount})
+	}
+	sort.Slice(months, func(i, j int) bool { return months[i].Month < months[j].Month })
+	rev := models.Revenue{
+		Platform: "modrinth", Currency: "USD", Available: bal.Available, Pending: bal.Pending,
+		WithdrawnLifetime: bal.WithdrawnLifetime, WithdrawnYTD: bal.WithdrawnYTD, Months: months, FetchedAt: at,
+	}
+	if err := s.repo.SaveRevenue(ctx, rev); err != nil {
+		slog.Warn("saving the Modrinth balance", "error", err)
+	}
 }

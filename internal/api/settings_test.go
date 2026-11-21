@@ -306,3 +306,60 @@ func TestIssuesInAModsOwnRepoBelongToItWithoutALabel(t *testing.T) {
 		t.Errorf("attention = %+v, want a crash that can't be dismissed", o.Attention)
 	}
 }
+
+// A mod with a repository of its own still gets the issues the shared repository labels for it. The two are added
+// together, not chosen between.
+func TestAModsOwnRepoAndTheSharedRepoCombine(t *testing.T) {
+	h := serverWith(t, &config.Config{Schedule: "0 * * * *", GitHubIssuesRepo: "me/shared"}, func(repo *repository.Repo) {
+		ctx := context.Background()
+		now := time.Now().UTC()
+		ps := []models.PlatformReading{{PlatformProject: models.PlatformProject{Platform: "curseforge", ID: "1", Slug: "tower", Name: "Tower", Owned: true}}}
+		id, err := repo.SavePollWithProjects(ctx, models.Poll{StartedAt: now, FinishedAt: now}, nil, nil, ps, nil)
+		if err != nil {
+			panic(err)
+		}
+		own := "me/tower-issues"
+		if _, err := repo.UpdateCatalogEntry(ctx, "tower", models.CatalogUpdate{GitHubRepo: models.Patch[string]{Set: true, Value: &own}}); err != nil {
+			panic(err)
+		}
+		issues := []models.Issue{
+			{Repo: "me/tower-issues", Number: 1, Title: "in its own repo", State: "open", Kind: "bug", CreatedAt: now, UpdatedAt: now},
+			{Repo: "me/shared", Number: 7, Title: "in the shared repo", State: "open", Kind: "bug", ModLabel: "tower", CreatedAt: now, UpdatedAt: now},
+		}
+		if err := repo.SaveIssues(ctx, id, []string{"me/shared", own}, []string{"me/shared", own}, issues); err != nil {
+			panic(err)
+		}
+	})
+	var mod struct {
+		Github *struct {
+			Open int `json:"open"`
+		} `json:"github"`
+		Issues []struct {
+			Repo   string `json:"repo"`
+			Number int    `json:"number"`
+		} `json:"issues"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/mods/tower").Body.Bytes(), &mod); err != nil {
+		t.Fatal(err)
+	}
+	if mod.Github == nil || mod.Github.Open != 2 {
+		t.Errorf("open issues = %+v, want 2 (one from each repository)", mod.Github)
+	}
+	var list struct {
+		Issues []struct {
+			Repo    string  `json:"repo"`
+			ModSlug *string `json:"modSlug"`
+		} `json:"issues"`
+	}
+	if err := json.Unmarshal(get(t, h, "/api/v1/issues").Body.Bytes(), &list); err != nil {
+		t.Fatal(err)
+	}
+	for _, is := range list.Issues {
+		if is.ModSlug == nil || *is.ModSlug != "tower" {
+			t.Errorf("issue in %s should belong to tower: %+v", is.Repo, is)
+		}
+	}
+	if len(list.Issues) != 2 {
+		t.Errorf("issues = %d, want 2", len(list.Issues))
+	}
+}

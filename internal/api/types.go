@@ -43,8 +43,10 @@ type modDownloads struct {
 	Delta7d    *int64 `json:"delta7d"`
 }
 
+// latestRelease is the release that came out most recently, as one thing: every platform it is on, every Minecraft
+// version it covers, and the day it first came out.
 type latestRelease struct {
-	Platform          string   `json:"platform"`
+	Platforms         []string `json:"platforms"`
 	Version           string   `json:"version"`
 	ReleaseType       string   `json:"releaseType"`
 	PublishedAt       string   `json:"publishedAt"`
@@ -81,12 +83,17 @@ type modSummary struct {
 }
 
 type fileItem struct {
-	Platform          string   `json:"platform"`
-	ID                string   `json:"id"`
-	ModSlug           *string  `json:"modSlug"`
-	ModName           string   `json:"modName"`
-	Name              string   `json:"name"`
-	Version           string   `json:"version"`
+	Platform string  `json:"platform"`
+	ID       string  `json:"id"`
+	ModSlug  *string `json:"modSlug"`
+	ModName  string  `json:"modName"`
+	Name     string  `json:"name"`
+	Version  string  `json:"version"`
+	// Release is the release the version text names, such as 26.11.0 or 26.11.0-rc.1, so the same release on both
+	// platforms and for each Minecraft version reads as one.
+	Release string `json:"release"`
+	// Prerelease is true when the release has a tag such as rc.1.
+	Prerelease        bool     `json:"prerelease"`
 	ReleaseType       string   `json:"releaseType"`
 	MinecraftVersions []string `json:"minecraftVersions"`
 	Loaders           []string `json:"loaders"`

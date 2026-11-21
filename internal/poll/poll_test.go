@@ -597,3 +597,71 @@ func TestEachPollReadsTheCurrentSettings(t *testing.T) {
 		t.Errorf("second poll saw %+v", seen)
 	}
 }
+
+// balanceModrinth is a Modrinth that can also report a payout balance.
+type balanceModrinth struct {
+	fakeModrinth
+	bal *modrinth.Balance
+	err error
+}
+
+func (b balanceModrinth) Balance(context.Context) (*modrinth.Balance, error) { return b.bal, b.err }
+
+func revenueService(t *testing.T, token string, enabled *bool, mr Modrinth) (*Service, *repository.Repo) {
+	t.Helper()
+	repo := repository.New(dbtest.Open(t))
+	cfg := &config.Config{CurseForgeKey: "k", CurseForgeAuthorID: 1, ModrinthUser: "me", ModrinthToken: token, RevenueEnabled: enabled}
+	src := fakeSource{member: []curseforge.Mod{mod(1, "mine", 10)}, owned: []curseforge.Mod{mod(1, "mine", 10)}}
+	return New(context.Background(), cfg, repo, src, mr), repo
+}
+
+func TestARunStoresTheModrinthBalance(t *testing.T) {
+	mr := balanceModrinth{bal: &modrinth.Balance{Available: 0.3, Pending: 0.09, WithdrawnYTD: 2, Months: map[string]float64{"2026-11": 0.05, "2026-10": 0.02}}}
+	svc, repo := revenueService(t, "tok", nil, mr)
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	got, err := repo.Revenue(context.Background())
+	if err != nil || len(got) != 1 {
+		t.Fatalf("revenue = %v, %v", got, err)
+	}
+	if g := got[0]; g.Platform != "modrinth" || g.Currency != "USD" || g.Available != 0.3 || g.WithdrawnYTD != 2 || len(g.Months) != 2 || g.Months[0].Month != "2026-10" {
+		t.Errorf("revenue = %+v", g)
+	}
+}
+
+func TestTheBalanceIsLeftAloneWithoutATokenOrWhenSwitchedOff(t *testing.T) {
+	off := false
+	for name, svcRepo := range map[string]func() (*Service, *repository.Repo){
+		"no token": func() (*Service, *repository.Repo) {
+			return revenueService(t, "", nil, balanceModrinth{bal: &modrinth.Balance{Available: 1}})
+		},
+		"switched off": func() (*Service, *repository.Repo) {
+			return revenueService(t, "tok", &off, balanceModrinth{bal: &modrinth.Balance{Available: 1}})
+		},
+	} {
+		svc, repo := svcRepo()
+		if err := svc.Run(context.Background()); err != nil {
+			t.Fatal(name, err)
+		}
+		if got, _ := repo.Revenue(context.Background()); len(got) != 0 {
+			t.Errorf("%s: stored %v", name, got)
+		}
+	}
+}
+
+func TestAFailedBalanceKeepsTheLastOneAndDoesNotFailThePoll(t *testing.T) {
+	ok := balanceModrinth{bal: &modrinth.Balance{Available: 0.5}}
+	svc, repo := revenueService(t, "tok", nil, ok)
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	svc.mr = balanceModrinth{err: errors.New("401 token lacks the payouts scope")}
+	if err := svc.Run(context.Background()); err != nil {
+		t.Fatalf("a balance error must not fail the poll: %v", err)
+	}
+	got, _ := repo.Revenue(context.Background())
+	if len(got) != 1 || got[0].Available != 0.5 {
+		t.Errorf("the last balance should stay: %+v", got)
+	}
+}

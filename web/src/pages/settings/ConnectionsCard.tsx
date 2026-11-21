@@ -9,6 +9,7 @@ import ErrorState from '../../components/ui/ErrorState'
 import Pill, { type Tone } from '../../components/ui/Pill'
 import Skeleton from '../../components/ui/Skeleton'
 import TextInput from '../../components/ui/TextInput'
+import AuthorFinder from './AuthorFinder'
 import Toggle from '../../components/ui/Toggle'
 import { useApi } from '../../hooks/useApi'
 import { useOverview } from '../../hooks/overviewContext'
@@ -221,6 +222,7 @@ export default function ConnectionsCard() {
                   return <R key={`${k}-${versions[k] ?? 0}`} item={item} onDone={done} />
                 })}
               </div>
+              {g.id === 'curseforge' && <AuthorFinder onSaved={(text) => done('curseforgeAuthorId', text)} />}
               {g.id === 'github' && <p className="mt-4 rounded-md border border-line bg-sunk px-3 py-2 text-xs text-muted">{t('connections.issueModes')}</p>}
             </section>
           ))}

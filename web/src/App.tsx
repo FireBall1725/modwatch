@@ -25,8 +25,8 @@ export default function App() {
         <OverviewProvider>
           <Routes>
             <Route element={<AppShell />}>
-              {routes.map(({ path, Page }) => (
-                <Route key={path} path={path} element={<Page />} />
+              {routes.map(({ path, nested, Page }) => (
+                <Route key={path} path={nested ? `${path}/*` : path} element={<Page />} />
               ))}
               {KitGallery && <Route path="/_kit" element={<KitGallery />} />}
               <Route path="*" element={<NotFound />} />

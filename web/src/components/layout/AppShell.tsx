@@ -21,7 +21,7 @@ export default function AppShell() {
   const lastPath = useRef(pathname)
 
   useLayoutEffect(() => {
-    const hit = routes.find((r) => matchPath({ path: r.path, end: true }, pathname))
+    const hit = routes.find((r) => matchPath({ path: r.nested ? `${r.path}/*` : r.path, end: true }, pathname))
     document.title = `${hit ? t(`nav.${hit.nav}`) : t('notFound.title')} · Modwatch`
   }, [pathname, t])
 

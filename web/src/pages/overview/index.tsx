@@ -19,6 +19,7 @@ import RecentReleases from './RecentReleases'
 import OverviewSkeleton from './Skeleton'
 import StatusBanner from './StatusBanner'
 import SetupBanner from './SetupBanner'
+import RevenueCard from './RevenueCard'
 import VersionsCard from './VersionsCard'
 import { groupAttention, parseView, verdict, viewToParams, withoutLegacyNewest, type ViewState } from './logic'
 
@@ -47,6 +48,7 @@ export default function OverviewPage() {
 
   const groups = useMemo(() => groupAttention(withoutLegacyNewest(data?.attention ?? [], data?.mods ?? [])), [data])
   const versions = useApi(() => api.versions(), [])
+  const revenue = useApi(() => api.revenue(), [])
 
   const header = (description?: string) => <PageHeader title={t('title')} description={description} />
 
@@ -107,6 +109,7 @@ export default function OverviewPage() {
             onDismiss={(item) => void onDismiss(item)}
           />
           <VersionsCard versions={versions.data} loading={versions.loading} />
+          {revenue.data?.enabled && revenue.data.items.map((r) => <RevenueCard key={r.platform} item={r} />)}
           <div className="hidden xl:block">
             <RecentReleases releases={data.recentReleases} />
           </div>

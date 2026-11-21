@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 import Icon from '../ui/Icon'
 import Brand from './Brand'
 import LegacyToggle from './LegacyToggle'
+import PrivacyToggle from './PrivacyToggle'
 import { NavList } from './SideNav'
 
 /** Phone navigation: a native dialog that slides from the left, so focus is trapped and Escape closes it. Props: open, onClose. Closes itself when the route changes. */
@@ -46,6 +47,7 @@ export default function NavDrawer({ open, onClose }: { open: boolean; onClose: (
         <NavList showLabels onNavigate={onClose} />
       </nav>
       <LegacyToggle className="block px-6 py-3" />
+      <PrivacyToggle className="block px-6 py-3" />
     </dialog>
   )
 }

@@ -3,7 +3,7 @@
 
 import { describe, expect, it } from 'vitest'
 import type { DownloadPoint, FileItem, IssueItem, PlatformInfo } from '../../lib/types'
-import { chartData, countClosed, filterFiles, fileMinecraftVersions, gained, orderIssues, panelTone, parseRange, queueDays, sliceHistory, versionRows } from './logic'
+import { chartData, countClosed, filterFiles, fileMinecraftVersions, gained, groupReleases, mergeByVersion, orderIssues, panelTone, parseRange, queueDays, sliceHistory, versionRows, visibleReleases } from './logic'
 
 const pts: DownloadPoint[] = [10, 20, 35, 50, 80].map((n, i) => ({ at: `2026-11-0${i + 1}T00:00:00.000Z`, curseforge: n, modrinth: n * 2 }))
 
@@ -95,5 +95,66 @@ describe('issues', () => {
   it('appends closed, newest closed first', () => {
     expect(orderIssues(list, true).map((i) => i.number)).toEqual([4, 3, 2, 1, 6, 5])
     expect(countClosed(list)).toBe(2)
+  })
+})
+
+describe('release groups', () => {
+  const file = (release: string, prerelease: boolean, publishedAt: string, platform: 'curseforge' | 'modrinth' = 'curseforge'): FileItem => ({
+    platform, id: `${release}-${platform}-${publishedAt}`, modSlug: 'm', modName: 'M', name: 'n', version: release, release, prerelease,
+    releaseType: prerelease ? 'beta' : 'release', minecraftVersions: ['1.21.1'], loaders: ['neoforge'], publishedAt, downloads: 5, delta24h: null, delta7d: null, url: null,
+  })
+  const files = [
+    file('26.10.0', false, '2026-10-01T00:00:00Z'),
+    file('26.11.0', false, '2026-11-20T00:00:00Z'),
+    file('26.11.0', false, '2026-11-20T01:00:00Z', 'modrinth'),
+    file('26.12.0-rc.1', true, '2026-11-21T00:00:00Z'),
+  ]
+
+  it('puts the same release from both platforms in one group, newest first', () => {
+    const groups = groupReleases(files)
+    expect(groups.map((g) => g.name)).toEqual(['26.12.0-rc.1', '26.11.0', '26.10.0'])
+    const stable = groups[1]
+    expect(stable.files).toHaveLength(2)
+    expect(stable.downloads).toBe(10)
+    expect(stable.platforms).toEqual(['curseforge', 'modrinth'])
+  })
+
+  it('shows the latest release, and the latest final one when a pre-release is newest', () => {
+    const groups = groupReleases(files)
+    expect(visibleReleases(groups, false).map((g) => g.name)).toEqual(['26.12.0-rc.1', '26.11.0'])
+    expect(visibleReleases(groups.slice(1), false).map((g) => g.name)).toEqual(['26.11.0'])
+    expect(visibleReleases(groups, true)).toHaveLength(3)
+    expect(visibleReleases([], false)).toEqual([])
+  })
+})
+
+describe('merging a release by Minecraft version', () => {
+  const f = (platform: 'curseforge' | 'modrinth', mc: string[], downloads: number, delta7d: number | null = null): FileItem => ({
+    platform, id: `${platform}-${mc.join('-')}`, modSlug: 'm', modName: 'M', name: `${platform} file`, version: '1', release: '1', prerelease: false,
+    releaseType: 'release', minecraftVersions: mc, loaders: ['neoforge'], publishedAt: null, downloads, delta24h: null, delta7d, url: `https://x/${platform}`,
+  })
+
+  it('puts both platforms of one Minecraft version in one row and keeps their downloads apart', () => {
+    const rows = mergeByVersion([f('curseforge', ['26.3'], 10, 2), f('modrinth', ['26.3'], 1, 3), f('modrinth', ['26.2'], 4)])
+    expect(rows).toHaveLength(2)
+    const r = rows.find((x) => x.minecraftVersions[0] === '26.3')!
+    expect(r.curseforge).toBe(10)
+    expect(r.modrinth).toBe(1)
+    expect(r.total).toBe(11)
+    expect(r.delta7d).toBe(5)
+    expect(r.files.map((x) => x.platform)).toEqual(['curseforge', 'modrinth'])
+    expect(rows.find((x) => x.minecraftVersions[0] === '26.2')!.delta7d).toBeNull()
+  })
+
+  it('puts the loaders of one Minecraft version in one row and keeps a link per file', () => {
+    const fabric = { ...f('curseforge', ['26.3'], 10), id: 'cf-fabric', name: 'file (fabric 26.3)', loaders: ['fabric'] }
+    const neo = { ...f('curseforge', ['26.3'], 5), id: 'cf-neo', name: 'file (neoforge 26.3)', loaders: ['neoforge'] }
+    const mr = { ...f('modrinth', ['26.3'], 1), id: 'mr-neo', loaders: ['neoforge'] }
+    const rows = mergeByVersion([neo, fabric, mr])
+    expect(rows).toHaveLength(1)
+    expect(rows[0].loaders).toEqual(['fabric', 'neoforge'])
+    expect(rows[0].curseforge).toBe(15)
+    expect(rows[0].modrinth).toBe(1)
+    expect(rows[0].files.map((x) => `${x.loaders[0]}/${x.platform}`)).toEqual(['fabric/curseforge', 'neoforge/curseforge', 'neoforge/modrinth'])
   })
 })

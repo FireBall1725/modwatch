@@ -106,7 +106,18 @@
     "count_one": "{{count}} file",
     "count_other": "{{count}} files",
     "shown": "{{shown}} of {{total}} files",
-    "open": "Open file"
+    "open": "Open {{name}}",
+    "releases_one": "{{count}} release",
+    "releases_other": "{{count}} releases",
+    "release": "Release",
+    "prerelease": "Pre-release",
+    "captionRelease": "Files in release {{release}}",
+    "downloadsTotal": "{{n}} downloads",
+    "showOlder_one": "Show {{count}} older release",
+    "showOlder_other": "Show {{count}} older releases",
+    "showLatest": "Show only the latest",
+    "files": "Files",
+    "split": "CurseForge {{cf}}, Modrinth {{mr}}"
   },
   "issues": {
     "title": "Issues",

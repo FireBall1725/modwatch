@@ -2,7 +2,7 @@
 // Copyright (C) 2026 FireBall1725
 
 import { useCallback, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, Route, Routes, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useApi } from "../../hooks/useApi";
 import { useOverview } from "../../hooks/overviewContext";
@@ -15,7 +15,10 @@ import type {
 } from "../../lib/types";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
+import AppearanceCard from "./AppearanceCard";
 import ConnectionsCard from "./ConnectionsCard";
+import SettingsTabs from "./SettingsTabs";
+import VersionsCard from "./VersionsCard";
 import Dialog from "../../components/ui/Dialog";
 import EmptyState from "../../components/ui/EmptyState";
 import ErrorState from "../../components/ui/ErrorState";
@@ -43,6 +46,9 @@ import {
   type View,
 } from "./logic";
 import { useNarrow } from "./useNarrow";
+
+/** Query parameters that only mean something on the registry tab, so an old link with one lands there. */
+const REGISTRY_PARAMS = ["mod", "view", "show", "q", "edit"];
 
 interface Unlink {
   entry: CatalogEntry;
@@ -204,8 +210,25 @@ export default function SettingsPage() {
     <>
       <PageHeader title={t("title")} description={t("description")} />
       <Strip summary={summary} loading={cat.loading} />
-      <ConnectionsCard />
-      <div className="flex flex-col gap-4">
+      <SettingsTabs />
+      <Routes>
+        <Route index element={<Navigate to={{ pathname: REGISTRY_PARAMS.some((k) => sp.has(k)) ? "registry" : "connections", search: sp.toString() }} replace />} />
+        <Route
+          path="connections"
+          element={
+            <div className="flex flex-col gap-4">
+              <ConnectionsCard />
+              <div className="grid gap-4 md:grid-cols-2">
+                <SourcesCard />
+                <PollCard />
+              </div>
+            </div>
+          }
+        />
+        <Route
+          path="registry"
+          element={
+            <div className="flex flex-col gap-4">
         <Card
           id="registry"
           title={t("registry.title")}
@@ -352,11 +375,13 @@ export default function SettingsPage() {
             </>
           )}
         </Card>
-        <div className="grid gap-4 md:grid-cols-2">
-          <SourcesCard />
-          <PollCard />
-        </div>
-      </div>
+            </div>
+          }
+        />
+        <Route path="versions" element={<VersionsCard />} />
+        <Route path="appearance" element={<AppearanceCard />} />
+        <Route path="*" element={<Navigate to="connections" replace />} />
+      </Routes>
 
       {editing && (
         <EditDialog

@@ -14,6 +14,8 @@ import type {
   Overview,
   ReleaseItem,
   Settings,
+  CurseForgeAuthor,
+  Revenue,
   SettingsUpdate,
   Versions,
 } from './types'
@@ -114,6 +116,13 @@ export const api = {
   settings: (): Promise<Settings> => (MOCK ? mock().then((m) => m.settings()) : request('/api/v1/settings')),
 
   /** Only the keys sent change; null or "" clears the value set here. Resolves to the settings as they are now. */
+  revenue: (): Promise<Revenue> => (MOCK ? mock().then((m) => m.revenue()) : request('/api/v1/revenue')),
+
+  /** Looks an author up from a profile link. Saves nothing; the caller saves the id it chose. */
+  curseforgeAuthor: (link: string): Promise<CurseForgeAuthor> =>
+    MOCK
+      ? mock().then((m) => m.curseforgeAuthor(link))
+      : request('/api/v1/curseforge/author', json('POST', { link })),
   settingsPut: (update: SettingsUpdate): Promise<Settings> =>
     MOCK ? mock().then((m) => m.settingsPut(update)) : request('/api/v1/settings', json('PUT', update)),
 

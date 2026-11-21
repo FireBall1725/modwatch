@@ -58,7 +58,7 @@ export default function Strip({
         loading={loading}
         value={summary?.toLink ?? ""}
         href={
-          summary && summary.toLink > 0 ? "/settings?view=unlinked" : undefined
+          summary && summary.toLink > 0 ? "/settings/registry?view=unlinked" : undefined
         }
         footer={
           summary && summary.toLink > 0

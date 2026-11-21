@@ -70,7 +70,7 @@ export default function RegistryTable({
     e.githubRepo ? (
       <span className="block break-words">
         <span className="num block">{e.githubRepo}</span>
-        <span className="block text-xs text-faint">{t("registry.ownRepo")}</span>
+        <span className="block text-xs text-faint">{t("registry.ownRepo", { label: e.githubLabel ?? e.slug })}</span>
       </span>
     ) : e.githubLabel ? (
       <span className="num break-words">

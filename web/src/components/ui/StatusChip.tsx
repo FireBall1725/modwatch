@@ -3,7 +3,6 @@
 
 import { useTranslation } from 'react-i18next'
 import type { ReviewStatus } from '../../lib/types'
-import Icon from './Icon'
 import Pill, { type Tone } from './Pill'
 
 const STATUS_TONE: Record<ReviewStatus, Tone> = {
@@ -29,8 +28,7 @@ interface Props {
 export default function StatusChip({ status, size = 'md', rawStatus }: Props) {
   const { t } = useTranslation('common')
   return (
-    <Pill tone={STATUS_TONE[status]} size={size} title={rawStatus}>
-      <Icon name={status} size={size === 'sm' ? 12 : 14} className="mr-1 -ml-0.5 inline-block align-[-2px]" />
+    <Pill tone={STATUS_TONE[status]} icon={status} size={size} title={rawStatus}>
       {t(`status.${status}`)}
     </Pill>
   )

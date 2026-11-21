@@ -32,7 +32,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 /** Review state of one platform: the status, what was asked for, the moderator's words and the wait. */
-export default function PlatformPanel({ platform, info, slug }: { platform: Platform; info: PlatformInfo | null; slug: string }) {
+export default function PlatformPanel({ platform, info, onEdit }: { platform: Platform; info: PlatformInfo | null; onEdit: () => void }) {
   const { t } = useTranslation('modDetail')
   const { t: tc } = useTranslation('common')
   const name = tc(`platform.${platform}`)
@@ -44,7 +44,7 @@ export default function PlatformPanel({ platform, info, slug }: { platform: Plat
           <PlatformAbsent platform={platform} />
         </p>
         <p className="mt-2 text-sm text-muted">{t('status.notListedDetail')}</p>
-        <Button className="mt-3" size="sm" icon="link" href={`/settings?mod=${encodeURIComponent(slug)}`}>
+        <Button className="mt-3" size="sm" icon="link" onClick={onEdit}>
           {t('status.linkAction')}
         </Button>
       </Card>

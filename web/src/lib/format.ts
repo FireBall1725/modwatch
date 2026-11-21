@@ -143,3 +143,14 @@ export function sparklinePoints(values: number[], width: number, height: number,
     })
     .join(' ')
 }
+
+/** An amount in the currency's own form. Balances are cents and fractions of a cent, so small ones keep more digits. */
+export function formatMoney(n: number, currency: string): string {
+  const digits = n > 0 && n < 0.1 ? 3 : 2
+  return new Intl.NumberFormat('en-CA', { style: 'currency', currency, minimumFractionDigits: 2, maximumFractionDigits: digits }).format(n)
+}
+
+/** An amount with every digit replaced by a dot, such as US$•.••. It keeps the currency symbol and the shape, so the page doesn't shift. */
+export function maskMoney(currency: string): string {
+  return formatMoney(0, currency).replace(/\d/g, '•')
+}

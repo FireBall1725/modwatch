@@ -34,7 +34,7 @@ function mod(slug: string, cf: PlatformInfo | null, mr: PlatformInfo | null, own
   return {
     slug, name: slug.toUpperCase(), iconUrl: '', summary: '', owned, legacy: false, curseforge: cf, modrinth: mr, github: null,
     downloads: { total: 0, curseforge: 0, modrinth: 0, delta24h: null, delta7d: null },
-    latestRelease: latest ? { platform: 'modrinth', version: '1', releaseType: 'release', publishedAt: latest, minecraftVersions: [] } : null,
+    latestRelease: latest ? { platforms: ['modrinth'], version: '1', releaseType: 'release', publishedAt: latest, minecraftVersions: [] } : null,
     minecraftVersions: [], loaders: [], health: 'ok', attention: [],
   }
 }

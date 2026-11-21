@@ -4,19 +4,20 @@
 import type { SettingItem, SettingKey, SettingsUpdate } from '../../lib/types'
 import { isRepo } from './logic'
 
-export type GroupId = 'curseforge' | 'modrinth' | 'github' | 'prometheus'
+export type GroupId = 'curseforge' | 'modrinth' | 'github' | 'prometheus' | 'revenue'
 
 /** The connection settings as the page lists them: one group per service, in the order a new install needs them. */
 export const GROUPS: { id: GroupId; keys: SettingKey[] }[] = [
   { id: 'curseforge', keys: ['curseforgeApiKey', 'curseforgeAuthorId'] },
-  { id: 'modrinth', keys: ['modrinthUser', 'modrinthToken'] },
+  { id: 'modrinth', keys: ['modrinthToken', 'modrinthUser'] },
   { id: 'github', keys: ['githubToken', 'githubIssuesRepo'] },
   { id: 'prometheus', keys: ['metricsEnabled'] },
+  { id: 'revenue', keys: ['revenueEnabled'] },
 ]
 
 /** Settings shown as an on/off switch instead of a text field. */
 export function isSwitch(key: SettingKey): boolean {
-  return key === 'metricsEnabled'
+  return key === 'metricsEnabled' || key === 'revenueEnabled'
 }
 
 /** Whether /metrics is served: on unless the value says false, so "not chosen" is on. */

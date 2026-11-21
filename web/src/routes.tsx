@@ -11,6 +11,8 @@ export interface AppRoute {
   icon: IconName
   /** Listed in the side nav. The mod page is reached from the mods list instead. */
   inNav: boolean
+  /** The page renders its own sub routes, so the router matches the path and everything under it. */
+  nested?: boolean
   Page: LazyExoticComponent<ComponentType>
 }
 
@@ -23,7 +25,7 @@ export const routes: AppRoute[] = [
   { path: '/versions', nav: 'versions', icon: 'versions', inNav: true, Page: lazy(() => import('./pages/versions')) },
   { path: '/issues', nav: 'issues', icon: 'issues', inNav: true, Page: lazy(() => import('./pages/issues')) },
   { path: '/releases', nav: 'releases', icon: 'releases', inNav: true, Page: lazy(() => import('./pages/releases')) },
-  { path: '/settings', nav: 'settings', icon: 'settings', inNav: true, Page: lazy(() => import('./pages/settings')) },
+  { path: '/settings', nav: 'settings', icon: 'settings', inNav: true, nested: true, Page: lazy(() => import('./pages/settings')) },
 ]
 
 export const navRoutes = routes.filter((r) => r.inNav)

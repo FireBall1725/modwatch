@@ -18,8 +18,8 @@ const item = (over: Partial<SettingItem>): SettingItem => ({
 describe('GROUPS', () => {
   it('lists every setting once', () => {
     const keys = GROUPS.flatMap((g) => g.keys)
-    expect(keys).toHaveLength(7)
-    expect(new Set(keys).size).toBe(7)
+    expect(keys).toHaveLength(8)
+    expect(new Set(keys).size).toBe(8)
   })
 })
 

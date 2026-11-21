@@ -29,6 +29,7 @@ const entry = (o: Partial<CatalogEntry>): CatalogEntry => ({
   modrinthId: null,
   githubLabel: null,
   githubRepo: null,
+  versionRegex: null,
   hidden: false,
   legacy: false,
   auto: true,

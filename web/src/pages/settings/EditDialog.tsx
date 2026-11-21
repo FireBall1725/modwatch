@@ -59,7 +59,7 @@ export default function EditDialog({ entry, catalog, onClose, onSave }: Props) {
 
   const errText = (k: keyof typeof errors) =>
     errors[k]
-      ? t(`edit.${errors[k] === "label" ? "labelBad" : errors[k] === "repo" ? "repoBad" : errors[k]}`)
+      ? t(`edit.${errors[k] === "label" ? "labelBad" : errors[k] === "repo" ? "repoBad" : errors[k] === "pattern" ? "patternBad" : errors[k]}`)
       : null;
 
   const platformField = (platform: Platform) => {
@@ -186,6 +186,17 @@ export default function EditDialog({ entry, catalog, onClose, onSave }: Props) {
           helper={form.githubRepo.trim() !== "" ? t("edit.repoHelperSet") : t("edit.repoHelper")}
           error={errText("githubRepo")}
           placeholder="owner/name"
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <TextInput
+          mono
+          label={t("edit.versionPattern")}
+          value={form.versionRegex}
+          onChange={(v) => set({ versionRegex: v })}
+          helper={t("edit.versionPatternHelper")}
+          error={errText("versionRegex")}
+          placeholder="^(?P<version>\d+\.\d+\.\d+)(?:-(?P<pre>rc\.\d+))?-(?:mc)?(?P<minecraft>.+)$"
           autoComplete="off"
           spellCheck={false}
         />

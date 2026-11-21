@@ -234,7 +234,21 @@ export interface Form {
   githubLabel: string;
   /** This mod's own issues repository, owner/name. */
   githubRepo: string;
+  /** This mod's own pattern for reading its file versions. Empty means the default reading. */
+  versionRegex: string;
   hidden: boolean;
+}
+
+/** A version pattern as the server takes it: a valid expression with a group named version. Go's (?P<name>) is accepted. */
+export function isVersionPattern(s: string): boolean {
+  const p = s.trim();
+  if (!p.includes("(?P<version>") && !p.includes("(?<version>")) return false;
+  try {
+    new RegExp(p.replace(/\(\?P</g, "(?<"));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** owner/name as GitHub allows it: letters, digits, dots, dashes and underscores on both sides. */
@@ -249,14 +263,15 @@ export function formFrom(e: CatalogEntry): Form {
     modrinthId: e.modrinthId ?? "",
     githubLabel: e.githubLabel ?? "",
     githubRepo: e.githubRepo ?? "",
+    versionRegex: e.versionRegex ?? "",
     hidden: e.hidden,
   };
 }
 
 export type FormErrors = Partial<
   Record<
-    "name" | "curseforgeId" | "modrinthId" | "githubLabel" | "githubRepo",
-    "required" | "digits" | "chars" | "label" | "repo"
+    "name" | "curseforgeId" | "modrinthId" | "githubLabel" | "githubRepo" | "versionRegex",
+    "required" | "digits" | "chars" | "label" | "repo" | "pattern"
   >
 >;
 
@@ -280,6 +295,8 @@ export function validate(f: Form): FormErrors {
     errors.githubLabel = "label";
   if (f.githubRepo.trim() !== "" && !isRepo(f.githubRepo))
     errors.githubRepo = "repo";
+  if (f.versionRegex.trim() !== "" && !isVersionPattern(f.versionRegex))
+    errors.versionRegex = "pattern";
   return errors;
 }
 
@@ -296,6 +313,8 @@ export function diff(entry: CatalogEntry, f: Form): CatalogUpdate {
   if (label !== entry.githubLabel) out.githubLabel = label;
   const repo = f.githubRepo.trim() === "" ? null : f.githubRepo.trim();
   if (repo !== entry.githubRepo) out.githubRepo = repo;
+  const pattern = f.versionRegex.trim() === "" ? null : f.versionRegex.trim();
+  if (pattern !== (entry.versionRegex ?? null)) out.versionRegex = pattern;
   if (f.hidden !== entry.hidden) out.hidden = f.hidden;
   return out;
 }

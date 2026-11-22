@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:1
 
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
 # Web build. Static assets are the same on every architecture, so this runs once on the build platform.
 FROM --platform=$BUILDPLATFORM node:24-alpine AS web
 WORKDIR /src/web

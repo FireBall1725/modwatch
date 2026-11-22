@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Copyright (C) 2026 FireBall1725
+
 module github.com/fireball1725/modwatch
 
 go 1.26.0

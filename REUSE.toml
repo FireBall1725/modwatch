@@ -1,0 +1,26 @@
+version = 1
+SPDX-PackageName = "modwatch"
+SPDX-PackageSupplier = "FireBall1725"
+SPDX-PackageDownloadLocation = "https://github.com/FireBall1725/modwatch"
+
+# Files that can't carry a header: data and prose formats, lockfiles, images, an empty file, and the
+# configs copied in from the shared scaffold, which would overwrite a header.
+[[annotations]]
+path = [
+  "**/*.json",
+  "**/*.md",
+  "go.sum",
+  "internal/ui/dist/.gitkeep",
+  ".editorconfig",
+  ".golangci.yml",
+  "cliff.toml",
+  "docs/screenshots/**",
+]
+SPDX-FileCopyrightText = "Copyright (C) 2026 FireBall1725"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+# The Developer Certificate of Origin text is the Linux Foundation's, copied verbatim.
+[[annotations]]
+path = "DCO"
+SPDX-FileCopyrightText = "Copyright (C) 2004, 2006 The Linux Foundation and its contributors"
+SPDX-License-Identifier = "LicenseRef-DCO-1.1"

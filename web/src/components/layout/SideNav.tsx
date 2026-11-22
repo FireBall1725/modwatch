@@ -9,7 +9,7 @@ import Icon from '../ui/Icon'
 import { useOverview } from '../../hooks/overviewContext'
 import Brand from './Brand'
 
-/** The nav list itself, shared by the sidebar and the phone drawer. Labels hide below xl unless forced. Props: showLabels (always show them, for the drawer), onNavigate. */
+/** The nav list itself, shared by the sidebar and the phone drawer. Labels hide below xl unless forced. showLabels forces them on, as in the drawer. */
 export function NavList({ showLabels = false, onNavigate }: { showLabels?: boolean; onNavigate?: () => void }) {
   const { t } = useTranslation('common')
   const overview = useOverview()

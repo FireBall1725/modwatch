@@ -14,7 +14,7 @@ interface Props {
   children: ReactNode
 }
 
-/** Modal built on the native dialog element: focus is trapped, Escape and the backdrop close it, and focus returns to the opener. Props: open, onClose, title, footer, children. */
+/** Modal built on the native dialog element: focus is trapped, Escape and the backdrop close it, and focus returns to the opener. */
 export default function Dialog({ open, onClose, title, footer, children }: Props) {
   const { t } = useTranslation('common')
   const ref = useRef<HTMLDialogElement>(null)

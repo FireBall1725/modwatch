@@ -4,7 +4,7 @@ Read [AGENTS.md](./AGENTS.md) first for the layout, the rules and the checks to 
 
 ## Sign your commits (DCO)
 
-Every commit in a pull request must carry a `Signed-off-by:` trailer certifying the [Developer Certificate of Origin 1.1](./DCO). It says you have the right to contribute the code and you're fine with it being distributed under the project's license.
+Every commit in a pull request must carry a `Signed-off-by:` trailer certifying the [Developer Certificate of Origin 1.1](./DCO). It says you have the right to contribute the code and you're fine with it being distributed under the project's licence, AGPL-3.0-only.
 
 To sign off, just pass `-s` to `git commit`:
 

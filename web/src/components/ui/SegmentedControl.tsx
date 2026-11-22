@@ -21,7 +21,7 @@ interface Props<V extends string | number> {
   className?: string
 }
 
-/** Single-choice button group, for ranges and view switches. Arrow keys move the choice. Props: options, value, onChange, label (accessible group name), size, className. */
+/** Single-choice button group, for ranges and view switches. Arrow keys move the choice. Its label names the group for screen readers. */
 export default function SegmentedControl<V extends string | number>({ options, value, onChange, label, size = 'md', className }: Props<V>) {
   const refs = useRef<(HTMLButtonElement | null)[]>([])
   const onKey = (e: KeyboardEvent, i: number) => {

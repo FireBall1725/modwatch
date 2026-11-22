@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
 name: Nightly
 
 # Every merge to main publishes an image and nothing else: no git tag, no

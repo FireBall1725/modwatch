@@ -14,7 +14,7 @@ interface Props {
   className?: string
 }
 
-/** On/off switch with its label (role="switch"). Props: checked, onChange, label, description, disabled, className. The whole row is clickable. */
+/** On/off switch with its label (role="switch"). The whole row is clickable. */
 export default function Toggle({ checked, onChange, label, description, disabled, className }: Props) {
   const id = useId()
   return (

@@ -16,7 +16,7 @@ interface Props {
   className?: string
 }
 
-/** Page title block. Props: title (the page's h1), description, eyebrow, actions, leading. Every page renders exactly one. */
+/** Page title block. Every page renders exactly one. */
 export default function PageHeader({ title, description, eyebrow, actions, leading, className }: Props) {
   return (
     <div className={cx('flex flex-wrap items-end justify-between gap-x-6 gap-y-3', className)}>

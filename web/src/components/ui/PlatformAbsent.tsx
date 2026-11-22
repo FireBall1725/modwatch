@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { cx } from '../../lib/cx'
 import type { Platform } from '../../lib/types'
 
-/** The one phrase for a mod that has no page on a platform: "Not on CurseForge". A dashed pill. Props: platform, className, bare (text only, no pill). */
+/** The one phrase for a mod that has no page on a platform: "Not on CurseForge". A dashed pill. bare drops the pill. */
 export default function PlatformAbsent({ platform, className, bare = false }: { platform: Platform; className?: string; bare?: boolean }) {
   const { t } = useTranslation('common')
   const text = t('word.notOnPlatform', { platform: t(`platform.${platform}`) })

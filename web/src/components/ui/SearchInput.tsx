@@ -13,7 +13,7 @@ interface Props {
   className?: string
 }
 
-/** Search box with a clear button. Props: value, onChange, placeholder (also its accessible label), className. Escape clears. */
+/** Search box with a clear button. Escape clears. */
 export default function SearchInput({ value, onChange, placeholder, className }: Props) {
   const { t } = useTranslation('common')
   return (

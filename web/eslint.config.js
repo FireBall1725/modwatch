@@ -23,9 +23,7 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
-      // Downgraded to warnings, matching librarium-web: the existing tree
-      // trips both broadly and clearing them is its own piece of work, not
-      // something to bury in the migration that surfaced them.
+      // Warnings, not errors: the existing tree trips both rules broadly and clearing them is its own piece of work.
       'react-hooks/set-state-in-effect': 'warn',
       'react-refresh/only-export-components': 'warn',
     },

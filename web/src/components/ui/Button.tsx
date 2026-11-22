@@ -35,7 +35,7 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'
   children: ReactNode
 }
 
-/** Button. Props: variant (primary, secondary, ghost, danger), size (sm, md), icon, loading, href, iconOnly. Targets are at least 40 px tall on md; use md on touch screens. */
+/** Button. Targets are at least 40 px tall on md; use md on touch screens. */
 export default function Button({
   variant = 'secondary',
   size = 'md',

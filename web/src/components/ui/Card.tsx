@@ -17,7 +17,7 @@ interface Props {
   children?: ReactNode
 }
 
-/** Surface panel. Props: title, description, actions (header right), padded (default true), as (element), className. The title is a level 2 heading. */
+/** Surface panel. The title is a level 2 heading. */
 export default function Card({ title, description, actions, padded = true, as: Tag = 'section', className, id, children }: Props) {
   const labelled = typeof title === 'string' && id ? `${id}-title` : undefined
   return (

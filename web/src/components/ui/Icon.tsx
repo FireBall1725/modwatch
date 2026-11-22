@@ -138,7 +138,7 @@ interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   title?: string
 }
 
-/** Inline Font Awesome Free icon. Colour follows currentColor. Props: name, size (px), title (accessible name; omit when decorative). */
+/** Inline Font Awesome Free icon. Colour follows currentColor. Give it a title unless it is decorative. */
 export default function Icon({ name, size = 18, title, className, ...rest }: IconProps) {
   const [width, height, , , path] = ICONS[name].icon
   const d = typeof path === 'string' ? path : path.join('')

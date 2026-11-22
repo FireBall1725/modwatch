@@ -170,8 +170,8 @@ export function groupReleases(files: FileItem[]): ReleaseGroup[] {
 }
 
 /**
- * The releases to show by default: the latest one, and when that is a pre-release the latest final release too, so a
- * release candidate never hides the version people should be on. Everything when showAll is set.
+ * The releases to show by default: the latest, plus the latest final release when that one is a pre-release.
+ * Everything when showAll is set.
  */
 export function visibleReleases(groups: ReleaseGroup[], showAll: boolean): ReleaseGroup[] {
   if (showAll || groups.length === 0) return groups
@@ -196,9 +196,8 @@ export interface MergedFile {
 }
 
 /**
- * Puts the files of one release that target the same Minecraft versions in one row, whatever the platform or loader,
- * so CurseForge and Modrinth, and Fabric and NeoForge, read side by side instead of as separate rows. Downloads stay
- * apart per platform and add up across loaders.
+ * Puts the files of one release that target the same Minecraft versions in one row, whatever the platform or loader.
+ * Downloads stay apart per platform and add up across loaders.
  */
 export function mergeByVersion(files: FileItem[]): MergedFile[] {
   const rows = new Map<string, MergedFile>()

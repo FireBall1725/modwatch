@@ -330,9 +330,9 @@ func hasControl(s string) bool {
 	return false
 }
 
-// UpdateCatalogEntry applies a partial edit in one transaction. The edited entry becomes a hand-made one. A project
-// another entry holds moves here, and that entry is deleted if it is left with no links. It returns *InvalidError for a
-// rejected edit and ErrNotFound for an unknown slug.
+// UpdateCatalogEntry applies a partial edit in one transaction and makes the entry a hand-made one. A project another entry
+// holds moves here, and that entry is deleted if it is left with no links. It returns *InvalidError for a rejected edit and
+// ErrNotFound for an unknown slug.
 func (r *Repo) UpdateCatalogEntry(ctx context.Context, slug string, u models.CatalogUpdate) (models.CatalogEntry, error) {
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {

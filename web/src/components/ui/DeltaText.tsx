@@ -15,7 +15,7 @@ interface Props {
   className?: string
 }
 
-/** Signed movement: green up with an arrow, red down, muted zero, a dash with a hidden "not available yet" (and the same suffix) when unknown. Props: value, suffix, plain, className. */
+/** Signed movement: green up with an arrow, red down, muted zero, a dash with a hidden "not available yet" (and the same suffix) when unknown. */
 export default function DeltaText({ value, suffix, plain = false, className }: Props) {
   const { t } = useTranslation('common')
   if (value === null || value === undefined) {

@@ -16,7 +16,7 @@ interface Props {
   className?: string
 }
 
-/** A failed load, with the reason and a retry. Props: error, title, onRetry, compact, className. role="alert" so it is announced. */
+/** A failed load, with the reason and a retry. role="alert" so it is announced. */
 export default function ErrorState({ error, title, onRetry, compact = false, className }: Props) {
   const { t } = useTranslation('common')
   const message = typeof error === 'string' ? error : error?.message

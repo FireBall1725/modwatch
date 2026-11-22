@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
 # Change the class and host to yours. Modwatch has no login of its own, so keep it on a private network
 # or put authentication in front of it.
 apiVersion: networking.k8s.io/v1

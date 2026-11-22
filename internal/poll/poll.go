@@ -392,9 +392,9 @@ func (r *runner) issueRepos(perMod []string) []string {
 	return out
 }
 
-// fetchIssues reads the issues of every configured repository. It returns a nil status when issues are off.
-// configured is every repository that should have issues and fetched the ones read without error. A failure never
-// fails the poll; the status carries the errors, one per repository that failed.
+// fetchIssues reads the issues of every configured repository and returns a nil status when issues are off. A failure never
+// fails the poll; the status carries one error per repository that failed. configured and fetched are the repositories that
+// should have issues and the ones read without error.
 func (r *runner) fetchIssues(ctx context.Context, perMod []string) (issues []models.Issue, configured, fetched []string, st *models.SourceStatus) {
 	configured = r.issueRepos(perMod)
 	if r.gh == nil || len(configured) == 0 {

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
 # Read by the shared release workflow when it posts to Discord.
 #
 # Nothing posts until a webhook secret exists for this repo, so stable and rc

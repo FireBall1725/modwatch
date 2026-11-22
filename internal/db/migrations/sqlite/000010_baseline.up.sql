@@ -1,12 +1,11 @@
 -- SPDX-License-Identifier: AGPL-3.0-only
 -- Copyright (C) 2026 FireBall1725
 
--- The SQLite schema as of version 10. A SQLite database is new, so it starts from one baseline that matches the
--- Postgres migrations 000001 to 000010 combined. Every later schema change needs a file in both folders, with the
--- same number.
+-- The SQLite schema as of version 10, matching Postgres migrations 000001 to 000010 combined. Every later schema change
+-- needs a file in both folders with the same number.
 --
--- Times are text in a fixed UTC form, "2006-01-02 15:04:05.000+00:00", so they sort as text and date() reads them.
--- Booleans are 0 and 1. JSON arrays are text.
+-- Times are text in a fixed UTC form, "2006-01-02 15:04:05.000+00:00", so they sort as text and date() reads them;
+-- booleans are 0 and 1 and JSON arrays are text.
 
 CREATE TABLE polls (
     id          INTEGER  PRIMARY KEY AUTOINCREMENT,

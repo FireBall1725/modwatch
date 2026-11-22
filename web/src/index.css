@@ -6,9 +6,8 @@
 
 /*
  * The default theme, Midnight Orchid: dark, with hot pink as the accent. The other themes override these values in
- * themes/themes.css, picked by a data-theme attribute on <html>. Every text colour below clears WCAG AA (4.5:1) on ground, surface,
- * sunk and raised; the ratios were measured, not eyeballed. --color-line-strong is for control borders
- * and clears 3:1 on surface.
+ * themes/themes.css through a data-theme attribute on <html>. Every text colour clears WCAG AA (4.5:1) on every surface,
+ * and --color-line-strong, for control borders, clears 3:1 on surface.
  */
 @theme static {
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;

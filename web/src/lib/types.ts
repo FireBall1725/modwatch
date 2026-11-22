@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-// The API contract. The Go handlers must return exactly these shapes and the UI is built against them.
-// Times are RFC 3339 UTC strings. A count that can't be known yet is null, never 0. Lists are never null.
+// The API contract: the Go handlers return exactly these shapes and the UI is built against them.
+// Times are RFC 3339 UTC strings, a count that can't be known yet is null rather than 0, and lists are never null.
 
 export type Platform = 'curseforge' | 'modrinth'
 

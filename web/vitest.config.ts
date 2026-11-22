@@ -3,10 +3,7 @@
 
 /// <reference types="vitest" />
 
-// Vitest config for modwatch-web, matching the other web clients. We piggyback on
-// Vite's existing resolve and plugin pipeline so test files see the same
-// module graph as the production bundle, rather than a second transform stack
-// that has to be kept in step with the first.
+// Vitest config. It reuses Vite's resolve and plugin pipeline, so tests see the same module graph as the production bundle.
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 

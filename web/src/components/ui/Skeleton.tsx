@@ -3,7 +3,7 @@
 
 import { cx } from '../../lib/cx'
 
-/** Loading placeholder. Props: className (set the size with h-* and w-*), lines (renders that many text-height bars, the last one shorter). Decorative, hidden from screen readers. */
+/** Loading placeholder. Set the size with h-* and w-* classes; lines renders that many text-height bars. Decorative, hidden from screen readers. */
 export default function Skeleton({ className, lines }: { className?: string; lines?: number }) {
   if (lines && lines > 1) {
     return (

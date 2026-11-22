@@ -15,10 +15,9 @@ import (
 	"time"
 )
 
-// The web client's mock fixtures were the contract the pages were built against. These tests load them and
-// check that the real handlers, run against a seeded in-memory database, produce the same recursive key set.
-// An empty array, an empty object or a null carries no keys, so on either side it hides everything below it.
-// A list that is null where the fixture has an array is always an error.
+// The web client's mock fixtures are the contract the pages were built against. These tests check that the real handlers, run
+// against a seeded in-memory database, produce the same recursive key set. An empty array, object or null carries no keys, so
+// it hides everything below it; a list that is null where the fixture has an array is always an error.
 
 const fixtureDir = "../../web/src/mocks/fixtures"
 

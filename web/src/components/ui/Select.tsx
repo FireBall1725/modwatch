@@ -20,7 +20,7 @@ interface Props {
   className?: string
 }
 
-/** Native select with a label. Props: value, onChange, options, label, hideLabel, className. A native control keeps mobile pickers and keyboard behaviour for free. */
+/** Native select with a label. A native control keeps mobile pickers and keyboard behaviour for free. */
 export default function Select({ value, onChange, options, label, hideLabel = false, className }: Props) {
   const id = useId()
   return (

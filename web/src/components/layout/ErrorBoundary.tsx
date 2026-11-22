@@ -44,5 +44,5 @@ class Boundary extends Component<Props, { error: Error | null }> {
   }
 }
 
-/** Catches a render error in a page and shows an error state instead of a blank screen. Props: children, resetKey (usually the pathname). */
+/** Catches a render error in a page and shows an error state instead of a blank screen. Pass the pathname as resetKey to reset it on navigation. */
 export default withTranslation('common')(Boundary)

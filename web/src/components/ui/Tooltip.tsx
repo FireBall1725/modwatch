@@ -13,10 +13,8 @@ interface Props {
 }
 
 /**
- * Hover and keyboard-focus tooltip around any content. Props: content, side (top or bottom), className. The trigger must be
- * focusable (a button or link) for keyboard users. The tip is always in the DOM and the trigger points at it with
- * aria-describedby (joined to any description it already has). It stays open while the pointer is over the trigger or the tip
- * (there is no gap to cross) or while focus is inside, and Escape closes it from anywhere until the pointer and focus leave.
+ * Hover and keyboard-focus tooltip around any content; the trigger must be focusable for keyboard users.
+ * The tip is always in the DOM and the trigger points at it with aria-describedby. Escape closes it from anywhere.
  */
 export default function Tooltip({ content, side = 'top', className, children }: Props) {
   const id = useId()

@@ -12,7 +12,7 @@ const MAP: Record<Severity, { tone: Tone; icon: IconName }> = {
   info: { tone: 'info', icon: 'info' },
 }
 
-/** Severity of an attention item: word, icon and colour. Props: severity, size. */
+/** Severity of an attention item: word, icon and colour. */
 export default function SeverityBadge({ severity, size = 'md' }: { severity: Severity; size?: 'sm' | 'md' }) {
   const { t } = useTranslation('common')
   const { tone, icon } = MAP[severity]

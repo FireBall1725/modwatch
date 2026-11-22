@@ -21,7 +21,7 @@ interface Props {
   className?: string
 }
 
-/** Platform label in its fixed colour, with the platform's logo. Logo only, the name stays for screen readers and as a tooltip. Props: platform, size, iconOnly, absent, className. */
+/** Platform label in its fixed colour, with the platform's logo. Logo only, the name stays for screen readers and as a tooltip. */
 export default function PlatformBadge({ platform, size = 'md', iconOnly = false, absent = false, className }: Props) {
   const { t } = useTranslation('common')
   if (absent) return <PlatformAbsent platform={platform} className={className} />

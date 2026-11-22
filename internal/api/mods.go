@@ -35,7 +35,9 @@ func (h *handlers) load(ctx context.Context, showLegacy bool) (*view, error) {
 	if ds.files, err = h.repo.ListFileStats(ctx, now); err != nil {
 		return nil, err
 	}
-	ds.files = trackedFiles(ds.files, cfg.DisabledMinecraftVersions)
+	all := ds.files
+	ds.files = trackedFiles(all, cfg.DisabledMinecraftVersions)
+	ds.stats = withoutDisabled(ds.stats, all, ds.files)
 	if ds.entries, err = h.repo.ListCatalog(ctx); err != nil {
 		return nil, err
 	}
@@ -231,6 +233,77 @@ func trackedFiles(files []models.FileStat, disabled []string) []models.FileStat 
 		out = append(out, f)
 	}
 	return out
+}
+
+// withoutDisabled takes the downloads of files on disabled Minecraft versions out of their projects' totals, so the
+// totals agree with the version views. Downloads the platform doesn't attribute to a file stay in.
+func withoutDisabled(stats []models.PlatformStat, all, kept []models.FileStat) []models.PlatformStat {
+	if len(all) == len(kept) {
+		return stats
+	}
+	type id struct {
+		key  models.PlatformKey
+		file string
+	}
+	keep := make(map[id]bool, len(kept))
+	for _, f := range kept {
+		keep[id{fileKey(f), f.ID}] = true
+	}
+	gone := map[models.PlatformKey]*models.FileStat{}
+	for _, f := range all {
+		if keep[id{fileKey(f), f.ID}] {
+			continue
+		}
+		g := gone[fileKey(f)]
+		if g == nil {
+			g = &models.FileStat{}
+			gone[fileKey(f)] = g
+		}
+		g.Downloads += f.Downloads
+		g.Delta24h = sumDelta(g.Delta24h, f.Delta24h)
+		g.Delta7d = sumDelta(g.Delta7d, f.Delta7d)
+	}
+	// A project with files that are all on disabled versions counts nothing: its unattributed remainder can't be
+	// placed on an enabled version, so it goes too.
+	hasKept := map[models.PlatformKey]bool{}
+	for _, f := range kept {
+		hasKept[fileKey(f)] = true
+	}
+	out := make([]models.PlatformStat, len(stats))
+	copy(out, stats)
+	for i := range out {
+		key := keyOf(&out[i])
+		g := gone[key]
+		if g == nil {
+			continue
+		}
+		if !hasKept[key] {
+			out[i].Downloads = 0
+			out[i].Delta24h = zeroIfSet(out[i].Delta24h)
+			out[i].Delta7d = zeroIfSet(out[i].Delta7d)
+			continue
+		}
+		out[i].Downloads = max(out[i].Downloads-g.Downloads, 0)
+		out[i].Delta24h = minusDelta(out[i].Delta24h, g.Delta24h)
+		out[i].Delta7d = minusDelta(out[i].Delta7d, g.Delta7d)
+	}
+	return out
+}
+
+func zeroIfSet(a *int64) *int64 {
+	if a == nil {
+		return nil
+	}
+	var z int64
+	return &z
+}
+
+func minusDelta(a, b *int64) *int64 {
+	if a == nil || b == nil {
+		return a
+	}
+	n := max(*a-*b, 0)
+	return &n
 }
 
 // versions answers "which Minecraft versions and loaders are people downloading for".

@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+# Optional, for the Prometheus Operator. Add it to kustomization.yaml to use it.
+# Modwatch serves its metrics at /metrics, and they can be switched off on the Settings page.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: modwatch
+  labels:
+    app.kubernetes.io/name: modwatch
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: modwatch
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 5m

@@ -1,0 +1,7675 @@
+{
+ "default-world-generator": {
+  "slug": "default-world-generator",
+  "name": "Default World Generator",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(140%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(180%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EDW%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Sets the world type, seed and generator settings for new worlds, so a pack ships its own defaults.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "227814",
+   "slug": "default-world-generator",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1115528,
+   "delta24h": 94,
+   "delta7d": 982,
+   "followers": 412,
+   "publishedAt": "2018-05-02T09:30:00.000Z",
+   "updatedAt": "2024-05-30T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "Kx9bQ2aE",
+   "slug": "default-world-generator",
+   "url": "https://modrinth.com/mod/default-world-generator",
+   "status": "unlisted",
+   "rawStatus": "unlisted",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 5236,
+   "delta24h": 2,
+   "delta7d": 11,
+   "followers": 18,
+   "publishedAt": "2018-05-02T09:30:00.000Z",
+   "updatedAt": "2024-05-30T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "default-world-generator",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 1120764,
+   "curseforge": 1115528,
+   "modrinth": 5236,
+   "delta24h": 96,
+   "delta7d": 993
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "1.5.0",
+   "releaseType": "release",
+   "publishedAt": "2024-05-30T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.18.2"
+   ]
+  },
+  "minecraftVersions": [
+   "1.18.2",
+   "1.16.5",
+   "1.12.2",
+   "1.10.2",
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "legacy": true,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "default-world-generator",
+    "title": "Default World Generator has had no release in 2.5 years",
+    "detail": "Last release is over a year old.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-default-world-generator-1.5.0-1.18.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "default-world-generator-1.5.0+1.18.2.jar",
+    "version": "1.5.0",
+    "release": "1.5.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.18.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2024-05-30T09:12:00.000Z",
+    "downloads": 356683,
+    "delta24h": 30,
+    "delta7d": 314,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-default-world-generator-1.4.2-1.16.5",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "default-world-generator-1.4.2+1.16.5.jar",
+    "version": "1.4.2",
+    "release": "1.4.2",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.16.5"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2023-08-19T09:12:00.000Z",
+    "downloads": 280821,
+    "delta24h": 24,
+    "delta7d": 247,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-default-world-generator-1.3.1-1.12.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "default-world-generator-1.3.1+1.12.2.jar",
+    "version": "1.3.1",
+    "release": "1.3.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.12.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2022-03-23T09:12:00.000Z",
+    "downloads": 202967,
+    "delta24h": 17,
+    "delta7d": 179,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator/files/900002"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-default-world-generator-1.2.0-1.10.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "default-world-generator-1.2.0+1.10.2.jar",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.10.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2020-11-02T09:12:00.000Z",
+    "downloads": 159449,
+    "delta24h": 13,
+    "delta7d": 140,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator/files/900003"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-default-world-generator-1.0.4-1.7.10",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "default-world-generator-1.0.4+1.7.10.jar",
+    "version": "1.0.4",
+    "release": "1.0.4",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.7.10"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2018-05-22T09:12:00.000Z",
+    "downloads": 115608,
+    "delta24h": 10,
+    "delta7d": 102,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator/files/900004"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-default-world-generator-1.5.0-1.18.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "Default World Generator 1.5.0 for 1.18.2",
+    "version": "1.5.0",
+    "release": "1.5.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.18.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2024-05-30T11:12:00.000Z",
+    "downloads": 1674,
+    "delta24h": 1,
+    "delta7d": 4,
+    "url": "https://modrinth.com/mod/default-world-generator/version/1.5.0-1.18.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-default-world-generator-1.4.2-1.16.5",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "Default World Generator 1.4.2 for 1.16.5",
+    "version": "1.4.2",
+    "release": "1.4.2",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.16.5"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2023-08-19T11:12:00.000Z",
+    "downloads": 1318,
+    "delta24h": 1,
+    "delta7d": 3,
+    "url": "https://modrinth.com/mod/default-world-generator/version/1.4.2-1.16.5"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-default-world-generator-1.3.1-1.12.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "Default World Generator 1.3.1 for 1.12.2",
+    "version": "1.3.1",
+    "release": "1.3.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.12.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2022-03-23T11:12:00.000Z",
+    "downloads": 953,
+    "delta24h": 0,
+    "delta7d": 2,
+    "url": "https://modrinth.com/mod/default-world-generator/version/1.3.1-1.12.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-default-world-generator-1.2.0-1.10.2",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "Default World Generator 1.2.0 for 1.10.2",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.10.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2020-11-02T11:12:00.000Z",
+    "downloads": 748,
+    "delta24h": 0,
+    "delta7d": 2,
+    "url": "https://modrinth.com/mod/default-world-generator/version/1.2.0-1.10.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-default-world-generator-1.0.4-1.7.10",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "name": "Default World Generator 1.0.4 for 1.7.10",
+    "version": "1.0.4",
+    "release": "1.0.4",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.7.10"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2018-05-22T11:12:00.000Z",
+    "downloads": 543,
+    "delta24h": 0,
+    "delta7d": 1,
+    "url": "https://modrinth.com/mod/default-world-generator/version/1.0.4-1.7.10"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-08-24T23:59:59.000Z",
+    "curseforge": 1102287,
+    "modrinth": 5081
+   },
+   {
+    "at": "2026-08-25T23:59:59.000Z",
+    "curseforge": 1102478,
+    "modrinth": 5083
+   },
+   {
+    "at": "2026-08-26T23:59:59.000Z",
+    "curseforge": 1102672,
+    "modrinth": 5085
+   },
+   {
+    "at": "2026-08-27T23:59:59.000Z",
+    "curseforge": 1102813,
+    "modrinth": 5087
+   },
+   {
+    "at": "2026-08-28T23:59:59.000Z",
+    "curseforge": 1102962,
+    "modrinth": 5089
+   },
+   {
+    "at": "2026-08-29T23:59:59.000Z",
+    "curseforge": 1103080,
+    "modrinth": 5090
+   },
+   {
+    "at": "2026-08-30T23:59:59.000Z",
+    "curseforge": 1103217,
+    "modrinth": 5092
+   },
+   {
+    "at": "2026-08-31T23:59:59.000Z",
+    "curseforge": 1103381,
+    "modrinth": 5093
+   },
+   {
+    "at": "2026-09-01T23:59:59.000Z",
+    "curseforge": 1103587,
+    "modrinth": 5095
+   },
+   {
+    "at": "2026-09-02T23:59:59.000Z",
+    "curseforge": 1103800,
+    "modrinth": 5097
+   },
+   {
+    "at": "2026-09-03T23:59:59.000Z",
+    "curseforge": 1103941,
+    "modrinth": 5099
+   },
+   {
+    "at": "2026-09-04T23:59:59.000Z",
+    "curseforge": 1104060,
+    "modrinth": 5101
+   },
+   {
+    "at": "2026-09-05T23:59:59.000Z",
+    "curseforge": 1104208,
+    "modrinth": 5103
+   },
+   {
+    "at": "2026-09-06T23:59:59.000Z",
+    "curseforge": 1104310,
+    "modrinth": 5104
+   },
+   {
+    "at": "2026-09-07T23:59:59.000Z",
+    "curseforge": 1104457,
+    "modrinth": 5106
+   },
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 1104634,
+    "modrinth": 5108
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 1104786,
+    "modrinth": 5110
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 1104953,
+    "modrinth": 5112
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 1105113,
+    "modrinth": 5114
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 1105241,
+    "modrinth": 5115
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 1105377,
+    "modrinth": 5116
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 1105524,
+    "modrinth": 5118
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 1105656,
+    "modrinth": 5120
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 1105794,
+    "modrinth": 5122
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 1105924,
+    "modrinth": 5124
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 1106067,
+    "modrinth": 5126
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 1106207,
+    "modrinth": 5127
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 1106362,
+    "modrinth": 5128
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 1106488,
+    "modrinth": 5130
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 1106675,
+    "modrinth": 5132
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 1106840,
+    "modrinth": 5134
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 1106997,
+    "modrinth": 5136
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 1107140,
+    "modrinth": 5137
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 1107262,
+    "modrinth": 5139
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 1107399,
+    "modrinth": 5141
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 1107517,
+    "modrinth": 5142
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 1107698,
+    "modrinth": 5144
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 1107900,
+    "modrinth": 5147
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 1108031,
+    "modrinth": 5148
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 1108135,
+    "modrinth": 5150
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 1108228,
+    "modrinth": 5151
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 1108370,
+    "modrinth": 5153
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 1108537,
+    "modrinth": 5155
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 1108740,
+    "modrinth": 5156
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 1108882,
+    "modrinth": 5158
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 1109074,
+    "modrinth": 5160
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 1109181,
+    "modrinth": 5161
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 1109283,
+    "modrinth": 5163
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 1109400,
+    "modrinth": 5164
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 1109546,
+    "modrinth": 5166
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 1109685,
+    "modrinth": 5168
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 1109854,
+    "modrinth": 5170
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 1110010,
+    "modrinth": 5172
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 1110134,
+    "modrinth": 5173
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 1110278,
+    "modrinth": 5174
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 1110436,
+    "modrinth": 5176
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 1110555,
+    "modrinth": 5178
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 1110705,
+    "modrinth": 5180
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 1110862,
+    "modrinth": 5182
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 1110998,
+    "modrinth": 5184
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 1111169,
+    "modrinth": 5186
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 1111284,
+    "modrinth": 5187
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 1111435,
+    "modrinth": 5188
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 1111562,
+    "modrinth": 5190
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 1111739,
+    "modrinth": 5192
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 1111919,
+    "modrinth": 5194
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 1112097,
+    "modrinth": 5196
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 1112229,
+    "modrinth": 5198
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 1112376,
+    "modrinth": 5199
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 1112504,
+    "modrinth": 5201
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 1112665,
+    "modrinth": 5203
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 1112804,
+    "modrinth": 5205
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 1113014,
+    "modrinth": 5207
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 1113164,
+    "modrinth": 5209
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 1113306,
+    "modrinth": 5210
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 1113428,
+    "modrinth": 5212
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 1113578,
+    "modrinth": 5213
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 1113737,
+    "modrinth": 5215
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 1113941,
+    "modrinth": 5217
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 1114145,
+    "modrinth": 5219
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 1114316,
+    "modrinth": 5222
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 1114449,
+    "modrinth": 5223
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 1114546,
+    "modrinth": 5225
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 1114699,
+    "modrinth": 5226
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 1114831,
+    "modrinth": 5228
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 1114978,
+    "modrinth": 5229
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 1115136,
+    "modrinth": 5231
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 1115266,
+    "modrinth": 5233
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 1115434,
+    "modrinth": 5234
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 1115528,
+    "modrinth": 5236
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "1.18.2",
+    "downloads": 358357,
+    "curseforge": 356683,
+    "modrinth": 1674,
+    "files": 2
+   },
+   {
+    "name": "1.16.5",
+    "downloads": 282139,
+    "curseforge": 280821,
+    "modrinth": 1318,
+    "files": 2
+   },
+   {
+    "name": "1.12.2",
+    "downloads": 203920,
+    "curseforge": 202967,
+    "modrinth": 953,
+    "files": 2
+   },
+   {
+    "name": "1.10.2",
+    "downloads": 160197,
+    "curseforge": 159449,
+    "modrinth": 748,
+    "files": 2
+   },
+   {
+    "name": "1.7.10",
+    "downloads": 116151,
+    "curseforge": 115608,
+    "modrinth": 543,
+    "files": 2
+   }
+  ],
+  "issues": [
+   {
+    "number": 33,
+    "title": "Seed field ignores negative numbers",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/33",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "default-world-generator",
+    "modName": "Default World Generator",
+    "modLabel": "default-world-generator",
+    "kind": "bug",
+    "labels": [
+     "mod: default-world-generator",
+     "bug"
+    ],
+    "author": "seedlord",
+    "comments": 5,
+    "createdAt": "2026-07-24T16:40:00.000Z",
+    "updatedAt": "2026-08-16T11:05:00.000Z",
+    "closedAt": "2026-08-16T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/default-world-generator",
+   "modrinth": "https://modrinth.com/mod/default-world-generator",
+   "github": "https://github.com/FireBall1725/default-world-generator",
+   "source": "https://github.com/FireBall1725/default-world-generator",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+default-world-generator%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "auto-gui-scale": {
+  "slug": "auto-gui-scale",
+  "name": "Automatic Gui Scale",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(205%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(245%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAG%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Picks the GUI scale that fits your window, so menus stay readable on every monitor.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "689123",
+   "slug": "automatic-gui-scale",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 48310,
+   "delta24h": 31,
+   "delta7d": 249,
+   "followers": 96,
+   "publishedAt": "2024-07-14T09:30:00.000Z",
+   "updatedAt": "2026-10-14T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "q3Zr7wLm",
+   "slug": "ags",
+   "url": "https://modrinth.com/mod/ags",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 31942,
+   "delta24h": 24,
+   "delta7d": 183,
+   "followers": 61,
+   "publishedAt": "2024-07-14T09:30:00.000Z",
+   "updatedAt": "2026-10-14T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "auto-gui-scale",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 80252,
+   "curseforge": 48310,
+   "modrinth": 31942,
+   "delta24h": 55,
+   "delta7d": 432
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "3.2.1",
+   "releaseType": "release",
+   "publishedAt": "2026-10-14T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.11",
+   "1.21.4",
+   "1.21.1",
+   "1.20.1",
+   "1.19.2"
+  ],
+  "loaders": [
+   "fabric",
+   "forge",
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "auto-gui-scale",
+    "title": "Automatic Gui Scale has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-auto-gui-scale-3.2.1-26.1",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "automatic-gui-scale-3.2.1+26.1.jar",
+    "version": "3.2.1",
+    "release": "3.2.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-10-14T09:12:00.000Z",
+    "downloads": 16576,
+    "delta24h": 11,
+    "delta7d": 85,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-auto-gui-scale-3.1.0-1.21.11",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "automatic-gui-scale-3.1.0+1.21.11.jar",
+    "version": "3.1.0",
+    "release": "3.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.11"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-09-21T09:12:00.000Z",
+    "downloads": 14769,
+    "delta24h": 9,
+    "delta7d": 76,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900001"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-auto-gui-scale-3.2.1-26.1",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "Automatic Gui Scale 3.2.1 for 26.1",
+    "version": "3.2.1",
+    "release": "3.2.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-10-14T11:12:00.000Z",
+    "downloads": 10960,
+    "delta24h": 8,
+    "delta7d": 63,
+    "url": "https://modrinth.com/mod/ags/version/3.2.1-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-auto-gui-scale-3.1.0-1.21.11",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "Automatic Gui Scale 3.1.0 for 1.21.11",
+    "version": "3.1.0",
+    "release": "3.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.11"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-09-21T11:12:00.000Z",
+    "downloads": 9765,
+    "delta24h": 7,
+    "delta7d": 56,
+    "url": "https://modrinth.com/mod/ags/version/3.1.0-1.21.11"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-auto-gui-scale-3.0.2-1.21.4",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "automatic-gui-scale-3.0.2+1.21.4.jar",
+    "version": "3.0.2",
+    "release": "3.0.2",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.4",
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-05-15T09:12:00.000Z",
+    "downloads": 9166,
+    "delta24h": 6,
+    "delta7d": 47,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900002"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-auto-gui-scale-3.0.2-1.21.4",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "Automatic Gui Scale 3.0.2 for 1.21.4",
+    "version": "3.0.2",
+    "release": "3.0.2",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.4",
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge",
+     "fabric"
+    ],
+    "publishedAt": "2026-05-15T11:12:00.000Z",
+    "downloads": 6060,
+    "delta24h": 5,
+    "delta7d": 35,
+    "url": "https://modrinth.com/mod/ags/version/3.0.2-1.21.4"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-auto-gui-scale-2.4.0-1.20.1",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "automatic-gui-scale-2.4.0+1.20.1.jar",
+    "version": "2.4.0",
+    "release": "2.4.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.20.1"
+    ],
+    "loaders": [
+     "forge",
+     "fabric"
+    ],
+    "publishedAt": "2025-06-19T09:12:00.000Z",
+    "downloads": 4651,
+    "delta24h": 3,
+    "delta7d": 24,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900003"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-auto-gui-scale-2.1.3-1.19.2",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "automatic-gui-scale-2.1.3+1.19.2.jar",
+    "version": "2.1.3",
+    "release": "2.1.3",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.19.2"
+    ],
+    "loaders": [
+     "forge",
+     "fabric"
+    ],
+    "publishedAt": "2024-08-03T09:12:00.000Z",
+    "downloads": 3148,
+    "delta24h": 2,
+    "delta7d": 16,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale/files/900004"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-auto-gui-scale-2.4.0-1.20.1",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "Automatic Gui Scale 2.4.0 for 1.20.1",
+    "version": "2.4.0",
+    "release": "2.4.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.20.1"
+    ],
+    "loaders": [
+     "forge",
+     "fabric"
+    ],
+    "publishedAt": "2025-06-19T11:12:00.000Z",
+    "downloads": 3075,
+    "delta24h": 2,
+    "delta7d": 18,
+    "url": "https://modrinth.com/mod/ags/version/2.4.0-1.20.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-auto-gui-scale-2.1.3-1.19.2",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "name": "Automatic Gui Scale 2.1.3 for 1.19.2",
+    "version": "2.1.3",
+    "release": "2.1.3",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.19.2"
+    ],
+    "loaders": [
+     "forge",
+     "fabric"
+    ],
+    "publishedAt": "2024-08-03T11:12:00.000Z",
+    "downloads": 2082,
+    "delta24h": 2,
+    "delta7d": 12,
+    "url": "https://modrinth.com/mod/ags/version/2.1.3-1.19.2"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-08-24T23:59:59.000Z",
+    "curseforge": 44970,
+    "modrinth": 29733
+   },
+   {
+    "at": "2026-08-25T23:59:59.000Z",
+    "curseforge": 45014,
+    "modrinth": 29764
+   },
+   {
+    "at": "2026-08-26T23:59:59.000Z",
+    "curseforge": 45052,
+    "modrinth": 29796
+   },
+   {
+    "at": "2026-08-27T23:59:59.000Z",
+    "curseforge": 45092,
+    "modrinth": 29826
+   },
+   {
+    "at": "2026-08-28T23:59:59.000Z",
+    "curseforge": 45131,
+    "modrinth": 29844
+   },
+   {
+    "at": "2026-08-29T23:59:59.000Z",
+    "curseforge": 45158,
+    "modrinth": 29861
+   },
+   {
+    "at": "2026-08-30T23:59:59.000Z",
+    "curseforge": 45190,
+    "modrinth": 29886
+   },
+   {
+    "at": "2026-08-31T23:59:59.000Z",
+    "curseforge": 45226,
+    "modrinth": 29916
+   },
+   {
+    "at": "2026-09-01T23:59:59.000Z",
+    "curseforge": 45279,
+    "modrinth": 29951
+   },
+   {
+    "at": "2026-09-02T23:59:59.000Z",
+    "curseforge": 45332,
+    "modrinth": 29978
+   },
+   {
+    "at": "2026-09-03T23:59:59.000Z",
+    "curseforge": 45371,
+    "modrinth": 30005
+   },
+   {
+    "at": "2026-09-04T23:59:59.000Z",
+    "curseforge": 45403,
+    "modrinth": 30025
+   },
+   {
+    "at": "2026-09-05T23:59:59.000Z",
+    "curseforge": 45433,
+    "modrinth": 30046
+   },
+   {
+    "at": "2026-09-06T23:59:59.000Z",
+    "curseforge": 45465,
+    "modrinth": 30067
+   },
+   {
+    "at": "2026-09-07T23:59:59.000Z",
+    "curseforge": 45508,
+    "modrinth": 30089
+   },
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 45555,
+    "modrinth": 30122
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 45596,
+    "modrinth": 30157
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 45643,
+    "modrinth": 30188
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 45680,
+    "modrinth": 30216
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 45713,
+    "modrinth": 30239
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 45746,
+    "modrinth": 30264
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 45775,
+    "modrinth": 30291
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 45817,
+    "modrinth": 30321
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 45862,
+    "modrinth": 30344
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 45907,
+    "modrinth": 30369
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 45935,
+    "modrinth": 30397
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 45960,
+    "modrinth": 30420
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 45998,
+    "modrinth": 30445
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 46036,
+    "modrinth": 30467
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 46086,
+    "modrinth": 30493
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 46122,
+    "modrinth": 30516
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 46156,
+    "modrinth": 30538
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 46189,
+    "modrinth": 30558
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 46226,
+    "modrinth": 30576
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 46262,
+    "modrinth": 30601
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 46307,
+    "modrinth": 30630
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 46341,
+    "modrinth": 30664
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 46385,
+    "modrinth": 30691
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 46424,
+    "modrinth": 30712
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 46463,
+    "modrinth": 30735
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 46487,
+    "modrinth": 30753
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 46525,
+    "modrinth": 30771
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 46557,
+    "modrinth": 30790
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 46600,
+    "modrinth": 30816
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 46651,
+    "modrinth": 30844
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 46700,
+    "modrinth": 30876
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 46733,
+    "modrinth": 30893
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 46761,
+    "modrinth": 30909
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 46792,
+    "modrinth": 30926
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 46829,
+    "modrinth": 30950
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 46864,
+    "modrinth": 30976
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 46912,
+    "modrinth": 31002
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 46943,
+    "modrinth": 31035
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 46975,
+    "modrinth": 31058
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 47011,
+    "modrinth": 31084
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 47048,
+    "modrinth": 31104
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 47091,
+    "modrinth": 31127
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 47131,
+    "modrinth": 31160
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 47175,
+    "modrinth": 31192
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 47221,
+    "modrinth": 31221
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 47247,
+    "modrinth": 31238
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 47277,
+    "modrinth": 31256
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 47302,
+    "modrinth": 31276
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 47340,
+    "modrinth": 31304
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 47377,
+    "modrinth": 31326
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 47430,
+    "modrinth": 31357
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 47477,
+    "modrinth": 31380
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 47509,
+    "modrinth": 31406
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 47535,
+    "modrinth": 31425
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 47563,
+    "modrinth": 31451
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 47604,
+    "modrinth": 31469
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 47651,
+    "modrinth": 31502
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 47700,
+    "modrinth": 31530
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 47740,
+    "modrinth": 31560
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 47772,
+    "modrinth": 31581
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 47809,
+    "modrinth": 31603
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 47834,
+    "modrinth": 31627
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 47874,
+    "modrinth": 31651
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 47908,
+    "modrinth": 31674
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 47957,
+    "modrinth": 31696
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 48003,
+    "modrinth": 31723
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 48032,
+    "modrinth": 31742
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 48061,
+    "modrinth": 31759
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 48091,
+    "modrinth": 31776
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 48125,
+    "modrinth": 31806
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 48163,
+    "modrinth": 31838
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 48206,
+    "modrinth": 31869
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 48252,
+    "modrinth": 31898
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 48279,
+    "modrinth": 31918
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 48310,
+    "modrinth": 31942
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.1",
+    "downloads": 27536,
+    "curseforge": 16576,
+    "modrinth": 10960,
+    "files": 2
+   },
+   {
+    "name": "1.21.11",
+    "downloads": 24534,
+    "curseforge": 14769,
+    "modrinth": 9765,
+    "files": 2
+   },
+   {
+    "name": "1.21.4",
+    "downloads": 15226,
+    "curseforge": 9166,
+    "modrinth": 6060,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 15226,
+    "curseforge": 9166,
+    "modrinth": 6060,
+    "files": 2
+   },
+   {
+    "name": "1.20.1",
+    "downloads": 7726,
+    "curseforge": 4651,
+    "modrinth": 3075,
+    "files": 2
+   },
+   {
+    "name": "1.19.2",
+    "downloads": 5230,
+    "curseforge": 3148,
+    "modrinth": 2082,
+    "files": 2
+   }
+  ],
+  "issues": [
+   {
+    "number": 40,
+    "title": "Per-screen scale override",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/40",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "modLabel": "auto-gui-scale",
+    "kind": "enhancement",
+    "labels": [
+     "mod: auto-gui-scale",
+     "enhancement"
+    ],
+    "author": "pixelpusher",
+    "comments": 5,
+    "createdAt": "2026-11-03T16:40:00.000Z",
+    "updatedAt": "2026-11-04T11:05:00.000Z",
+    "closedAt": null
+   },
+   {
+    "number": 35,
+    "title": "Scale resets when the window is maximised",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/35",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "auto-gui-scale",
+    "modName": "Automatic Gui Scale",
+    "modLabel": "auto-gui-scale",
+    "kind": "bug",
+    "labels": [
+     "mod: auto-gui-scale",
+     "bug"
+    ],
+    "author": "pixelpusher",
+    "comments": 4,
+    "createdAt": "2026-09-22T16:40:00.000Z",
+    "updatedAt": "2026-09-30T11:05:00.000Z",
+    "closedAt": "2026-09-30T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/automatic-gui-scale",
+   "modrinth": "https://modrinth.com/mod/ags",
+   "github": "https://github.com/FireBall1725/auto-gui-scale",
+   "source": "https://github.com/FireBall1725/auto-gui-scale",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+auto-gui-scale%22",
+   "wiki": "https://github.com/FireBall1725/auto-gui-scale/wiki",
+   "discord": null
+  }
+ },
+ "twitch-notifier": {
+  "slug": "twitch-notifier",
+  "name": "Twitch Notifier",
+  "iconUrl": "",
+  "summary": "Shows an in-game toast when a streamer you follow goes live.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "391775",
+   "slug": "twitch-notifier",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier",
+   "status": "inactive",
+   "rawStatus": "Inactive",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 22604,
+   "delta24h": 4,
+   "delta7d": 24,
+   "followers": 71,
+   "publishedAt": "2023-03-22T09:30:00.000Z",
+   "updatedAt": "2025-02-19T09:12:00.000Z",
+   "files": 3
+  },
+  "modrinth": null,
+  "github": {
+   "label": "twitch-notifier",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 22604,
+   "curseforge": 22604,
+   "modrinth": 0,
+   "delta24h": 4,
+   "delta7d": 24
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge"
+   ],
+   "version": "1.3.0",
+   "releaseType": "release",
+   "publishedAt": "2025-02-19T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.20.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.20.1",
+   "1.19.2",
+   "1.16.5"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "legacy": true,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "twitch-notifier",
+    "title": "Twitch Notifier has had no release in 1.8 years",
+    "detail": "Last release is over a year old.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-twitch-notifier-1.3.0-1.20.1",
+    "modSlug": "twitch-notifier",
+    "modName": "Twitch Notifier",
+    "name": "twitch-notifier-1.3.0+1.20.1.jar",
+    "version": "1.3.0",
+    "release": "1.3.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.20.1"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2025-02-19T09:12:00.000Z",
+    "downloads": 9809,
+    "delta24h": 2,
+    "delta7d": 10,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-twitch-notifier-1.2.1-1.19.2",
+    "modSlug": "twitch-notifier",
+    "modName": "Twitch Notifier",
+    "name": "twitch-notifier-1.2.1+1.19.2.jar",
+    "version": "1.2.1",
+    "release": "1.2.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.19.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2024-06-24T09:12:00.000Z",
+    "downloads": 7523,
+    "delta24h": 1,
+    "delta7d": 8,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-twitch-notifier-1.0.0-1.16.5",
+    "modSlug": "twitch-notifier",
+    "modName": "Twitch Notifier",
+    "name": "twitch-notifier-1.0.0+1.16.5.jar",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.16.5"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2023-04-11T09:12:00.000Z",
+    "downloads": 5272,
+    "delta24h": 1,
+    "delta7d": 6,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier/files/900002"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-08-24T23:59:59.000Z",
+    "curseforge": 22269,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-25T23:59:59.000Z",
+    "curseforge": 22274,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-26T23:59:59.000Z",
+    "curseforge": 22277,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-27T23:59:59.000Z",
+    "curseforge": 22282,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-28T23:59:59.000Z",
+    "curseforge": 22286,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-29T23:59:59.000Z",
+    "curseforge": 22290,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-30T23:59:59.000Z",
+    "curseforge": 22293,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-31T23:59:59.000Z",
+    "curseforge": 22296,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-01T23:59:59.000Z",
+    "curseforge": 22301,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-02T23:59:59.000Z",
+    "curseforge": 22305,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-03T23:59:59.000Z",
+    "curseforge": 22310,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-04T23:59:59.000Z",
+    "curseforge": 22313,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-05T23:59:59.000Z",
+    "curseforge": 22316,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-06T23:59:59.000Z",
+    "curseforge": 22319,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-07T23:59:59.000Z",
+    "curseforge": 22322,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 22326,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 22330,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 22334,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 22337,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 22341,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 22343,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 22347,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 22350,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 22356,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 22359,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 22362,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 22365,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 22368,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 22372,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 22376,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 22380,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 22383,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 22387,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 22391,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 22393,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 22397,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 22402,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 22407,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 22412,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 22416,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 22419,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 22423,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 22426,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 22430,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 22434,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 22439,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 22443,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 22446,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 22450,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 22453,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 22457,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 22462,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 22465,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 22468,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 22472,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 22475,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 22478,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 22482,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 22486,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 22490,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 22494,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 22498,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 22501,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 22505,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 22511,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 22516,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 22521,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 22525,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 22527,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 22531,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 22535,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 22538,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 22542,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 22547,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 22551,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 22555,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 22558,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 22562,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 22566,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 22571,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 22574,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 22577,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 22580,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 22583,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 22586,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 22590,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 22594,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 22597,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 22600,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 22604,
+    "modrinth": 0
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "1.20.1",
+    "downloads": 9809,
+    "curseforge": 9809,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "1.19.2",
+    "downloads": 7523,
+    "curseforge": 7523,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "1.16.5",
+    "downloads": 5272,
+    "curseforge": 5272,
+    "modrinth": 0,
+    "files": 1
+   }
+  ],
+  "issues": [
+   {
+    "number": 32,
+    "title": "Notification stays on screen after the stream ends",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/32",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "twitch-notifier",
+    "modName": "Twitch Notifier",
+    "modLabel": "twitch-notifier",
+    "kind": "bug",
+    "labels": [
+     "mod: twitch-notifier",
+     "bug"
+    ],
+    "author": "streamsnipe",
+    "comments": 3,
+    "createdAt": "2026-01-25T16:40:00.000Z",
+    "updatedAt": "2026-02-14T11:05:00.000Z",
+    "closedAt": "2026-02-14T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/twitch-notifier",
+   "modrinth": null,
+   "github": "https://github.com/FireBall1725/twitch-notifier",
+   "source": "https://github.com/FireBall1725/twitch-notifier",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+twitch-notifier%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "ae2-tech-addon": {
+  "slug": "ae2-tech-addon",
+  "name": "AE2 Tech Add-On",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(190%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(230%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Adds advanced multiblock machines to Applied Energistics 2, rewritten from the 1.7.10 original.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "905512",
+   "slug": "ae2-tech-addon",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 12418,
+   "delta24h": 66,
+   "delta7d": 512,
+   "followers": 44,
+   "publishedAt": "2020-01-07T09:30:00.000Z",
+   "updatedAt": "2026-11-17T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": null,
+  "github": {
+   "label": "ae2-tech-addon",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 12418,
+   "curseforge": 12418,
+   "modrinth": 0,
+   "delta24h": 66,
+   "delta7d": 512
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge"
+   ],
+   "version": "2.0.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-17T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1",
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge",
+   "neoforge"
+  ],
+  "legacy": true,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "missing_platform",
+    "modSlug": "ae2-tech-addon",
+    "title": "AE2 Tech Add-On is only on CurseForge",
+    "detail": "No project on the other platform is linked.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-tech-addon-2.0.0-26.3",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "name": "ae2-tech-addon-2.0.0+26.3.jar",
+    "version": "2.0.0",
+    "release": "2.0.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.3"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-17T09:12:00.000Z",
+    "downloads": 3271,
+    "delta24h": 17,
+    "delta7d": 135,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-tech-addon-2.0.0-26.2",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "name": "ae2-tech-addon-2.0.0+26.2.jar",
+    "version": "2.0.0",
+    "release": "2.0.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-10T09:12:00.000Z",
+    "downloads": 3129,
+    "delta24h": 17,
+    "delta7d": 129,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-tech-addon-2.0.0-26.1",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "name": "ae2-tech-addon-2.0.0+26.1.jar",
+    "version": "2.0.0",
+    "release": "2.0.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-02T09:12:00.000Z",
+    "downloads": 2981,
+    "delta24h": 16,
+    "delta7d": 123,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900002"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-tech-addon-2.0.0-1.21.1",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "name": "ae2-tech-addon-2.0.0+1.21.1.jar",
+    "version": "2.0.0",
+    "release": "2.0.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-25T09:12:00.000Z",
+    "downloads": 2846,
+    "delta24h": 15,
+    "delta7d": 117,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900003"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-tech-addon-1.0.7-1.7.10",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "name": "ae2-tech-addon-1.0.7+1.7.10.jar",
+    "version": "1.0.7",
+    "release": "1.0.7",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.7.10"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2020-01-27T09:12:00.000Z",
+    "downloads": 191,
+    "delta24h": 1,
+    "delta7d": 8,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon/files/900004"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-08-24T23:59:59.000Z",
+    "curseforge": 6282,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-25T23:59:59.000Z",
+    "curseforge": 6380,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-26T23:59:59.000Z",
+    "curseforge": 6466,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-27T23:59:59.000Z",
+    "curseforge": 6552,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-28T23:59:59.000Z",
+    "curseforge": 6627,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-29T23:59:59.000Z",
+    "curseforge": 6683,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-30T23:59:59.000Z",
+    "curseforge": 6734,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-08-31T23:59:59.000Z",
+    "curseforge": 6791,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-01T23:59:59.000Z",
+    "curseforge": 6872,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-02T23:59:59.000Z",
+    "curseforge": 6937,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-03T23:59:59.000Z",
+    "curseforge": 7026,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-04T23:59:59.000Z",
+    "curseforge": 7097,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-05T23:59:59.000Z",
+    "curseforge": 7143,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-06T23:59:59.000Z",
+    "curseforge": 7210,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-07T23:59:59.000Z",
+    "curseforge": 7264,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 7329,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 7410,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 7477,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 7540,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 7595,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 7656,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 7734,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 7825,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 7892,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 7951,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 7999,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 8067,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 8132,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 8197,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 8267,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 8331,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 8422,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 8489,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 8538,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 8608,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 8676,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 8750,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 8814,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 8907,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 8967,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 9026,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 9095,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 9177,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 9252,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 9317,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 9375,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 9452,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 9496,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 9545,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 9620,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 9696,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 9794,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 9880,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 9943,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 10002,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 10069,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 10144,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 10226,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 10307,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 10381,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 10436,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 10503,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 10571,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 10654,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 10740,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 10822,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 10912,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 10971,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 11023,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 11077,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 11151,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 11217,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 11307,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 11369,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 11430,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 11476,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 11543,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 11621,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 11681,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 11750,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 11811,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 11861,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 11906,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 11981,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 12038,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 12113,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 12190,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 12276,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 12352,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 12418,
+    "modrinth": 0
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.3",
+    "downloads": 3271,
+    "curseforge": 3271,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "26.2",
+    "downloads": 3129,
+    "curseforge": 3129,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "26.1",
+    "downloads": 2981,
+    "curseforge": 2981,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 2846,
+    "curseforge": 2846,
+    "modrinth": 0,
+    "files": 1
+   },
+   {
+    "name": "1.7.10",
+    "downloads": 191,
+    "curseforge": 191,
+    "modrinth": 0,
+    "files": 1
+   }
+  ],
+  "issues": [
+   {
+    "number": 39,
+    "title": "Port the Tech Add-On crystallizer recipes to datapacks",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/39",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "ae2-tech-addon",
+    "modName": "AE2 Tech Add-On",
+    "modLabel": "ae2-tech-addon",
+    "kind": "enhancement",
+    "labels": [
+     "mod: ae2-tech-addon",
+     "enhancement"
+    ],
+    "author": "quartzfan",
+    "comments": 2,
+    "createdAt": "2026-10-12T16:40:00.000Z",
+    "updatedAt": "2026-10-13T11:05:00.000Z",
+    "closedAt": null
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/ae2-tech-addon",
+   "modrinth": null,
+   "github": "https://github.com/FireBall1725/ae2-tech-addon",
+   "source": "https://github.com/FireBall1725/ae2-tech-addon",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-tech-addon%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "ftb-pax-timer": {
+  "slug": "ftb-pax-timer",
+  "name": "FTB Pax Timer",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(30%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(70%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EFP%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "A countdown and event timer overlay for FTB convention packs.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "560341",
+   "slug": "ftb-pax-timer",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-pax-timer",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 8950,
+   "delta24h": 4,
+   "delta7d": 28,
+   "followers": 22,
+   "publishedAt": "2024-01-03T09:30:00.000Z",
+   "updatedAt": "2025-10-05T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "T8vYc1nA",
+   "slug": "ftb-pax-timer",
+   "url": "https://modrinth.com/mod/ftb-pax-timer",
+   "status": "archived",
+   "rawStatus": "archived",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 411,
+   "delta24h": 0,
+   "delta7d": 1,
+   "followers": 3,
+   "publishedAt": "2024-01-03T09:30:00.000Z",
+   "updatedAt": "2025-10-05T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "ftb-pax-timer",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 9361,
+   "curseforge": 8950,
+   "modrinth": 411,
+   "delta24h": 4,
+   "delta7d": 29
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "1.1.0",
+   "releaseType": "release",
+   "publishedAt": "2025-10-05T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.18.2"
+   ]
+  },
+  "minecraftVersions": [
+   "1.18.2",
+   "1.12.2"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "legacy": true,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "stale_release",
+    "modSlug": "ftb-pax-timer",
+    "title": "FTB Pax Timer has had no release in 1.1 years",
+    "detail": "Last release is over a year old.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-ftb-pax-timer-1.1.0-1.18.2",
+    "modSlug": "ftb-pax-timer",
+    "modName": "FTB Pax Timer",
+    "name": "ftb-pax-timer-1.1.0+1.18.2.jar",
+    "version": "1.1.0",
+    "release": "1.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.18.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2025-10-05T09:12:00.000Z",
+    "downloads": 6068,
+    "delta24h": 3,
+    "delta7d": 19,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-pax-timer/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ftb-pax-timer-1.0.0-1.12.2",
+    "modSlug": "ftb-pax-timer",
+    "modName": "FTB Pax Timer",
+    "name": "ftb-pax-timer-1.0.0+1.12.2.jar",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.12.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2024-01-23T09:12:00.000Z",
+    "downloads": 2882,
+    "delta24h": 1,
+    "delta7d": 9,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ftb-pax-timer/files/900001"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ftb-pax-timer-1.1.0-1.18.2",
+    "modSlug": "ftb-pax-timer",
+    "modName": "FTB Pax Timer",
+    "name": "FTB Pax Timer 1.1.0 for 1.18.2",
+    "version": "1.1.0",
+    "release": "1.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.18.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2025-10-05T11:12:00.000Z",
+    "downloads": 279,
+    "delta24h": 0,
+    "delta7d": 1,
+    "url": "https://modrinth.com/mod/ftb-pax-timer/version/1.1.0-1.18.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ftb-pax-timer-1.0.0-1.12.2",
+    "modSlug": "ftb-pax-timer",
+    "modName": "FTB Pax Timer",
+    "name": "FTB Pax Timer 1.0.0 for 1.12.2",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.12.2"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2024-01-23T11:12:00.000Z",
+    "downloads": 132,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://modrinth.com/mod/ftb-pax-timer/version/1.0.0-1.12.2"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-08-24T23:59:59.000Z",
+    "curseforge": 8597,
+    "modrinth": 395
+   },
+   {
+    "at": "2026-08-25T23:59:59.000Z",
+    "curseforge": 8601,
+    "modrinth": 395
+   },
+   {
+    "at": "2026-08-26T23:59:59.000Z",
+    "curseforge": 8606,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-08-27T23:59:59.000Z",
+    "curseforge": 8610,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-08-28T23:59:59.000Z",
+    "curseforge": 8614,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-08-29T23:59:59.000Z",
+    "curseforge": 8617,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-08-30T23:59:59.000Z",
+    "curseforge": 8621,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-08-31T23:59:59.000Z",
+    "curseforge": 8625,
+    "modrinth": 396
+   },
+   {
+    "at": "2026-09-01T23:59:59.000Z",
+    "curseforge": 8628,
+    "modrinth": 397
+   },
+   {
+    "at": "2026-09-02T23:59:59.000Z",
+    "curseforge": 8632,
+    "modrinth": 397
+   },
+   {
+    "at": "2026-09-03T23:59:59.000Z",
+    "curseforge": 8636,
+    "modrinth": 397
+   },
+   {
+    "at": "2026-09-04T23:59:59.000Z",
+    "curseforge": 8639,
+    "modrinth": 397
+   },
+   {
+    "at": "2026-09-05T23:59:59.000Z",
+    "curseforge": 8643,
+    "modrinth": 397
+   },
+   {
+    "at": "2026-09-06T23:59:59.000Z",
+    "curseforge": 8648,
+    "modrinth": 398
+   },
+   {
+    "at": "2026-09-07T23:59:59.000Z",
+    "curseforge": 8651,
+    "modrinth": 398
+   },
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 8655,
+    "modrinth": 398
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 8659,
+    "modrinth": 398
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 8663,
+    "modrinth": 398
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 8666,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 8669,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 8671,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 8676,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 8680,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 8685,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 8690,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 8693,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 8697,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 8700,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 8703,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 8707,
+    "modrinth": 400
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 8713,
+    "modrinth": 401
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 8716,
+    "modrinth": 401
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 8720,
+    "modrinth": 401
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 8723,
+    "modrinth": 401
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 8727,
+    "modrinth": 401
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 8732,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 8736,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 8740,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 8745,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 8748,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 8751,
+    "modrinth": 402
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 8755,
+    "modrinth": 403
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 8759,
+    "modrinth": 403
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 8764,
+    "modrinth": 403
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 8769,
+    "modrinth": 403
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 8773,
+    "modrinth": 403
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 8777,
+    "modrinth": 404
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 8781,
+    "modrinth": 404
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 8785,
+    "modrinth": 404
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 8789,
+    "modrinth": 404
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 8793,
+    "modrinth": 404
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 8798,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 8802,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 8806,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 8810,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 8813,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 8817,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 8821,
+    "modrinth": 405
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 8827,
+    "modrinth": 406
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 8832,
+    "modrinth": 406
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 8835,
+    "modrinth": 406
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 8837,
+    "modrinth": 406
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 8841,
+    "modrinth": 406
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 8845,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 8850,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 8853,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 8858,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 8861,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 8865,
+    "modrinth": 407
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 8869,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 8873,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 8877,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 8881,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 8887,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 8891,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 8894,
+    "modrinth": 409
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 8897,
+    "modrinth": 409
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 8902,
+    "modrinth": 409
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 8907,
+    "modrinth": 409
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 8911,
+    "modrinth": 409
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 8916,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 8919,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 8922,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 8924,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 8929,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 8934,
+    "modrinth": 410
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 8939,
+    "modrinth": 411
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 8943,
+    "modrinth": 411
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 8946,
+    "modrinth": 411
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 8950,
+    "modrinth": 411
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "1.18.2",
+    "downloads": 6347,
+    "curseforge": 6068,
+    "modrinth": 279,
+    "files": 2
+   },
+   {
+    "name": "1.12.2",
+    "downloads": 3014,
+    "curseforge": 2882,
+    "modrinth": 132,
+    "files": 2
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/ftb-pax-timer",
+   "modrinth": "https://modrinth.com/mod/ftb-pax-timer",
+   "github": "https://github.com/FireBall1725/ftb-pax-timer",
+   "source": "https://github.com/FireBall1725/ftb-pax-timer",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ftb-pax-timer%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "firecore": {
+  "slug": "firecore",
+  "name": "FireCore",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(335%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(15%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EF%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "The shared library and GUI toolkit behind the FireBall1725 mods, plus the Benihime sword.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1214770",
+   "slug": "firecorelib",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 5942,
+   "delta24h": 62,
+   "delta7d": 412,
+   "followers": 31,
+   "publishedAt": "2026-09-08T09:30:00.000Z",
+   "updatedAt": "2026-11-18T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "rF4dN6pS",
+   "slug": "firecoremod",
+   "url": "https://modrinth.com/mod/firecoremod",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 3217,
+   "delta24h": 27,
+   "delta7d": 210,
+   "followers": 27,
+   "publishedAt": "2026-09-08T09:30:00.000Z",
+   "updatedAt": "2026-11-18T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "firecore",
+   "open": 1,
+   "openBugs": 1,
+   "openCrashes": 0,
+   "oldestOpenBugAt": "2026-11-16T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 9159,
+   "curseforge": 5942,
+   "modrinth": 3217,
+   "delta24h": 89,
+   "delta7d": 622
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "0.9.2",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-18T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "bug_open",
+    "modSlug": "firecore",
+    "title": "Open bug in FireCore",
+    "detail": "#44: Benihime sheath renders at the wrong angle while sneaking",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/44",
+    "dismissible": false
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-firecore-0.9.2-26.3",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "firecorelib-0.9.2+26.3.jar",
+    "version": "0.9.2",
+    "release": "0.9.2",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.3"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-18T09:12:00.000Z",
+    "downloads": 1333,
+    "delta24h": 14,
+    "delta7d": 92,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-firecore-0.9.2-26.2",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "firecorelib-0.9.2+26.2.jar",
+    "version": "0.9.2",
+    "release": "0.9.2",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-18T09:12:00.000Z",
+    "downloads": 1333,
+    "delta24h": 14,
+    "delta7d": 92,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-firecore-0.9.1-26.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "firecorelib-0.9.1+26.1.jar",
+    "version": "0.9.1",
+    "release": "0.9.1",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-06T09:12:00.000Z",
+    "downloads": 1236,
+    "delta24h": 13,
+    "delta7d": 86,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900002"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-firecore-0.9.0-1.21.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "firecorelib-0.9.0+1.21.1.jar",
+    "version": "0.9.0",
+    "release": "0.9.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-19T09:12:00.000Z",
+    "downloads": 1114,
+    "delta24h": 12,
+    "delta7d": 77,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900003"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-firecore-0.7.0-1.21.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "firecorelib-0.7.0+1.21.1.jar",
+    "version": "0.7.0",
+    "release": "0.7.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-09-12T09:12:00.000Z",
+    "downloads": 926,
+    "delta24h": 10,
+    "delta7d": 64,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/firecorelib/files/900004"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-firecore-0.9.2-26.3",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "FireCore 0.9.2 for 26.3",
+    "version": "0.9.2",
+    "release": "0.9.2",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.3"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-18T11:12:00.000Z",
+    "downloads": 721,
+    "delta24h": 6,
+    "delta7d": 47,
+    "url": "https://modrinth.com/mod/firecoremod/version/0.9.2-26.3"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-firecore-0.9.2-26.2",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "FireCore 0.9.2 for 26.2",
+    "version": "0.9.2",
+    "release": "0.9.2",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-18T11:12:00.000Z",
+    "downloads": 721,
+    "delta24h": 6,
+    "delta7d": 47,
+    "url": "https://modrinth.com/mod/firecoremod/version/0.9.2-26.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-firecore-0.9.1-26.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "FireCore 0.9.1 for 26.1",
+    "version": "0.9.1",
+    "release": "0.9.1",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-06T11:12:00.000Z",
+    "downloads": 669,
+    "delta24h": 6,
+    "delta7d": 44,
+    "url": "https://modrinth.com/mod/firecoremod/version/0.9.1-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-firecore-0.9.0-1.21.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "FireCore 0.9.0 for 1.21.1",
+    "version": "0.9.0",
+    "release": "0.9.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-19T11:12:00.000Z",
+    "downloads": 603,
+    "delta24h": 5,
+    "delta7d": 39,
+    "url": "https://modrinth.com/mod/firecoremod/version/0.9.0-1.21.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-firecore-0.7.0-1.21.1",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "name": "FireCore 0.7.0 for 1.21.1",
+    "version": "0.7.0",
+    "release": "0.7.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-09-12T11:12:00.000Z",
+    "downloads": 503,
+    "delta24h": 4,
+    "delta7d": 33,
+    "url": "https://modrinth.com/mod/firecoremod/version/0.7.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-09-08T23:59:59.000Z",
+    "curseforge": 222,
+    "modrinth": 102
+   },
+   {
+    "at": "2026-09-09T23:59:59.000Z",
+    "curseforge": 391,
+    "modrinth": 190
+   },
+   {
+    "at": "2026-09-10T23:59:59.000Z",
+    "curseforge": 560,
+    "modrinth": 306
+   },
+   {
+    "at": "2026-09-11T23:59:59.000Z",
+    "curseforge": 745,
+    "modrinth": 392
+   },
+   {
+    "at": "2026-09-12T23:59:59.000Z",
+    "curseforge": 863,
+    "modrinth": 471
+   },
+   {
+    "at": "2026-09-13T23:59:59.000Z",
+    "curseforge": 991,
+    "modrinth": 530
+   },
+   {
+    "at": "2026-09-14T23:59:59.000Z",
+    "curseforge": 1113,
+    "modrinth": 594
+   },
+   {
+    "at": "2026-09-15T23:59:59.000Z",
+    "curseforge": 1264,
+    "modrinth": 671
+   },
+   {
+    "at": "2026-09-16T23:59:59.000Z",
+    "curseforge": 1405,
+    "modrinth": 736
+   },
+   {
+    "at": "2026-09-17T23:59:59.000Z",
+    "curseforge": 1543,
+    "modrinth": 811
+   },
+   {
+    "at": "2026-09-18T23:59:59.000Z",
+    "curseforge": 1678,
+    "modrinth": 874
+   },
+   {
+    "at": "2026-09-19T23:59:59.000Z",
+    "curseforge": 1790,
+    "modrinth": 922
+   },
+   {
+    "at": "2026-09-20T23:59:59.000Z",
+    "curseforge": 1867,
+    "modrinth": 971
+   },
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 1947,
+    "modrinth": 1024
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 2034,
+    "modrinth": 1067
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 2150,
+    "modrinth": 1130
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 2260,
+    "modrinth": 1188
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 2355,
+    "modrinth": 1249
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 2450,
+    "modrinth": 1288
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 2524,
+    "modrinth": 1334
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 2588,
+    "modrinth": 1370
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 2666,
+    "modrinth": 1413
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 2765,
+    "modrinth": 1465
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 2841,
+    "modrinth": 1516
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 2910,
+    "modrinth": 1560
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 2972,
+    "modrinth": 1595
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 3038,
+    "modrinth": 1625
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 3098,
+    "modrinth": 1652
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 3158,
+    "modrinth": 1681
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 3250,
+    "modrinth": 1721
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 3313,
+    "modrinth": 1757
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 3388,
+    "modrinth": 1793
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 3441,
+    "modrinth": 1828
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 3497,
+    "modrinth": 1856
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 3542,
+    "modrinth": 1888
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 3592,
+    "modrinth": 1925
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 3679,
+    "modrinth": 1971
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 3762,
+    "modrinth": 2004
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 3842,
+    "modrinth": 2046
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 3897,
+    "modrinth": 2079
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 3955,
+    "modrinth": 2102
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 4006,
+    "modrinth": 2136
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 4055,
+    "modrinth": 2172
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 4141,
+    "modrinth": 2207
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 4221,
+    "modrinth": 2237
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 4292,
+    "modrinth": 2282
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 4342,
+    "modrinth": 2318
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 4392,
+    "modrinth": 2343
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 4435,
+    "modrinth": 2378
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 4483,
+    "modrinth": 2411
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 4568,
+    "modrinth": 2454
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 4623,
+    "modrinth": 2500
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 4673,
+    "modrinth": 2534
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 4730,
+    "modrinth": 2563
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 4776,
+    "modrinth": 2591
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 4816,
+    "modrinth": 2614
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 4865,
+    "modrinth": 2649
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 4947,
+    "modrinth": 2680
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 5010,
+    "modrinth": 2721
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 5066,
+    "modrinth": 2755
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 5121,
+    "modrinth": 2778
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 5166,
+    "modrinth": 2803
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 5216,
+    "modrinth": 2826
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 5282,
+    "modrinth": 2863
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 5347,
+    "modrinth": 2900
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 5406,
+    "modrinth": 2947
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 5481,
+    "modrinth": 2977
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 5530,
+    "modrinth": 3007
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 5572,
+    "modrinth": 3028
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 5611,
+    "modrinth": 3052
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 5678,
+    "modrinth": 3090
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 5749,
+    "modrinth": 3132
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 5827,
+    "modrinth": 3161
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 5880,
+    "modrinth": 3190
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 5942,
+    "modrinth": 3217
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.3",
+    "downloads": 2054,
+    "curseforge": 1333,
+    "modrinth": 721,
+    "files": 2
+   },
+   {
+    "name": "26.2",
+    "downloads": 2054,
+    "curseforge": 1333,
+    "modrinth": 721,
+    "files": 2
+   },
+   {
+    "name": "26.1",
+    "downloads": 1905,
+    "curseforge": 1236,
+    "modrinth": 669,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 3146,
+    "curseforge": 2040,
+    "modrinth": 1106,
+    "files": 4
+   }
+  ],
+  "issues": [
+   {
+    "number": 44,
+    "title": "Benihime sheath renders at the wrong angle while sneaking",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/44",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "modLabel": "firecore",
+    "kind": "bug",
+    "labels": [
+     "mod: firecore",
+     "bug"
+    ],
+    "author": "ironwick",
+    "comments": 3,
+    "createdAt": "2026-11-16T16:40:00.000Z",
+    "updatedAt": "2026-11-17T11:05:00.000Z",
+    "closedAt": null
+   },
+   {
+    "number": 34,
+    "title": "Expose tassle physics strength in the config",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/34",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "firecore",
+    "modName": "FireCore",
+    "modLabel": "firecore",
+    "kind": "enhancement",
+    "labels": [
+     "mod: firecore",
+     "enhancement"
+    ],
+    "author": "ironwick",
+    "comments": 2,
+    "createdAt": "2026-10-23T16:40:00.000Z",
+    "updatedAt": "2026-10-31T11:05:00.000Z",
+    "closedAt": "2026-10-31T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/firecorelib",
+   "modrinth": "https://modrinth.com/mod/firecoremod",
+   "github": "https://github.com/FireBall1725/firecore",
+   "source": "https://github.com/FireBall1725/firecore",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+firecore%22",
+   "wiki": "https://github.com/FireBall1725/firecore/wiki",
+   "discord": "https://discord.gg/modwatch-mock"
+  }
+ },
+ "ae2-traffic-monitor": {
+  "slug": "ae2-traffic-monitor",
+  "name": "AE2 Traffic Monitor",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(175%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(215%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Shows how much item traffic each AE2 network cable carries, with a graph you can read at a glance.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1187326",
+   "slug": "ae2-traffic-monitor",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 3426,
+   "delta24h": 29,
+   "delta7d": 277,
+   "followers": 19,
+   "publishedAt": "2026-09-21T09:30:00.000Z",
+   "updatedAt": "2026-11-13T09:12:00.000Z",
+   "files": 4
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "mN2xK8vT",
+   "slug": "ae2-traffic-monitor",
+   "url": "https://modrinth.com/mod/ae2-traffic-monitor",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 2183,
+   "delta24h": 19,
+   "delta7d": 176,
+   "followers": 14,
+   "publishedAt": "2026-09-21T09:30:00.000Z",
+   "updatedAt": "2026-11-13T09:12:00.000Z",
+   "files": 4
+  },
+  "github": {
+   "label": "ae2-traffic-monitor",
+   "open": 1,
+   "openBugs": 1,
+   "openCrashes": 0,
+   "oldestOpenBugAt": "2026-10-26T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 5609,
+   "curseforge": 3426,
+   "modrinth": 2183,
+   "delta24h": 48,
+   "delta7d": 453
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "1.2.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-13T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.2"
+   ]
+  },
+  "minecraftVersions": [
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "bug_open",
+    "modSlug": "ae2-traffic-monitor",
+    "title": "Open bug in AE2 Traffic Monitor",
+    "detail": "#38: Traffic graph resets after a world reload",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/38",
+    "dismissible": false
+   },
+   {
+    "severity": "warning",
+    "kind": "no_latest_minecraft",
+    "modSlug": "ae2-traffic-monitor",
+    "title": "AE2 Traffic Monitor has no file for 26.3",
+    "detail": "Newest target is 26.2.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-traffic-monitor-1.2.0-26.2",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "ae2-traffic-monitor-1.2.0+26.2.jar",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-13T09:12:00.000Z",
+    "downloads": 942,
+    "delta24h": 8,
+    "delta7d": 76,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-traffic-monitor-1.2.0-26.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "ae2-traffic-monitor-1.2.0+26.1.jar",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-13T09:12:00.000Z",
+    "downloads": 942,
+    "delta24h": 8,
+    "delta7d": 76,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-traffic-monitor-1.1.0-1.21.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "ae2-traffic-monitor-1.1.0+1.21.1.jar",
+    "version": "1.1.0",
+    "release": "1.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-23T09:12:00.000Z",
+    "downloads": 832,
+    "delta24h": 7,
+    "delta7d": 67,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900002"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-traffic-monitor-1.0.0-1.21.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "ae2-traffic-monitor-1.0.0+1.21.1.jar",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-09-22T09:12:00.000Z",
+    "downloads": 710,
+    "delta24h": 6,
+    "delta7d": 57,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor/files/900003"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-traffic-monitor-1.2.0-26.2",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "AE2 Traffic Monitor 1.2.0 for 26.2",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-13T11:12:00.000Z",
+    "downloads": 601,
+    "delta24h": 5,
+    "delta7d": 48,
+    "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.2.0-26.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-traffic-monitor-1.2.0-26.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "AE2 Traffic Monitor 1.2.0 for 26.1",
+    "version": "1.2.0",
+    "release": "1.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-13T11:12:00.000Z",
+    "downloads": 601,
+    "delta24h": 5,
+    "delta7d": 48,
+    "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.2.0-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-traffic-monitor-1.1.0-1.21.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "AE2 Traffic Monitor 1.1.0 for 1.21.1",
+    "version": "1.1.0",
+    "release": "1.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-23T11:12:00.000Z",
+    "downloads": 530,
+    "delta24h": 5,
+    "delta7d": 43,
+    "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.1.0-1.21.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-traffic-monitor-1.0.0-1.21.1",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "name": "AE2 Traffic Monitor 1.0.0 for 1.21.1",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-09-22T11:12:00.000Z",
+    "downloads": 451,
+    "delta24h": 4,
+    "delta7d": 36,
+    "url": "https://modrinth.com/mod/ae2-traffic-monitor/version/1.0.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-09-21T23:59:59.000Z",
+    "curseforge": 119,
+    "modrinth": 93
+   },
+   {
+    "at": "2026-09-22T23:59:59.000Z",
+    "curseforge": 281,
+    "modrinth": 198
+   },
+   {
+    "at": "2026-09-23T23:59:59.000Z",
+    "curseforge": 423,
+    "modrinth": 282
+   },
+   {
+    "at": "2026-09-24T23:59:59.000Z",
+    "curseforge": 558,
+    "modrinth": 370
+   },
+   {
+    "at": "2026-09-25T23:59:59.000Z",
+    "curseforge": 630,
+    "modrinth": 429
+   },
+   {
+    "at": "2026-09-26T23:59:59.000Z",
+    "curseforge": 711,
+    "modrinth": 478
+   },
+   {
+    "at": "2026-09-27T23:59:59.000Z",
+    "curseforge": 781,
+    "modrinth": 522
+   },
+   {
+    "at": "2026-09-28T23:59:59.000Z",
+    "curseforge": 864,
+    "modrinth": 574
+   },
+   {
+    "at": "2026-09-29T23:59:59.000Z",
+    "curseforge": 939,
+    "modrinth": 636
+   },
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 1025,
+    "modrinth": 685
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 1106,
+    "modrinth": 733
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 1178,
+    "modrinth": 774
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 1230,
+    "modrinth": 801
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 1294,
+    "modrinth": 835
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 1347,
+    "modrinth": 875
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 1397,
+    "modrinth": 923
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 1446,
+    "modrinth": 962
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 1492,
+    "modrinth": 1006
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 1536,
+    "modrinth": 1032
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 1584,
+    "modrinth": 1059
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 1636,
+    "modrinth": 1082
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 1682,
+    "modrinth": 1109
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 1740,
+    "modrinth": 1140
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 1804,
+    "modrinth": 1175
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 1850,
+    "modrinth": 1202
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 1883,
+    "modrinth": 1223
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 1918,
+    "modrinth": 1244
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 1959,
+    "modrinth": 1263
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 2011,
+    "modrinth": 1293
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 2065,
+    "modrinth": 1330
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 2110,
+    "modrinth": 1355
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 2161,
+    "modrinth": 1390
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 2191,
+    "modrinth": 1410
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 2224,
+    "modrinth": 1436
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 2264,
+    "modrinth": 1458
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 2303,
+    "modrinth": 1486
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 2357,
+    "modrinth": 1523
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 2418,
+    "modrinth": 1560
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 2472,
+    "modrinth": 1588
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 2509,
+    "modrinth": 1607
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 2547,
+    "modrinth": 1633
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 2581,
+    "modrinth": 1652
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 2617,
+    "modrinth": 1673
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 2672,
+    "modrinth": 1710
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 2723,
+    "modrinth": 1740
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 2758,
+    "modrinth": 1769
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 2801,
+    "modrinth": 1794
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 2841,
+    "modrinth": 1818
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 2881,
+    "modrinth": 1846
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 2932,
+    "modrinth": 1874
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 2975,
+    "modrinth": 1911
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 3029,
+    "modrinth": 1945
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 3075,
+    "modrinth": 1970
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 3109,
+    "modrinth": 1989
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 3149,
+    "modrinth": 2007
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 3177,
+    "modrinth": 2032
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 3223,
+    "modrinth": 2062
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 3269,
+    "modrinth": 2089
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 3306,
+    "modrinth": 2118
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 3355,
+    "modrinth": 2145
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 3397,
+    "modrinth": 2164
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 3426,
+    "modrinth": 2183
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.2",
+    "downloads": 1543,
+    "curseforge": 942,
+    "modrinth": 601,
+    "files": 2
+   },
+   {
+    "name": "26.1",
+    "downloads": 1543,
+    "curseforge": 942,
+    "modrinth": 601,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 2523,
+    "curseforge": 1542,
+    "modrinth": 981,
+    "files": 4
+   }
+  ],
+  "issues": [
+   {
+    "number": 38,
+    "title": "Traffic graph resets after a world reload",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/38",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "modLabel": "ae2-traffic-monitor",
+    "kind": "bug",
+    "labels": [
+     "mod: ae2-traffic-monitor",
+     "bug"
+    ],
+    "author": "cablecat",
+    "comments": 6,
+    "createdAt": "2026-10-26T16:40:00.000Z",
+    "updatedAt": "2026-10-27T11:05:00.000Z",
+    "closedAt": null
+   },
+   {
+    "number": 31,
+    "title": "Support 26.1",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/31",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "ae2-traffic-monitor",
+    "modName": "AE2 Traffic Monitor",
+    "modLabel": "ae2-traffic-monitor",
+    "kind": "enhancement",
+    "labels": [
+     "mod: ae2-traffic-monitor",
+     "enhancement"
+    ],
+    "author": "cablecat",
+    "comments": 8,
+    "createdAt": "2026-10-07T16:40:00.000Z",
+    "updatedAt": "2026-10-22T11:05:00.000Z",
+    "closedAt": "2026-10-22T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/ae2-traffic-monitor",
+   "modrinth": "https://modrinth.com/mod/ae2-traffic-monitor",
+   "github": "https://github.com/FireBall1725/ae2-traffic-monitor",
+   "source": "https://github.com/FireBall1725/ae2-traffic-monitor",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-traffic-monitor%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "create-turbolifts": {
+  "slug": "create-turbolifts",
+  "name": "Create: Turbolifts",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(18%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(58%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3ECT%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Elevator cars for Create contraptions that ride sub-levels without a rail.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1196044",
+   "slug": "create-turbolifts",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1873,
+   "delta24h": 27,
+   "delta7d": 172,
+   "followers": 12,
+   "publishedAt": "2026-09-30T09:30:00.000Z",
+   "updatedAt": "2026-11-19T09:12:00.000Z",
+   "files": 5
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "bV5hJ3cD",
+   "slug": "create-turbolifts",
+   "url": "https://modrinth.com/mod/create-turbolifts",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 1244,
+   "delta24h": 20,
+   "delta7d": 123,
+   "followers": 9,
+   "publishedAt": "2026-09-30T09:30:00.000Z",
+   "updatedAt": "2026-11-19T09:12:00.000Z",
+   "files": 5
+  },
+  "github": {
+   "label": "create-turbolifts",
+   "open": 2,
+   "openBugs": 0,
+   "openCrashes": 1,
+   "oldestOpenBugAt": "2026-11-18T16:40:00.000Z"
+  },
+  "downloads": {
+   "total": 3117,
+   "curseforge": 1873,
+   "modrinth": 1244,
+   "delta24h": 47,
+   "delta7d": 295
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "0.6.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-19T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.3"
+   ]
+  },
+  "minecraftVersions": [
+   "26.3",
+   "26.2",
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "crash_open",
+    "modSlug": "create-turbolifts",
+    "title": "Open crash in Create: Turbolifts",
+    "detail": "#41: Crash when two cars dock on the same chunk edge",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/41",
+    "dismissible": false
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-create-turbolifts-0.6.0-26.3",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "create-turbolifts-0.6.0+26.3.jar",
+    "version": "0.6.0",
+    "release": "0.6.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.3"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-19T09:12:00.000Z",
+    "downloads": 410,
+    "delta24h": 6,
+    "delta7d": 38,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-create-turbolifts-0.6.0-26.2",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "create-turbolifts-0.6.0+26.2.jar",
+    "version": "0.6.0",
+    "release": "0.6.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-19T09:12:00.000Z",
+    "downloads": 410,
+    "delta24h": 6,
+    "delta7d": 38,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900001"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-create-turbolifts-0.5.1-26.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "create-turbolifts-0.5.1+26.1.jar",
+    "version": "0.5.1",
+    "release": "0.5.1",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-05T09:12:00.000Z",
+    "downloads": 376,
+    "delta24h": 5,
+    "delta7d": 35,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900002"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-create-turbolifts-0.5.0-1.21.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "create-turbolifts-0.5.0+1.21.1.jar",
+    "version": "0.5.0",
+    "release": "0.5.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-31T09:12:00.000Z",
+    "downloads": 365,
+    "delta24h": 5,
+    "delta7d": 33,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900003"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-create-turbolifts-0.3.0-1.21.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "create-turbolifts-0.3.0+1.21.1.jar",
+    "version": "0.3.0",
+    "release": "0.3.0",
+    "prerelease": false,
+    "releaseType": "alpha",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-02T09:12:00.000Z",
+    "downloads": 312,
+    "delta24h": 4,
+    "delta7d": 29,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts/files/900004"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-create-turbolifts-0.6.0-26.3",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "Create: Turbolifts 0.6.0 for 26.3",
+    "version": "0.6.0",
+    "release": "0.6.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.3"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-19T11:12:00.000Z",
+    "downloads": 273,
+    "delta24h": 4,
+    "delta7d": 27,
+    "url": "https://modrinth.com/mod/create-turbolifts/version/0.6.0-26.3"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-create-turbolifts-0.6.0-26.2",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "Create: Turbolifts 0.6.0 for 26.2",
+    "version": "0.6.0",
+    "release": "0.6.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.2"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-19T11:12:00.000Z",
+    "downloads": 273,
+    "delta24h": 4,
+    "delta7d": 27,
+    "url": "https://modrinth.com/mod/create-turbolifts/version/0.6.0-26.2"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-create-turbolifts-0.5.1-26.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "Create: Turbolifts 0.5.1 for 26.1",
+    "version": "0.5.1",
+    "release": "0.5.1",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-05T11:12:00.000Z",
+    "downloads": 250,
+    "delta24h": 4,
+    "delta7d": 25,
+    "url": "https://modrinth.com/mod/create-turbolifts/version/0.5.1-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-create-turbolifts-0.5.0-1.21.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "Create: Turbolifts 0.5.0 for 1.21.1",
+    "version": "0.5.0",
+    "release": "0.5.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-31T11:12:00.000Z",
+    "downloads": 242,
+    "delta24h": 4,
+    "delta7d": 24,
+    "url": "https://modrinth.com/mod/create-turbolifts/version/0.5.0-1.21.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-create-turbolifts-0.3.0-1.21.1",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "name": "Create: Turbolifts 0.3.0 for 1.21.1",
+    "version": "0.3.0",
+    "release": "0.3.0",
+    "prerelease": false,
+    "releaseType": "alpha",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-02T11:12:00.000Z",
+    "downloads": 206,
+    "delta24h": 3,
+    "delta7d": 20,
+    "url": "https://modrinth.com/mod/create-turbolifts/version/0.3.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-09-30T23:59:59.000Z",
+    "curseforge": 73,
+    "modrinth": 58
+   },
+   {
+    "at": "2026-10-01T23:59:59.000Z",
+    "curseforge": 140,
+    "modrinth": 105
+   },
+   {
+    "at": "2026-10-02T23:59:59.000Z",
+    "curseforge": 244,
+    "modrinth": 150
+   },
+   {
+    "at": "2026-10-03T23:59:59.000Z",
+    "curseforge": 309,
+    "modrinth": 194
+   },
+   {
+    "at": "2026-10-04T23:59:59.000Z",
+    "curseforge": 372,
+    "modrinth": 226
+   },
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 426,
+    "modrinth": 252
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 476,
+    "modrinth": 279
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 516,
+    "modrinth": 308
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 565,
+    "modrinth": 344
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 606,
+    "modrinth": 377
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 661,
+    "modrinth": 408
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 706,
+    "modrinth": 431
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 730,
+    "modrinth": 451
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 766,
+    "modrinth": 472
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 794,
+    "modrinth": 497
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 833,
+    "modrinth": 526
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 876,
+    "modrinth": 553
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 917,
+    "modrinth": 577
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 948,
+    "modrinth": 598
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 973,
+    "modrinth": 618
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 1003,
+    "modrinth": 639
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 1027,
+    "modrinth": 664
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 1069,
+    "modrinth": 690
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 1096,
+    "modrinth": 718
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 1127,
+    "modrinth": 744
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 1151,
+    "modrinth": 763
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 1176,
+    "modrinth": 781
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 1205,
+    "modrinth": 796
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 1239,
+    "modrinth": 812
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 1272,
+    "modrinth": 832
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 1299,
+    "modrinth": 855
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 1323,
+    "modrinth": 871
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 1345,
+    "modrinth": 890
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 1365,
+    "modrinth": 903
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 1390,
+    "modrinth": 919
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 1414,
+    "modrinth": 934
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 1452,
+    "modrinth": 954
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 1477,
+    "modrinth": 973
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 1508,
+    "modrinth": 996
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 1538,
+    "modrinth": 1010
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 1559,
+    "modrinth": 1022
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 1585,
+    "modrinth": 1037
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 1615,
+    "modrinth": 1059
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 1647,
+    "modrinth": 1081
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 1672,
+    "modrinth": 1101
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 1701,
+    "modrinth": 1121
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 1732,
+    "modrinth": 1140
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 1750,
+    "modrinth": 1159
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 1768,
+    "modrinth": 1171
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 1793,
+    "modrinth": 1185
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 1822,
+    "modrinth": 1204
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 1846,
+    "modrinth": 1224
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 1873,
+    "modrinth": 1244
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.3",
+    "downloads": 683,
+    "curseforge": 410,
+    "modrinth": 273,
+    "files": 2
+   },
+   {
+    "name": "26.2",
+    "downloads": 683,
+    "curseforge": 410,
+    "modrinth": 273,
+    "files": 2
+   },
+   {
+    "name": "26.1",
+    "downloads": 626,
+    "curseforge": 376,
+    "modrinth": 250,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 1125,
+    "curseforge": 677,
+    "modrinth": 448,
+    "files": 4
+   }
+  ],
+  "issues": [
+   {
+    "number": 42,
+    "title": "Config option for car speed",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/42",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "modLabel": "create-turbolifts",
+    "kind": "enhancement",
+    "labels": [
+     "mod: create-turbolifts",
+     "enhancement"
+    ],
+    "author": "lowtide",
+    "comments": 0,
+    "createdAt": "2026-11-10T16:40:00.000Z",
+    "updatedAt": "2026-11-11T11:05:00.000Z",
+    "closedAt": null
+   },
+   {
+    "number": 41,
+    "title": "Crash when two cars dock on the same chunk edge",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/41",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "modLabel": "create-turbolifts",
+    "kind": "crash",
+    "labels": [
+     "mod: create-turbolifts",
+     "crash"
+    ],
+    "author": "gearhead22",
+    "comments": 4,
+    "createdAt": "2026-11-18T16:40:00.000Z",
+    "updatedAt": "2026-11-19T11:05:00.000Z",
+    "closedAt": null
+   },
+   {
+    "number": 36,
+    "title": "Elevator button tooltip shows the wrong floor",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/36",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "modLabel": "create-turbolifts",
+    "kind": "bug",
+    "labels": [
+     "mod: create-turbolifts",
+     "bug"
+    ],
+    "author": "lowtide",
+    "comments": 3,
+    "createdAt": "2026-11-07T16:40:00.000Z",
+    "updatedAt": "2026-11-09T11:05:00.000Z",
+    "closedAt": "2026-11-09T11:05:00.000Z"
+   },
+   {
+    "number": 3,
+    "title": "Doors stay open after a restart",
+    "state": "closed",
+    "url": "https://github.com/FireBall1725/create-turbolifts/issues/3",
+    "repo": "FireBall1725/create-turbolifts",
+    "modSlug": "create-turbolifts",
+    "modName": "Create: Turbolifts",
+    "modLabel": null,
+    "kind": "bug",
+    "labels": [
+     "bug"
+    ],
+    "author": "cablecat",
+    "comments": 2,
+    "createdAt": "2026-10-12T16:40:00.000Z",
+    "updatedAt": "2026-10-19T11:05:00.000Z",
+    "closedAt": "2026-10-19T11:05:00.000Z"
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/create-turbolifts",
+   "modrinth": "https://modrinth.com/mod/create-turbolifts",
+   "github": "https://github.com/FireBall1725/create-turbolifts",
+   "source": "https://github.com/FireBall1725/create-turbolifts",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+create-turbolifts%22",
+   "wiki": "https://github.com/FireBall1725/create-turbolifts/wiki",
+   "discord": null
+  }
+ },
+ "lost-crafters-server-switcher": {
+  "slug": "lost-crafters-server-switcher",
+  "name": "Lost Crafters Server Switcher",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(95%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(135%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3ELC%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "A server picker screen for the Lost Crafters network.",
+  "owned": true,
+  "curseforge": null,
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "wP7sL0eR",
+   "slug": "lost-crafters-server-switcher",
+   "url": "https://modrinth.com/mod/lost-crafters-server-switcher",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 641,
+   "delta24h": 9,
+   "delta7d": 73,
+   "followers": 5,
+   "publishedAt": "2026-10-05T09:30:00.000Z",
+   "updatedAt": "2026-10-28T09:12:00.000Z",
+   "files": 2
+  },
+  "github": null,
+  "downloads": {
+   "total": 641,
+   "curseforge": 0,
+   "modrinth": 641,
+   "delta24h": 9,
+   "delta7d": 73
+  },
+  "latestRelease": {
+   "platforms": [
+    "modrinth"
+   ],
+   "version": "1.1.0",
+   "releaseType": "release",
+   "publishedAt": "2026-10-28T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.21.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.21.1",
+   "1.20.1"
+  ],
+  "loaders": [
+   "forge",
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "ok",
+  "attention": [],
+  "files": [
+   {
+    "platform": "modrinth",
+    "id": "mr-lost-crafters-server-switcher-1.1.0-1.21.1",
+    "modSlug": "lost-crafters-server-switcher",
+    "modName": "Lost Crafters Server Switcher",
+    "name": "Lost Crafters Server Switcher 1.1.0 for 1.21.1",
+    "version": "1.1.0",
+    "release": "1.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-28T11:12:00.000Z",
+    "downloads": 340,
+    "delta24h": 5,
+    "delta7d": 39,
+    "url": "https://modrinth.com/mod/lost-crafters-server-switcher/version/1.1.0-1.21.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-lost-crafters-server-switcher-1.0.0-1.20.1",
+    "modSlug": "lost-crafters-server-switcher",
+    "modName": "Lost Crafters Server Switcher",
+    "name": "Lost Crafters Server Switcher 1.0.0 for 1.20.1",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.20.1"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2026-10-06T11:12:00.000Z",
+    "downloads": 301,
+    "delta24h": 4,
+    "delta7d": 34,
+    "url": "https://modrinth.com/mod/lost-crafters-server-switcher/version/1.0.0-1.20.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-10-05T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 31
+   },
+   {
+    "at": "2026-10-06T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 64
+   },
+   {
+    "at": "2026-10-07T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 92
+   },
+   {
+    "at": "2026-10-08T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 124
+   },
+   {
+    "at": "2026-10-09T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 148
+   },
+   {
+    "at": "2026-10-10T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 162
+   },
+   {
+    "at": "2026-10-11T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 178
+   },
+   {
+    "at": "2026-10-12T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 195
+   },
+   {
+    "at": "2026-10-13T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 212
+   },
+   {
+    "at": "2026-10-14T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 227
+   },
+   {
+    "at": "2026-10-15T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 242
+   },
+   {
+    "at": "2026-10-16T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 256
+   },
+   {
+    "at": "2026-10-17T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 270
+   },
+   {
+    "at": "2026-10-18T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 281
+   },
+   {
+    "at": "2026-10-19T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 294
+   },
+   {
+    "at": "2026-10-20T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 309
+   },
+   {
+    "at": "2026-10-21T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 322
+   },
+   {
+    "at": "2026-10-22T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 332
+   },
+   {
+    "at": "2026-10-23T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 341
+   },
+   {
+    "at": "2026-10-24T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 352
+   },
+   {
+    "at": "2026-10-25T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 364
+   },
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 373
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 384
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 399
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 413
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 422
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 433
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 441
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 451
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 464
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 474
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 486
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 495
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 504
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 510
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 518
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 529
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 540
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 549
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 558
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 568
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 578
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 588
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 601
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 613
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 624
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 632
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 0,
+    "modrinth": 641
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "1.21.1",
+    "downloads": 340,
+    "curseforge": 0,
+    "modrinth": 340,
+    "files": 1
+   },
+   {
+    "name": "1.20.1",
+    "downloads": 301,
+    "curseforge": 0,
+    "modrinth": 301,
+    "files": 1
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": null,
+   "modrinth": "https://modrinth.com/mod/lost-crafters-server-switcher",
+   "github": null,
+   "source": null,
+   "issues": null,
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "ae2-lights": {
+  "slug": "ae2-lights",
+  "name": "AE2 Lights",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(55%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(95%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAL%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Light blocks that run on an AE2 network and dim when power drops.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1230915",
+   "slug": "ae2-lights",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 412,
+   "delta24h": 8,
+   "delta7d": 70,
+   "followers": 7,
+   "publishedAt": "2026-10-26T09:30:00.000Z",
+   "updatedAt": "2026-11-12T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "hC3uY9tB",
+   "slug": "processing",
+   "url": "https://modrinth.com/mod/processing",
+   "status": "in_review",
+   "rawStatus": "processing",
+   "statusMessage": null,
+   "requestedStatus": "approved",
+   "queuedAt": "2026-11-12T10:02:00.000Z",
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-12T09:30:00.000Z",
+   "updatedAt": "2026-11-12T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "ae2-lights",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 412,
+   "curseforge": 412,
+   "modrinth": 0,
+   "delta24h": 8,
+   "delta7d": 70
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "0.3.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-12T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "review_stuck",
+    "modSlug": "ae2-lights",
+    "title": "AE2 Lights has waited 9 days for review on Modrinth",
+    "detail": "Requested: approved.",
+    "url": "https://modrinth.com/mod/processing",
+    "dismissible": true
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "ae2-lights",
+    "title": "AE2 Lights has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-lights-0.3.0-26.1",
+    "modSlug": "ae2-lights",
+    "modName": "AE2 Lights",
+    "name": "ae2-lights-0.3.0+26.1.jar",
+    "version": "0.3.0",
+    "release": "0.3.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-12T09:12:00.000Z",
+    "downloads": 216,
+    "delta24h": 4,
+    "delta7d": 37,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-lights-0.2.0-1.21.1",
+    "modSlug": "ae2-lights",
+    "modName": "AE2 Lights",
+    "name": "ae2-lights-0.2.0+1.21.1.jar",
+    "version": "0.2.0",
+    "release": "0.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-27T09:12:00.000Z",
+    "downloads": 196,
+    "delta24h": 4,
+    "delta7d": 33,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights/files/900001"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-lights-0.3.0-26.1",
+    "modSlug": "ae2-lights",
+    "modName": "AE2 Lights",
+    "name": "AE2 Lights 0.3.0 for 26.1",
+    "version": "0.3.0",
+    "release": "0.3.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-12T11:12:00.000Z",
+    "downloads": 0,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://modrinth.com/mod/processing/version/0.3.0-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-ae2-lights-0.2.0-1.21.1",
+    "modSlug": "ae2-lights",
+    "modName": "AE2 Lights",
+    "name": "AE2 Lights 0.2.0 for 1.21.1",
+    "version": "0.2.0",
+    "release": "0.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-10-27T11:12:00.000Z",
+    "downloads": 0,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://modrinth.com/mod/processing/version/0.2.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-10-26T23:59:59.000Z",
+    "curseforge": 35,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-27T23:59:59.000Z",
+    "curseforge": 76,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-28T23:59:59.000Z",
+    "curseforge": 113,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-29T23:59:59.000Z",
+    "curseforge": 137,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-30T23:59:59.000Z",
+    "curseforge": 151,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-10-31T23:59:59.000Z",
+    "curseforge": 165,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-01T23:59:59.000Z",
+    "curseforge": 178,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 197,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 216,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 228,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 242,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 253,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 262,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 275,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 285,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 298,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 309,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 324,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 335,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 342,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 351,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 360,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 370,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 382,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 392,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 404,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 412,
+    "modrinth": 0
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.1",
+    "downloads": 216,
+    "curseforge": 216,
+    "modrinth": 0,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 196,
+    "curseforge": 196,
+    "modrinth": 0,
+    "files": 2
+   }
+  ],
+  "issues": [
+   {
+    "number": 37,
+    "title": "Lights stay dark under Embeddium shader packs",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/37",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "ae2-lights",
+    "modName": "AE2 Lights",
+    "modLabel": "ae2-lights",
+    "kind": "compatibility",
+    "labels": [
+     "mod: ae2-lights",
+     "compatibility"
+    ],
+    "author": "glowstick",
+    "comments": 7,
+    "createdAt": "2026-10-19T16:40:00.000Z",
+    "updatedAt": "2026-10-20T11:05:00.000Z",
+    "closedAt": null
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/ae2-lights",
+   "modrinth": "https://modrinth.com/mod/processing",
+   "github": "https://github.com/FireBall1725/ae2-lights",
+   "source": "https://github.com/FireBall1725/ae2-lights",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+ae2-lights%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "qmk-extra-keybinds": {
+  "slug": "qmk-extra-keybinds",
+  "name": "QMK Extra Keybinds",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(310%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(350%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EQE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Binds keyboard layers and macro keys to Minecraft actions over QMK Raw HID.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1238801",
+   "slug": "qmk-extra-keybinds",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 184,
+   "delta24h": 5,
+   "delta7d": 44,
+   "followers": 4,
+   "publishedAt": "2026-11-02T09:30:00.000Z",
+   "updatedAt": "2026-11-09T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "dE6gM2zQ",
+   "slug": "qmk-extra-keybinds",
+   "url": "https://modrinth.com/mod/qmk-extra-keybinds",
+   "status": "draft",
+   "rawStatus": "draft",
+   "statusMessage": null,
+   "requestedStatus": "approved",
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-02T09:30:00.000Z",
+   "updatedAt": "2026-11-09T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "qmk-extra-keybinds",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 184,
+   "curseforge": 184,
+   "modrinth": 0,
+   "delta24h": 5,
+   "delta7d": 44
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "0.2.0",
+   "releaseType": "beta",
+   "publishedAt": "2026-11-09T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "attention",
+  "attention": [
+   {
+    "severity": "warning",
+    "kind": "not_approved",
+    "modSlug": "qmk-extra-keybinds",
+    "title": "QMK Extra Keybinds is still a draft on Modrinth",
+    "detail": "Submit it for review to publish it.",
+    "url": "https://modrinth.com/mod/qmk-extra-keybinds",
+    "dismissible": true
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "qmk-extra-keybinds",
+    "title": "QMK Extra Keybinds has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-qmk-extra-keybinds-0.2.0-26.1",
+    "modSlug": "qmk-extra-keybinds",
+    "modName": "QMK Extra Keybinds",
+    "name": "qmk-extra-keybinds-0.2.0+26.1.jar",
+    "version": "0.2.0",
+    "release": "0.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-09T09:12:00.000Z",
+    "downloads": 94,
+    "delta24h": 3,
+    "delta7d": 22,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-qmk-extra-keybinds-0.1.0-1.21.1",
+    "modSlug": "qmk-extra-keybinds",
+    "modName": "QMK Extra Keybinds",
+    "name": "qmk-extra-keybinds-0.1.0+1.21.1.jar",
+    "version": "0.1.0",
+    "release": "0.1.0",
+    "prerelease": false,
+    "releaseType": "alpha",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-03T09:12:00.000Z",
+    "downloads": 90,
+    "delta24h": 2,
+    "delta7d": 22,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds/files/900001"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-qmk-extra-keybinds-0.2.0-26.1",
+    "modSlug": "qmk-extra-keybinds",
+    "modName": "QMK Extra Keybinds",
+    "name": "QMK Extra Keybinds 0.2.0 for 26.1",
+    "version": "0.2.0",
+    "release": "0.2.0",
+    "prerelease": false,
+    "releaseType": "beta",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-09T11:12:00.000Z",
+    "downloads": 0,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://modrinth.com/mod/qmk-extra-keybinds/version/0.2.0-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-qmk-extra-keybinds-0.1.0-1.21.1",
+    "modSlug": "qmk-extra-keybinds",
+    "modName": "QMK Extra Keybinds",
+    "name": "QMK Extra Keybinds 0.1.0 for 1.21.1",
+    "version": "0.1.0",
+    "release": "0.1.0",
+    "prerelease": false,
+    "releaseType": "alpha",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-03T11:12:00.000Z",
+    "downloads": 0,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://modrinth.com/mod/qmk-extra-keybinds/version/0.1.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-11-02T23:59:59.000Z",
+    "curseforge": 18,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-03T23:59:59.000Z",
+    "curseforge": 41,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-04T23:59:59.000Z",
+    "curseforge": 57,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-05T23:59:59.000Z",
+    "curseforge": 69,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-06T23:59:59.000Z",
+    "curseforge": 80,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-07T23:59:59.000Z",
+    "curseforge": 88,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-08T23:59:59.000Z",
+    "curseforge": 94,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 103,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 109,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 120,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 127,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 133,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 140,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 146,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 153,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 158,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 168,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 175,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 179,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 184,
+    "modrinth": 0
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.1",
+    "downloads": 94,
+    "curseforge": 94,
+    "modrinth": 0,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 90,
+    "curseforge": 90,
+    "modrinth": 0,
+    "files": 2
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/qmk-extra-keybinds",
+   "modrinth": "https://modrinth.com/mod/qmk-extra-keybinds",
+   "github": "https://github.com/FireBall1725/qmk-extra-keybinds",
+   "source": "https://github.com/FireBall1725/qmk-extra-keybinds",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+qmk-extra-keybinds%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "graves": {
+  "slug": "graves",
+  "name": "Graves",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(240%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(280%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EG%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Drops a grave where you die and keeps your items safe until you come back.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1248320",
+   "slug": "graves-fb",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 521,
+   "delta24h": 21,
+   "delta7d": 204,
+   "followers": 6,
+   "publishedAt": "2026-11-09T09:30:00.000Z",
+   "updatedAt": "2026-11-16T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "jS1nA4kW",
+   "slug": "graves-fb",
+   "url": "https://modrinth.com/mod/graves-fb",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 312,
+   "delta24h": 16,
+   "delta7d": 119,
+   "followers": 4,
+   "publishedAt": "2026-11-09T09:30:00.000Z",
+   "updatedAt": "2026-11-16T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "graves",
+   "open": 1,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 833,
+   "curseforge": 521,
+   "modrinth": 312,
+   "delta24h": 37,
+   "delta7d": 323
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "1.0.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-16T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": true,
+  "health": "ok",
+  "attention": [
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "graves",
+    "title": "Graves has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-graves-1.0.1-26.1",
+    "modSlug": "graves",
+    "modName": "Graves",
+    "name": "graves-fb-1.0.1+26.1.jar",
+    "version": "1.0.1",
+    "release": "1.0.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-16T09:12:00.000Z",
+    "downloads": 265,
+    "delta24h": 11,
+    "delta7d": 104,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-graves-1.0.0-1.21.1",
+    "modSlug": "graves",
+    "modName": "Graves",
+    "name": "graves-fb-1.0.0+1.21.1.jar",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-10T09:12:00.000Z",
+    "downloads": 256,
+    "delta24h": 10,
+    "delta7d": 100,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/graves-fb/files/900001"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-graves-1.0.1-26.1",
+    "modSlug": "graves",
+    "modName": "Graves",
+    "name": "Graves 1.0.1 for 26.1",
+    "version": "1.0.1",
+    "release": "1.0.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-16T11:12:00.000Z",
+    "downloads": 159,
+    "delta24h": 8,
+    "delta7d": 61,
+    "url": "https://modrinth.com/mod/graves-fb/version/1.0.1-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-graves-1.0.0-1.21.1",
+    "modSlug": "graves",
+    "modName": "Graves",
+    "name": "Graves 1.0.0 for 1.21.1",
+    "version": "1.0.0",
+    "release": "1.0.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-10T11:12:00.000Z",
+    "downloads": 153,
+    "delta24h": 8,
+    "delta7d": 58,
+    "url": "https://modrinth.com/mod/graves-fb/version/1.0.0-1.21.1"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-11-09T23:59:59.000Z",
+    "curseforge": 91,
+    "modrinth": 61
+   },
+   {
+    "at": "2026-11-10T23:59:59.000Z",
+    "curseforge": 152,
+    "modrinth": 99
+   },
+   {
+    "at": "2026-11-11T23:59:59.000Z",
+    "curseforge": 207,
+    "modrinth": 129
+   },
+   {
+    "at": "2026-11-12T23:59:59.000Z",
+    "curseforge": 254,
+    "modrinth": 154
+   },
+   {
+    "at": "2026-11-13T23:59:59.000Z",
+    "curseforge": 284,
+    "modrinth": 174
+   },
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 317,
+    "modrinth": 193
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 345,
+    "modrinth": 204
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 379,
+    "modrinth": 222
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 414,
+    "modrinth": 241
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 444,
+    "modrinth": 260
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 480,
+    "modrinth": 281
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 500,
+    "modrinth": 296
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 521,
+    "modrinth": 312
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.1",
+    "downloads": 424,
+    "curseforge": 265,
+    "modrinth": 159,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 409,
+    "curseforge": 256,
+    "modrinth": 153,
+    "files": 2
+   }
+  ],
+  "issues": [
+   {
+    "number": 43,
+    "title": "Does a grave survive /kill?",
+    "state": "open",
+    "url": "https://github.com/FireBall1725/mod-issues/issues/43",
+    "repo": "FireBall1725/mod-issues",
+    "modSlug": "graves",
+    "modName": "Graves",
+    "modLabel": "graves",
+    "kind": "question",
+    "labels": [
+     "mod: graves",
+     "question"
+    ],
+    "author": "maplesyrup",
+    "comments": 1,
+    "createdAt": "2026-11-19T16:40:00.000Z",
+    "updatedAt": "2026-11-20T11:05:00.000Z",
+    "closedAt": null
+   }
+  ],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/graves-fb",
+   "modrinth": "https://modrinth.com/mod/graves-fb",
+   "github": "https://github.com/FireBall1725/graves",
+   "source": "https://github.com/FireBall1725/graves",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+graves%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "ae2-ee3-emc-addon": {
+  "slug": "ae2-ee3-emc-addon",
+  "name": "AE2 EE3 EMC Add-On",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(120%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(160%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Bridges Equivalent Exchange 3 EMC values into AE2 patterns.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1251007",
+   "slug": "ae2-ee3-emc-addon",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+   "status": "changes_required",
+   "rawStatus": "ChangesRequired",
+   "statusMessage": "The description needs a licence statement and the source link must point at a public repository.",
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": 0,
+   "delta7d": 0,
+   "followers": 0,
+   "publishedAt": "2026-11-14T09:30:00.000Z",
+   "updatedAt": "2026-11-14T09:12:00.000Z",
+   "files": 1
+  },
+  "modrinth": null,
+  "github": null,
+  "downloads": {
+   "total": 0,
+   "curseforge": 0,
+   "modrinth": 0,
+   "delta24h": 0,
+   "delta7d": 0
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge"
+   ],
+   "version": "0.1.0",
+   "releaseType": "alpha",
+   "publishedAt": "2026-11-14T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.7.10"
+   ]
+  },
+  "minecraftVersions": [
+   "1.7.10"
+  ],
+  "loaders": [
+   "forge"
+  ],
+  "legacy": true,
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "not_approved",
+    "modSlug": "ae2-ee3-emc-addon",
+    "title": "AE2 EE3 EMC Add-On needs changes on CurseForge",
+    "detail": "The description needs a licence statement and the source link must point at a public repository.",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-ae2-ee3-emc-addon-0.1.0-1.7.10",
+    "modSlug": "ae2-ee3-emc-addon",
+    "modName": "AE2 EE3 EMC Add-On",
+    "name": "ae2-ee3-emc-addon-0.1.0+1.7.10.jar",
+    "version": "0.1.0",
+    "release": "0.1.0",
+    "prerelease": false,
+    "releaseType": "alpha",
+    "minecraftVersions": [
+     "1.7.10"
+    ],
+    "loaders": [
+     "forge"
+    ],
+    "publishedAt": "2026-11-14T09:12:00.000Z",
+    "downloads": 0,
+    "delta24h": 0,
+    "delta7d": 0,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon/files/900000"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-11-14T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-15T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-16T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-17T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-18T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-19T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-20T23:59:59.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   },
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 0,
+    "modrinth": 0
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "1.7.10",
+    "downloads": 0,
+    "curseforge": 0,
+    "modrinth": 0,
+    "files": 1
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/ae2-ee3-emc-addon",
+   "modrinth": null,
+   "github": "https://github.com/FireBall1725/ae2-ee3-emc-addon",
+   "source": "https://github.com/FireBall1725/ae2-ee3-emc-addon",
+   "issues": null,
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "devworld": {
+  "slug": "devworld",
+  "name": "DevWorld",
+  "iconUrl": "https://cdn.modrinth.com/data/uZ8cH5fG/icon-missing.png",
+  "summary": "A flat, peaceful, always-day world preset for mod development, created on first launch.",
+  "owned": true,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "1253344",
+   "slug": "devworld",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+   "status": "rejected",
+   "rawStatus": "Rejected",
+   "statusMessage": "Project description is missing a licence. Add one and resubmit.",
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 0,
+   "delta24h": null,
+   "delta7d": null,
+   "followers": 0,
+   "publishedAt": "2026-11-21T09:30:00.000Z",
+   "updatedAt": "2026-11-21T09:12:00.000Z",
+   "files": 2
+  },
+  "modrinth": {
+   "platform": "modrinth",
+   "id": "uZ8cH5fG",
+   "slug": "devworld",
+   "url": "https://modrinth.com/mod/devworld",
+   "status": "approved",
+   "rawStatus": "approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 85,
+   "delta24h": null,
+   "delta7d": null,
+   "followers": 2,
+   "publishedAt": "2026-11-21T09:30:00.000Z",
+   "updatedAt": "2026-11-21T09:12:00.000Z",
+   "files": 2
+  },
+  "github": {
+   "label": "devworld",
+   "open": 0,
+   "openBugs": 0,
+   "openCrashes": 0,
+   "oldestOpenBugAt": null
+  },
+  "downloads": {
+   "total": 85,
+   "curseforge": 0,
+   "modrinth": 85,
+   "delta24h": null,
+   "delta7d": null
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge",
+    "modrinth"
+   ],
+   "version": "0.1.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-21T09:12:00.000Z",
+   "minecraftVersions": [
+    "26.1"
+   ]
+  },
+  "minecraftVersions": [
+   "26.1",
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "problem",
+  "attention": [
+   {
+    "severity": "problem",
+    "kind": "not_approved",
+    "modSlug": "devworld",
+    "title": "DevWorld was rejected on CurseForge",
+    "detail": "Project description is missing a licence. Add one and resubmit.",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+    "dismissible": true
+   },
+   {
+    "severity": "info",
+    "kind": "no_latest_minecraft",
+    "modSlug": "devworld",
+    "title": "DevWorld has no file for 26.3",
+    "detail": "Newest target is 26.1.",
+    "url": null,
+    "dismissible": true
+   }
+  ],
+  "files": [
+   {
+    "platform": "modrinth",
+    "id": "mr-devworld-0.1.1-26.1",
+    "modSlug": "devworld",
+    "modName": "DevWorld",
+    "name": "DevWorld 0.1.1 for 26.1",
+    "version": "0.1.1",
+    "release": "0.1.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-21T11:12:00.000Z",
+    "downloads": 43,
+    "delta24h": null,
+    "delta7d": null,
+    "url": "https://modrinth.com/mod/devworld/version/0.1.1-26.1"
+   },
+   {
+    "platform": "modrinth",
+    "id": "mr-devworld-0.1.0-1.21.1",
+    "modSlug": "devworld",
+    "modName": "DevWorld",
+    "name": "DevWorld 0.1.0 for 1.21.1",
+    "version": "0.1.0",
+    "release": "0.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-21T11:12:00.000Z",
+    "downloads": 42,
+    "delta24h": null,
+    "delta7d": null,
+    "url": "https://modrinth.com/mod/devworld/version/0.1.0-1.21.1"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-devworld-0.1.1-26.1",
+    "modSlug": "devworld",
+    "modName": "DevWorld",
+    "name": "devworld-0.1.1+26.1.jar",
+    "version": "0.1.1",
+    "release": "0.1.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "26.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-21T09:12:00.000Z",
+    "downloads": 0,
+    "delta24h": null,
+    "delta7d": null,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/devworld/files/900000"
+   },
+   {
+    "platform": "curseforge",
+    "id": "cf-devworld-0.1.0-1.21.1",
+    "modSlug": "devworld",
+    "modName": "DevWorld",
+    "name": "devworld-0.1.0+1.21.1.jar",
+    "version": "0.1.0",
+    "release": "0.1.0",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-21T09:12:00.000Z",
+    "downloads": 0,
+    "delta24h": null,
+    "delta7d": null,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/devworld/files/900001"
+   }
+  ],
+  "history": [
+   {
+    "at": "2026-11-21T13:30:00.000Z",
+    "curseforge": 0,
+    "modrinth": 85
+   }
+  ],
+  "gameVersions": [
+   {
+    "name": "26.1",
+    "downloads": 43,
+    "curseforge": 0,
+    "modrinth": 43,
+    "files": 2
+   },
+   {
+    "name": "1.21.1",
+    "downloads": 42,
+    "curseforge": 0,
+    "modrinth": 42,
+    "files": 2
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/devworld",
+   "modrinth": "https://modrinth.com/mod/devworld",
+   "github": "https://github.com/FireBall1725/devworld",
+   "source": "https://github.com/FireBall1725/devworld",
+   "issues": "https://github.com/FireBall1725/mod-issues/issues?q=label%3A%22mod%3A+devworld%22",
+   "wiki": null,
+   "discord": null
+  }
+ },
+ "applied-energistics-2": {
+  "slug": "applied-energistics-2",
+  "name": "Applied Energistics 2",
+  "iconUrl": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'1'%20y2%3D'1'%3E%3Cstop%20offset%3D'0'%20stop-color%3D'hsl(210%2070%25%2055%25)'%2F%3E%3Cstop%20offset%3D'1'%20stop-color%3D'hsl(250%2065%25%2028%25)'%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'10'%20fill%3D'url(%23g)'%2F%3E%3Cpath%20d%3D'M0%2046h64v18H0z'%20fill%3D'rgba(0%2C0%2C0%2C.18)'%2F%3E%3Ctext%20x%3D'32'%20y%3D'41'%20text-anchor%3D'middle'%20font-family%3D'monospace'%20font-weight%3D'700'%20font-size%3D'26'%20fill%3D'white'%3EAE%3C%2Ftext%3E%3C%2Fsvg%3E",
+  "summary": "Store and move items digitally. The author is a member of the project.",
+  "owned": false,
+  "curseforge": {
+   "platform": "curseforge",
+   "id": "223794",
+   "slug": "applied-energistics-2",
+   "url": "https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2",
+   "status": "approved",
+   "rawStatus": "Approved",
+   "statusMessage": null,
+   "requestedStatus": null,
+   "queuedAt": null,
+   "downloads": 187400000,
+   "delta24h": 3889,
+   "delta7d": 42745,
+   "followers": 9000,
+   "publishedAt": "2026-10-12T09:30:00.000Z",
+   "updatedAt": "2026-11-01T09:12:00.000Z",
+   "files": 1
+  },
+  "modrinth": null,
+  "github": null,
+  "downloads": {
+   "total": 187400000,
+   "curseforge": 187400000,
+   "modrinth": 0,
+   "delta24h": 3889,
+   "delta7d": 42745
+  },
+  "latestRelease": {
+   "platforms": [
+    "curseforge"
+   ],
+   "version": "19.2.1",
+   "releaseType": "release",
+   "publishedAt": "2026-11-01T09:12:00.000Z",
+   "minecraftVersions": [
+    "1.21.1"
+   ]
+  },
+  "minecraftVersions": [
+   "1.21.1"
+  ],
+  "loaders": [
+   "neoforge"
+  ],
+  "legacy": false,
+  "health": "ok",
+  "attention": [],
+  "files": [
+   {
+    "platform": "curseforge",
+    "id": "cf-applied-energistics-2-19.2.1-1.21.1",
+    "modSlug": "applied-energistics-2",
+    "modName": "Applied Energistics 2",
+    "name": "applied-energistics-2-19.2.1+1.21.1.jar",
+    "version": "19.2.1",
+    "release": "19.2.1",
+    "prerelease": false,
+    "releaseType": "release",
+    "minecraftVersions": [
+     "1.21.1"
+    ],
+    "loaders": [
+     "neoforge"
+    ],
+    "publishedAt": "2026-11-01T09:12:00.000Z",
+    "downloads": 187400000,
+    "delta24h": 3889,
+    "delta7d": 42745,
+    "url": "https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2/files/900000"
+   }
+  ],
+  "history": [],
+  "gameVersions": [
+   {
+    "name": "1.21.1",
+    "downloads": 187400000,
+    "curseforge": 187400000,
+    "modrinth": 0,
+    "files": 1
+   }
+  ],
+  "issues": [],
+  "links": {
+   "curseforge": "https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2",
+   "modrinth": null,
+   "github": null,
+   "source": null,
+   "issues": null,
+   "wiki": null,
+   "discord": null
+  }
+ }
+}

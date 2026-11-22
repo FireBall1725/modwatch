@@ -1,0 +1,51 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+# Modwatch on Postgres: the app and its own database container.
+#
+#   cp .env.example .env     # then fill it in
+#   docker compose up -d
+#
+# The dashboard is at http://localhost:8080. The database data lives in the modwatch-db volume.
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: modwatch
+      POSTGRES_USER: modwatch
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+    volumes:
+      - modwatch-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U modwatch -d modwatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  modwatch:
+    image: ghcr.io/fireball1725/modwatch:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      CURSEFORGE_API_KEY: ${CURSEFORGE_API_KEY:?set it in .env}
+      CURSEFORGE_AUTHOR_ID: ${CURSEFORGE_AUTHOR_ID:?set it in .env}
+      MODRINTH_USER: ${MODRINTH_USER:-}
+      MODRINTH_TOKEN: ${MODRINTH_TOKEN:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_ISSUES_REPO: ${GITHUB_ISSUES_REPO:-}
+      # Use only letters and digits in the password, or percent-encode it, because it sits inside a URL.
+      DATABASE_URL: postgres://modwatch:${POSTGRES_PASSWORD}@db:5432/modwatch?sslmode=disable
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  modwatch-db:

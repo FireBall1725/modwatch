@@ -1,0 +1,248 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* Copyright (C) 2026 FireBall1725 */
+
+@import 'tailwindcss';
+@import './themes/themes.css';
+
+/*
+ * The default theme, Midnight Orchid: dark, with hot pink as the accent. The other themes override these values in
+ * themes/themes.css through a data-theme attribute on <html>. Every text colour clears WCAG AA (4.5:1) on every surface,
+ * and --color-line-strong, for control borders, clears 3:1 on surface.
+ */
+@theme static {
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Surfaces, darkest to lightest. */
+  --color-ground: #0f0d12;
+  --color-surface: #17141c;
+  --color-sunk: #1e1a25;
+  --color-raised: #241f2d;
+  --color-line: #2c2735;
+  --color-line-strong: #6f687c;
+
+  /* Text. */
+  --color-ink: #ece8f1;
+  --color-muted: #a8a1b4;
+  --color-faint: #958ea2;
+
+  /* Accent. */
+  --color-accent: #ff69b4;
+  --color-accent-hover: #ff85c4;
+  --color-accent-ink: #1a0711;
+  --color-accent-soft: #3a1b2e;
+
+  /* Platforms. Fixed everywhere. */
+  --color-cf: #f16436;
+  --color-cf-soft: #2e1810;
+  --color-mr: #1bd96a;
+  --color-mr-soft: #0f2a1a;
+
+  /* Status. Each has a text colour and a tinted background; the chip also carries a word and an icon. */
+  --color-ok: #6fcb8c;
+  --color-ok-soft: #12281a;
+  --color-review: #e6b35a;
+  --color-review-soft: #33280f;
+  --color-bad: #ff8a78;
+  --color-bad-soft: #3a1814;
+  --color-neutral: #b6afc3;
+  --color-neutral-soft: #29242f;
+  --color-inactive: #9a93a6;
+  --color-inactive-soft: #221e28;
+  --color-info: #8fb7ff;
+  --color-info-soft: #16233d;
+
+  /* Movement. */
+  --color-up: #6fcb8c;
+  --color-down: #f0806f;
+  --color-warn: #e6b35a;
+  --color-warn-bg: #33280f;
+
+  /* Chart series palette for non-platform series (versions, loaders). Distinct in hue and lightness. */
+  --color-s1: #ff69b4;
+  --color-s2: #8fb7ff;
+  --color-s3: #e6b35a;
+  --color-s4: #6fd6c9;
+  --color-s5: #b79cff;
+  --color-s6: #f0806f;
+  --color-s7: #a3d977;
+  --color-s8: #d9a0c8;
+
+  /* Radius scale. */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Elevation scale: flat, raised card, popover, modal. */
+  --shadow-e1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-e2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 4px 14px rgb(0 0 0 / 0.45);
+  --shadow-e3: 0 10px 30px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.05);
+  --shadow-e4: 0 24px 60px rgb(0 0 0 / 0.65), 0 0 0 1px rgb(255 255 255 / 0.06);
+
+  /* Type scale. */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  /* Spacing steps beyond Tailwind's 4px scale: page gutter and section rhythm. */
+  --gutter: 1rem;
+  --section-gap: 1.5rem;
+  --nav-width: 15rem;
+  --nav-rail: 4.25rem;
+  --header-height: 3.5rem;
+  /* z-index scale. */
+  --z-sticky: 10;
+  --z-nav: 30;
+  --z-popover: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+  --focus-ring: 0 0 0 2px var(--color-ground), 0 0 0 4px var(--color-accent);
+  /* The soft wash of the accent colour at the top of the page. */
+  --glow: rgb(255 105 180 / 0.07);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+html {
+  color-scheme: dark;
+  background: var(--color-ground);
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 85% -10%, var(--glow), transparent 60%),
+    var(--color-ground);
+  background-attachment: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Numbers: mono face, tabular figures. */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* One focus ring for everything keyboard-reachable. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+main:focus-visible {
+  box-shadow: none;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* Slim scrollbars that match the surfaces. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Loading shimmer and the page enter. Both are off under reduced motion. */
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-sunk) 25%, var(--color-raised) 50%, var(--color-sunk) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.page-enter {
+  animation: rise 0.28s var(--ease-out-quint) both;
+}
+
+.stagger > * {
+  animation: rise 0.32s var(--ease-out-quint) both;
+}
+.stagger > *:nth-child(2) { animation-delay: 30ms; }
+.stagger > *:nth-child(3) { animation-delay: 60ms; }
+.stagger > *:nth-child(4) { animation-delay: 90ms; }
+.stagger > *:nth-child(5) { animation-delay: 120ms; }
+.stagger > *:nth-child(6) { animation-delay: 150ms; }
+.stagger > *:nth-child(n + 7) { animation-delay: 180ms; }
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+/* Table row hover and the sticky header need a ground to sit on. */
+.table-head-sticky th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--color-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton {
+    animation: none;
+  }
+}

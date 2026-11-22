@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: modwatch
+  labels:
+    app.kubernetes.io/name: modwatch
+spec:
+  selector:
+    app.kubernetes.io/name: modwatch
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

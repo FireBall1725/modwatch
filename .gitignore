@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+# Go build output
+/modwatch
+*.test
+*.out
+
+# Vite output is embedded at build time; only the placeholder is tracked.
+/internal/ui/dist/*
+!/internal/ui/dist/.gitkeep
+
+# Web
+/web/node_modules/
+/web/*.tsbuildinfo
+
+# Local state: repo clone, bump worktrees
+/data/
+
+# Local env overrides
+.env
+.env.local
+
+# IDE and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+/web/.vitest/

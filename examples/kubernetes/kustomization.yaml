@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: modwatch
+resources:
+  - namespace.yaml
+  - cnpg-cluster.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

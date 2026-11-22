@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+# Optional. Use this instead of the CloudNativePG cluster to keep a SQLite file on a volume. See README.md.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: modwatch-data
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+  # storageClassName: your-class

@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 FireBall1725
+
+name: CI
+
+# The jobs live in FireBall1725/workflows so every repo runs the same ones.
+# Change them there, not here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  go:
+    uses: FireBall1725/workflows/.github/workflows/ci-go.yml@v1
+    with:
+      # The shared job starts Postgres with this name as database, user and password.
+      # The tests create and drop a schema of their own per test, so they never touch each other.
+      postgres-db: modwatch
+      test-env: |
+        MODWATCH_TEST_DATABASE_URL=postgres://modwatch:modwatch@localhost:5432/modwatch?sslmode=disable
+
+  # The same tests again on SQLite, the other database Modwatch runs on. No test URL, so each test gets a SQLite file.
+  go-sqlite:
+    uses: FireBall1725/workflows/.github/workflows/ci-go.yml@v1
+
+  web:
+    uses: FireBall1725/workflows/.github/workflows/ci-node.yml@v1
+    with:
+      working-directory: web
+      # Same major as the Dockerfile's web stage.
+      node-version: "24"
+      # The go job already builds the same Dockerfile.
+      docker-build: false

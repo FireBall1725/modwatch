@@ -38,8 +38,8 @@ interface Props {
 }
 
 /**
- * Horizontal bars with the value written at the end, so the number never depends on the bar. Props: items (key,
- * label, value, parts, color, trailing, href, leading), topN, format, max, ariaLabel. Split bars show their parts in the tooltip.
+ * Horizontal bars with the value written at the end, so the number never depends on the bar.
+ * Split bars show their parts in the tooltip.
  */
 export default function BarList({ items, topN = 8, format = formatCount, tooltipFormat = format, max, ariaLabel, className }: Props) {
   const { t } = useTranslation('common')

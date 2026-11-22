@@ -72,9 +72,9 @@ func (r *Repo) FileHistory(ctx context.Context, since time.Time) (map[models.Pla
 	return out, rows.Err()
 }
 
-// dailyLast is the query for the last snapshot of each UTC day since a time, oldest first, for every key. keys are
-// the columns that name one series, such as "source, file_id". The one argument is the earliest time.
-// A window function does what Postgres's DISTINCT ON does, and SQLite has no DISTINCT ON.
+// dailyLast is the query for the last snapshot of each UTC day since a time, oldest first, for every key; keys are the
+// columns that name one series, such as "source, file_id". It uses a window function because SQLite has no DISTINCT ON.
+// The one argument is the earliest time.
 func (r *Repo) dailyLast(keys, table string) string {
 	return fmt.Sprintf(`
 		SELECT %[1]s, taken_at, download_count FROM (

@@ -24,7 +24,7 @@ interface Props {
   rawStatus?: string
 }
 
-/** Review state as a word, an icon and a colour, for every ReviewStatus. Props: status, size, rawStatus (tooltip). */
+/** Review state as a word, an icon and a colour, for every ReviewStatus. rawStatus shows as the tooltip. */
 export default function StatusChip({ status, size = 'md', rawStatus }: Props) {
   const { t } = useTranslation('common')
   return (

@@ -381,8 +381,8 @@ function Detail({ mod, back, stale, onRetry, onChanged, range, view, filter, sho
 }
 
 /**
- * The mod's logo blown up and blurred behind its header, for the colours: the top of the page takes on the mod's own.
- * It fades out sideways and downwards, so there is no edge to see. Decorative, and absent when the mod has no logo.
+ * The mod's logo blown up and blurred behind its header, so the top of the page takes on the mod's colours.
+ * It fades out sideways and downwards, and is absent when the mod has no logo.
  */
 function ModBackdrop({ src }: { src: string }) {
   if (!src) return null

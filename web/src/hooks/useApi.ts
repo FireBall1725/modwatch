@@ -24,9 +24,8 @@ interface Options {
 }
 
 /**
- * Runs a fetcher when deps change and, optionally, on an interval. Data from the previous deps stays
- * on screen until the new answer lands, so a range switch or a background refresh never flashes.
- * Pass a stable fetcher or one that only closes over values listed in deps.
+ * Runs a fetcher when deps change and, optionally, on an interval. Data from the previous deps stays on screen until
+ * the new answer lands, so a range switch or a refresh never flashes. Pass a fetcher that only closes over values in deps.
  */
 export function useApi<T>(fetcher: () => Promise<T>, deps: readonly unknown[], options: Options = {}): UseApi<T> {
   const { pollMs, resetOnChange = false } = options

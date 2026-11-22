@@ -42,7 +42,7 @@ export function isLight(hex: string): boolean {
 
 /**
  * The colour itself when it already reads at `min` against every background, else the nearest mix toward white or
- * black (whichever helps) that does. The hue is kept, only the lightness moves.
+ * black that does. The hue is kept; only the lightness moves.
  */
 export function readable(fg: string, bgs: string[], min: number): string {
   const worst = (c: string) => Math.min(...bgs.map((b) => contrast(c, b)))

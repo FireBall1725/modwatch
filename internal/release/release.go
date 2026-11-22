@@ -47,9 +47,8 @@ var (
 	core = regexp.MustCompile(`(?i)^\s*v?(\d+)`)
 )
 
-// Parse reads a version text. gameVersions are the Minecraft versions the file lists, which settles a bare
-// trailing version such as "1.2.3-1.21.1". re is the mod's own pattern, if it has one: it needs a named group
-// version, and may have pre and minecraft. A text the pattern doesn't match is read the default way.
+// Parse reads a version text; gameVersions settles a bare trailing version such as "1.2.3-1.21.1". re is the mod's own
+// pattern with a named group version and optional pre and minecraft, and a text it doesn't match is read the default way.
 func Parse(text string, gameVersions []string, re *regexp.Regexp) Info {
 	text = strings.TrimSpace(text)
 	if re != nil {

@@ -44,10 +44,8 @@ const DASHES = ['', '7 4', '2 4', '10 3 2 3']
 const M = { t: 10, r: 12, b: 26 }
 
 /**
- * Responsive SVG time series: lines, areas or bars, optionally stacked, any number of series. Hover or arrow keys
- * (focus the chart) show a tooltip with every series at that point. Series differ by dash pattern and legend marker as well
- * as colour; the legend toggles series. A visually hidden table carries the data for screen readers.
- * Props: x, series, kind, stacked, height, format, tooltipFormat, xFormat, caption, legend, zoomY, className.
+ * Responsive SVG time series: lines, areas or bars, optionally stacked. Hover or arrow keys show a tooltip with every
+ * series at that point, and a visually hidden table carries the data for screen readers.
  */
 export default function TimeSeriesChart({
   x,

@@ -10,7 +10,7 @@ import LegacyToggle from './LegacyToggle'
 import PrivacyToggle from './PrivacyToggle'
 import { NavList } from './SideNav'
 
-/** Phone navigation: a native dialog that slides from the left, so focus is trapped and Escape closes it. Props: open, onClose. Closes itself when the route changes. */
+/** Phone navigation: a native dialog that slides from the left, so focus is trapped and Escape closes it. Closes itself when the route changes. */
 export default function NavDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation('common')
   const ref = useRef<HTMLDialogElement>(null)

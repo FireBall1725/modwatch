@@ -26,7 +26,7 @@ interface Props {
   className?: string
 }
 
-/** Stacked share bar, for the CurseForge and Modrinth split. Segments differ by pattern as well as colour. Props: segments, height, ariaLabel, format, legend, className. */
+/** Stacked share bar, for the CurseForge and Modrinth split. Segments differ by pattern as well as colour. */
 export default function ProgressBar({ segments, height = 8, ariaLabel, format = (n) => String(n), legend = false, className }: Props) {
   const total = segments.reduce((a, s) => a + s.value, 0)
   const label = ariaLabel ?? segments.map((s) => `${s.label} ${format(s.value)}`).join(', ')

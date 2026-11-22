@@ -76,8 +76,8 @@ const DAYS_PER_YEAR = 365.25
 const DAYS_PER_MONTH = 30.4375
 
 /**
- * How long ago a time was, as a translation key and a count, so the caller picks the words. Under 48 hours it is hours,
- * under 60 days it is days, under a year (365 days) it is months, and from a year on it is whole years.
+ * How long ago a time was, as a translation key and a count, so the caller picks the words. Under 48 hours is hours,
+ * under 60 days is days, under a year is months, and after that whole years.
  */
 export function relativeTime(iso: string, now: Date = new Date()): Relative {
   const seconds = Math.max(0, Math.round((now.getTime() - new Date(iso).getTime()) / 1000))

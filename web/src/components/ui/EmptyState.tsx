@@ -16,7 +16,7 @@ interface Props {
   className?: string
 }
 
-/** Nothing here yet, or nothing matches. Props: title, description, icon, action, compact, className. */
+/** Nothing here yet, or nothing matches. */
 export default function EmptyState({ title, description, icon = 'package', action, compact = false, className }: Props) {
   return (
     <div className={cx('flex flex-col items-center justify-center text-center', compact ? 'gap-2 py-8' : 'gap-3 py-16', className)}>

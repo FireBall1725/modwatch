@@ -16,7 +16,7 @@ interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' |
   mono?: boolean
 }
 
-/** Labelled text field with helper and error text. Props: value, onChange, label, helper, error, mono, plus any input attribute. */
+/** Labelled text field with helper and error text. */
 export default function TextInput({ value, onChange, label, helper, error, mono, className, ...rest }: Props) {
   const id = useId()
   const note = error ?? helper

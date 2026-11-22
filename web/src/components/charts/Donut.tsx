@@ -27,9 +27,8 @@ interface Props {
 }
 
 /**
- * Share-of-whole ring for up to five parts (use BarList beyond that). Segments are separated by gaps, and the legend
- * lists name, value and percentage so colour is never the only cue. Hover or focus a legend row to highlight its arc.
- * Props: segments, size, center, format, ariaLabel, legend, className.
+ * Share-of-whole ring for up to five parts; use BarList beyond that.
+ * The legend lists name, value and percentage so colour is never the only cue.
  */
 export default function Donut({ segments, size = 160, center, format = formatCount, ariaLabel, legend = true, className }: Props) {
   const [hot, setHot] = useState<string | null>(null)

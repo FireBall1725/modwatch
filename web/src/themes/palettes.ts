@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (C) 2026 FireBall1725
 
-// The colour themes. Each is the handful of colours its own palette is known for. build.ts derives the rest of the
-// design tokens from them and nudges any text colour that would not read, so every theme keeps the contrast the
-// default one has. Run `npm run themes` after changing this file.
+// The colour themes, each the handful of colours its palette is known for. build.ts derives the rest of the design
+// tokens from them and nudges any text colour that wouldn't read. Run `npm run themes` after changing this file.
 
 export interface Palette {
   id: string

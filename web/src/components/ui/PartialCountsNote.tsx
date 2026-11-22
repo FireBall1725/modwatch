@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { cx } from '../../lib/cx'
 import Icon from './Icon'
 
-/** A quiet one-line note for pages that list per-file download numbers: CurseForge counts each file on its own. Props: className. */
+/** A quiet one-line note for pages that list per-file download numbers: CurseForge counts each file on its own. */
 export default function PartialCountsNote({ className }: { className?: string }) {
   const { t } = useTranslation('common')
   return (

@@ -6,7 +6,7 @@ import { cx } from '../../lib/cx'
 import Icon from './Icon'
 import NewTabCue from './NewTabCue'
 
-/** Link that opens in a new tab with the external-link glyph. Props: href, children, className, noIcon. Renders plain text when href is null. */
+/** Link that opens in a new tab with the external-link glyph. Renders plain text when href is null. */
 export default function ExternalLink({ href, children, className, noIcon }: { href: string | null | undefined; children: ReactNode; className?: string; noIcon?: boolean }) {
   if (!href) return <span className={className}>{children}</span>
   return (

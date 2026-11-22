@@ -38,9 +38,8 @@ interface Props {
 }
 
 /**
- * Rows by columns grid with a value scale. It is a real table: sticky row labels and header, a number in every filled
- * cell so colour is never the only cue, and a hatched cell for no data. Intensity is square-root scaled so a huge cell does
- * not flatten the small ones. Props: rows, columns, value, format, tooltipFormat, highlightColumn, caption, emptyLabel.
+ * Rows by columns grid with a value scale. It is a real table with a number in every filled cell, so colour is
+ * never the only cue. Intensity is square-root scaled so one huge cell doesn't flatten the small ones.
  */
 export default function Heatmap({ rows, columns, value, format = formatCompact, tooltipFormat = formatCount, highlightColumn, caption, emptyLabel, className }: Props) {
   const { t } = useTranslation('common')

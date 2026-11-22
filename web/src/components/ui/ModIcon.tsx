@@ -14,7 +14,7 @@ interface Props {
 
 const HUES = [335, 205, 150, 40, 270, 18, 175, 95]
 
-/** Mod icon with a monogram on a hashed hue when the URL is missing or empty or it fails to load. Props: src, name, size, className. Decorative; the name sits next to it. */
+/** Mod icon with a monogram on a hashed hue when the URL is missing or empty or it fails to load. Decorative; the name sits next to it. */
 export default function ModIcon({ src, name, size = 40, className }: Props) {
   const [failed, setFailed] = useState<string | null>(null)
   const url = src?.trim() || null

@@ -18,7 +18,7 @@ interface Props {
   className?: string
 }
 
-/** Tiny trend line with an end dot. Props: values, width, height, color, area, label (accessible text; omit when decorative), className. */
+/** Tiny trend line with an end dot. Give it a label unless it is decorative. */
 export default function Sparkline({ values, width = 96, height = 28, color = 'var(--color-accent)', area = false, label, className }: Props) {
   const gid = useId().replace(/\W/g, '')
   const pts = sparklinePoints(values, width, height, 3)

@@ -122,8 +122,8 @@ export interface DailySeries {
 }
 
 /**
- * Downloads per day per version from cumulative histories. Takes the last `days` days, gives the biggest `top` versions
- * their own series (listed newest version first) and sums the rest into "other". A drop in a cumulative count counts as 0.
+ * Downloads per day per version from cumulative histories, over the last `days` days. The biggest `top` versions get
+ * their own series, newest first, and the rest sum into "other". A drop in a cumulative count counts as 0.
  */
 export function dailyByVersion(history: Record<string, { at: string; downloads: number }[]>, days: number, top = CHART_VERSIONS): DailySeries {
   const dates = [...new Set(Object.values(history).flatMap((h) => h.map((p) => p.at)))].sort()

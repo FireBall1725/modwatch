@@ -31,7 +31,7 @@ const TONE = {
   accent: 'text-accent before:bg-accent',
 }
 
-/** Headline figure with a label and an optional footer. Props: label, value, unit, icon, tone, footer, href (card becomes a link), loading (skeleton), className. */
+/** Headline figure with a label and an optional footer. With an href the card becomes a link. */
 export default function KpiCard({ label, value, unit, icon, tone, footer, href, loading, className }: Props) {
   const body = (
     <>

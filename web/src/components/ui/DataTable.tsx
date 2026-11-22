@@ -70,9 +70,8 @@ function compare(a: number | string | null, b: number | string | null, dir: 'asc
 }
 
 /**
- * Sortable table. Props: columns (key, header, cell, sortValue, align, width, hideBelow, className), rows, rowKey,
- * caption, defaultSort, rowHref, empty, dense, stickyHeader, maxHeight, rowClassName. Headers with a sortValue are
- * buttons (keyboard sortable, aria-sort set). Wide tables scroll sideways inside their own box, never the page.
+ * Sortable table. Headers with a sortValue are buttons with aria-sort set.
+ * Wide tables scroll sideways inside their own box, never the page.
  */
 export default function DataTable<T>({
   columns,

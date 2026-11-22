@@ -2,8 +2,8 @@
 // Copyright (C) 2026 FireBall1725
 
 /**
- * Shared cell shade for the heat grids. Intensity is square-root scaled. The accent mix tops out at 55% so the light ink
- * text stays above 4.5:1 on every cell (about 5.1:1 at the top of the ramp); cells therefore never swap text colour.
+ * Shared cell shade for the heat grids, square-root scaled. The accent mix tops out at 55% so the light ink text stays
+ * above 4.5:1 on every cell.
  */
 export function heatShade(v: number, max: number): string {
   const k = max > 0 ? Math.sqrt(Math.max(0, v) / max) : 0

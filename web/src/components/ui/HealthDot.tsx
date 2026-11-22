@@ -23,7 +23,7 @@ interface Props {
   className?: string
 }
 
-/** Coloured dot plus a shape cue (ok is a filled disc, attention a diamond, problem a square) and a name. Props: health, showLabel, className. */
+/** Coloured dot plus a shape cue (ok is a filled disc, attention a diamond, problem a square) and a name. */
 export default function HealthDot({ health, showLabel = false, className }: Props) {
   const { t } = useTranslation('common')
   const label = t(`health.${health}`)

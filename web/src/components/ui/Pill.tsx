@@ -28,7 +28,7 @@ interface Props {
   children: ReactNode
 }
 
-/** Small rounded label with a tone, an optional icon and text. The base of StatusChip, SeverityBadge and the kind labels. Props: tone, icon, size, title, className. */
+/** Small rounded label with a tone, an optional icon and text. The base of StatusChip, SeverityBadge and the kind labels. */
 export default function Pill({ tone, icon, size = 'md', className, title, children }: Props) {
   return (
     <span

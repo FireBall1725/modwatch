@@ -3,6 +3,8 @@
   "app": {
     "name": "Modwatch",
     "tagline": "Mod dashboard",
+    "builtBy": "Built by",
+    "builtIn": "in Ontario, Canada",
     "skipToContent": "Skip to content",
     "menu": "Open menu",
     "showLegacy": "Show legacy mods ({{count}})",

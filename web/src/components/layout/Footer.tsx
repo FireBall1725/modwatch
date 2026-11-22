@@ -4,7 +4,7 @@
 import { useTranslation } from 'react-i18next'
 import { useOverview } from '../../hooks/overviewContext'
 
-/** Version line at the bottom of every page. The server's version when known, the build's own otherwise. */
+/** Version, tagline and credit at the bottom of every page. The version is the server's when known, the build's otherwise. */
 export default function Footer() {
   const { t } = useTranslation('common')
   const { data } = useOverview()
@@ -15,6 +15,14 @@ export default function Footer() {
       </span>
       <span aria-hidden="true"> · </span>
       <span>{t('app.tagline')}</span>
+      <span aria-hidden="true"> · </span>
+      <span>
+        {t('app.builtBy')}{' '}
+        <a href="https://fireball1725.ca" className="text-muted underline-offset-2 hover:text-ink hover:underline">
+          FireBall1725
+        </a>{' '}
+        {t('app.builtIn')}
+      </span>
     </footer>
   )
 }
